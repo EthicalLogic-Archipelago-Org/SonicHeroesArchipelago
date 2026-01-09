@@ -301,8 +301,20 @@ def can_break_things(world: SonicHeroesWorld, team: str, level: str, state: Coll
 def can_break_key_cage(world: SonicHeroesWorld, team: str, level: str, state: CollectionState):
     if world.options.unlock_type != UnlockType.option_ability_character_unlocks:
         return True
-
     return True
+
+def can_break_in_ground_wood_container(world, team: str, level: str, state: CollectionState):
+    if world.options.unlock_type != UnlockType.option_ability_character_unlocks:
+        return True
+    return not can_wood_container(world, team, level, state) or (can_fire_dunk(world, team, level, state) or can_combo_finsh(world, team, level, state))
+
+def can_break_in_ground_iron_container(world, team: str, level: str, state: CollectionState):
+    if world.options.unlock_type != UnlockType.option_ability_character_unlocks:
+        return True
+    return not can_iron_container(world, team, level, state) or (can_fire_dunk(world, team, level, state) or can_combo_finsh(world, team, level, state))
+
+def can_break_in_ground_unbreakable_container(world, team: str, level: str, state: CollectionState):
+    return False
 
 def can_fire_dunk(world: SonicHeroesWorld, team: str, level: str, state: CollectionState):
     if world.options.unlock_type != UnlockType.option_ability_character_unlocks:

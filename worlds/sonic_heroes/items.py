@@ -118,7 +118,18 @@ def create_ability_character_items(world: SonicHeroesWorld, loc_count: int) -> i
 
     return loc_count
 
-
+def change_filler_weights_for_legacy_level_gates(world: SonicHeroesWorld):
+    for itemData in itemList:
+        if itemData.name == RINGS5:
+            itemData.fillerweight = 15
+        if itemData.name == RINGS10:
+            itemData.fillerweight = 10
+        if itemData.name == RINGS20:
+            itemData.fillerweight = 5
+        if itemData.name == SPEEDLEVELUP or itemData.name == POWERLEVELUP or itemData.name == FLYINGLEVELUP:
+            itemData.fillerweight = 25
+        if itemData.name == TEAMLEVELUP:
+            itemData.fillerweight = 15
 
 
 itemList: list[ItemData] = \

@@ -596,6 +596,9 @@ class SonicHeroesWorld(World):
             self.enabled_teams.append(SUPERHARDMODE)
             self.allowed_levels_per_team[SUPERHARDMODE] = self.regular_levels
             self.emblems_to_create += self.level_block_emblem_count
+
+        if self.options.unlock_type == UnlockType.option_legacy_level_gates:
+            change_filler_weights_for_legacy_level_gates(self)
     
     
     def handle_level_gates_start(self) -> None:
@@ -937,7 +940,3 @@ class SonicHeroesWorld(World):
     
         print(f"How did we get here? Team {team} in is_this_sanity_enabled")
         return False
-
-
-
-

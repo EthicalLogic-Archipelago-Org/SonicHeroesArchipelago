@@ -5,8 +5,6 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from worlds.sonic_heroes import SonicHeroesWorld
 
-from worlds.sonic_heroes.items import itemList
-
 from dataclasses import dataclass
 from Options import *
 from .constants import *
@@ -706,15 +704,3 @@ def check_invalid_options(world: SonicHeroesWorld):
     elif world.options.unlock_type == UnlockType.option_legacy_level_gates:
         if world.options.legacy_number_of_level_gates > len(world.options.legacy_level_gates_allowed_bosses.value):
             raise OptionError("The Number of Level Gates is larger than the number of Bosses Allowed.")
-
-        for itemData in itemList:
-            if itemData.name == RINGS5:
-                itemData.fillerweight = 15
-            if itemData.name == RINGS10:
-                itemData.fillerweight = 10
-            if itemData.name == RINGS20:
-                itemData.fillerweight = 5
-            if itemData.name == SPEEDLEVELUP or itemData.name == POWERLEVELUP or itemData.name == FLYINGLEVELUP:
-                itemData.fillerweight = 25
-            if itemData.name == TEAMLEVELUP:
-                itemData.fillerweight = 15

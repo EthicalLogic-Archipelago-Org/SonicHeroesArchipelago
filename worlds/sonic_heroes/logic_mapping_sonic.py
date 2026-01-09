@@ -851,7 +851,7 @@ def create_logic_mapping_dict_hang_castle_sonic(world: SonicHeroesWorld):
 
         "TripleSpringSonicHC": lambda state: can_triple_spring(world, SONIC, HANGCASTLE, state),
 
-        "FireDunkSonicHC": lambda state: can_fire_dunk(world, SONIC, HANGCASTLE, state),
+        "BreakInGroundWoodContainerSonicHC": lambda state: can_break_in_ground_wood_container(world, SONIC, HANGCASTLE, state),
 
         "FlameTorchSonicHC": lambda state: can_flame_torch(world, SONIC, HANGCASTLE, state),
 
@@ -903,7 +903,7 @@ def create_logic_mapping_dict_mystic_mansion_sonic(world: SonicHeroesWorld):
 
         "KillGroundEnemySpearSonicMM": lambda state: can_kill_ground_enemy(world, SONIC, MYSTICMANSION, state, spear=True),
 
-        "FireDunkSonicMM": lambda state: can_fire_dunk(world, SONIC, MYSTICMANSION, state),
+        "BreakInGroundIronContainerSonicMM": lambda state: can_break_in_ground_iron_container(world, SONIC, MYSTICMANSION, state),
 
         "TPSwitchSonicMM": lambda state: can_tp_switch(world, SONIC, MYSTICMANSION, state),
 
