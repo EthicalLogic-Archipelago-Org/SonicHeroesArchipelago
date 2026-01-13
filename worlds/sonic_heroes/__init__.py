@@ -156,7 +156,6 @@ class SonicHeroesWorld(World):
         return SonicHeroesItem(name, tempitems[0].classification, self.item_name_to_id[name], self.player)
 
 
-
     def generate_early(self) -> None:
 
 
@@ -210,8 +209,6 @@ class SonicHeroesWorld(World):
             #map_sonic_connections(self)
 
         pass
-
-
 
 
     def create_regions(self) -> None:
@@ -301,7 +298,7 @@ class SonicHeroesWorld(World):
 
 
     def fill_slot_data(self) -> Mapping[str, Any]:
-        if self.options.make_puml:
+        if self.options.make_puml and False:
             self.make_puml()
 
 
@@ -598,7 +595,8 @@ class SonicHeroesWorld(World):
             self.emblems_to_create += self.level_block_emblem_count
 
         if self.options.unlock_type == UnlockType.option_legacy_level_gates:
-            change_filler_weights_for_legacy_level_gates(self)
+            if self.is_this_sanity_enabled(ROSE, OBJSANITY) or self.is_this_sanity_enabled(CHAOTIX, OBJSANITY):
+                change_filler_weights_for_legacy_level_gates(self)
     
     
     def handle_level_gates_start(self) -> None:

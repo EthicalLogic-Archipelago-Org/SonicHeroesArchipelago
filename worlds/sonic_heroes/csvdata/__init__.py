@@ -555,10 +555,10 @@ def is_loc_in_world_superhard(world: SonicHeroesWorld, loc: LocationCSVData):
         return False
 
     if loc.loc_type == EMERALD:
-        #if " ".join(loc.level.split(" ")[:-2]) in world.allowed_levels_per_team[SUPERHARDMODE]:
-            #if loc.name not in world.emerald_locations_added:
-                #world.emerald_locations_added.append(loc.name)
-                #return True
+        if " ".join(loc.level.split(" ")[:-2]) in world.allowed_levels_per_team[SUPERHARDMODE]:
+            if loc.name not in world.emerald_locations_added:
+                world.emerald_locations_added.append(loc.name)
+                return True
         return False
 
     if loc.loc_type == OBJSANITY:

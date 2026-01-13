@@ -39,14 +39,22 @@ def handle_single_emerald_connection(world: SonicHeroesWorld, team: str, name: s
     target_region_end = EMERALDSTAGE if bonus_emerald_stage_to_level[name] in emerald_levels else BONUSSTAGE
 
     if bonus_emerald_stage_to_level[name] in world.allowed_levels_per_team[team]:
+        emerald_conn_name = f"{team} {bonus_emerald_stage_to_level[name]} Bonus Key and Goal"
         emerald_rule = lambda state: state.has_from_list_unique(world.bonus_key_event_items_per_team[team][
             bonus_emerald_stage_to_level[name]], world.player, world.bonus_keys_needed_for_bonus_stage) and state.has(
             f"{team} {bonus_emerald_stage_to_level[name]} {COMPLETIONEVENT}", world.player)
+        emerald_rule_str = f"{world.bonus_keys_needed_for_bonus_stage} Bonus Keys and Goal"
 
-        connect(world, f"{team} {bonus_emerald_stage_to_level[name]} Bonus Key and Goal",
+        if team == SUPERHARDMODE:
+            emerald_conn_name = f"{team} {bonus_emerald_stage_to_level[name]} Goal (No Keys Needed)"
+            emerald_rule = lambda state: True
+            emerald_rule_str = "Reach Goal"
+
+
+        connect(world, emerald_conn_name,
                 f"{bonus_emerald_stage_to_level[name]} {team} Goal",
                 f"{bonus_emerald_stage_to_level[name]} {target_region_end}", emerald_rule,
-                rule_to_str=f"{world.bonus_keys_needed_for_bonus_stage} Bonus Keys and Goal")
+                rule_to_str=emerald_rule_str)
     return
 
 
@@ -256,7 +264,7 @@ def connect_entrances_from_connection_list(world: SonicHeroesWorld):
 
 
 
-def connect(world: SonicHeroesWorld, name: str, source: str, target: str, rule=None, reach: Optional[bool] = False, rule_to_str: Optional[str] = None,) -> Optional[Entrance]:
+def connect(world: SonicHeroesWorld, name: str, source: str, target: str, rule = None, reach: Optional[bool] = False, rule_to_str: Optional[str] = None) -> Optional[Entrance]:
     source_region = world.multiworld.get_region(source, world.player)
     target_region = world.multiworld.get_region(target, world.player)
 
