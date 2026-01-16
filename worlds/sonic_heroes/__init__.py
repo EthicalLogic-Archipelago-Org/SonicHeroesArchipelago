@@ -298,7 +298,7 @@ class SonicHeroesWorld(World):
 
 
     def fill_slot_data(self) -> Mapping[str, Any]:
-        if self.options.make_puml and False:
+        if self.options.make_puml:
             self.make_puml()
 
 
