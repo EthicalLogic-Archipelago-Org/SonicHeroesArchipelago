@@ -27,7 +27,6 @@ class SonicHeroesWeb(WebWorld):
     game_info_languages = ["en"]
     #option_groups = sonic_heroes_option_groups
 
-
 class SonicHeroesWorld(World):
     game: ClassVar[str] = SONICHEROES
     web: ClassVar[WebWorld] = SonicHeroesWeb()

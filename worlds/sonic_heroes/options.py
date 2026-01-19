@@ -65,7 +65,7 @@ class GoalUnlockConditions(OptionSet):
     Valid Choices:
         - 'Emblems'
         - 'Emeralds'
-        - 'Level Completions'
+        - 'Level Completions All Teams'
         - 'Level Completions Per Story'
 
 
