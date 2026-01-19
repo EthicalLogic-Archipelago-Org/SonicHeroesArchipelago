@@ -383,7 +383,10 @@ class SonicHeroesWorld(World):
     def write_spoiler_end(self, spoiler_handle: TextIO) -> None:
         pass
 
+
     def make_puml(self):
+        if self.player_name[0:1].isdigit():
+            return
         from Utils import visualize_regions
         state = self.multiworld.get_all_state()
         state.update_reachable_regions(self.player)
