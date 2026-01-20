@@ -2,12 +2,21 @@ from __future__ import annotations
 
 from BaseClasses import CollectionState
 from typing import TYPE_CHECKING
+
+from worlds.sonic_heroes.constants import *
+
 if TYPE_CHECKING:
     from worlds.sonic_heroes import SonicHeroesWorld
 
 from dataclasses import dataclass
 
 import regex  # type: ignore
+
+
+team_strs: list[str] = ["Sonic", "Dark", "Rose", "Chaotix", "SuperHardMode"]
+level_strs: list[str] = ["SH", "OP", "GM", "PP", "CP", "BH", "RC", "BS", "Frog", "LJ", "HC", "MM", "EF", "Final"]
+
+team_level_strs: list[str] = []
 
 rules = \
 [
@@ -56,6 +65,7 @@ class SonicHeroesRule:
 
 test_rule = "TestRule((BreakorHoming)andSingleSpring)orFlyingAnySonicSH"
 
+test_rule2 = "((FloatingDiceandSwitch)orWeight)andFlyingAnyandPushPullSwitchSonicBH"
 
 
 and_condition_pattern = regex.compile(r"(and)", regex.IGNORECASE)
@@ -170,6 +180,16 @@ def handle_rule(rule: str):
 print("TESTING HERE")
 handle_rule(test_rule)
 
+print(result_str_list)
+print(parens_mapping_list)
+
+
+
+result_str_list = []
+parens_mapping_list = []
+
+handle_rule(test_rule2)
+print(f"Rule: {test_rule2}")
 print(result_str_list)
 print(parens_mapping_list)
 

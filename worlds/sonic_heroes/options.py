@@ -196,7 +196,7 @@ class IncludedLevelsAndSanities(OptionSet):
         'Chaotix CheckpointSanity Both Acts',
         
         'Super Hard Mode',
-        'Super Hard Mode CheckpointSanity',
+        'Super Hard CheckpointSanity',
     ]
     """
     display_name = "Included Levels and Sanities"
