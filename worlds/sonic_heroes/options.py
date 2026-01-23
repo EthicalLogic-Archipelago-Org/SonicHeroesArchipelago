@@ -456,12 +456,12 @@ sonic_heroes_option_groups = \
             [
                 SuperHardModeStartingCharacter,
             ]),
-        OptionGroup("Connection Tags",
-            [
+        #OptionGroup("Connection Tags",
+            #[
                 #RingLink,
                 #RingLinkMetalOverlord,
                 #DeathLink,
-            ]),
+            #]),
         OptionGroup("QOL",
             [
                 RemoveCasinoParkVIPTableLaserGate,
