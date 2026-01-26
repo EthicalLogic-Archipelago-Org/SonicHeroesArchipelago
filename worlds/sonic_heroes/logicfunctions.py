@@ -8,13 +8,30 @@ if TYPE_CHECKING:
 
 from worlds.sonic_heroes.options import UnlockType
 
+def can_parkour(world: SonicHeroesWorld, team: str, level: str, state: CollectionState) -> bool:
+    """
+    Walk along tricky collision / dangerous terrain
+    Think cliffsides of Seaside Hill 4 Egg Pawns
+    """
+    return False
+
 def can_homing_hover(world: SonicHeroesWorld, team: str, level: str, state: CollectionState) -> bool:
+    """
+    Use Hover frames reset of homing attack
+    """
     return False
 
 def can_tornado_hover(world: SonicHeroesWorld, team: str, level: str, state: CollectionState) -> bool:
+    """
+    Use Hover frames of Regular Tornado
+    """
     return False
 
-def can_rocket_accel_jump(world: SonicHeroesWorld, team: str, level: str, state: CollectionState) -> bool:
+def can_rocket_accel_jump(world: SonicHeroesWorld, team: str, level: str, state: CollectionState, both_kicks: bool = False) -> bool:
+    """
+    Perform a rocket accel and jump off of ledge while maintaining momentum
+    """
+    #swap to flying
     return False
 
 
@@ -89,7 +106,7 @@ def has_char_levelup(world: SonicHeroesWorld, team: str, level: str, state: Coll
     return state.count_from_list_unique(abilities, world.player) >= item_requirements[levelup]
 
 
-def can_homing_attack(world: SonicHeroesWorld, team: str, level: str, state: CollectionState):
+def can_homing_attack(world: SonicHeroesWorld, team: str, level: str, state: CollectionState, level_up: int = 0):
     if world.options.unlock_type != UnlockType.option_ability_character_unlocks:
         return True
 
@@ -98,6 +115,13 @@ def can_homing_attack(world: SonicHeroesWorld, team: str, level: str, state: Col
     return has_char(world, team, level, state, speed=True) and state.has(name, world.player)
 
 def can_tornado(world: SonicHeroesWorld, team: str, level: str, state: CollectionState):
+    if world.options.unlock_type != UnlockType.option_ability_character_unlocks:
+        return True
+
+    name = get_ability_item_name(world, team, get_region_name_from_level(world, level), TORNADO)
+    return has_char(world, team, level, state, speed=True) and state.has(name, world.player)
+
+def can_tornado_regular(world: SonicHeroesWorld, team: str, level: str, state: CollectionState, level_up: int = 0):
     if world.options.unlock_type != UnlockType.option_ability_character_unlocks:
         return True
 
@@ -379,6 +403,9 @@ def can_remove_ground_enemy_shield(world: SonicHeroesWorld, team: str, level: st
 def can_kill_ground_enemy_nothing(world: SonicHeroesWorld, team: str, level: str, state: CollectionState):
     return True
 
+def can_kill_egg_pawn_nothing(world: SonicHeroesWorld, team: str, level: str, state):
+    return True
+
 def can_kill_ground_enemy_spear(world: SonicHeroesWorld, team: str, level: str, state: CollectionState):
     return (can_homing_attack(world, team, level, state) and has_char_levelup(world, team, level, state, 1, speed=True)) or can_break_things(world, team, level, state) or (can_thundershoot_both(world, team, level, state) and has_char_levelup(world, team, level, state, 1, flying=True)) or can_team_blast(world, team, level, state)
 
@@ -531,7 +558,7 @@ def can_kill_flying_enemy_yellow_light(world: SonicHeroesWorld, team: str, level
 def can_kill_flying_enemy_blue_mgun(world: SonicHeroesWorld, team: str, level: str, state: CollectionState, homing: bool = False, firedunk: bool = False):
     condition = False
     if homing:
-        condition = condition or (can_homing_attack(world, team, level, state) and has_char_levelup(world, team, level, state, 2, speed=True))
+        condition = condition or (can_homing_attack(world, team, level, state, level_up=2) and has_char_levelup(world, team, level, state, 2, speed=True))
     if firedunk:
         condition = condition or can_fire_dunk(world, team, level, state)
     return (can_thundershoot_both(world, team, level, state) and has_char_levelup(world, team, level, state, 2, flying=True)) or condition or can_team_blast(world, team, level, state)
@@ -555,50 +582,50 @@ def can_kill_flying_enemy_falco(world: SonicHeroesWorld, team: str, level: str, 
     #thundershoot 3 or SFA
 
 
-def can_kill_flying_enemy(world: SonicHeroesWorld, team: str, level: str, state: CollectionState, red_flapper=False, green_shot=False, green_lightning=False, yellow_light=False, blue_mgun=False, black_spikey=False, silver_armor=False, purple_bombs=False, falco=False, nothing=False, homing=False, firedunk=False, orcondition=False):
+def can_kill_flying_enemy(world: SonicHeroesWorld, team: str, level: str, state: CollectionState, red_flapper=False, green_shot=False, green_lightning=False, yellow_light=False, blue_mgun=False, black_spikey=False, silver_armor=False, purple_bombs=False, falco=False, nothing=False, homing=False, fire_dunk=False, orcondition=False):
     if not red_flapper and not green_shot and not green_lightning and not yellow_light and not blue_mgun and not black_spikey and not silver_armor and not purple_bombs and not falco:
         return False
     result = not orcondition
     if red_flapper:
         if orcondition:
-            result = result or can_kill_flying_enemy_red_flapper(world, team, level, state, nothing=nothing, homing=homing, firedunk=firedunk)
+            result = result or can_kill_flying_enemy_red_flapper(world, team, level, state, nothing=nothing, homing=homing, firedunk=fire_dunk)
         else:
-            result = result and can_kill_flying_enemy_red_flapper(world, team, level, state, nothing=nothing, homing=homing, firedunk=firedunk)
+            result = result and can_kill_flying_enemy_red_flapper(world, team, level, state, nothing=nothing, homing=homing, firedunk=fire_dunk)
     if green_shot:
         if orcondition:
-            result = result or can_kill_flying_enemy_green_shot(world, team, level, state, nothing=nothing, homing=homing, firedunk=firedunk)
+            result = result or can_kill_flying_enemy_green_shot(world, team, level, state, nothing=nothing, homing=homing, firedunk=fire_dunk)
         else:
-            result = result and can_kill_flying_enemy_green_shot(world, team, level, state, nothing=nothing, homing=homing, firedunk=firedunk)
+            result = result and can_kill_flying_enemy_green_shot(world, team, level, state, nothing=nothing, homing=homing, firedunk=fire_dunk)
     if green_lightning:
         if orcondition:
-            result = result or can_kill_flying_enemy_green_lightning(world, team, level, state, homing=homing, firedunk=firedunk)
+            result = result or can_kill_flying_enemy_green_lightning(world, team, level, state, homing=homing, firedunk=fire_dunk)
         else:
-            result = result and can_kill_flying_enemy_green_lightning(world, team, level, state, homing=homing, firedunk=firedunk)
+            result = result and can_kill_flying_enemy_green_lightning(world, team, level, state, homing=homing, firedunk=fire_dunk)
     if yellow_light:
         if orcondition:
-            result = result or can_kill_flying_enemy_yellow_light(world, team, level, state, homing=homing, firedunk=firedunk)
+            result = result or can_kill_flying_enemy_yellow_light(world, team, level, state, homing=homing, firedunk=fire_dunk)
         else:
-            result = result and can_kill_flying_enemy_yellow_light(world, team, level, state, homing=homing, firedunk=firedunk)
+            result = result and can_kill_flying_enemy_yellow_light(world, team, level, state, homing=homing, firedunk=fire_dunk)
     if blue_mgun:
         if orcondition:
-            result = result or can_kill_flying_enemy_blue_mgun(world, team, level, state, homing=homing, firedunk=firedunk)
+            result = result or can_kill_flying_enemy_blue_mgun(world, team, level, state, homing=homing, firedunk=fire_dunk)
         else:
-            result = result and can_kill_flying_enemy_blue_mgun(world, team, level, state, homing=homing, firedunk=firedunk)
+            result = result and can_kill_flying_enemy_blue_mgun(world, team, level, state, homing=homing, firedunk=fire_dunk)
     if black_spikey:
         if orcondition:
-            result = result or can_kill_flying_enemy_black_spikey(world, team, level, state, homing=homing, firedunk=firedunk)
+            result = result or can_kill_flying_enemy_black_spikey(world, team, level, state, homing=homing, firedunk=fire_dunk)
         else:
-            result = result and can_kill_flying_enemy_black_spikey(world, team, level, state, homing=homing, firedunk=firedunk)
+            result = result and can_kill_flying_enemy_black_spikey(world, team, level, state, homing=homing, firedunk=fire_dunk)
     if silver_armor:
         if orcondition:
-            result = result or can_kill_flying_enemy_silver_armor(world, team, level, state, firedunk=firedunk)
+            result = result or can_kill_flying_enemy_silver_armor(world, team, level, state, firedunk=fire_dunk)
         else:
-            result = result and can_kill_flying_enemy_silver_armor(world, team, level, state, firedunk=firedunk)
+            result = result and can_kill_flying_enemy_silver_armor(world, team, level, state, firedunk=fire_dunk)
     if purple_bombs:
         if orcondition:
-            result = result or can_kill_flying_enemy_purple_bombs(world, team, level, state, homing=homing, firedunk=firedunk)
+            result = result or can_kill_flying_enemy_purple_bombs(world, team, level, state, homing=homing, firedunk=fire_dunk)
         else:
-            result = result and can_kill_flying_enemy_purple_bombs(world, team, level, state, homing=homing, firedunk=firedunk)
+            result = result and can_kill_flying_enemy_purple_bombs(world, team, level, state, homing=homing, firedunk=fire_dunk)
     if falco:
         if orcondition:
             result = result or can_kill_flying_enemy_falco(world, team, level, state)
@@ -607,86 +634,66 @@ def can_kill_flying_enemy(world: SonicHeroesWorld, team: str, level: str, state:
     return result
 
 
+
 #Objs Here
 #in case I remove tp triggers here
-def can_tp_obj(world: SonicHeroesWorld, team: str, level: str, state: CollectionState):
+def has_tp_obj(world: SonicHeroesWorld, team: str, level: str, state: CollectionState):
     return True
 
 
-def can_spring(world: SonicHeroesWorld, team: str, level: str, state: CollectionState, single = False, triple = False, orcondition = False):
-    if not single and not triple:
-        return False
-
-    result = not orcondition
-    if single:
-        if orcondition:
-            result = result or can_single_spring(world, team, level, state)
-        else:
-            result = result and can_single_spring(world, team, level, state)
-    if triple:
-        if orcondition:
-            result = result or can_triple_spring(world, team, level, state)
-        else:
-            result = result and can_triple_spring(world, team, level, state)
-    return result
-
-
-
-def can_single_spring(world: SonicHeroesWorld, team: str, level: str, state: CollectionState):
+def has_single_spring_obj(world: SonicHeroesWorld, team: str, level: str, state: CollectionState):
     return True
 
 
-def can_triple_spring(world: SonicHeroesWorld, team: str, level: str, state: CollectionState):
+def has_triple_spring_obj(world: SonicHeroesWorld, team: str, level: str, state: CollectionState):
     return True
 
 
-def can_ring_group(world: SonicHeroesWorld, team: str, level: str, state: CollectionState):
+def has_ring_group_obj(world: SonicHeroesWorld, team: str, level: str, state: CollectionState):
     return True
 
-def can_hint_ring(world: SonicHeroesWorld, team: str, level: str, state: CollectionState):
+def has_hint_ring_obj(world: SonicHeroesWorld, team: str, level: str, state: CollectionState):
     return True
 
-def can_switch(world: SonicHeroesWorld, team: str, level: str, state: CollectionState, regular = False, push_pull = False, target = False, orcondition = False):
+def has_switch_obj(world: SonicHeroesWorld, team: str, level: str, state: CollectionState, regular = False, push_pull = False, target = False, orcondition = False):
     if not regular and not push_pull and not target:
         return False
 
     result = not orcondition
     if regular:
         if orcondition:
-            result = result or can_regular_switch(world, team, level, state)
+            result = result or has_regular_switch_obj(world, team, level, state)
         else:
-            result = result and can_regular_switch(world, team, level, state)
+            result = result and has_regular_switch_obj(world, team, level, state)
 
     if push_pull:
         if orcondition:
-            result = result or can_push_pull_switch(world, team, level, state)
+            result = result or has_push_pull_switch_obj(world, team, level, state)
         else:
-            result = result and can_push_pull_switch(world, team, level, state)
+            result = result and has_push_pull_switch_obj(world, team, level, state)
 
     if target:
         if orcondition:
-            result = result or can_target_switch(world, team, level, state)
+            result = result or has_target_switch_obj(world, team, level, state)
         else:
-            result = result and can_target_switch(world, team, level, state)
+            result = result and has_target_switch_obj(world, team, level, state)
 
     return result
 
-def can_regular_switch(world: SonicHeroesWorld, team: str, level: str, state: CollectionState):
+def has_regular_switch_obj(world: SonicHeroesWorld, team: str, level: str, state: CollectionState):
     return True
 
-def can_push_pull_switch(world: SonicHeroesWorld, team: str, level: str, state: CollectionState):
+def has_push_pull_switch_obj(world: SonicHeroesWorld, team: str, level: str, state: CollectionState):
     return True
 
-def can_target_switch(world: SonicHeroesWorld, team: str, level: str, state: CollectionState):
+def has_target_switch_obj(world: SonicHeroesWorld, team: str, level: str, state: CollectionState):
     return True
 
-def can_dash_panel(world: SonicHeroesWorld, team: str, level: str, state: CollectionState):
+def has_dash_panel_obj(world: SonicHeroesWorld, team: str, level: str, state: CollectionState):
     return True
 
-
-def can_dash_ring(world: SonicHeroesWorld, team: str, level: str, state: CollectionState):
+def has_dash_ring_obj(world: SonicHeroesWorld, team: str, level: str, state: CollectionState):
     return True
-
 
 def can_rainbow_hoops(world: SonicHeroesWorld, team: str, level: str, state: CollectionState):
     return True
