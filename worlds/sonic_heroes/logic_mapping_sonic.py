@@ -17,19 +17,19 @@ def create_logic_mapping_dict_seaside_hill_sonic(world: SonicHeroesWorld):
 
         "BreakKeyCageSonicSH": lambda state: can_break_key_cage(world, SONIC, SEASIDEHILL, state),
 
-        "BreakKeyCageandRuinsSonicSH": lambda state: can_break_key_cage(world, SONIC, SEASIDEHILL, state) and can_ruins(world, SONIC, SEASIDEHILL, state),
+        "BreakKeyCageandRuinsSonicSH": lambda state: can_break_key_cage(world, SONIC, SEASIDEHILL, state) and has_moving_ruins_obj(world, SONIC, SEASIDEHILL, state),
 
         "BreakorCannonPowerSonicSH": lambda state: can_break_things(world, SONIC, SEASIDEHILL, state) or can_cannon_power(world, SONIC, SEASIDEHILL, state),
 
-        "FlyingFullorRuinsSonicSH": lambda state: can_ruins(world, SONIC, SEASIDEHILL, state) or can_fly(world, SONIC, SEASIDEHILL, state, speedreq=True, powerreq=True),
+        "FlyingFullorRuinsSonicSH": lambda state: has_moving_ruins_obj(world, SONIC, SEASIDEHILL, state) or can_fly(world, SONIC, SEASIDEHILL, state, speedreq=True, powerreq=True),
 
         "FlyingFullSonicSH": lambda state: can_fly(world, SONIC, SEASIDEHILL, state, speedreq=True, powerreq=True),
 
         "FlyingOneCharorTripleSpringSonicSH": lambda state: can_fly(world, SONIC, SEASIDEHILL, state, speedreq=True, powerreq=True, orcondition=True) or has_triple_spring_obj(world, SONIC, SEASIDEHILL, state),
 
-        "FlyingFullor(RuinsandSingleSpringandSmallStonePlatform)SonicSH": lambda state: can_fly(world, SONIC, SEASIDEHILL, state, speedreq=True, powerreq=True) or (can_ruins(world, SONIC, SEASIDEHILL, state) and has_single_spring_obj(world, SONIC, SEASIDEHILL, state) and can_small_stone_platform(world, SONIC, SEASIDEHILL, state)),
+        "FlyingFullor(RuinsandSingleSpringandSmallStonePlatform)SonicSH": lambda state: can_fly(world, SONIC, SEASIDEHILL, state, speedreq=True, powerreq=True) or (has_moving_ruins_obj(world, SONIC, SEASIDEHILL, state) and has_single_spring_obj(world, SONIC, SEASIDEHILL, state) and has_small_stone_platform_obj(world, SONIC, SEASIDEHILL, state)),
 
-        "DashRampSonicSH": lambda state: can_dash_ramp(world, SONIC, SEASIDEHILL, state),
+        "DashRampSonicSH": lambda state: has_dash_ramp_obj(world, SONIC, SEASIDEHILL, state),
 
         "DashPanelorSpeedSonicSH": lambda state: has_dash_panel_obj(world, SONIC, SEASIDEHILL, state) or has_char(world, SONIC, SEASIDEHILL, state, speed=True),
 
@@ -41,7 +41,7 @@ def create_logic_mapping_dict_seaside_hill_sonic(world: SonicHeroesWorld):
 
         "FlyingAnySonicSH": lambda state: can_fly(world, SONIC, SEASIDEHILL, state),
 
-        "FlyingAnyandSmallStonePlatformSonicSH": lambda state: can_fly(world, SONIC, SEASIDEHILL, state) and can_small_stone_platform(world, SONIC, SEASIDEHILL, state),
+        "FlyingAnyandSmallStonePlatformSonicSH": lambda state: can_fly(world, SONIC, SEASIDEHILL, state) and has_small_stone_platform_obj(world, SONIC, SEASIDEHILL, state),
 
         "FlyingAnyorTripleSpringSonicSH": lambda state: can_fly(world, SONIC,SEASIDEHILL, state) or has_triple_spring_obj(world, SONIC, SEASIDEHILL, state),
 
@@ -49,9 +49,9 @@ def create_logic_mapping_dict_seaside_hill_sonic(world: SonicHeroesWorld):
 
         "BreakorFlyingAnySonicSH": lambda state: can_break_things(world, SONIC, SEASIDEHILL, state) or can_fly(world, SONIC, SEASIDEHILL, state),
 
-        "(CannonAnyorFlyingFull)andRuinsSonicSH": lambda state: (can_cannon(world, SONIC, SEASIDEHILL, state, speed=True, flying=True, power=True, orcondition=True) or can_fly(world, SONIC, SEASIDEHILL, state, speedreq=True, powerreq=True)) and can_ruins(world, SONIC, SEASIDEHILL, state),
+        "(CannonAnyorFlyingFull)andRuinsSonicSH": lambda state: (can_cannon(world, SONIC, SEASIDEHILL, state, speed=True, flying=True, power=True, orcondition=True) or can_fly(world, SONIC, SEASIDEHILL, state, speedreq=True, powerreq=True)) and has_moving_ruins_obj(world, SONIC, SEASIDEHILL, state),
 
-        "FlyingFullandRuinsSonicSH": lambda state: can_ruins(world, SONIC, SEASIDEHILL, state) and can_fly(world, SONIC, SEASIDEHILL, state, speedreq=True, powerreq=True),
+        "FlyingFullandRuinsSonicSH": lambda state: has_moving_ruins_obj(world, SONIC, SEASIDEHILL, state) and can_fly(world, SONIC, SEASIDEHILL, state, speedreq=True, powerreq=True),
 
         "CannonSpeedSonicSH": lambda state: can_cannon(world, SONIC, SEASIDEHILL, state, speed=True),
 
@@ -61,11 +61,11 @@ def create_logic_mapping_dict_seaside_hill_sonic(world: SonicHeroesWorld):
 
         "DashRingorFlyingAnySonicSH": lambda state: has_dash_ring_obj(world, SONIC, SEASIDEHILL, state) or can_fly(world, SONIC, SEASIDEHILL, state),
 
-        "DashRampandDashRingandFlyingAnySonicSH": lambda state: can_dash_ramp(world, SONIC, SEASIDEHILL, state) and has_dash_ring_obj(world, SONIC, SEASIDEHILL, state) and can_fly(world, SONIC, SEASIDEHILL, state),
+        "DashRampandDashRingandFlyingAnySonicSH": lambda state: has_dash_ramp_obj(world, SONIC, SEASIDEHILL, state) and has_dash_ring_obj(world, SONIC, SEASIDEHILL, state) and can_fly(world, SONIC, SEASIDEHILL, state),
 
-        "FlyingAnyandRuinsSonicSH": lambda state: can_fly(world, SONIC, SEASIDEHILL, state) and can_ruins(world, SONIC, SEASIDEHILL, state),
+        "FlyingAnyandRuinsSonicSH": lambda state: can_fly(world, SONIC, SEASIDEHILL, state) and has_moving_ruins_obj(world, SONIC, SEASIDEHILL, state),
 
-        "RuinsSonicSH": lambda state: can_ruins(world,SONIC,SEASIDEHILL, state),
+        "RuinsSonicSH": lambda state: has_moving_ruins_obj(world, SONIC, SEASIDEHILL, state),
 
         "DashPanelor(DashRingandFlyingAny)orSpeedSonicSH": lambda state: has_dash_panel_obj(world, SONIC, SEASIDEHILL, state) or (has_dash_ring_obj(world, SONIC, SEASIDEHILL, state) and can_fly(world, SONIC, SEASIDEHILL, state)) or has_char(world, SONIC, SEASIDEHILL, state, speed=True),
 
@@ -79,9 +79,9 @@ def create_logic_mapping_dict_seaside_hill_sonic(world: SonicHeroesWorld):
 
         "DashRingandFlyingAnySonicSH": lambda state: has_dash_ring_obj(world, SONIC, SEASIDEHILL, state) and can_fly(world, SONIC, SEASIDEHILL, state),
 
-        "GlideandRuinsandTripleSpringSonicSH": lambda state: can_glide(world, SONIC, SEASIDEHILL, state) and can_ruins(world, SONIC, SEASIDEHILL, state) and has_triple_spring_obj(world, SONIC, SEASIDEHILL, state),
+        "GlideandRuinsandTripleSpringSonicSH": lambda state: can_glide(world, SONIC, SEASIDEHILL, state) and has_moving_ruins_obj(world, SONIC, SEASIDEHILL, state) and has_triple_spring_obj(world, SONIC, SEASIDEHILL, state),
 
-        "DashRampandRuinsSonicSH": lambda state: can_dash_ramp(world, SONIC, SEASIDEHILL, state) and can_ruins(world, SONIC, SEASIDEHILL, state),
+        "DashRampandRuinsSonicSH": lambda state: has_dash_ramp_obj(world, SONIC, SEASIDEHILL, state) and has_moving_ruins_obj(world, SONIC, SEASIDEHILL, state),
 
         "BobsledSonicSH": lambda state: can_bobsled(world, SONIC, SEASIDEHILL, state),
 
@@ -101,17 +101,17 @@ def create_logic_mapping_dict_ocean_palace_sonic(world: SonicHeroesWorld):
 
         "BreakKeyCageSonicOP": lambda state: can_break_key_cage(world, SONIC, OCEANPALACE, state),
 
-        "DashRampSonicOP": lambda state: can_dash_ramp(world, SONIC, OCEANPALACE, state),
+        "DashRampSonicOP": lambda state: has_dash_ramp_obj(world, SONIC, OCEANPALACE, state),
 
         "FlyingAnyorTripleSpringSonicOP": lambda state: can_fly(world, SONIC, OCEANPALACE, state) or has_triple_spring_obj(world, SONIC, OCEANPALACE, state),
 
         "BreakSonicOP": lambda state: can_break_things(world, SONIC, OCEANPALACE, state),
 
-        "(DashRingorFlyingAny)andFallingStoneStructureSonicOP": lambda state: (has_dash_ring_obj(world, SONIC, OCEANPALACE, state) or can_fly(world, SONIC, OCEANPALACE, state)) and can_falling_stone_structure(world, SONIC, OCEANPALACE, state),
+        "(DashRingorFlyingAny)andFallingStoneStructureSonicOP": lambda state: (has_dash_ring_obj(world, SONIC, OCEANPALACE, state) or can_fly(world, SONIC, OCEANPALACE, state)) and has_falling_stone_structure_obj(world, SONIC, OCEANPALACE, state),
 
         "FanandGlideSonicOP": lambda state: can_fan(world, SONIC, OCEANPALACE, state) and can_glide(world, SONIC, OCEANPALACE, state),
 
-        "FallingStoneStructureandFlyingAnySonicOP": lambda state: can_falling_stone_structure(world, SONIC, OCEANPALACE, state) and can_fly(world, SONIC, OCEANPALACE, state),
+        "FallingStoneStructureandFlyingAnySonicOP": lambda state: has_falling_stone_structure_obj(world, SONIC, OCEANPALACE, state) and can_fly(world, SONIC, OCEANPALACE, state),
 
         "FlyingAnySonicOP": lambda state: can_fly(world, SONIC, OCEANPALACE, state),
 
@@ -121,7 +121,7 @@ def create_logic_mapping_dict_ocean_palace_sonic(world: SonicHeroesWorld):
 
         "FlyingFullor(FanandGlide)SonicOP": lambda state: can_fly(world, SONIC, OCEANPALACE, state, speedreq=True, powerreq=True) or (can_fan(world, SONIC, OCEANPALACE, state) and can_glide(world, SONIC, OCEANPALACE, state)),
 
-        "DashRampor(FlyingFullandRainbowHoops)SonicOP": lambda state: can_dash_ramp(world, SONIC, OCEANPALACE, state) or (can_fly(world, SONIC, OCEANPALACE, state, speedreq=True, powerreq=True) or can_rainbow_hoops(world, SONIC, OCEANPALACE, state)),
+        "DashRampor(FlyingFullandRainbowHoops)SonicOP": lambda state: has_dash_ramp_obj(world, SONIC, OCEANPALACE, state) or (can_fly(world, SONIC, OCEANPALACE, state, speedreq=True, powerreq=True) or has_rainbow_hoop_obj(world, SONIC, OCEANPALACE, state)),
 
         "BreakorFlyingAnySonicOP": lambda state: can_break_things(world, SONIC, OCEANPALACE, state) or can_fly(world, SONIC, OCEANPALACE, state),
 
@@ -155,7 +155,7 @@ def create_logic_mapping_dict_ocean_palace_sonic(world: SonicHeroesWorld):
 
         "TripleSpringSonicOP": lambda state: has_triple_spring_obj(world, SONIC, OCEANPALACE, state),
 
-        "DashRingandSpeedcharandSingleSpringandSmallStonePlatformSonicOP": lambda state: has_dash_ring_obj(world, SONIC, OCEANPALACE, state) and has_char(world, SONIC, OCEANPALACE, state, speed=True) and has_single_spring_obj(world, SONIC, OCEANPALACE, state) and can_small_stone_platform(world, SONIC, OCEANPALACE, state),
+        "DashRingandSpeedcharandSingleSpringandSmallStonePlatformSonicOP": lambda state: has_dash_ring_obj(world, SONIC, OCEANPALACE, state) and has_char(world, SONIC, OCEANPALACE, state, speed=True) and has_single_spring_obj(world, SONIC, OCEANPALACE, state) and has_small_stone_platform_obj(world, SONIC, OCEANPALACE, state),
 
         "BreakandSingleSpringSonicOP": lambda state: can_break_things(world, SONIC, OCEANPALACE, state) and has_single_spring_obj(world, SONIC, OCEANPALACE, state)
     }
@@ -169,7 +169,7 @@ def create_logic_mapping_dict_grand_metropolis_sonic(world: SonicHeroesWorld):
 
         "BreakKeyCageSonicGM": lambda state: can_break_key_cage(world, SONIC, GRANDMETROPOLIS, state),
 
-        "DashRampSonicGM": lambda state: can_dash_ramp(world, SONIC, GRANDMETROPOLIS, state),
+        "DashRampSonicGM": lambda state: has_dash_ramp_obj(world, SONIC, GRANDMETROPOLIS, state),
 
         "FlyingFullSonicGM": lambda state: can_fly(world, SONIC, GRANDMETROPOLIS, state, speedreq=True, powerreq=True),
 
@@ -205,11 +205,11 @@ def create_logic_mapping_dict_grand_metropolis_sonic(world: SonicHeroesWorld):
 
         "FlyingAnyor(HomingAttackandLightDash)SonicGM": lambda state: can_fly(world, SONIC, GRANDMETROPOLIS, state) or (can_homing_attack(world, SONIC, GRANDMETROPOLIS, state) and can_light_dash(world, SONIC, GRANDMETROPOLIS, state)),
 
-        "(FlyingOneCharandUnbreakableContainer)orTripleSpringSonicGM": lambda state: (can_fly(world, SONIC, GRANDMETROPOLIS, state, speedreq=True, powerreq=True, orcondition=True) and can_unbreakable_container(world, SONIC, GRANDMETROPOLIS, state)) or has_triple_spring_obj(world, SONIC, GRANDMETROPOLIS, state),
+        "(FlyingOneCharandUnbreakableContainer)orTripleSpringSonicGM": lambda state: (can_fly(world, SONIC, GRANDMETROPOLIS, state, speedreq=True, powerreq=True, orcondition=True) and has_unbreakable_container_obj(world, SONIC, GRANDMETROPOLIS, state)) or has_triple_spring_obj(world, SONIC, GRANDMETROPOLIS, state),
 
         "KillGroundEnemySpearConcreteShieldSonicGM": lambda state: can_kill_ground_enemy(world, SONIC, GRANDMETROPOLIS, state, spear=True, concreteshield=True),
 
-        "DashRamporFlyingAnySonicGM": lambda state: can_dash_ramp(world, SONIC, GRANDMETROPOLIS, state) or can_fly(world, SONIC, GRANDMETROPOLIS, state),
+        "DashRamporFlyingAnySonicGM": lambda state: has_dash_ramp_obj(world, SONIC, GRANDMETROPOLIS, state) or can_fly(world, SONIC, GRANDMETROPOLIS, state),
 
         "PoleSonicGM": lambda state: can_pole(world, SONIC, GRANDMETROPOLIS, state),
 
@@ -231,7 +231,7 @@ def create_logic_mapping_dict_grand_metropolis_sonic(world: SonicHeroesWorld):
 
         "FlyingOneCharandPoleandThunderShootSonicGM": lambda state: can_fly(world, SONIC, GRANDMETROPOLIS, state, speedreq=True, powerreq=True, orcondition=True) and can_pole(world, SONIC, GRANDMETROPOLIS, state) and can_thundershoot_both(world, SONIC, GRANDMETROPOLIS, state),
 
-        "FallingBridgeandKillGroundEnemyCameronSonicGM": lambda state: can_falling_drawbridge(world, SONIC, GRANDMETROPOLIS, state) and can_kill_ground_enemy(world, SONIC, GRANDMETROPOLIS, state, cameron=True),
+        "FallingBridgeandKillGroundEnemyCameronSonicGM": lambda state: has_falling_drawbridge_obj(world, SONIC, GRANDMETROPOLIS, state) and can_kill_ground_enemy(world, SONIC, GRANDMETROPOLIS, state, cameron=True),
 
         "DashRingSonicGM": lambda state: has_dash_ring_obj(world, SONIC, GRANDMETROPOLIS, state),
 
@@ -255,71 +255,71 @@ def create_logic_mapping_dict_power_plant_sonic(world: SonicHeroesWorld):
 
         "FlyingAnyorGlideSonicPP": lambda state: can_fly(world, SONIC, POWERPLANT, state) or can_glide(world, SONIC, POWERPLANT, state),
 
-        "KillFlyingEnemyRedNothingandPPUpwardPathSonicPP": lambda state: can_kill_flying_enemy(world, SONIC, POWERPLANT, state, red_flapper=True, nothing=True) and can_energy_road_upward_effect(world, SONIC, POWERPLANT, state),
+        "KillFlyingEnemyRedNothingandPPUpwardPathSonicPP": lambda state: can_kill_flying_enemy(world, SONIC, POWERPLANT, state, red_flapper=True, nothing=True) and has_energy_road_upward_effect_obj(world, SONIC, POWERPLANT, state),
 
-        "KillFlyingEnemyGreenLightningNothingHomingFireDunkandEnergyColumnSonicPP": lambda state: can_kill_flying_enemy(world, SONIC, POWERPLANT, state, green_lightning=True, nothing=True, homing=True, fire_dunk=True) and can_energy_column(world, SONIC, POWERPLANT, state),
+        "KillFlyingEnemyGreenLightningNothingHomingFireDunkandEnergyColumnSonicPP": lambda state: can_kill_flying_enemy(world, SONIC, POWERPLANT, state, green_lightning=True, nothing=True, homing=True, fire_dunk=True) and has_energy_column_obj(world, SONIC, POWERPLANT, state),
 
-        "KillFlyingEnemyGreenLightningNothingHomingFireDunkandPPUpwardPathSonicPP": lambda state: can_kill_flying_enemy(world, SONIC, POWERPLANT, state, green_lightning=True, nothing=True, homing=True, fire_dunk=True) and can_energy_road_upward_effect(world, SONIC, POWERPLANT, state),
+        "KillFlyingEnemyGreenLightningNothingHomingFireDunkandPPUpwardPathSonicPP": lambda state: can_kill_flying_enemy(world, SONIC, POWERPLANT, state, green_lightning=True, nothing=True, homing=True, fire_dunk=True) and has_energy_road_upward_effect_obj(world, SONIC, POWERPLANT, state),
 
         "FlyingAnySonicPP": lambda state: can_fly(world, SONIC, POWERPLANT, state),
 
         "AccelRoadandKillFlyingEnemyGreenLightningNothingHomingFireDunkSonicPP": lambda state: can_accel_road(world, SONIC, POWERPLANT, state) and can_kill_flying_enemy(world, SONIC, POWERPLANT, state, green_lightning=True, nothing=True, homing=True, fire_dunk=True),
 
-        "PPUpwardPathSonicPP": lambda state: can_energy_road_upward_effect(world, SONIC, POWERPLANT, state),
+        "PPUpwardPathSonicPP": lambda state: has_energy_road_upward_effect_obj(world, SONIC, POWERPLANT, state),
 
-        "FlyingAnyandPulleySonicPP": lambda state: can_fly(world, SONIC, POWERPLANT, state) and can_pulley(world, SONIC, POWERPLANT, state),
+        "FlyingAnyandPulleySonicPP": lambda state: can_fly(world, SONIC, POWERPLANT, state) and has_pulley_obj(world, SONIC, POWERPLANT, state),
 
-        "EnergyColumnandKillFlyingEnemyGreenLightningSonicPP": lambda state: can_energy_column(world, SONIC, POWERPLANT, state) and can_kill_flying_enemy(world, SONIC, POWERPLANT, state, green_lightning=True),
+        "EnergyColumnandKillFlyingEnemyGreenLightningSonicPP": lambda state: has_energy_column_obj(world, SONIC, POWERPLANT, state) and can_kill_flying_enemy(world, SONIC, POWERPLANT, state, green_lightning=True),
 
-        "FlyingAnyandPPUpwardPathSonicPP": lambda state: can_fly(world, SONIC, POWERPLANT, state) and can_energy_road_upward_effect(world, SONIC, POWERPLANT, state),
+        "FlyingAnyandPPUpwardPathSonicPP": lambda state: can_fly(world, SONIC, POWERPLANT, state) and has_energy_road_upward_effect_obj(world, SONIC, POWERPLANT, state),
 
         "FlyingAnyorHomingorGlideSonicPP": lambda state: can_fly(world, SONIC, POWERPLANT, state) or can_homing_attack(world, SONIC, POWERPLANT, state) or can_glide(world, SONIC, POWERPLANT, state),
 
         "KillFlyingEnemyRedandPoleandSwitch": lambda state: can_kill_flying_enemy(world, SONIC, POWERPLANT, state, red_flapper=True) and can_pole(world, SONIC, POWERPLANT, state) and has_switch_obj(world, SONIC, POWERPLANT, state, regular=True),
 
-        "FlyingAnyorHomingorPPUpwardPathSonicPP": lambda state: can_fly(world, SONIC, POWERPLANT, state) or can_homing_attack(world, SONIC, POWERPLANT, state) or can_energy_road_upward_effect(world, SONIC, POWERPLANT, state),
+        "FlyingAnyorHomingorPPUpwardPathSonicPP": lambda state: can_fly(world, SONIC, POWERPLANT, state) or can_homing_attack(world, SONIC, POWERPLANT, state) or has_energy_road_upward_effect_obj(world, SONIC, POWERPLANT, state),
 
         "KillFlyingEnemyGreenLightningandPoleandSwitch": lambda state: can_kill_flying_enemy(world, SONIC, POWERPLANT, state, green_lightning=True) and can_pole(world, SONIC, POWERPLANT, state) and has_switch_obj(world, SONIC, POWERPLANT, state, regular=True),
 
         "KillGroundEnemyCameronSonicPP": lambda state: can_kill_ground_enemy(world, SONIC, POWERPLANT, state, cameron=True),
 
-        "PulleySonicPP": lambda state: can_pulley(world, SONIC, POWERPLANT, state),
+        "PulleySonicPP": lambda state: has_pulley_obj(world, SONIC, POWERPLANT, state),
 
-        "EnergyColumnandFlyingAnyandKillFlyingEnemyRedSonicPP": lambda state: can_energy_column(world, SONIC, POWERPLANT, state) and can_fly(world, SONIC, POWERPLANT, state) and can_kill_flying_enemy(world, SONIC, POWERPLANT, state, red_flapper=True),
+        "EnergyColumnandFlyingAnyandKillFlyingEnemyRedSonicPP": lambda state: has_energy_column_obj(world, SONIC, POWERPLANT, state) and can_fly(world, SONIC, POWERPLANT, state) and can_kill_flying_enemy(world, SONIC, POWERPLANT, state, red_flapper=True),
 
-        "EnergyColumnandFlyingAnyandKillGroundEnemyCameronSonicPP": lambda state: can_energy_column(world, SONIC, POWERPLANT, state) and can_fly(world, SONIC, POWERPLANT, state) and can_kill_ground_enemy(world, SONIC, POWERPLANT, state, cameron=True),
+        "EnergyColumnandFlyingAnyandKillGroundEnemyCameronSonicPP": lambda state: has_energy_column_obj(world, SONIC, POWERPLANT, state) and can_fly(world, SONIC, POWERPLANT, state) and can_kill_ground_enemy(world, SONIC, POWERPLANT, state, cameron=True),
 
-        "EnergyColumnandFlyingOneCharandKillFlyingEnemyRedSonicPP": lambda state: can_energy_column(world, SONIC, POWERPLANT, state) and can_fly(world, SONIC, POWERPLANT, state, speedreq=True, powerreq=True, orcondition=True) and can_kill_flying_enemy(world, SONIC, POWERPLANT, state, red_flapper=True),
+        "EnergyColumnandFlyingOneCharandKillFlyingEnemyRedSonicPP": lambda state: has_energy_column_obj(world, SONIC, POWERPLANT, state) and can_fly(world, SONIC, POWERPLANT, state, speedreq=True, powerreq=True, orcondition=True) and can_kill_flying_enemy(world, SONIC, POWERPLANT, state, red_flapper=True),
 
         "FlyingAnyorLightDashSonicPP": lambda state: can_fly(world, SONIC, POWERPLANT, state) or can_light_dash(world, SONIC, POWERPLANT, state),
 
-        "EnergyColumnandFlyingAnyandKillFlyingEnemyGreenLightningSonicPP": lambda state: can_energy_column(world, SONIC, POWERPLANT, state) and can_fly(world, SONIC, POWERPLANT, state) and can_kill_flying_enemy(world, SONIC, POWERPLANT, state, green_lightning=True),
+        "EnergyColumnandFlyingAnyandKillFlyingEnemyGreenLightningSonicPP": lambda state: has_energy_column_obj(world, SONIC, POWERPLANT, state) and can_fly(world, SONIC, POWERPLANT, state) and can_kill_flying_enemy(world, SONIC, POWERPLANT, state, green_lightning=True),
 
         "FlyingAnyorTripleSpringSonicPP": lambda state: can_fly(world, SONIC, POWERPLANT, state) or has_triple_spring_obj(world, SONIC, POWERPLANT, state),
 
-        "(DashRamporFlyingAny)andElevatorSonicPP": lambda state: (can_dash_ramp(world, SONIC, POWERPLANT, state) or can_fly(world, SONIC, POWERPLANT, state)) and can_elevator(world, SONIC, POWERPLANT, state),
+        "(DashRamporFlyingAny)andElevatorSonicPP": lambda state: (has_dash_ramp_obj(world, SONIC, POWERPLANT, state) or can_fly(world, SONIC, POWERPLANT, state)) and has_elevator_obj(world, SONIC, POWERPLANT, state),
 
-        "FlyingAnyandShutterSonicPP": lambda state: can_fly(world, SONIC, POWERPLANT, state) and can_shutter(world, SONIC, POWERPLANT, state),
+        "FlyingAnyandShutterSonicPP": lambda state: can_fly(world, SONIC, POWERPLANT, state) and has_shutter_obj(world, SONIC, POWERPLANT, state),
 
         "KillFlyingEnemyGreenShotNothingSonicPP": lambda state: can_kill_flying_enemy(world, SONIC, POWERPLANT, state, green_shot=True, nothing=True),
 
-        "ElevatorandFlyingAnySonicPP": lambda state: can_elevator(world, SONIC, POWERPLANT, state) and can_fly(world, SONIC, POWERPLANT, state),
+        "ElevatorandFlyingAnySonicPP": lambda state: has_elevator_obj(world, SONIC, POWERPLANT, state) and can_fly(world, SONIC, POWERPLANT, state),
 
-        "EnergyColumnandFlyingAnyandKillFlyingEnemyRedNothingSonicPP": lambda state: can_energy_column(world, SONIC, POWERPLANT, state) and can_fly(world, SONIC, POWERPLANT, state) and can_kill_flying_enemy(world, SONIC, POWERPLANT, state, red_flapper=True, nothing=True),
+        "EnergyColumnandFlyingAnyandKillFlyingEnemyRedNothingSonicPP": lambda state: has_energy_column_obj(world, SONIC, POWERPLANT, state) and can_fly(world, SONIC, POWERPLANT, state) and can_kill_flying_enemy(world, SONIC, POWERPLANT, state, red_flapper=True, nothing=True),
 
         "FlyingAnyorGlideorHomingSonicPP": lambda state: can_fly(world, SONIC, POWERPLANT, state) or can_glide(world, SONIC, POWERPLANT, state) or can_homing_attack(world, SONIC, POWERPLANT, state),
 
         "DashPanelorFlyingAnyorLightDashorSpeedCharSonicPP": lambda state: has_dash_panel_obj(world, SONIC, POWERPLANT, state) or can_fly(world, SONIC, POWERPLANT, state) or can_light_dash(world, SONIC, POWERPLANT, state) or has_char(world, SONIC, POWERPLANT, state, speed=True),
 
-        "FlyingFullorPulleySonicPP": lambda state: can_fly(world, SONIC, POWERPLANT, state, speedreq=True, powerreq=True) or can_pulley(world, SONIC, POWERPLANT, state),
+        "FlyingFullorPulleySonicPP": lambda state: can_fly(world, SONIC, POWERPLANT, state, speedreq=True, powerreq=True) or has_pulley_obj(world, SONIC, POWERPLANT, state),
 
         "DashPanelorFlyingAnyorSpeedCharSonicPP": lambda state: has_dash_panel_obj(world, SONIC, POWERPLANT, state) or can_fly(world, SONIC, POWERPLANT, state) or has_char(world, SONIC, POWERPLANT, state, speed=True),
 
-        "EnergyColumnandFlyingAnyandKillFlyingEnemyGreenShotSonicPP": lambda state: can_energy_column(world, SONIC, POWERPLANT, state) and can_fly(world, SONIC, POWERPLANT, state) and can_kill_flying_enemy(world, SONIC, POWERPLANT, state, green_shot=True),
+        "EnergyColumnandFlyingAnyandKillFlyingEnemyGreenShotSonicPP": lambda state: has_energy_column_obj(world, SONIC, POWERPLANT, state) and can_fly(world, SONIC, POWERPLANT, state) and can_kill_flying_enemy(world, SONIC, POWERPLANT, state, green_shot=True),
 
-        "EnergyColumnand(FlyingAnyorHoming)andKillFlyingEnemyRedHomingSonicPP": lambda state: can_energy_column(world, SONIC, POWERPLANT, state) and (can_fly(world, SONIC, POWERPLANT, state) or can_homing_attack(world, SONIC, POWERPLANT, state)) and can_kill_flying_enemy(world, SONIC, POWERPLANT, state, red_flapper=True, homing=True),
+        "EnergyColumnand(FlyingAnyorHoming)andKillFlyingEnemyRedHomingSonicPP": lambda state: has_energy_column_obj(world, SONIC, POWERPLANT, state) and (can_fly(world, SONIC, POWERPLANT, state) or can_homing_attack(world, SONIC, POWERPLANT, state)) and can_kill_flying_enemy(world, SONIC, POWERPLANT, state, red_flapper=True, homing=True),
 
-        "EnergyColumnandFlyingAnySonicPP": lambda state: can_energy_column(world, SONIC, POWERPLANT, state) and can_fly(world, SONIC, POWERPLANT, state),
+        "EnergyColumnandFlyingAnySonicPP": lambda state: has_energy_column_obj(world, SONIC, POWERPLANT, state) and can_fly(world, SONIC, POWERPLANT, state),
 
         "KillFlyingEnemyGreenShotNothingandSingleSpringSonicPP": lambda state: can_kill_flying_enemy(world, SONIC, POWERPLANT, state, green_shot=True, nothing=True) and has_single_spring_obj(world, SONIC, POWERPLANT, state),
 
@@ -331,19 +331,19 @@ def create_logic_mapping_dict_power_plant_sonic(world: SonicHeroesWorld):
 
         "KillFlyingEnemyGreenLightningHomingFireDunkSonicPP": lambda state: can_kill_flying_enemy(world, SONIC, POWERPLANT, state, green_lightning=True, homing=True, fire_dunk=True),
 
-        "EnergyColumnSonicPP": lambda state: can_energy_column(world, SONIC, POWERPLANT, state),
+        "EnergyColumnSonicPP": lambda state: has_energy_column_obj(world, SONIC, POWERPLANT, state),
 
         "KillGroundEnemyCameronandSingleSpringSonicPP": lambda state: can_kill_ground_enemy(world, SONIC, POWERPLANT, state, cameron=True),
 
-        "EnergyColumnandKillGroundEnemyCameronSonicPP": lambda state: can_energy_column(world, SONIC, POWERPLANT, state) and can_kill_ground_enemy(world, SONIC, POWERPLANT, state, cameron=True),
+        "EnergyColumnandKillGroundEnemyCameronSonicPP": lambda state: has_energy_column_obj(world, SONIC, POWERPLANT, state) and can_kill_ground_enemy(world, SONIC, POWERPLANT, state, cameron=True),
 
         "PoleSonicPP": lambda state: can_pole(world, SONIC, POWERPLANT, state),
 
-        "ElevatorSonicPP": lambda state: can_elevator(world, SONIC, POWERPLANT, state),
+        "ElevatorSonicPP": lambda state: has_elevator_obj(world, SONIC, POWERPLANT, state),
 
-        "KillGroundEnemyCameronandPPUpwardPathSonicPP": lambda state: can_kill_ground_enemy(world, SONIC, POWERPLANT, state, cameron=True) and can_energy_road_upward_effect(world, SONIC, POWERPLANT, state),
+        "KillGroundEnemyCameronandPPUpwardPathSonicPP": lambda state: can_kill_ground_enemy(world, SONIC, POWERPLANT, state, cameron=True) and has_energy_road_upward_effect_obj(world, SONIC, POWERPLANT, state),
 
-        "DashRamporFlyingAnySonicPP": lambda state: can_dash_ramp(world, SONIC, POWERPLANT, state) or can_fly(world, SONIC, POWERPLANT, state),
+        "DashRamporFlyingAnySonicPP": lambda state: has_dash_ramp_obj(world, SONIC, POWERPLANT, state) or can_fly(world, SONIC, POWERPLANT, state),
 
         "DashRingorFlyingAnySonicPP": lambda state: has_dash_ring_obj(world, SONIC, POWERPLANT, state) or can_fly(world, SONIC, POWERPLANT, state),
 
@@ -355,7 +355,7 @@ def create_logic_mapping_dict_power_plant_sonic(world: SonicHeroesWorld):
 
         "(FlyingAnyorHoming)andDashRingSonicPP": lambda state: (can_fly(world, SONIC, POWERPLANT, state) or can_homing_attack(world, SONIC, POWERPLANT, state)) and has_dash_ring_obj(world, SONIC, POWERPLANT, state),
 
-        "(FlyingAnyorHoming)andPulleySonicPP": lambda state: (can_fly(world, SONIC, POWERPLANT, state) or can_homing_attack(world, SONIC, POWERPLANT, state)) and can_pulley(world, SONIC, POWERPLANT, state),
+        "(FlyingAnyorHoming)andPulleySonicPP": lambda state: (can_fly(world, SONIC, POWERPLANT, state) or can_homing_attack(world, SONIC, POWERPLANT, state)) and has_pulley_obj(world, SONIC, POWERPLANT, state),
 
         "FlyingAnyandSingleSpringSonicPP": lambda state: can_fly(world, SONIC, POWERPLANT, state) and has_single_spring_obj(world, SONIC, POWERPLANT, state),
     }
@@ -373,11 +373,11 @@ def create_logic_mapping_dict_casino_park_sonic(world: SonicHeroesWorld):
 
         "PinballandSingleSpringSonicCP": lambda state: can_pinball(world, SONIC, CASINOPARK, state) and has_single_spring_obj(world, SONIC, CASINOPARK, state),
 
-        "FlyingAnyorGlideorHomingorStarPanelSonicCP": lambda state: can_fly(world, SONIC, CASINOPARK, state) or can_glide(world, SONIC, CASINOPARK, state) or can_star_glass_air_panel(world, SONIC, CASINOPARK, state),
+        "FlyingAnyorGlideorHomingorStarPanelSonicCP": lambda state: can_fly(world, SONIC, CASINOPARK, state) or can_glide(world, SONIC, CASINOPARK, state) or has_star_glass_air_panel_obj(world, SONIC, CASINOPARK, state),
 
         "TripleSpringSonicCP": lambda state: has_triple_spring_obj(world, SONIC, CASINOPARK, state),
 
-        "FlyingAnyorGreenBumperSpringSonicCP": lambda state: can_fly(world, SONIC, CASINOPARK, state) or can_green_floating_bumper(world, SONIC, CASINOPARK, state),
+        "FlyingAnyorGreenBumperSpringSonicCP": lambda state: can_fly(world, SONIC, CASINOPARK, state) or has_green_floating_bumper_obj(world, SONIC, CASINOPARK, state),
 
         "LightDashandSwitchSonicCP": lambda state: can_light_dash(world, SONIC, CASINOPARK, state) and has_switch_obj(world, SONIC, CASINOPARK, state, regular=True),
 
@@ -389,7 +389,7 @@ def create_logic_mapping_dict_casino_park_sonic(world: SonicHeroesWorld):
 
         "PinballSonicCP": lambda state: can_pinball(world, SONIC, CASINOPARK, state),
 
-        "FloatingDiceorFlyingAnySonicCP": lambda state: can_floating_dice(world, SONIC, CASINOPARK, state) or can_fly(world, SONIC, CASINOPARK, state),
+        "FloatingDiceorFlyingAnySonicCP": lambda state: has_floating_dice_obj(world, SONIC, CASINOPARK, state) or can_fly(world, SONIC, CASINOPARK, state),
 
         "FlyingAnyandTripleSpringSonicCP": lambda state: can_fly(world, SONIC, CASINOPARK, state) and has_triple_spring_obj(world, SONIC, CASINOPARK, state),
 
@@ -397,9 +397,9 @@ def create_logic_mapping_dict_casino_park_sonic(world: SonicHeroesWorld):
 
         "GongSonicCP": lambda state: can_gong(world, SONIC, CASINOPARK, state),
 
-        "Cannonand(FlyingCharorSpeedChar)andPinballandPulleyandSingleSpringandTripleSpringSonicCP": lambda state: can_cannon(world, SONIC, CASINOPARK, state, speed=True, flying=True, orcondition=True) and can_pinball(world, SONIC, CASINOPARK, state) and can_pulley(world, SONIC, CASINOPARK, state) and has_single_spring_obj(world, SONIC, CASINOPARK, state) and has_triple_spring_obj(world, SONIC, CASINOPARK, state),
+        "Cannonand(FlyingCharorSpeedChar)andPinballandPulleyandSingleSpringandTripleSpringSonicCP": lambda state: can_cannon(world, SONIC, CASINOPARK, state, speed=True, flying=True, orcondition=True) and can_pinball(world, SONIC, CASINOPARK, state) and has_pulley_obj(world, SONIC, CASINOPARK, state) and has_single_spring_obj(world, SONIC, CASINOPARK, state) and has_triple_spring_obj(world, SONIC, CASINOPARK, state),
 
-        "PulleyandTripleSpringSonicCP": lambda state: can_pulley(world, SONIC, CASINOPARK, state) and has_triple_spring_obj(world, SONIC, CASINOPARK, state),
+        "PulleyandTripleSpringSonicCP": lambda state: has_pulley_obj(world, SONIC, CASINOPARK, state) and has_triple_spring_obj(world, SONIC, CASINOPARK, state),
 
         "CannonandSpeedCharSonicCP": lambda state: can_cannon(world, SONIC, CASINOPARK, state, speed=True),
 
@@ -413,9 +413,9 @@ def create_logic_mapping_dict_casino_park_sonic(world: SonicHeroesWorld):
 
         "DashPanelandSingleSpringSonicCP": lambda state: has_dash_panel_obj(world, SONIC, CASINOPARK, state) and has_single_spring_obj(world, SONIC, CASINOPARK, state),
 
-        "CannonorFloatingDiceorFlyingAnyorGlideorRocketAccelSonicCP": lambda state: can_cannon(world, SONIC, CASINOPARK, state) or can_floating_dice(world, SONIC, CASINOPARK, state) or can_fly(world, SONIC, CASINOPARK, state) or can_glide(world, SONIC, CASINOPARK, state) or can_rocket_accel(world, SONIC, CASINOPARK, state),
+        "CannonorFloatingDiceorFlyingAnyorGlideorRocketAccelSonicCP": lambda state: can_cannon(world, SONIC, CASINOPARK, state) or has_floating_dice_obj(world, SONIC, CASINOPARK, state) or can_fly(world, SONIC, CASINOPARK, state) or can_glide(world, SONIC, CASINOPARK, state) or can_rocket_accel(world, SONIC, CASINOPARK, state),
 
-        "GreenBumperSpringSonicCP": lambda state: can_green_floating_bumper(world, SONIC, CASINOPARK, state),
+        "GreenBumperSpringSonicCP": lambda state: has_green_floating_bumper_obj(world, SONIC, CASINOPARK, state),
 
         "FlyingAnyandLightDashandPushPullSwitchSonicCP": lambda state: can_fly(world, SONIC, CASINOPARK, state) and can_light_dash(world, SONIC, CASINOPARK, state) and has_switch_obj(world, SONIC, CASINOPARK, state, push_pull=True),
 
@@ -449,23 +449,23 @@ def create_logic_mapping_dict_bingo_highway_sonic(world: SonicHeroesWorld):
 
         "KillFlyingEnemySilverArmorFireDunkSonicBH": lambda state: can_kill_flying_enemy(world, SONIC, BINGOHIGHWAY, state, silver_armor=True, fire_dunk=True),
 
-        "FloatingDiceandSwitchSonicBH": lambda state: can_floating_dice(world, SONIC, BINGOHIGHWAY, state) and has_switch_obj(world, SONIC, BINGOHIGHWAY, state, regular=True),
+        "FloatingDiceandSwitchSonicBH": lambda state: has_floating_dice_obj(world, SONIC, BINGOHIGHWAY, state) and has_switch_obj(world, SONIC, BINGOHIGHWAY, state, regular=True),
 
         "GongandPinballandSingleSpringSonicBH": lambda state: can_gong(world, SONIC, BINGOHIGHWAY, state) and can_pinball(world, SONIC, BINGOHIGHWAY, state) and has_single_spring_obj(world, SONIC, BINGOHIGHWAY, state),
 
         "DashRingSonicBH": lambda state: has_dash_ring_obj(world, SONIC, BINGOHIGHWAY, state),
 
-        "FloatingDiceandFlyingAnyandKillFlyingEnemySilverArmorFireDunkandSwitchSonicBH": lambda state: can_floating_dice(world, SONIC, BINGOHIGHWAY, state) and can_fly(world, SONIC, BINGOHIGHWAY, state) and can_kill_flying_enemy(world, SONIC, BINGOHIGHWAY, state, silver_armor=True, fire_dunk=True) and has_switch_obj(world, SONIC, BINGOHIGHWAY, state, regular=True),
+        "FloatingDiceandFlyingAnyandKillFlyingEnemySilverArmorFireDunkandSwitchSonicBH": lambda state: has_floating_dice_obj(world, SONIC, BINGOHIGHWAY, state) and can_fly(world, SONIC, BINGOHIGHWAY, state) and can_kill_flying_enemy(world, SONIC, BINGOHIGHWAY, state, silver_armor=True, fire_dunk=True) and has_switch_obj(world, SONIC, BINGOHIGHWAY, state, regular=True),
 
-        "FlyingAnyandPulleySonicBH": lambda state: can_fly(world, SONIC, BINGOHIGHWAY, state) and can_pulley(world, SONIC, BINGOHIGHWAY, state),
+        "FlyingAnyandPulleySonicBH": lambda state: can_fly(world, SONIC, BINGOHIGHWAY, state) and has_pulley_obj(world, SONIC, BINGOHIGHWAY, state),
 
-        "GreenBumperSpringandPinballandSingleSpringSonicBH": lambda state: can_green_floating_bumper(world, SONIC, BINGOHIGHWAY, state) and can_pinball(world, SONIC, BINGOHIGHWAY, state) and has_single_spring_obj(world, SONIC, BINGOHIGHWAY, state),
+        "GreenBumperSpringandPinballandSingleSpringSonicBH": lambda state: has_green_floating_bumper_obj(world, SONIC, BINGOHIGHWAY, state) and can_pinball(world, SONIC, BINGOHIGHWAY, state) and has_single_spring_obj(world, SONIC, BINGOHIGHWAY, state),
 
-        "FloatingDiceand(FlyingAnyorGreenBumperSpring)andKillGroundEnemyKlagenSonicBH": lambda state: can_floating_dice(world, SONIC, BINGOHIGHWAY, state) and (can_fly(world, SONIC, BINGOHIGHWAY, state) or can_green_floating_bumper(world, SONIC, BINGOHIGHWAY, state)) and can_kill_ground_enemy(world, SONIC, BINGOHIGHWAY, state, klagen=True),
+        "FloatingDiceand(FlyingAnyorGreenBumperSpring)andKillGroundEnemyKlagenSonicBH": lambda state: has_floating_dice_obj(world, SONIC, BINGOHIGHWAY, state) and (can_fly(world, SONIC, BINGOHIGHWAY, state) or has_green_floating_bumper_obj(world, SONIC, BINGOHIGHWAY, state)) and can_kill_ground_enemy(world, SONIC, BINGOHIGHWAY, state, klagen=True),
 
-        "GreenBumperSpringSonicBH": lambda state: can_green_floating_bumper(world, SONIC, BINGOHIGHWAY, state),
+        "GreenBumperSpringSonicBH": lambda state: has_green_floating_bumper_obj(world, SONIC, BINGOHIGHWAY, state),
 
-        "FloatingDiceorFlyingAnySonicBH": lambda state: can_floating_dice(world, SONIC, BINGOHIGHWAY, state) or can_fly(world, SONIC, BINGOHIGHWAY, state),
+        "FloatingDiceorFlyingAnySonicBH": lambda state: has_floating_dice_obj(world, SONIC, BINGOHIGHWAY, state) or can_fly(world, SONIC, BINGOHIGHWAY, state),
 
         "TripleSpringSonicBH": lambda state: has_triple_spring_obj(world, SONIC, BINGOHIGHWAY, state),
 
@@ -475,19 +475,19 @@ def create_logic_mapping_dict_bingo_highway_sonic(world: SonicHeroesWorld):
 
         "BreakGlassFloorandPinballSonicBH": lambda state: can_break_glass_floor(world, SONIC, BINGOHIGHWAY, state) and can_pinball(world, SONIC, BINGOHIGHWAY, state),
 
-        "FlyingAnyorStarPanelSonicBH": lambda state: can_fly(world, SONIC, BINGOHIGHWAY, state) or can_star_glass_air_panel(world, SONIC, BINGOHIGHWAY, state),
+        "FlyingAnyorStarPanelSonicBH": lambda state: can_fly(world, SONIC, BINGOHIGHWAY, state) or has_star_glass_air_panel_obj(world, SONIC, BINGOHIGHWAY, state),
 
-        "FloatingDiceSonicBH": lambda state: can_floating_dice(world, SONIC, BINGOHIGHWAY, state),
+        "FloatingDiceSonicBH": lambda state: has_floating_dice_obj(world, SONIC, BINGOHIGHWAY, state),
 
-        "((FloatingDiceandSwitch)orWeight)andFlyingAnyandPushPullSwitchSonicBH": lambda state: ((can_floating_dice(world, SONIC, BINGOHIGHWAY, state) and has_switch_obj(world, SONIC, BINGOHIGHWAY, state, regular=True)) or can_weight(world, SONIC, BINGOHIGHWAY, state, regular=True)) and can_fly(world, SONIC, BINGOHIGHWAY, state) and has_switch_obj(world, SONIC, BINGOHIGHWAY, state, push_pull=True),
+        "((FloatingDiceandSwitch)orWeight)andFlyingAnyandPushPullSwitchSonicBH": lambda state: ((has_floating_dice_obj(world, SONIC, BINGOHIGHWAY, state) and has_switch_obj(world, SONIC, BINGOHIGHWAY, state, regular=True)) or can_weight(world, SONIC, BINGOHIGHWAY, state, regular=True)) and can_fly(world, SONIC, BINGOHIGHWAY, state) and has_switch_obj(world, SONIC, BINGOHIGHWAY, state, push_pull=True),
 
         "GongSonicBH": lambda state: can_gong(world, SONIC, BINGOHIGHWAY, state),
 
-        "((FloatingDiceandSwitch)orWeight)andFlyingAnySonicBH": lambda state: ((can_floating_dice(world, SONIC, BINGOHIGHWAY, state) and has_switch_obj(world, SONIC, BINGOHIGHWAY, state, regular=True)) or can_weight(world, SONIC, BINGOHIGHWAY, state, regular=True)) and can_fly(world, SONIC, BINGOHIGHWAY, state),
+        "((FloatingDiceandSwitch)orWeight)andFlyingAnySonicBH": lambda state: ((has_floating_dice_obj(world, SONIC, BINGOHIGHWAY, state) and has_switch_obj(world, SONIC, BINGOHIGHWAY, state, regular=True)) or can_weight(world, SONIC, BINGOHIGHWAY, state, regular=True)) and can_fly(world, SONIC, BINGOHIGHWAY, state),
 
         "FlyingFullorTripleSpringSonicBH": lambda state: can_fly(world, SONIC, BINGOHIGHWAY, state, speedreq=True, powerreq=True) or has_triple_spring_obj(world, SONIC, BINGOHIGHWAY, state),
 
-        "BreakGlassFloorandFloatingDiceand(FlyingAnyor(GreenBumperSpringandSingleSpring))andSwitchSonicBH": lambda state: can_break_glass_floor(world, SONIC, BINGOHIGHWAY, state) and can_floating_dice(world, SONIC, BINGOHIGHWAY, state) and (can_fly(world, SONIC, BINGOHIGHWAY, state) or (can_green_floating_bumper(world, SONIC, BINGOHIGHWAY, state) and has_single_spring_obj(world, SONIC, BINGOHIGHWAY, state))) and has_switch_obj(world, SONIC, BINGOHIGHWAY, state, regular=True),
+        "BreakGlassFloorandFloatingDiceand(FlyingAnyor(GreenBumperSpringandSingleSpring))andSwitchSonicBH": lambda state: can_break_glass_floor(world, SONIC, BINGOHIGHWAY, state) and has_floating_dice_obj(world, SONIC, BINGOHIGHWAY, state) and (can_fly(world, SONIC, BINGOHIGHWAY, state) or (has_green_floating_bumper_obj(world, SONIC, BINGOHIGHWAY, state) and has_single_spring_obj(world, SONIC, BINGOHIGHWAY, state))) and has_switch_obj(world, SONIC, BINGOHIGHWAY, state, regular=True),
 
         "DashRingandSingleSpringSonicBH": lambda state: has_dash_ring_obj(world, SONIC, BINGOHIGHWAY, state) and has_single_spring_obj(world, SONIC, BINGOHIGHWAY, state),
 
@@ -508,25 +508,25 @@ def create_logic_mapping_dict_rail_canyon_sonic(world: SonicHeroesWorld):
 
         "FlyingAnyorSingleSpringSonicRC": lambda state: can_fly(world, SONIC, RAILCANYON, state) or has_single_spring_obj(world, SONIC, RAILCANYON, state),
 
-        "FlyingAnyorSwitchableRailSonicRC": lambda state: can_fly(world, SONIC, RAILCANYON, state) or can_switchable_rail(world, SONIC, RAILCANYON, state),
+        "FlyingAnyorSwitchableRailSonicRC": lambda state: can_fly(world, SONIC, RAILCANYON, state) or has_switchable_rail_obj(world, SONIC, RAILCANYON, state),
 
-        "(BarrelandFlyingAny)orPulleySonicRC": lambda state: (can_barrel(world, SONIC, RAILCANYON, state) and can_fly(world, SONIC, RAILCANYON, state)) or can_pulley(world, SONIC, RAILCANYON, state),
+        "(BarrelandFlyingAny)orPulleySonicRC": lambda state: (has_barrel_obj(world, SONIC, RAILCANYON, state) and can_fly(world, SONIC, RAILCANYON, state)) or has_pulley_obj(world, SONIC, RAILCANYON, state),
 
-        "3RailPlatformSonicRC": lambda state: can_rail_platform(world, SONIC, RAILCANYON, state),
+        "3RailPlatformSonicRC": lambda state: has_rail_platform_obj(world, SONIC, RAILCANYON, state),
 
-        "FlyingAnyand3RailPlatformSonicRC": lambda state: can_fly(world, SONIC, RAILCANYON, state) and can_rail_platform(world, SONIC, RAILCANYON, state),
+        "FlyingAnyand3RailPlatformSonicRC": lambda state: can_fly(world, SONIC, RAILCANYON, state) and has_rail_platform_obj(world, SONIC, RAILCANYON, state),
 
-        "RailSwitchSonicRC": lambda state: can_rail_switch(world, SONIC, RAILCANYON, state),
+        "RailSwitchSonicRC": lambda state: has_rail_switch_obj(world, SONIC, RAILCANYON, state),
 
-        "FlyingAnyandRailSwitchSonicRC": lambda state: can_fly(world, SONIC, RAILCANYON, state) and can_rail_switch(world, SONIC, RAILCANYON, state),
+        "FlyingAnyandRailSwitchSonicRC": lambda state: can_fly(world, SONIC, RAILCANYON, state) and has_rail_switch_obj(world, SONIC, RAILCANYON, state),
 
-        "RailSwitchandSwitchableRailSonicRC": lambda state: can_rail_switch(world, SONIC, RAILCANYON, state) and can_switchable_rail(world, SONIC, RAILCANYON, state),
+        "RailSwitchandSwitchableRailSonicRC": lambda state: has_rail_switch_obj(world, SONIC, RAILCANYON, state) and has_switchable_rail_obj(world, SONIC, RAILCANYON, state),
 
         "FlyingAnySonicRC": lambda state: can_fly(world, SONIC, RAILCANYON, state),
 
         "RailandSingleSpringSonicRC": lambda state: can_rail(world, SONIC, RAILCANYON, state) and has_single_spring_obj(world, SONIC, RAILCANYON, state),
 
-        "RailandRailSwitchandSwitchableRailSonicRC": lambda state: can_rail(world, SONIC, RAILCANYON, state) and can_rail_switch(world, SONIC, RAILCANYON, state) and can_switchable_rail(world, SONIC, RAILCANYON, state),
+        "RailandRailSwitchandSwitchableRailSonicRC": lambda state: can_rail(world, SONIC, RAILCANYON, state) and has_rail_switch_obj(world, SONIC, RAILCANYON, state) and has_switchable_rail_obj(world, SONIC, RAILCANYON, state),
 
         "TripleSpringSonicRC": lambda state: has_triple_spring_obj(world, SONIC, RAILCANYON, state),
 
@@ -534,11 +534,11 @@ def create_logic_mapping_dict_rail_canyon_sonic(world: SonicHeroesWorld):
 
         "PoleSonicRC": lambda state: can_pole(world, SONIC, RAILCANYON, state),
 
-        "RCStationDoorandSwitchSonicRC": lambda state: can_rc_door(world, SONIC, RAILCANYON, state) and has_switch_obj(world, SONIC, RAILCANYON, state, regular=True),
+        "RCStationDoorandSwitchSonicRC": lambda state: has_station_door_obj(world, SONIC, RAILCANYON, state) and has_switch_obj(world, SONIC, RAILCANYON, state, regular=True),
 
-        "RailandSwitchableRailSonicRC": lambda state: can_rail(world, SONIC, RAILCANYON, state) and can_switchable_rail(world, SONIC, RAILCANYON, state),
+        "RailandSwitchableRailSonicRC": lambda state: can_rail(world, SONIC, RAILCANYON, state) and has_switchable_rail_obj(world, SONIC, RAILCANYON, state),
 
-        "LightDashand3RailPlatformSonicRC": lambda state: can_light_dash(world, SONIC, RAILCANYON, state) and can_rail_platform(world, SONIC, RAILCANYON, state),
+        "LightDashand3RailPlatformSonicRC": lambda state: can_light_dash(world, SONIC, RAILCANYON, state) and has_rail_platform_obj(world, SONIC, RAILCANYON, state),
 
         "FlyingAnyor(All3CharsandSwitch)SonicRC": lambda state: can_fly(world, SONIC, RAILCANYON, state) or (has_char(world, SONIC, RAILCANYON, state, speed=True, flying=True, power=True) and has_switch_obj(world, SONIC, RAILCANYON, state, regular=True)),
 
@@ -546,7 +546,7 @@ def create_logic_mapping_dict_rail_canyon_sonic(world: SonicHeroesWorld):
 
         "KillFlyingEnemyPurpleBombSonicRC": lambda state: can_kill_flying_enemy(world, SONIC, RAILCANYON, state, purple_bombs=True),
 
-        "FlyingAnyorPulleySonicRC": lambda state: can_fly(world, SONIC, RAILCANYON, state) or can_pulley(world, SONIC, RAILCANYON, state),
+        "FlyingAnyorPulleySonicRC": lambda state: can_fly(world, SONIC, RAILCANYON, state) or has_pulley_obj(world, SONIC, RAILCANYON, state),
 
         "KillGroundEnemyNothingSonicRC": lambda state: can_kill_ground_enemy(world, SONIC, RAILCANYON, state, nothing=True),
 
@@ -556,11 +556,11 @@ def create_logic_mapping_dict_rail_canyon_sonic(world: SonicHeroesWorld):
 
         "FlyingAnyandSingleSpringSonicRC": lambda state: can_fly(world, SONIC, RAILCANYON, state) and has_single_spring_obj(world, SONIC, RAILCANYON, state),
 
-        "FanandRailandRailSwitchandSwitchableRailand3RailPlatformSonicRC": lambda state: can_fan(world, SONIC, RAILCANYON, state) and can_rail(world, SONIC, RAILCANYON, state) and can_rail_switch(world, SONIC, RAILCANYON, state) and can_switchable_rail(world, SONIC, RAILCANYON, state) and can_rail_platform(world, SONIC, RAILCANYON, state),
+        "FanandRailandRailSwitchandSwitchableRailand3RailPlatformSonicRC": lambda state: can_fan(world, SONIC, RAILCANYON, state) and can_rail(world, SONIC, RAILCANYON, state) and has_rail_switch_obj(world, SONIC, RAILCANYON, state) and has_switchable_rail_obj(world, SONIC, RAILCANYON, state) and has_rail_platform_obj(world, SONIC, RAILCANYON, state),
 
-        "FanandRailandRailSwitchandSingleSpringandSwitchableRailand3RailPlatformSonicRC": lambda state: can_fan(world, SONIC, RAILCANYON, state) and can_rail(world, SONIC, RAILCANYON, state) and can_rail_switch(world, SONIC, RAILCANYON, state) and has_single_spring_obj(world, SONIC, RAILCANYON, state) and can_switchable_rail(world, SONIC, RAILCANYON, state) and can_rail_platform(world, SONIC, RAILCANYON, state),
+        "FanandRailandRailSwitchandSingleSpringandSwitchableRailand3RailPlatformSonicRC": lambda state: can_fan(world, SONIC, RAILCANYON, state) and can_rail(world, SONIC, RAILCANYON, state) and has_rail_switch_obj(world, SONIC, RAILCANYON, state) and has_single_spring_obj(world, SONIC, RAILCANYON, state) and has_switchable_rail_obj(world, SONIC, RAILCANYON, state) and has_rail_platform_obj(world, SONIC, RAILCANYON, state),
 
-        "RailandRailSwitchandSwitchableRailand3RailPlatformSonicRC": lambda state: can_rail(world, SONIC, RAILCANYON, state) and can_rail_switch(world, SONIC, RAILCANYON, state) and can_switchable_rail(world, SONIC, RAILCANYON, state) and can_rail_platform(world, SONIC, RAILCANYON, state),
+        "RailandRailSwitchandSwitchableRailand3RailPlatformSonicRC": lambda state: can_rail(world, SONIC, RAILCANYON, state) and has_rail_switch_obj(world, SONIC, RAILCANYON, state) and has_switchable_rail_obj(world, SONIC, RAILCANYON, state) and has_rail_platform_obj(world, SONIC, RAILCANYON, state),
 
         "PoleandTargetSwitchSonicRC": lambda state: can_pole(world, SONIC, RAILCANYON, state) and has_target_switch_obj(world, SONIC, RAILCANYON, state),
     }
@@ -587,13 +587,13 @@ def create_logic_mapping_dict_bullet_station_sonic(world: SonicHeroesWorld):
 
         "FireDunkandTPObjSonicBS": lambda state: can_fire_dunk(world, SONIC, BULLETSTATION, state) and has_tp_obj(world, SONIC, BULLETSTATION, state),
 
-        "BreakandEngineCoreSonicBS": lambda state: can_break_things(world, SONIC, BULLETSTATION, state) and can_engine_core(world, SONIC, BULLETSTATION, state),
+        "BreakandEngineCoreSonicBS": lambda state: can_break_things(world, SONIC, BULLETSTATION, state) and has_engine_core_obj(world, SONIC, BULLETSTATION, state),
 
         "BreakandRailSonicBS": lambda state: can_break_things(world, SONIC, BULLETSTATION, state) and can_rail(world, SONIC, BULLETSTATION, state),
 
         "SingleSpringandRailSonicBS": lambda state: has_single_spring_obj(world, SONIC, BULLETSTATION, state) and can_rail(world, SONIC, BULLETSTATION, state),
 
-        "CannonSonicBS": lambda state: can_cannon_obj(world, SONIC, BULLETSTATION, state),
+        "CannonSonicBS": lambda state: has_cannon_obj(world, SONIC, BULLETSTATION, state),
 
         "FlyingAnyandRailSonicBS": lambda state: can_fly(world, SONIC, BULLETSTATION, state) and can_rail(world, SONIC, BULLETSTATION, state),
 
@@ -603,11 +603,11 @@ def create_logic_mapping_dict_bullet_station_sonic(world: SonicHeroesWorld):
 
         "CannonPowerSonicBS": lambda state: can_cannon(world, SONIC, BULLETSTATION, state, power=True),
 
-        "RailandSingleSpringand3RailPlatformSonicBS": lambda state: can_rail(world, SONIC, BULLETSTATION, state) and has_single_spring_obj(world, SONIC, BULLETSTATION, state) and can_rail_platform(world, SONIC, BULLETSTATION, state),
+        "RailandSingleSpringand3RailPlatformSonicBS": lambda state: can_rail(world, SONIC, BULLETSTATION, state) and has_single_spring_obj(world, SONIC, BULLETSTATION, state) and has_rail_platform_obj(world, SONIC, BULLETSTATION, state),
 
         "KillGroundEnemyPlainShieldSonicBS": lambda state: can_kill_ground_enemy(world, SONIC, BULLETSTATION, state, plainshield=True),
 
-        "RailandRailSwitchandSwitchableRailSonicBS": lambda state: can_rail(world, SONIC, BULLETSTATION, state) and can_rail_switch(world, SONIC, BULLETSTATION, state) and can_switchable_rail(world, SONIC, BULLETSTATION, state),
+        "RailandRailSwitchandSwitchableRailSonicBS": lambda state: can_rail(world, SONIC, BULLETSTATION, state) and has_rail_switch_obj(world, SONIC, BULLETSTATION, state) and has_switchable_rail_obj(world, SONIC, BULLETSTATION, state),
 
         "BreakandSwitchSonicBS": lambda state: can_break_things(world, SONIC, BULLETSTATION, state) and has_switch_obj(world, SONIC, BULLETSTATION, state, regular=True),
 
@@ -627,9 +627,9 @@ def create_logic_mapping_dict_bullet_station_sonic(world: SonicHeroesWorld):
 
         "All3CharsandBreakandSwitchSonicBS": lambda state: has_char(world, SONIC, BULLETSTATION, state, speed=True, flying=True, power=True) and can_break_things(world, SONIC, BULLETSTATION, state) and has_switch_obj(world, SONIC, BULLETSTATION, state, regular=True),
 
-        "BigCannonGunSonicBS": lambda state: can_big_gun_interior(world, SONIC, BULLETSTATION, state),
+        "BigCannonGunSonicBS": lambda state: has_big_gun_interior_obj(world, SONIC, BULLETSTATION, state),
 
-        "RailandRailSwitchandSwitchableRailand3RailPlatformSonicBS": lambda state: can_rail(world, SONIC, BULLETSTATION, state) and can_rail_switch(world, SONIC, BULLETSTATION, state) and can_switchable_rail(world, SONIC, BULLETSTATION, state) and can_rail_platform(world, SONIC, BULLETSTATION, state),
+        "RailandRailSwitchandSwitchableRailand3RailPlatformSonicBS": lambda state: can_rail(world, SONIC, BULLETSTATION, state) and has_rail_switch_obj(world, SONIC, BULLETSTATION, state) and has_switchable_rail_obj(world, SONIC, BULLETSTATION, state) and has_rail_platform_obj(world, SONIC, BULLETSTATION, state),
 
         "FanSonicBS": lambda state: can_fan(world, SONIC, BULLETSTATION, state),
 
@@ -639,9 +639,9 @@ def create_logic_mapping_dict_bullet_station_sonic(world: SonicHeroesWorld):
 
         "FlyingAnyandSwitchSonicBS": lambda state: can_fly(world, SONIC, BULLETSTATION, state) and has_switch_obj(world, SONIC, BULLETSTATION, state, regular=True),
 
-        "FlyingAnyorPulleySonicBS": lambda state: can_fly(world, SONIC, BULLETSTATION, state) or can_pulley(world, SONIC, BULLETSTATION, state),
+        "FlyingAnyorPulleySonicBS": lambda state: can_fly(world, SONIC, BULLETSTATION, state) or has_pulley_obj(world, SONIC, BULLETSTATION, state),
 
-        "RailandRailSwitchandSingleSpringandSwitchableRailand3RailPlatformSonicBS": lambda state: can_rail(world, SONIC, BULLETSTATION, state) and can_rail_switch(world, SONIC, BULLETSTATION, state) and has_single_spring_obj(world, SONIC, BULLETSTATION, state) and can_switchable_rail(world, SONIC, BULLETSTATION, state) and can_rail_platform(world, SONIC, BULLETSTATION, state),
+        "RailandRailSwitchandSingleSpringandSwitchableRailand3RailPlatformSonicBS": lambda state: can_rail(world, SONIC, BULLETSTATION, state) and has_rail_switch_obj(world, SONIC, BULLETSTATION, state) and has_single_spring_obj(world, SONIC, BULLETSTATION, state) and has_switchable_rail_obj(world, SONIC, BULLETSTATION, state) and has_rail_platform_obj(world, SONIC, BULLETSTATION, state),
 
         "KillGroundEnemyKlagenSonicBS": lambda state: can_kill_ground_enemy(world, SONIC, BULLETSTATION, state, klagen=True),
 
@@ -651,7 +651,7 @@ def create_logic_mapping_dict_bullet_station_sonic(world: SonicHeroesWorld):
 
         "FlyingAnyorGlideorHomingSonicBS": lambda state: can_fly(world, SONIC, BULLETSTATION, state) or can_glide(world, SONIC, BULLETSTATION, state) or can_homing_attack(world, SONIC, BULLETSTATION, state),
 
-        "BobsledandRailSwitchandSwitchableRailandSingleSpringSonicBS": lambda state: can_bobsled(world, SONIC, BULLETSTATION, state) and can_rail_switch(world, SONIC, BULLETSTATION, state) and can_switchable_rail(world, SONIC, BULLETSTATION, state) and has_single_spring_obj(world, SONIC, BULLETSTATION, state),
+        "BobsledandRailSwitchandSwitchableRailandSingleSpringSonicBS": lambda state: can_bobsled(world, SONIC, BULLETSTATION, state) and has_rail_switch_obj(world, SONIC, BULLETSTATION, state) and has_switchable_rail_obj(world, SONIC, BULLETSTATION, state) and has_single_spring_obj(world, SONIC, BULLETSTATION, state),
     }
 
 
@@ -664,21 +664,21 @@ def create_logic_mapping_dict_frog_forest_sonic(world: SonicHeroesWorld):
 
         "BreakKeyCageSonicFrog": lambda state: can_break_key_cage(world, SONIC, FROGFOREST, state),
 
-        "BouncyFruitorFlyingAnySonicFrog": lambda state: can_bouncy_fruit(world, SONIC, FROGFOREST, state) or can_fly(world, SONIC, FROGFOREST, state),
+        "BouncyFruitorFlyingAnySonicFrog": lambda state: has_bouncy_fruit_obj(world, SONIC, FROGFOREST, state) or can_fly(world, SONIC, FROGFOREST, state),
 
         "DashPanelSonicFrog": lambda state: has_dash_panel_obj(world, SONIC, FROGFOREST, state),
 
-        "GreenFrogSonicFrog": lambda state: can_green_frog(world, SONIC, FROGFOREST, state),
+        "GreenFrogSonicFrog": lambda state: has_green_frog_obj(world, SONIC, FROGFOREST, state),
 
-        "TallTreePlatformSonicFrog": lambda state: can_tall_tree_platforms(world, SONIC, FROGFOREST, state),
+        "TallTreePlatformSonicFrog": lambda state: has_tall_tree_platforms_obj(world, SONIC, FROGFOREST, state),
 
-        "YellowPlatformSonicFrog": lambda state: can_large_yellow_platform(world, SONIC, FROGFOREST, state),
+        "YellowPlatformSonicFrog": lambda state: has_large_yellow_platform_obj(world, SONIC, FROGFOREST, state),
 
         "DashRingandFlyingAnySonicFrog": lambda state: has_dash_ring_obj(world, SONIC, FROGFOREST, state) and can_fly(world, SONIC, FROGFOREST, state),
 
-        "SwingingVineSonicFrog": lambda state: can_swinging_vine(world, SONIC, FROGFOREST, state),
+        "SwingingVineSonicFrog": lambda state: has_swinging_vine_obj(world, SONIC, FROGFOREST, state),
 
-        "SmallBouncyMushroomSonicFrog": lambda state: can_small_bouncy_mushroom(world, SONIC, FROGFOREST, state),
+        "SmallBouncyMushroomSonicFrog": lambda state: has_small_bouncy_mushroom_obj(world, SONIC, FROGFOREST, state),
 
         "(All3CharsandDashRing)orFlyingAnySonicFrog": lambda state: (has_char(world, SONIC, FROGFOREST, state, speed=True, flying=True, power=True)) or can_fly(world, SONIC, FROGFOREST, state),
 
@@ -686,27 +686,27 @@ def create_logic_mapping_dict_frog_forest_sonic(world: SonicHeroesWorld):
 
         "FlyingAnyorGlideorHomingSonicFrog": lambda state: can_fly(world, SONIC, FROGFOREST, state) or can_glide(world, SONIC, FROGFOREST, state) or can_homing_attack(world, SONIC, FROGFOREST, state),
 
-        "FlyingAnyandSmallGreenPlatformSonicFrog": lambda state: can_fly(world, SONIC, FROGFOREST, state) and can_small_green_rain_platform(world, SONIC, FROGFOREST, state),
+        "FlyingAnyandSmallGreenPlatformSonicFrog": lambda state: can_fly(world, SONIC, FROGFOREST, state) and has_small_green_rain_platform_obj(world, SONIC, FROGFOREST, state),
 
-        "FlyingAnyorLargeBouncyMushroomSonicFrog": lambda state: can_fly(world, SONIC, FROGFOREST, state) or can_large_bouncy_mushroom(world, SONIC, FROGFOREST, state),
+        "FlyingAnyorLargeBouncyMushroomSonicFrog": lambda state: can_fly(world, SONIC, FROGFOREST, state) or has_large_bouncy_mushroom_obj(world, SONIC, FROGFOREST, state),
 
-        "LargeBouncyMushroomSonicFrog": lambda state: can_large_bouncy_mushroom(world, SONIC, FROGFOREST, state),
+        "LargeBouncyMushroomSonicFrog": lambda state: has_large_bouncy_mushroom_obj(world, SONIC, FROGFOREST, state),
 
         "FlyingAnyorPowerGongSonicFrog": lambda state: can_fly(world, SONIC, FROGFOREST, state) or can_gong(world, SONIC, FROGFOREST, state),
 
         "DashPanelandDashRingandFlyingAnySonicFrog": lambda state: has_dash_panel_obj(world, SONIC, FROGFOREST, state) and has_dash_ring_obj(world, SONIC, FROGFOREST, state) and can_fly(world, SONIC, FROGFOREST, state),
 
-        "DashPanelandYellowPlatformSonicFrog": lambda state: has_dash_panel_obj(world, SONIC, FROGFOREST, state) and can_large_yellow_platform(world, SONIC, FROGFOREST, state),
+        "DashPanelandYellowPlatformSonicFrog": lambda state: has_dash_panel_obj(world, SONIC, FROGFOREST, state) and has_large_yellow_platform_obj(world, SONIC, FROGFOREST, state),
 
-        "(DashRingorFlyingAny)andSmallGreenPlatformandTripleSpringSonicFrog": lambda state: (has_dash_ring_obj(world, SONIC, FROGFOREST, state) or can_fly(world, SONIC, FROGFOREST, state)) and can_small_green_rain_platform(world, SONIC, FROGFOREST, state),
+        "(DashRingorFlyingAny)andSmallGreenPlatformandTripleSpringSonicFrog": lambda state: (has_dash_ring_obj(world, SONIC, FROGFOREST, state) or can_fly(world, SONIC, FROGFOREST, state)) and has_small_green_rain_platform_obj(world, SONIC, FROGFOREST, state),
 
-        "FlyingAnyandGreenPlatformSonicFrog": lambda state: can_fly(world, SONIC, FROGFOREST, state) and can_small_green_rain_platform(world, SONIC, FROGFOREST, state),
+        "FlyingAnyandGreenPlatformSonicFrog": lambda state: can_fly(world, SONIC, FROGFOREST, state) and has_small_green_rain_platform_obj(world, SONIC, FROGFOREST, state),
 
         "TripleSpringSonicFrog": lambda state: has_triple_spring_obj(world, SONIC, FROGFOREST, state),
 
-        "(FlyingAnyorGlideorHoming)andYellowPlatformSonicFrog": lambda state: (can_fly(world, SONIC, FROGFOREST, state) or can_glide(world, SONIC, FROGFOREST, state) or can_homing_attack(world, SONIC, FROGFOREST, state)) and can_large_yellow_platform(world, SONIC, FROGFOREST, state),
+        "(FlyingAnyorGlideorHoming)andYellowPlatformSonicFrog": lambda state: (can_fly(world, SONIC, FROGFOREST, state) or can_glide(world, SONIC, FROGFOREST, state) or can_homing_attack(world, SONIC, FROGFOREST, state)) and has_large_yellow_platform_obj(world, SONIC, FROGFOREST, state),
 
-        "FlyingAnyandLargeBouncyMushroomSonicFrog": lambda state: can_fly(world, SONIC, FROGFOREST, state) and can_large_bouncy_mushroom(world, SONIC, FROGFOREST, state),
+        "FlyingAnyandLargeBouncyMushroomSonicFrog": lambda state: can_fly(world, SONIC, FROGFOREST, state) and has_large_bouncy_mushroom_obj(world, SONIC, FROGFOREST, state),
 
         "LightDashandTargetSwitchandThundershootSonicFrog": lambda state: can_light_dash(world, SONIC, FROGFOREST, state) and has_target_switch_obj(world, SONIC, FROGFOREST, state) and can_thundershoot_both(world, SONIC, FROGFOREST, state),
 
@@ -716,35 +716,35 @@ def create_logic_mapping_dict_frog_forest_sonic(world: SonicHeroesWorld):
 
         "KillGroundEnemySpearPlainShieldSonicFrog": lambda state: can_kill_ground_enemy(world, SONIC, FROGFOREST, state, spear=True, plainshield=True),
 
-        "LargeBouncyMushroomandPowerGongSonicFrog": lambda state: can_large_bouncy_mushroom(world, SONIC, FROGFOREST, state) and can_gong(world, SONIC, FROGFOREST, state),
+        "LargeBouncyMushroomandPowerGongSonicFrog": lambda state: has_large_bouncy_mushroom_obj(world, SONIC, FROGFOREST, state) and can_gong(world, SONIC, FROGFOREST, state),
 
         "PropellerSonicFrog": lambda state: can_propeller(world, SONIC, FROGFOREST, state),
 
-        "DashRamporFlyingAnySonicFrog": lambda state: can_dash_ramp(world, SONIC, FROGFOREST, state) or can_fly(world, SONIC, FROGFOREST, state),
+        "DashRamporFlyingAnySonicFrog": lambda state: has_dash_ramp_obj(world, SONIC, FROGFOREST, state) or can_fly(world, SONIC, FROGFOREST, state),
 
-        "FlyingAnyandTallTreePlatformSonicFrog": lambda state: can_fly(world, SONIC, FROGFOREST, state) and can_tall_tree_platforms(world, SONIC, FROGFOREST, state),
+        "FlyingAnyandTallTreePlatformSonicFrog": lambda state: can_fly(world, SONIC, FROGFOREST, state) and has_tall_tree_platforms_obj(world, SONIC, FROGFOREST, state),
 
-        "(FlyingAnyorGlideorHoming)andSmallGreenPlatformSonicFrog": lambda state: (can_fly(world, SONIC, FROGFOREST, state) or can_glide(world, SONIC, FROGFOREST, state) or can_homing_attack(world, SONIC, FROGFOREST, state)) and can_small_green_rain_platform(world, SONIC, FROGFOREST, state),
+        "(FlyingAnyorGlideorHoming)andSmallGreenPlatformSonicFrog": lambda state: (can_fly(world, SONIC, FROGFOREST, state) or can_glide(world, SONIC, FROGFOREST, state) or can_homing_attack(world, SONIC, FROGFOREST, state)) and has_small_green_rain_platform_obj(world, SONIC, FROGFOREST, state),
 
-        "BouncyFruitandFlyingAnySonicFrog": lambda state: can_bouncy_fruit(world, SONIC, FROGFOREST, state) and can_fly(world, SONIC, FROGFOREST, state),
+        "BouncyFruitandFlyingAnySonicFrog": lambda state: has_bouncy_fruit_obj(world, SONIC, FROGFOREST, state) and can_fly(world, SONIC, FROGFOREST, state),
 
-        "FlyingAnyandSwingingVineSonicFrog": lambda state: can_fly(world, SONIC, FROGFOREST, state) and can_swinging_vine(world, SONIC, FROGFOREST, state),
+        "FlyingAnyandSwingingVineSonicFrog": lambda state: can_fly(world, SONIC, FROGFOREST, state) and has_swinging_vine_obj(world, SONIC, FROGFOREST, state),
 
         "FireDunkSonicFrog": lambda state: can_fire_dunk(world, SONIC, FROGFOREST, state),
 
-        "SingleSpringandSwingingVineSonicFrog": lambda state: has_single_spring_obj(world, SONIC, FROGFOREST, state) and can_swinging_vine(world, SONIC, FROGFOREST, state),
+        "SingleSpringandSwingingVineSonicFrog": lambda state: has_single_spring_obj(world, SONIC, FROGFOREST, state) and has_swinging_vine_obj(world, SONIC, FROGFOREST, state),
 
         "KillGroundEnemyCameronSonicFrog": lambda state: can_kill_ground_enemy(world, SONIC, FROGFOREST, state, nothing=True, cameron=True),
 
-        "BouncyFruitandSwingingVineSonicFrog": lambda state: can_bouncy_fruit(world, SONIC, FROGFOREST, state) and can_swinging_vine(world, SONIC, FROGFOREST, state),
+        "BouncyFruitandSwingingVineSonicFrog": lambda state: has_bouncy_fruit_obj(world, SONIC, FROGFOREST, state) and has_swinging_vine_obj(world, SONIC, FROGFOREST, state),
 
         "FlyingOneCharorLightDashSonicFrog": lambda state: can_fly(world, SONIC, FROGFOREST, state, speedreq=True, powerreq=True, orcondition=True) or can_light_dash(world, SONIC, FROGFOREST, state),
 
         "FlyingOneCharSonicFrog": lambda state: can_fly(world, SONIC, FROGFOREST, state, speedreq=True, powerreq=True, orcondition=True),
 
-        "BouncyFruitandSingleSpringSonicFrog": lambda state: can_bouncy_fruit(world, SONIC, FROGFOREST, state) and has_single_spring_obj(world, SONIC, FROGFOREST, state),
+        "BouncyFruitandSingleSpringSonicFrog": lambda state: has_bouncy_fruit_obj(world, SONIC, FROGFOREST, state) and has_single_spring_obj(world, SONIC, FROGFOREST, state),
 
-        "BouncyFruitSonicFrog": lambda state: can_bouncy_fruit(world, SONIC, FROGFOREST, state),
+        "BouncyFruitSonicFrog": lambda state: has_bouncy_fruit_obj(world, SONIC, FROGFOREST, state),
     }
 
 
@@ -760,7 +760,7 @@ def create_logic_mapping_dict_lost_jungle_sonic(world: SonicHeroesWorld):
         #world, SONIC, LOSTJUNGLE, state
         "KillGroundEnemyEggHammerSonicLJ": lambda state: can_kill_ground_enemy(world, SONIC, LOSTJUNGLE, state, egghammer=True),
 
-        "LargeBouncyMushroomandSwingingVineSonicLJ": lambda state: can_large_bouncy_mushroom(world, SONIC, LOSTJUNGLE, state) and can_swinging_vine(world, SONIC, LOSTJUNGLE, state),
+        "LargeBouncyMushroomandSwingingVineSonicLJ": lambda state: has_large_bouncy_mushroom_obj(world, SONIC, LOSTJUNGLE, state) and has_swinging_vine_obj(world, SONIC, LOSTJUNGLE, state),
 
         "FlyingAnyorTornadoorTripleSpringSonicLJ": lambda state: can_fly(world, SONIC, LOSTJUNGLE, state) or can_tornado(world, SONIC, LOSTJUNGLE, state) or has_triple_spring_obj(world, SONIC, LOSTJUNGLE, state),
 
@@ -768,23 +768,23 @@ def create_logic_mapping_dict_lost_jungle_sonic(world: SonicHeroesWorld):
 
         "SingleSpringSonicLJ": lambda state: has_single_spring_obj(world, SONIC, LOSTJUNGLE, state),
 
-        "(FlyingAnyorTornado)andSmallGreenPlatformSonicLJ": lambda state: (can_fly(world, SONIC, LOSTJUNGLE, state) or can_tornado(world, SONIC, LOSTJUNGLE, state)) and can_small_green_rain_platform(world, SONIC, LOSTJUNGLE, state),
+        "(FlyingAnyorTornado)andSmallGreenPlatformSonicLJ": lambda state: (can_fly(world, SONIC, LOSTJUNGLE, state) or can_tornado(world, SONIC, LOSTJUNGLE, state)) and has_small_green_rain_platform_obj(world, SONIC, LOSTJUNGLE, state),
 
-        "SmallGreenPlatformSonicLJ": lambda state: can_small_green_rain_platform(world, SONIC, LOSTJUNGLE, state),
+        "SmallGreenPlatformSonicLJ": lambda state: has_small_green_rain_platform_obj(world, SONIC, LOSTJUNGLE, state),
 
-        "Flying3CharsorSwingingVineSonicLJ": lambda state: can_fly(world, SONIC, LOSTJUNGLE, state, speedreq=True, powerreq=True) or can_swinging_vine(world, SONIC, LOSTJUNGLE, state),
+        "Flying3CharsorSwingingVineSonicLJ": lambda state: can_fly(world, SONIC, LOSTJUNGLE, state, speedreq=True, powerreq=True) or has_swinging_vine_obj(world, SONIC, LOSTJUNGLE, state),
 
-        "BouncyFruitSonicLJ": lambda state: can_bouncy_fruit(world, SONIC, LOSTJUNGLE, state),
+        "BouncyFruitSonicLJ": lambda state: has_bouncy_fruit_obj(world, SONIC, LOSTJUNGLE, state),
 
         "FlyingAnySonicLJ": lambda state: can_fly(world, SONIC, LOSTJUNGLE, state),
 
-        "SwingingVineSonicLJ": lambda state: can_swinging_vine(world, SONIC, LOSTJUNGLE, state),
+        "SwingingVineSonicLJ": lambda state: has_swinging_vine_obj(world, SONIC, LOSTJUNGLE, state),
 
-        "SmallGreenPlatformandSwingingVineSonicLJ": lambda state: can_small_green_rain_platform(world, SONIC, LOSTJUNGLE, state) and can_swinging_vine(world, SONIC, LOSTJUNGLE, state),
+        "SmallGreenPlatformandSwingingVineSonicLJ": lambda state: has_small_green_rain_platform_obj(world, SONIC, LOSTJUNGLE, state) and has_swinging_vine_obj(world, SONIC, LOSTJUNGLE, state),
 
-        "GreenFrogSonicLJ": lambda state: can_green_frog(world, SONIC, LOSTJUNGLE, state),
+        "GreenFrogSonicLJ": lambda state: has_green_frog_obj(world, SONIC, LOSTJUNGLE, state),
 
-        "DashRampSonicLJ": lambda state: can_dash_ramp(world, SONIC, LOSTJUNGLE, state),
+        "DashRampSonicLJ": lambda state: has_dash_ramp_obj(world, SONIC, LOSTJUNGLE, state),
 
         "FlyingAnyorSingleSpringSonicLJ": lambda state: can_fly(world, SONIC, LOSTJUNGLE, state) or has_single_spring_obj(world, SONIC, LOSTJUNGLE, state),
 
@@ -792,39 +792,39 @@ def create_logic_mapping_dict_lost_jungle_sonic(world: SonicHeroesWorld):
 
         "KillFlyingEnemyPurpleBombSonicLJ": lambda state: can_kill_flying_enemy(world, SONIC, LOSTJUNGLE, state, purple_bombs=True),
 
-        "LargeBouncyMushroomSonicLJ": lambda state: can_large_bouncy_mushroom(world, SONIC, LOSTJUNGLE, state),
+        "LargeBouncyMushroomSonicLJ": lambda state: has_large_bouncy_mushroom_obj(world, SONIC, LOSTJUNGLE, state),
 
         "FlyingOneCharSonicLJ": lambda state: can_fly(world, SONIC, LOSTJUNGLE, state, speedreq=True, powerreq=True, orcondition=True),
 
-        "SmallBouncyMushroomandSwingingVineSonicLJ": lambda state: can_small_bouncy_mushroom(world, SONIC, LOSTJUNGLE, state) and can_swinging_vine(world, SONIC, LOSTJUNGLE, state),
+        "SmallBouncyMushroomandSwingingVineSonicLJ": lambda state: has_small_bouncy_mushroom_obj(world, SONIC, LOSTJUNGLE, state) and has_swinging_vine_obj(world, SONIC, LOSTJUNGLE, state),
 
         "TripleSpringSonicLJ": lambda state: has_triple_spring_obj(world, SONIC, LOSTJUNGLE, state),
 
-        "FlyingAnyorLargeBouncyMushroomSonicLJ": lambda state: can_fly(world, SONIC, LOSTJUNGLE, state) or can_large_bouncy_mushroom(world, SONIC, LOSTJUNGLE, state),
+        "FlyingAnyorLargeBouncyMushroomSonicLJ": lambda state: can_fly(world, SONIC, LOSTJUNGLE, state) or has_large_bouncy_mushroom_obj(world, SONIC, LOSTJUNGLE, state),
 
-        "FlyingAnyandSmallBouncyMushroomSonicLJ": lambda state: can_fly(world, SONIC, LOSTJUNGLE, state) and can_small_bouncy_mushroom(world, SONIC, LOSTJUNGLE, state),
+        "FlyingAnyandSmallBouncyMushroomSonicLJ": lambda state: can_fly(world, SONIC, LOSTJUNGLE, state) and has_small_bouncy_mushroom_obj(world, SONIC, LOSTJUNGLE, state),
 
-        "BouncyFruitandHoming2SonicLJ": lambda state: can_bouncy_fruit(world, SONIC, LOSTJUNGLE, state) and can_homing_attack(world, SONIC, LOSTJUNGLE, state) and has_char_levelup(world, SONIC, LOSTJUNGLE, state, levelup=2, speed=True),
+        "BouncyFruitandHoming2SonicLJ": lambda state: has_bouncy_fruit_obj(world, SONIC, LOSTJUNGLE, state) and can_homing_attack(world, SONIC, LOSTJUNGLE, state) and has_char_levelup(world, SONIC, LOSTJUNGLE, state, levelup=2, speed=True),
 
-        "FlyingAnyandSmallGreenPlatformSonicLJ": lambda state: can_fly(world, SONIC, LOSTJUNGLE, state) and can_small_green_rain_platform(world, SONIC, LOSTJUNGLE, state),
+        "FlyingAnyandSmallGreenPlatformSonicLJ": lambda state: can_fly(world, SONIC, LOSTJUNGLE, state) and has_small_green_rain_platform_obj(world, SONIC, LOSTJUNGLE, state),
 
         "DashRingandFlyingAnySonicLJ": lambda state: has_dash_ring_obj(world, SONIC, LOSTJUNGLE, state) and can_fly(world, SONIC, LOSTJUNGLE, state),
 
-        "BouncyFruitandSingleSpringSonicLJ": lambda state: can_bouncy_fruit(world, SONIC, LOSTJUNGLE, state) and has_single_spring_obj(world, SONIC, LOSTJUNGLE, state),
+        "BouncyFruitandSingleSpringSonicLJ": lambda state: has_bouncy_fruit_obj(world, SONIC, LOSTJUNGLE, state) and has_single_spring_obj(world, SONIC, LOSTJUNGLE, state),
 
         "KillFlyingEnemyGreenShotSonicLJ": lambda state: can_kill_flying_enemy(world, SONIC, LOSTJUNGLE, state, green_shot=True),
 
-        "(FlyingAnyorTornado)andTallTreePlatformSonicLJ": lambda state: (can_fly(world, SONIC, LOSTJUNGLE, state) or can_tornado(world, SONIC, LOSTJUNGLE, state)) and can_tall_tree_platforms(world, SONIC, LOSTJUNGLE, state),
+        "(FlyingAnyorTornado)andTallTreePlatformSonicLJ": lambda state: (can_fly(world, SONIC, LOSTJUNGLE, state) or can_tornado(world, SONIC, LOSTJUNGLE, state)) and has_tall_tree_platforms_obj(world, SONIC, LOSTJUNGLE, state),
 
-        "BouncyFruitorFlyingAnyorHomingSonicLJ": lambda state: can_bouncy_fruit(world, SONIC, LOSTJUNGLE, state) or can_fly(world, SONIC, LOSTJUNGLE, state) or can_homing_attack(world, SONIC, LOSTJUNGLE, state),
+        "BouncyFruitorFlyingAnyorHomingSonicLJ": lambda state: has_bouncy_fruit_obj(world, SONIC, LOSTJUNGLE, state) or can_fly(world, SONIC, LOSTJUNGLE, state) or can_homing_attack(world, SONIC, LOSTJUNGLE, state),
 
         "KillGroundEnemyKlagenSonicLJ": lambda state: can_kill_ground_enemy(world, SONIC, LOSTJUNGLE, state, nothing=True, klagen=True),
 
         "LightDashandSwitchSonicLJ": lambda state: can_light_dash(world, SONIC, LOSTJUNGLE, state) and has_switch_obj(world, SONIC, LOSTJUNGLE, state, regular=True),
 
-        "LargeYellowPlatformandSingleSpringandSwingingVineSonicLJ": lambda state: can_large_yellow_platform(world, SONIC, LOSTJUNGLE, state) and has_single_spring_obj(world, SONIC, LOSTJUNGLE, state) and can_swinging_vine(world, SONIC, LOSTJUNGLE, state),
+        "LargeYellowPlatformandSingleSpringandSwingingVineSonicLJ": lambda state: has_large_yellow_platform_obj(world, SONIC, LOSTJUNGLE, state) and has_single_spring_obj(world, SONIC, LOSTJUNGLE, state) and has_swinging_vine_obj(world, SONIC, LOSTJUNGLE, state),
 
-        "SmallBouncyMushroomSonicLJ": lambda state: can_small_bouncy_mushroom(world, SONIC, LOSTJUNGLE, state),
+        "SmallBouncyMushroomSonicLJ": lambda state: has_small_bouncy_mushroom_obj(world, SONIC, LOSTJUNGLE, state),
     }
 
 
@@ -839,7 +839,7 @@ def create_logic_mapping_dict_hang_castle_sonic(world: SonicHeroesWorld):
 
         "KillGroundEnemyNothingSonicHC": lambda state: can_kill_ground_enemy(world, SONIC, HANGCASTLE, state, nothing=True),
 
-        "TPSwitchSonicHC": lambda state: can_tp_switch(world, SONIC, HANGCASTLE, state),
+        "TPSwitchSonicHC": lambda state: has_tp_switch_obj(world, SONIC, HANGCASTLE, state),
 
         "FlyingAnyorTornadoSonicHC": lambda state: can_fly(world, SONIC, HANGCASTLE, state) or can_tornado(world, SONIC, HANGCASTLE, state),
 
@@ -853,23 +853,23 @@ def create_logic_mapping_dict_hang_castle_sonic(world: SonicHeroesWorld):
 
         "BreakInGroundWoodContainerSonicHC": lambda state: can_break_in_ground_wood_container(world, SONIC, HANGCASTLE, state),
 
-        "FlameTorchSonicHC": lambda state: can_flame_torch(world, SONIC, HANGCASTLE, state),
+        "FlameTorchSonicHC": lambda state: has_flame_torch_obj(world, SONIC, HANGCASTLE, state),
 
         "KillFlyingEnemySilverArmorSonicHC": lambda state: can_kill_flying_enemy(world, SONIC, HANGCASTLE, state, silver_armor=True),
 
         "LightDashandSwitchSonicHC": lambda state: can_light_dash(world, SONIC, HANGCASTLE, state) and has_switch_obj(world, SONIC, HANGCASTLE, state, regular=True),
 
-        "CastleFloatingPlatformSonicHC": lambda state: can_castle_floating_platform(world, SONIC, HANGCASTLE, state),
+        "CastleFloatingPlatformSonicHC": lambda state: has_castle_floating_platform_obj(world, SONIC, HANGCASTLE, state),
 
         "BreakSonicHC": lambda state: can_break_things(world, SONIC, HANGCASTLE, state),
 
         "GongandSingleSpringSonicHC": lambda state: can_gong(world, SONIC, HANGCASTLE, state) and has_single_spring_obj(world, SONIC, HANGCASTLE, state),
 
-        "DashRampandTPSwitchSonicHC": lambda state: can_dash_ramp(world, SONIC, HANGCASTLE, state) and can_tp_switch(world, SONIC, HANGCASTLE, state),
+        "DashRampandTPSwitchSonicHC": lambda state: has_dash_ramp_obj(world, SONIC, HANGCASTLE, state) and has_tp_switch_obj(world, SONIC, HANGCASTLE, state),
 
-        "CastleFloatingPlatformorFlyingAnySonicHC": lambda state: can_castle_floating_platform(world, SONIC, HANGCASTLE, state) or can_fly(world, SONIC, HANGCASTLE, state),
+        "CastleFloatingPlatformorFlyingAnySonicHC": lambda state: has_castle_floating_platform_obj(world, SONIC, HANGCASTLE, state) or can_fly(world, SONIC, HANGCASTLE, state),
 
-        "CastleFloatingPlatformandFlyingAnySonicHC": lambda state: can_castle_floating_platform(world, SONIC, HANGCASTLE, state) and can_fly(world, SONIC, HANGCASTLE, state),
+        "CastleFloatingPlatformandFlyingAnySonicHC": lambda state: has_castle_floating_platform_obj(world, SONIC, HANGCASTLE, state) and can_fly(world, SONIC, HANGCASTLE, state),
 
         "KillGroundEnemySpearConcreteShieldBishopSonicHC": lambda state: can_kill_ground_enemy(world, SONIC, HANGCASTLE, state, spear=True, concreteshield=True, eggbishop=True),
 
@@ -885,7 +885,7 @@ def create_logic_mapping_dict_hang_castle_sonic(world: SonicHeroesWorld):
 
         "PoleandTargetSwitchandThundershootSonicHC": lambda state: can_pole(world, SONIC, HANGCASTLE, state) and has_switch_obj(world, SONIC, HANGCASTLE, state, target=True) and can_thundershoot_both(world, SONIC, HANGCASTLE, state),
 
-        "DashRampSonicHC": lambda state: can_dash_ramp(world, SONIC, HANGCASTLE, state),
+        "DashRampSonicHC": lambda state: has_dash_ramp_obj(world, SONIC, HANGCASTLE, state),
     }
 
 
@@ -905,7 +905,7 @@ def create_logic_mapping_dict_mystic_mansion_sonic(world: SonicHeroesWorld):
 
         "BreakInGroundIronContainerSonicMM": lambda state: can_break_in_ground_iron_container(world, SONIC, MYSTICMANSION, state),
 
-        "TPSwitchSonicMM": lambda state: can_tp_switch(world, SONIC, MYSTICMANSION, state),
+        "TPSwitchSonicMM": lambda state: has_tp_switch_obj(world, SONIC, MYSTICMANSION, state),
 
         "FlyingAnyandWeightSonicMM": lambda state: can_fly(world, SONIC, MYSTICMANSION, state) and can_weight(world, SONIC, MYSTICMANSION, state, regular=True),
 
@@ -921,7 +921,7 @@ def create_logic_mapping_dict_mystic_mansion_sonic(world: SonicHeroesWorld):
 
         "FlyingAnySonicMM": lambda state: can_fly(world, SONIC, MYSTICMANSION, state),
 
-        "PulleySonicMM": lambda state: can_pulley(world, SONIC, MYSTICMANSION, state),
+        "PulleySonicMM": lambda state: has_pulley_obj(world, SONIC, MYSTICMANSION, state),
 
         "BreakSonicMM": lambda state: can_break_things(world, SONIC, MYSTICMANSION, state),
 
@@ -933,7 +933,7 @@ def create_logic_mapping_dict_mystic_mansion_sonic(world: SonicHeroesWorld):
 
         "KillGroundEnemyHeavyEggHammerSonicMM": lambda state: can_kill_ground_enemy(world, SONIC, MYSTICMANSION, state, heavyegghammer=True),
 
-        "FlyingAnyandMansionFloatingPlatformSonicMM": lambda state: can_fly(world, SONIC, MYSTICMANSION, state) and can_mansion_floating_platform(world, SONIC, MYSTICMANSION, state),
+        "FlyingAnyandMansionFloatingPlatformSonicMM": lambda state: can_fly(world, SONIC, MYSTICMANSION, state) and has_mansion_floating_platform_obj(world, SONIC, MYSTICMANSION, state),
 
         "KillGroundEnemySpearBishopSonicMM": lambda state: can_kill_ground_enemy(world, SONIC, MYSTICMANSION, state, spear=True, eggbishop=True),
 
@@ -943,7 +943,7 @@ def create_logic_mapping_dict_mystic_mansion_sonic(world: SonicHeroesWorld):
 
         "All3CharsandSwitchandThundershootSonicMM": lambda state: has_char(world, SONIC, MYSTICMANSION, state, speed=True, flying=True, power=True) and has_switch_obj(world, SONIC, MYSTICMANSION, state, regular=True) and can_thundershoot_both(world, SONIC, MYSTICMANSION, state),
 
-        "FanandFlying3CharsandHomingandKillGroundEnemyBishopHeavyEggHammerandTPSwitchSonicMM": lambda state: can_fan(world, SONIC, MYSTICMANSION, state) and can_fly(world, SONIC, MYSTICMANSION, state, speedreq=True, powerreq=True) and can_homing_attack(world, SONIC, MYSTICMANSION, state) and can_kill_ground_enemy(world, SONIC, MYSTICMANSION, state, eggbishop=True, heavyegghammer=True) and can_tp_switch(world, SONIC, MYSTICMANSION, state),
+        "FanandFlying3CharsandHomingandKillGroundEnemyBishopHeavyEggHammerandTPSwitchSonicMM": lambda state: can_fan(world, SONIC, MYSTICMANSION, state) and can_fly(world, SONIC, MYSTICMANSION, state, speedreq=True, powerreq=True) and can_homing_attack(world, SONIC, MYSTICMANSION, state) and can_kill_ground_enemy(world, SONIC, MYSTICMANSION, state, eggbishop=True, heavyegghammer=True) and has_tp_switch_obj(world, SONIC, MYSTICMANSION, state),
     }
 
 
@@ -964,7 +964,7 @@ def create_logic_mapping_dict_egg_fleet_sonic(world: SonicHeroesWorld):
 
         "FlyingAnySonicEF": lambda state: can_fly(world, SONIC, EGGFLEET, state),
 
-        "CannonSonicEF": lambda state: can_cannon_obj(world, SONIC, EGGFLEET, state),
+        "CannonSonicEF": lambda state: has_cannon_obj(world, SONIC, EGGFLEET, state),
 
         "CannonSpeedSonicEF": lambda state: can_cannon(world, SONIC, EGGFLEET, state, speed=True),
 
@@ -982,11 +982,11 @@ def create_logic_mapping_dict_egg_fleet_sonic(world: SonicHeroesWorld):
 
         "FlyingAnyorTripleSpringSonicEF": lambda state: can_fly(world, SONIC, EGGFLEET, state) or has_triple_spring_obj(world, SONIC, EGGFLEET, state),
 
-        "SquareFloatingPlatformSonicEF": lambda state: can_square_floating_platform(world, SONIC, EGGFLEET, state),
+        "SquareFloatingPlatformSonicEF": lambda state: has_square_floating_platform_obj(world, SONIC, EGGFLEET, state),
 
-        "SquareFloatingPlatformandTripleSpringSonicEF": lambda state: can_square_floating_platform(world, SONIC, EGGFLEET, state),
+        "SquareFloatingPlatformandTripleSpringSonicEF": lambda state: has_square_floating_platform_obj(world, SONIC, EGGFLEET, state),
 
-        "FlyingAnyandSquareFloatingPlatformSonicEF": lambda state: can_fly(world, SONIC, EGGFLEET, state) and can_square_floating_platform(world, SONIC, EGGFLEET, state),
+        "FlyingAnyandSquareFloatingPlatformSonicEF": lambda state: can_fly(world, SONIC, EGGFLEET, state) and has_square_floating_platform_obj(world, SONIC, EGGFLEET, state),
 
         "FlyingAnyorLightDashSonicEF": lambda state: can_fly(world, SONIC, EGGFLEET, state) or can_light_dash(world, SONIC, EGGFLEET, state),
 
@@ -1004,7 +1004,7 @@ def create_logic_mapping_dict_egg_fleet_sonic(world: SonicHeroesWorld):
 
         "RocketAccelSonicEF": lambda state: can_rocket_accel(world, SONIC, EGGFLEET, state),
 
-        "FlyingAnyandFloatingSquarePlatformandRainbowRingsSonicEF": lambda state: can_fly(world, SONIC, EGGFLEET, state) and can_square_floating_platform(world, SONIC, EGGFLEET, state) and can_rainbow_hoops(world, SONIC, EGGFLEET, state),
+        "FlyingAnyandFloatingSquarePlatformandRainbowRingsSonicEF": lambda state: can_fly(world, SONIC, EGGFLEET, state) and has_square_floating_platform_obj(world, SONIC, EGGFLEET, state) and has_rainbow_hoop_obj(world, SONIC, EGGFLEET, state),
 
         "LightDashSonicEF": lambda state: can_light_dash(world, SONIC, EGGFLEET, state),
 
@@ -1014,7 +1014,7 @@ def create_logic_mapping_dict_egg_fleet_sonic(world: SonicHeroesWorld):
 
         "FanandSwitchSonicEF": lambda state: can_fan(world, SONIC, EGGFLEET, state) and has_switch_obj(world, SONIC, EGGFLEET, state, regular=True),
 
-        "DashRampSonicEF": lambda state: can_dash_ramp(world, SONIC, EGGFLEET, state),
+        "DashRampSonicEF": lambda state: has_dash_ramp_obj(world, SONIC, EGGFLEET, state),
 
         "Flying3CharsSonicEF": lambda state: can_fly(world, SONIC, EGGFLEET, state, speedreq=True, powerreq=True),
 
@@ -1037,23 +1037,23 @@ def create_logic_mapping_dict_final_fortress_sonic(world: SonicHeroesWorld):
 
         "FlyingAnySonicFinal": lambda state: can_fly(world, SONIC, FINALFORTRESS, state),
 
-        "FallingPlatformand(FlyingAnyorTornadoHoverorTripleSpring)SonicFinal": lambda state: can_falling_platform(world, SONIC, FINALFORTRESS, state) and (can_fly(world, SONIC, FINALFORTRESS, state) or can_tornado_hover(world, SONIC, FINALFORTRESS, state) or has_triple_spring_obj(world, SONIC, FINALFORTRESS, state)),
+        "FallingPlatformand(FlyingAnyorTornadoHoverorTripleSpring)SonicFinal": lambda state: has_falling_platform_obj(world, SONIC, FINALFORTRESS, state) and (can_fly(world, SONIC, FINALFORTRESS, state) or can_tornado_hover(world, SONIC, FINALFORTRESS, state) or has_triple_spring_obj(world, SONIC, FINALFORTRESS, state)),
 
         "(FlyingAnyorHomingorTornadoHover)andTripleSpringSonicFinal": lambda state: (can_fly(world, SONIC, FINALFORTRESS, state) or can_tornado_hover(world, SONIC, FINALFORTRESS, state)) and has_triple_spring_obj(world, SONIC, FINALFORTRESS, state),
 
-        "FallingPlatformSonicFinal": lambda state: can_falling_platform(world, SONIC, FINALFORTRESS, state),
+        "FallingPlatformSonicFinal": lambda state: has_falling_platform_obj(world, SONIC, FINALFORTRESS, state),
 
-        "FallingPlatformand(FlyingAnyorLightDash)SonicFinal": lambda state: can_falling_platform(world, SONIC, FINALFORTRESS, state) and (can_fly(world, SONIC, FINALFORTRESS, state) or can_light_dash(world, SONIC, FINALFORTRESS, state)),
+        "FallingPlatformand(FlyingAnyorLightDash)SonicFinal": lambda state: has_falling_platform_obj(world, SONIC, FINALFORTRESS, state) and (can_fly(world, SONIC, FINALFORTRESS, state) or can_light_dash(world, SONIC, FINALFORTRESS, state)),
 
-        "SquareFloatingPlatformSonicFinal": lambda state: can_square_floating_platform(world, SONIC, FINALFORTRESS, state),
+        "SquareFloatingPlatformSonicFinal": lambda state: has_square_floating_platform_obj(world, SONIC, FINALFORTRESS, state),
 
         "FlyingAnyorGlideorSpeedCharorTripleSpringSonicFinal": lambda state: can_fly(world, SONIC, FINALFORTRESS, state) or can_glide(world, SONIC, FINALFORTRESS, state) or has_char(world, SONIC, FINALFORTRESS, state, speed=True) or has_triple_spring_obj(world, SONIC, FINALFORTRESS, state),
 
-        "(DashRamporFlyingAny)andFallingPlatformSonicFinal": lambda state: (can_dash_ramp(world, SONIC, FINALFORTRESS, state) or can_fly(world, SONIC, FINALFORTRESS, state)) and can_falling_platform(world, SONIC, FINALFORTRESS, state),
+        "(DashRamporFlyingAny)andFallingPlatformSonicFinal": lambda state: (has_dash_ramp_obj(world, SONIC, FINALFORTRESS, state) or can_fly(world, SONIC, FINALFORTRESS, state)) and has_falling_platform_obj(world, SONIC, FINALFORTRESS, state),
 
-        "FallingPlatformandSqaureFloatingPlatformSonicFinal": lambda state: can_falling_platform(world, SONIC, FINALFORTRESS, state) and can_square_floating_platform(world, SONIC, FINALFORTRESS, state),
+        "FallingPlatformandSqaureFloatingPlatformSonicFinal": lambda state: has_falling_platform_obj(world, SONIC, FINALFORTRESS, state) and has_square_floating_platform_obj(world, SONIC, FINALFORTRESS, state),
 
-        "(FlyingAnyorTornadoHover)andSquareFloatingPlatformSonicFinal": lambda state: (can_fly(world, SONIC, FINALFORTRESS, state) or can_tornado_hover(world, SONIC, FINALFORTRESS, state)) and can_square_floating_platform(world, SONIC, FINALFORTRESS, state),
+        "(FlyingAnyorTornadoHover)andSquareFloatingPlatformSonicFinal": lambda state: (can_fly(world, SONIC, FINALFORTRESS, state) or can_tornado_hover(world, SONIC, FINALFORTRESS, state)) and has_square_floating_platform_obj(world, SONIC, FINALFORTRESS, state),
 
         "DashRingSonicFinal": lambda state: has_dash_ring_obj(world, SONIC, FINALFORTRESS, state),
 
@@ -1063,16 +1063,16 @@ def create_logic_mapping_dict_final_fortress_sonic(world: SonicHeroesWorld):
 
         "FlyingAnyorTornadoHoverSonicFinal": lambda state: can_fly(world, SONIC, FINALFORTRESS, state) or can_tornado_hover(world, SONIC, FINALFORTRESS, state),
 
-        "FallingPlatformandLightDashSonicFinal": lambda state: can_falling_platform(world, SONIC, FINALFORTRESS, state) and can_light_dash(world, SONIC, FINALFORTRESS, state),
+        "FallingPlatformandLightDashSonicFinal": lambda state: has_falling_platform_obj(world, SONIC, FINALFORTRESS, state) and can_light_dash(world, SONIC, FINALFORTRESS, state),
 
-        "FlyingAnyandFallingPlatformandKillGroundEnemyCannonandSingleSpringSonicFinal": lambda state: can_fly(world, SONIC, FINALFORTRESS, state) and can_falling_platform(world, SONIC, FINALFORTRESS, state) and can_kill_ground_enemy(world, SONIC, FINALFORTRESS, state, cannon=True) and has_single_spring_obj(world, SONIC, FINALFORTRESS, state),
+        "FlyingAnyandFallingPlatformandKillGroundEnemyCannonandSingleSpringSonicFinal": lambda state: can_fly(world, SONIC, FINALFORTRESS, state) and has_falling_platform_obj(world, SONIC, FINALFORTRESS, state) and can_kill_ground_enemy(world, SONIC, FINALFORTRESS, state, cannon=True) and has_single_spring_obj(world, SONIC, FINALFORTRESS, state),
 
         "KillGroundEnemyCannonandSingleSpringSonicFinal": lambda state: can_kill_ground_enemy(world, SONIC, FINALFORTRESS, state, cannon=True) and has_single_spring_obj(world, SONIC, FINALFORTRESS, state),
 
-        "FallingPlatformand((FlyingAnyandItemBalloon)orFlyingOneChar)SonicFinal": lambda state: can_falling_platform(world, SONIC, FINALFORTRESS, state and ((can_fly(world, SONIC, FINALFORTRESS, state) and can_item_balloon(world, SONIC, FINALFORTRESS, state)) or can_fly(world, SONIC, FINALFORTRESS, state, speedreq=True, powerreq=True, orcondition=True))),
-        "FlyingAnyandFallingPlatformSonicFinal": lambda state: can_fly(world, SONIC, FINALFORTRESS, state) and can_falling_platform(world, SONIC, FINALFORTRESS, state),
+        "FallingPlatformand((FlyingAnyandItemBalloon)orFlyingOneChar)SonicFinal": lambda state: has_falling_platform_obj(world, SONIC, FINALFORTRESS, state and ((can_fly(world, SONIC, FINALFORTRESS, state) and has_item_balloon_obj(world, SONIC, FINALFORTRESS, state)) or can_fly(world, SONIC, FINALFORTRESS, state, speedreq=True, powerreq=True, orcondition=True))),
+        "FlyingAnyandFallingPlatformSonicFinal": lambda state: can_fly(world, SONIC, FINALFORTRESS, state) and has_falling_platform_obj(world, SONIC, FINALFORTRESS, state),
 
-        "FallingPlatformandTriangleJumpSonicFinal": lambda state: can_falling_platform(world, SONIC, FINALFORTRESS, state) and can_triangle_jump(world, SONIC, FINALFORTRESS, state),
+        "FallingPlatformandTriangleJumpSonicFinal": lambda state: has_falling_platform_obj(world, SONIC, FINALFORTRESS, state) and can_triangle_jump(world, SONIC, FINALFORTRESS, state),
 
         "(BreakandSingleSpring)orFlying3CharsSonicFinal": lambda state: (can_break_things(world, SONIC, FINALFORTRESS, state) and has_single_spring_obj(world, SONIC, FINALFORTRESS, state)) or can_fly(world, SONIC, FINALFORTRESS, state, speedreq=True, powerreq=True),
 
@@ -1110,7 +1110,7 @@ def create_logic_mapping_dict_final_fortress_sonic(world: SonicHeroesWorld):
 
         "FanSonicFinal": lambda state: can_fan(world, SONIC, FINALFORTRESS, state),
 
-        "FlyingAnyandPulleySonicFinal": lambda state: can_fly(world, SONIC, FINALFORTRESS, state) and can_pulley(world, SONIC, FINALFORTRESS, state),
+        "FlyingAnyandPulleySonicFinal": lambda state: can_fly(world, SONIC, FINALFORTRESS, state) and has_pulley_obj(world, SONIC, FINALFORTRESS, state),
 
         "PoleAirandSwitchSonicFinal": lambda state: can_pole(world, SONIC, FINALFORTRESS, state, air=True) and has_switch_obj(world, SONIC, FINALFORTRESS, state, regular=True),
 

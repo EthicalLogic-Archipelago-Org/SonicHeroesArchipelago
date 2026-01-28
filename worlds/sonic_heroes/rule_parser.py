@@ -376,3 +376,4 @@ test_rule4 = "BreakThingsOR(EggPawnNothingANDHoming0)OR(FlyingAny)OR(KillEggPawn
 
 #print(handle_rule_strs_for_team_level(SONIC, POWERPLANT))
 
+sort_rule_mapping_dict_for_printing_to_console()
