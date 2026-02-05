@@ -393,7 +393,6 @@ def handle_full_rule_string(rule: str, print_steps: bool = False) -> str:
             result_str += f"{rule_piece.lower()}"
             continue
 
-
         result_str += f"{rule_mapping_dict[rule_piece].get_func_call_str(individual_rule_team, individual_rule_level)}"
 
     return result_str
@@ -407,7 +406,7 @@ def handle_rule_strs_for_team_level(team: str, level: str, rule_list: list[str])
     result += f"def create_logic_mapping_dict_{level.replace(" ", "_").lower()}_{team.replace(" ", "_").lower()}(world: SonicHeroesWorld): \n    return \\\n    {{\n"
 
     for rule in rule_list:
-        result += f"        \"{rule}\": {handle_full_rule_string(rule)},\n"
+        result += f"        \"{rule}\": {handle_full_rule_string(rule)},\n\n"
 
     result += "    }\n"
 
@@ -438,6 +437,7 @@ def open_connection_csv(team: str, level: str, secret: bool = False) -> str:
             if x[RULE] not in rule_list_in_file:
                 rule_list_in_file.append(x[RULE])
 
+        rule_list_in_file.sort(key=lambda rule_str: rule_str.replace("(", "").replace(")", ""))
         print(f"Reading {team} {level} Connection Rules from csv:")
         return handle_rule_strs_for_team_level(team, level, rule_list_in_file)
 
@@ -459,9 +459,15 @@ def do_connection_csv_mapping_for_team(team: str) -> str:
 
 
 def do_connection_csv_for_all_teams() -> None:
+    team_list = \
+    [
+        SONIC,
+    ]
+
     big_result: str = "from __future__ import annotations\nfrom typing import TYPE_CHECKING\nif TYPE_CHECKING:\n    from worlds.sonic_heroes import SonicHeroesWorld\nfrom .constants import *\nfrom .logicfunctions import *\n\n"
 
-    big_result += do_connection_csv_mapping_for_team(SONIC)
+    for team in team_list:
+        big_result += f"#Team {team}\n" + do_connection_csv_mapping_for_team(team) + "\n\n"
 
     with open("test_mapping.py", "w") as file:
         file.write(big_result)

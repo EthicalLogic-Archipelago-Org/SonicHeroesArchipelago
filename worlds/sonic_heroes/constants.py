@@ -726,6 +726,7 @@ COMPLETIONEVENT: str = "Completion Event"
 ABILITY: str = "Ability"
 NOTHING: str = "Nothing"
 AMYHAMMERHOVER: str = "Amy Hammer Hover"
+JUMP: str = "Jump"
 HOMINGATTACK: str = "Homing Attack"
 TORNADO: str = "Tornado"
 ROCKETACCEL: str = "Rocket Accel"
@@ -1162,6 +1163,7 @@ item_regions: list[str] = \
 item_abilities: list[str] = \
     [
         ALLABILITIES,
+        JUMP,
         HOMINGATTACK,
         TORNADO,
         ROCKETACCEL,
