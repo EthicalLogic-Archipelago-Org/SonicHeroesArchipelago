@@ -16,12 +16,16 @@ Sonic,Seaside Hill,Bonus Key 1,0
 Sonic,Seaside Hill,4 Egg Pawns,0
 Sonic,Seaside Hill,Checkpoint 2,0
 Sonic,Seaside Hill,First Island,0
+Sonic,Seaside Hill,First Island Cannon,0
 Sonic,Seaside Hill,First Island Cannon Speed,0
-Sonic,Seaside Hill,First Island Cannon Flying Left,0
 Sonic,Seaside Hill,First Island Cannon Power,0
-Sonic,Seaside Hill,First Island Cannon Flying Right,0
-Sonic,Seaside Hill,Second Island High Item Balloon,0
+Sonic,Seaside Hill,First Island Cannon Flying,0
+Sonic,Seaside Hill,First Island Right Ruin,0
+Sonic,Seaside Hill,First Island Top Pillar Left,0
+Sonic,Seaside Hill,First Island Top Pillar Right,0
+Sonic,Seaside Hill,Ruins Between First and Second Island,0
 Sonic,Seaside Hill,Second Island,0
+Sonic,Seaside Hill,Second Island High Item Balloon,0
 Sonic,Seaside Hill,Ruins After Second Island,0
 Sonic,Seaside Hill,Before First Bobsled,0
 Sonic,Seaside Hill,First Bobsled,0
@@ -29,6 +33,7 @@ Sonic,Seaside Hill,First Bobsled Upper Cliff,0
 Sonic,Seaside Hill,First Bobsled Big Island,0
 Sonic,Seaside Hill,First Bobsled Small Island,0
 Sonic,Seaside Hill,First Bobsled Second Big Island,0
+Sonic,Seaside Hill,First Bobsled Second Big Island Outside Bobsled Path,0
 Sonic,Seaside Hill,Ruins After First Bobsled,0
 Sonic,Seaside Hill,Checkpoint 3,0
 Sonic,Seaside Hill,Lower Cliff With Hermit Crab After Checkpoint 3,0
@@ -40,12 +45,14 @@ Sonic,Seaside Hill,Big Ruin Beach Upper Route 2,0
 Sonic,Seaside Hill,Big Ruin Beach Upper Route 3,0
 Sonic,Seaside Hill,Big Ruin Beach Middle Route,0
 Sonic,Seaside Hill,Big Ruin Beach Island 1,0
+Sonic,Seaside Hill,Big Ruin Beach Island 1 Cannon,
 Sonic,Seaside Hill,Big Ruin Beach Island 1 Cannon Speed,0
-Sonic,Seaside Hill,Big Ruin Beach Island 1 Cannon Flying,0
 Sonic,Seaside Hill,Big Ruin Beach Island 1 Cannon Power,0
+Sonic,Seaside Hill,Big Ruin Beach Island 1 Cannon Flying,0
 Sonic,Seaside Hill,Big Ruin Beach Island 2,0
 Sonic,Seaside Hill,Bonus Key 2,0
 Sonic,Seaside Hill,Big Ruin Beach Island 2 Ruins With Springs,0
+Sonic,Seaside Hill,Big Ruin Beach Island 2 Cannon,
 Sonic,Seaside Hill,Big Ruin Beach Island 2 Cannon Speed,0
 Sonic,Seaside Hill,Big Ruin Beach Island 2 Cannon Flying,0
 Sonic,Seaside Hill,Big Ruin Beach Island 2 Cannon Power,0

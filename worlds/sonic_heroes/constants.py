@@ -4,7 +4,7 @@ Can be used by multiple worlds in a generation (no instance vars allowed here)
 """
 from __future__ import annotations
 
-import enum
+from enum import Enum
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 import BaseClasses
@@ -15,6 +15,45 @@ if TYPE_CHECKING:
 
 #from .sanity import *
 #from .sanitykey import *
+
+
+class EggFlapperWeapon(Enum):
+    NONE = 0
+    NEEDLE = 1
+    SHOT = 2
+    MACHINEGUN = 3
+    LASER = 4
+    LIGHTNING = 4
+    BOMB = 5
+    SEARCHLIGHT = 6
+
+class EggFlapperArmor(Enum):
+    NONE = 0
+    SILVERARMOR = 1
+
+class EggPawnWeapon(Enum):
+    NONE = 0
+    LANCE = 1
+    LASERGUN = 2
+    BAZOOKA = 2
+    MACHINEGUN = 3
+    MACHINEGUN90 = 3
+    MACHINEGUN120 = 3
+    MACHINEGUN150 = 3
+    MACHINEGUN180 = 3
+
+class EggPawnShield(Enum):
+    NONE = 0
+    CONCRETE = 1
+    PLAIN = 2
+    SPIKE = 3
+
+class EggPawnType(Enum):
+    REGULAR = 0
+    KING = 1
+    CASINO1 = 2
+    CASINO2 = 3
+
 
 
 class RejectDictionaryReturnToMonke(dict):
