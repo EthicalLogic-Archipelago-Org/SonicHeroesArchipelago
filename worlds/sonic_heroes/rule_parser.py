@@ -213,7 +213,7 @@ def sort_rule_mapping_dict_for_printing_to_console() -> None:
     result = f"rule_mapping_dict = \\\n{{\n"
 
     for key in dict_keys:
-        result += f"\t\"{key}\": SonicHeroesRuleFunctionMapping(\"{rule_mapping_dict[key].function_name}\""
+        result += f"    \"{key}\": SonicHeroesRuleFunctionMapping(\"{rule_mapping_dict[key].function_name}\""
 
         if len(rule_mapping_dict[key].extra_params.keys()) > 0:
             result += f", {{"
@@ -404,12 +404,12 @@ def handle_rule_strs_in_list(rules: list[str]) -> str:
 
 def handle_rule_strs_for_team_level(team: str, level: str, rule_list: list[str]) -> str:
     result: str = "\n"
-    result += f"def create_logic_mapping_dict_{level.replace(" ", "_").lower()}_{team.replace(" ", "_").lower()}(world: SonicHeroesWorld): \n\treturn \\\n\t{{\n"
+    result += f"def create_logic_mapping_dict_{level.replace(" ", "_").lower()}_{team.replace(" ", "_").lower()}(world: SonicHeroesWorld): \n    return \\\n    {{\n"
 
     for rule in rule_list:
-        result += f"\t\t\"{rule}\": {handle_full_rule_string(rule)},\n"
+        result += f"        \"{rule}\": {handle_full_rule_string(rule)},\n"
 
-    result += "\t}\n"
+    result += "    }\n"
 
     return result
 
@@ -420,15 +420,14 @@ def handle_rule_strs_for_team(team: str) -> str:
 def handle_all_rule_strs(level: str) -> str:
     return ""
 
-def open_connection_csv(team: str, level: str):
+def open_connection_csv(team: str, level: str, secret: bool = False) -> str:
     try:
         from importlib.resources import files
     except ImportError:
         from importlib_resources import files  # type: ignore # noqa
 
-    file_name = get_csv_file_name(team, level, CONNECTIONS, False)
+    file_name: str = get_csv_file_name(team, level, CONNECTIONS, secret)
     #print(f"File Name here: {file_name}")
-
 
     with files(Connections).joinpath(f"{file_name}.csv").open() as csv_file:
         reader = csv.DictReader(csv_file)
@@ -440,7 +439,33 @@ def open_connection_csv(team: str, level: str):
                 rule_list_in_file.append(x[RULE])
 
         print(f"Reading {team} {level} Connection Rules from csv:")
-        print(handle_rule_strs_for_team_level(team, level, rule_list_in_file))
+        return handle_rule_strs_for_team_level(team, level, rule_list_in_file)
+
+
+
+def do_connection_csv_mapping_for_team(team: str) -> str:
+    level_list: list[str] = \
+    [
+        SEASIDEHILL,
+        #OCEANPALACE,
+    ]
+
+    result = ""
+    for level in level_list:
+        result += open_connection_csv(team, level)
+
+    return result
+
+
+
+def do_connection_csv_for_all_teams() -> None:
+    big_result: str = "from __future__ import annotations\nfrom typing import TYPE_CHECKING\nif TYPE_CHECKING:\n    from worlds.sonic_heroes import SonicHeroesWorld\nfrom .constants import *\nfrom .logicfunctions import *\n\n"
+
+    big_result += do_connection_csv_mapping_for_team(SONIC)
+
+    with open("test_mapping.py", "w") as file:
+        file.write(big_result)
+
 
 
 
@@ -456,8 +481,8 @@ def open_connection_csv(team: str, level: str):
     #}
 
 
-test_rule = "BreakThingsOR((EggPawnNoWeaponOREggPawnBazooka)ANDHeightJumpANDHoming0)ORHeightFlyOR((KillEggPawnNoWeaponANDKillEggPawnBazooka)ANDHeightJumpANDTornadoHover)OR(HeightFlyNoJumpSoloJumpANDParkour)OR(HeightJumpANDThundershoot)SonicSH"
-print(handle_full_rule_string(test_rule, True))
+#test_rule = "BreakThingsOR((EggPawnNoWeaponOREggPawnBazooka)ANDHeightJumpANDHoming0)ORHeightFlyOR((KillEggPawnNoWeaponANDKillEggPawnBazooka)ANDHeightJumpANDTornadoHover)OR(HeightFlyNoJumpSoloJumpANDParkour)OR(HeightJumpANDThundershoot)SonicSH"
+#print(handle_full_rule_string(test_rule, True))
 
 #test_rule3 = "((FloatingDiceANDSwitch)ORWeight)AND(FlyingAnyANDPushPullSwitch)SonicBH"
 #print(handle_full_rule_string(test_rule3))
@@ -470,4 +495,4 @@ print(handle_full_rule_string(test_rule, True))
 #sort_rule_mapping_dict_for_printing_to_console()
 
 
-#open_connection_csv(SONIC, SEASIDEHILL)
+do_connection_csv_for_all_teams()
