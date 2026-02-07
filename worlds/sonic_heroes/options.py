@@ -579,8 +579,6 @@ def check_invalid_options(world: SonicHeroesWorld):
 
 
 
-    temp_team: str = SONIC
-    temp_sanity: str = KEYSANITY
     if SONICKEYSANITY1SET in world.options.goal_unlock_conditions and SONICKEYSANITYBOTHACTS in world.options.goal_unlock_conditions:
         temp_team = SONIC
         temp_sanity = KEYSANITY

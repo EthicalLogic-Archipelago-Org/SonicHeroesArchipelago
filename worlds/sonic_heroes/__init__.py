@@ -292,6 +292,9 @@ class SonicHeroesWorld(World):
         #self.make_puml()
         pass
 
+    def fill_hook(self, progitempool: list[Item], usefulitempool: list[Item], filleritempool: list[Item], fill_locations: list[Location]) -> None:
+        pass
+
 
     def post_fill(self) -> None:
         if self.should_make_puml_earlier:
@@ -334,7 +337,6 @@ class SonicHeroesWorld(World):
             "GoalUnlockConditions": self.options.goal_unlock_conditions.value,
             "GoalLevelCompletions": self.options.goal_level_completions.value,
             "GoalLevelCompletionsPerStory": self.options.goal_level_completions_per_story.value,
-
 
             #"SonicStory": self.options.sonic_story.value,
             "SonicStoryStartingCharacter": self.options.sonic_story_starting_character.value,
