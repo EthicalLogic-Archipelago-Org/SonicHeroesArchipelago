@@ -45,14 +45,14 @@ Sonic,Seaside Hill,Big Ruin Beach Upper Route 2,0
 Sonic,Seaside Hill,Big Ruin Beach Upper Route 3,0
 Sonic,Seaside Hill,Big Ruin Beach Middle Route,0
 Sonic,Seaside Hill,Big Ruin Beach Island 1,0
-Sonic,Seaside Hill,Big Ruin Beach Island 1 Cannon,
+Sonic,Seaside Hill,Big Ruin Beach Island 1 Cannon,0
 Sonic,Seaside Hill,Big Ruin Beach Island 1 Cannon Speed,0
 Sonic,Seaside Hill,Big Ruin Beach Island 1 Cannon Power,0
 Sonic,Seaside Hill,Big Ruin Beach Island 1 Cannon Flying,0
 Sonic,Seaside Hill,Big Ruin Beach Island 2,0
 Sonic,Seaside Hill,Bonus Key 2,0
 Sonic,Seaside Hill,Big Ruin Beach Island 2 Ruins With Springs,0
-Sonic,Seaside Hill,Big Ruin Beach Island 2 Cannon,
+Sonic,Seaside Hill,Big Ruin Beach Island 2 Cannon,0
 Sonic,Seaside Hill,Big Ruin Beach Island 2 Cannon Speed,0
 Sonic,Seaside Hill,Big Ruin Beach Island 2 Cannon Flying,0
 Sonic,Seaside Hill,Big Ruin Beach Island 2 Cannon Power,0
@@ -64,9 +64,10 @@ Sonic,Seaside Hill,Big Ruins 2,0
 Sonic,Seaside Hill,Path After Big Ruins,0
 Sonic,Seaside Hill,Cannon Room,0
 Sonic,Seaside Hill,Bonus Key 3,0
-Sonic,Seaside Hill,Cannon Room Speed,0
-Sonic,Seaside Hill,Cannon Room Flying,0
-Sonic,Seaside Hill,Cannon Room Power,0
+Sonic,Seaside Hill,Cannon Room Cannon,0
+Sonic,Seaside Hill,Cannon Room Cannon Speed,0
+Sonic,Seaside Hill,Cannon Room Cannon Power,0
+Sonic,Seaside Hill,Cannon Room Cannon Flying,0
 Sonic,Seaside Hill,After Cannon Room Path,0
 Sonic,Seaside Hill,Checkpoint 5,0
 Sonic,Seaside Hill,Second Bobsled,0
