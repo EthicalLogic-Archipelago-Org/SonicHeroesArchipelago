@@ -834,6 +834,7 @@ MOVINGRUINPLATFORM: str = "Moving Ruin Platform"
 HERMITCRAB: str = "Hermit Crab"
 SMALLSTONEPLATFORM: str = "Small Stone Platform"
 CRUMBLINGSTONEPILLAR: str = "Crumbling Stone Pillar"
+MOVINGITEMBALLOON: str = "Moving Item Balloon"
 ENERGYROADSECTION: str = "Energy Road Section"
 FALLINGDRAWBRIDGE: str = "Falling Drawbridge"
 TILTINGBRIDGE: str = "Tilting Bridge"
@@ -843,8 +844,12 @@ ENERGYROADUPWARDSECTION: str = "Energy Road Upward Section"
 ENERGYCOLUMN: str = "Energy Column"
 ELEVATOR: str = "Elevator"
 LAVAPLATFORM: str = "Lava Platform"
+POWERPLANTSHUTTER: str = "Power Plant Shutter"
 LIQUIDLAVA: str = "Liquid Lava"
+POWERPLANTCOLLISIONGLASSBALLOBJECT: str = "Power Plant Collision Glass Ball Object"
 ENERGYROADUPWARDEFFECT: str = "Energy Road Upward Effect"
+POWERPLANTGLASSBALL: str = "Power Plant Glass Ball"
+LAVASHUTTER: str = "Lava Shutter"
 SMALLBUMPER: str = "Small Bumper"
 GREENFLOATINGBUMPER: str = "Green Floating Bumper"
 PINBALLFLIPPER: str = "Pinball Flipper"
@@ -891,9 +896,16 @@ FLAMETORCH: str = "Flame Torch"
 PUMPKINGHOST: str = "Pumpkin Ghost"
 MANSIONFLOATINGPLATFORM: str = "Mansion Floating Platform"
 CASTLEKEY: str = "Castle Key"
+NORMALCANNON: str = "Normal Cannon"
+LARGECANNON: str = "Large Cannon"
+HORIZONTALCANNON: str = "Horizontal Cannon"
+MOVINGCANNON: str = "Moving Cannon"
 RECTANGULARFLOATINGPLATFORM: str = "Rectangular Floating Platform"
 SQUAREFLOATINGPLATFORM: str = "Square Floating Platform"
+ANOTHERCANNON: str = "Another Cannon"
+KANKYOHAKAI: str = "KanKyoHakai"
 FALLINGPLATFORM: str = "Falling Platform"
+HIGHERCANNON: str = "Higher Cannon"
 SELFDESTRUCTSWITCH: str = "Self Destruct Switch"
 EGGMANCELLKEY: str = "Eggman Cell Key"
 EGGFLAPPER: str = "Egg Flapper"
@@ -1225,6 +1237,7 @@ stage_objs: list[str] = \
         HERMITCRAB,
         SMALLSTONEPLATFORM,
         CRUMBLINGSTONEPILLAR,
+        MOVINGITEMBALLOON,
         ENERGYROADSECTION,
         FALLINGDRAWBRIDGE,
         TILTINGBRIDGE,
@@ -1234,8 +1247,12 @@ stage_objs: list[str] = \
         ENERGYCOLUMN,
         ELEVATOR,
         LAVAPLATFORM,
+        POWERPLANTSHUTTER,
         LIQUIDLAVA,
+        POWERPLANTCOLLISIONGLASSBALLOBJECT,
         ENERGYROADUPWARDEFFECT,
+        POWERPLANTGLASSBALL,
+        LAVASHUTTER,
         SMALLBUMPER,
         GREENFLOATINGBUMPER,
         PINBALLFLIPPER,
@@ -1282,9 +1299,16 @@ stage_objs: list[str] = \
         PUMPKINGHOST,
         MANSIONFLOATINGPLATFORM,
         CASTLEKEY,
+        NORMALCANNON,
+        LARGECANNON,
+        HORIZONTALCANNON,
+        MOVINGCANNON,
         RECTANGULARFLOATINGPLATFORM,
         SQUAREFLOATINGPLATFORM,
+        ANOTHERCANNON,
+        KANKYOHAKAI,
         FALLINGPLATFORM,
+        HIGHERCANNON,
         SELFDESTRUCTSWITCH,
         EGGMANCELLKEY,
         EGGFLAPPER,
