@@ -65,7 +65,7 @@ class GoalUnlockConditions(OptionSet):
     Valid Choices:
         - 'Emblems'
         - 'Emeralds'
-        - 'Level Completions'
+        - 'Level Completions All Teams'
         - 'Level Completions Per Story'
 
 
@@ -196,7 +196,7 @@ class IncludedLevelsAndSanities(OptionSet):
         'Chaotix CheckpointSanity Both Acts',
         
         'Super Hard Mode',
-        'Super Hard Mode CheckpointSanity',
+        'Super Hard CheckpointSanity',
     ]
     """
     display_name = "Included Levels and Sanities"
@@ -456,12 +456,12 @@ sonic_heroes_option_groups = \
             [
                 SuperHardModeStartingCharacter,
             ]),
-        OptionGroup("Connection Tags",
-            [
+        #OptionGroup("Connection Tags",
+            #[
                 #RingLink,
                 #RingLinkMetalOverlord,
                 #DeathLink,
-            ]),
+            #]),
         OptionGroup("QOL",
             [
                 RemoveCasinoParkVIPTableLaserGate,

@@ -9,6 +9,7 @@ from .items import *  # type: ignore
 from .logic_mapping_sonic import *
 from .options import *  # type: ignore
 from .regions import *
+from ..earthbound.modules import hint_data
 
 
 class SonicHeroesWeb(WebWorld):
@@ -25,7 +26,7 @@ class SonicHeroesWeb(WebWorld):
     tutorials = [setup_en]
     #option_groups = sonic_heroes_option_groups
     game_info_languages = ["en"]
-    #option_groups = sonic_heroes_option_groups
+    option_groups = sonic_heroes_option_groups
 
 
 class SonicHeroesWorld(World):
@@ -157,6 +158,17 @@ class SonicHeroesWorld(World):
             return SonicHeroesItem(name, ItemClassification.progression, self.item_name_to_id[name], self.player)
         return SonicHeroesItem(name, tempitems[0].classification, self.item_name_to_id[name], self.player)
 
+    def get_filler_item_name(self) -> str:
+        """
+        Called when the item pool needs to be filled with additional items to match location count.
+        Any returned item name must be for a "repeatable" item, i.e. one that it's okay to generate arbitrarily many of.
+        For most worlds this will be one or more of your filler items, but the classification of these items
+        does not need to be ItemClassification.filler.
+        The item name returned can be for a trap, useful, and/or progression item as long as it's repeatable.
+        """
+        return self.random.choices(list(filler_items_to_weights.keys()), weights=list(filler_items_to_weights.values()), k=1)[0]
+        #return self.random.choice([item_data.name for item_data in itemList if item_data.classification == ItemClassification.filler and item_data.fillerweight > 0])
+
 
     def generate_early(self) -> None:
 
@@ -166,6 +178,17 @@ class SonicHeroesWorld(World):
 
         # Check invalid options here
         check_invalid_options(self)
+
+        if SONICACTB in self.options.included_levels_and_sanities:
+            self.options.included_levels_and_sanities.value.remove(SONICACTB)
+
+        if SONICKEYSANITYBOTHACTS in self.options.included_levels_and_sanities:
+            self.options.included_levels_and_sanities.value.remove(SONICKEYSANITYBOTHACTS)
+            self.options.included_levels_and_sanities.value.add(SONICKEYSANITY1SET)
+
+        if SONICCHECKPOINTSANITYBOTHACTS in self.options.included_levels_and_sanities:
+            self.options.included_levels_and_sanities.value.remove(SONICCHECKPOINTSANITYBOTHACTS)
+            self.options.included_levels_and_sanities.value.add(SONICKEYSANITY1SET)
 
         #change stuff based on options
         self.handle_option_checking()
@@ -216,8 +239,7 @@ class SonicHeroesWorld(World):
     def create_regions(self) -> None:
         create_regions(self)
 
-        victory_item = SonicHeroesItem(VICTORYITEM, ItemClassification.progression,
-                                       None, self.player)
+        victory_item = SonicHeroesItem(VICTORYITEM, ItemClassification.progression, None, self.player)
         self.get_location(VICTORYLOCATION).place_locked_item(victory_item)
 
         #print(self.level_goal_event_locations)
@@ -283,6 +305,9 @@ class SonicHeroesWorld(World):
         #self.make_puml()
         pass
 
+    def fill_hook(self, progitempool: list[Item], usefulitempool: list[Item], filleritempool: list[Item], fill_locations: list[Location]) -> None:
+        pass
+
 
     def post_fill(self) -> None:
         if self.should_make_puml_earlier:
@@ -309,6 +334,8 @@ class SonicHeroesWorld(World):
             self.shuffled_levels = [f"S{x}" for x in range(2, 16)]
             self.shuffled_bosses = ["B23"]
             self.gate_level_counts = [14]
+
+            self.options.included_levels_and_sanities.value.add(SUPERHARDMODE)
 
         return \
         {
