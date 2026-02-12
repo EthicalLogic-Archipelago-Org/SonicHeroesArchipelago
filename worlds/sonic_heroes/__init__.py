@@ -9,7 +9,6 @@ from .items import *  # type: ignore
 from .logic_mapping_sonic import *
 from .options import *  # type: ignore
 from .regions import *
-from ..earthbound.modules import hint_data
 
 
 class SonicHeroesWeb(WebWorld):
