@@ -67,6 +67,13 @@ def can_flying_bounce_off_ground(world: SonicHeroesWorld, team: str, level: str,
     """
     return False and can_jump(world, team, level, state)
 
+def can_flying_depletion_boost(world: SonicHeroesWorld, team: str, level: str, state: CollectionState) -> bool:
+    """
+    Get height right as fly meter hits max
+    This gives height above flight limit
+    """
+    return False
+
 
 def can_jump(world: SonicHeroesWorld, team: str, level: str, state: CollectionState) -> bool:
     """
@@ -483,10 +490,10 @@ def can_remove_ground_enemy_shield(world: SonicHeroesWorld, team: str, level: st
     return (can_homing_attack(world, team, level, state) and has_char_levelup(world, team, level, state, 3, speed=True)) or ((can_tornado(world, team, level, state) or can_rocket_accel(world, team, level, state)) and has_char_levelup(world, team, level, state, 1, speed=True)) or can_team_blast(world, team, level, state)
 
 def can_kill_ground_enemy_nothing(world: SonicHeroesWorld, team: str, level: str, state: CollectionState):
-    return True
+    return can_jump(world, team, level, state) or can_power_attack(world, team, level, state) or (can_thundershoot(world, team, level, state) and has_char_levelup(world, team, level, state, 1, flying=True)) or can_team_blast(world, team, level, state)
 
 def can_kill_egg_pawn_nothing(world: SonicHeroesWorld, team: str, level: str, state):
-    return True
+    return can_kill_ground_enemy_nothing(world, team, level, state)
 
 def can_kill_ground_enemy_spear(world: SonicHeroesWorld, team: str, level: str, state: CollectionState):
     return (can_homing_attack(world, team, level, state) and has_char_levelup(world, team, level, state, 1, speed=True)) or can_break_things(world, team, level, state) or (can_thundershoot(world, team, level, state) and has_char_levelup(world, team, level, state, 1, flying=True)) or can_team_blast(world, team, level, state)

@@ -3,7 +3,7 @@ Sonic,Ocean Palace,Start,First Path,DashRampSonicOP,
 Sonic,Ocean Palace,First Path,Start,NOTPOSSIBLE,
 Sonic,Ocean Palace,First Path,Lower Path Before First Door,DashRampSonicOP,
 Sonic,Ocean Palace,Lower Path Before First Door,First Path,NOTPOSSIBLE,
-Sonic,Ocean Palace,Lower Path Before First Door,First Door,FlyingAnyorTripleSpringSonicOP,
+Sonic,Ocean Palace,Lower Path Before First Door,First Door,(HeightFlyJumpor(HeightFlyAND))orTripleSpringSonicOP,
 Sonic,Ocean Palace,First Door,Lower Path Before First Door,,
 Sonic,Ocean Palace,First Door,Falling Stone Structure 1,BreakSonicOP,Might be possible to go over door
 Sonic,Ocean Palace,Falling Stone Structure 1,First Door,BreakSonicOP,
