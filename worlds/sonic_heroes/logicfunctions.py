@@ -64,6 +64,7 @@ def can_flying_bounce_off_ground(world: SonicHeroesWorld, team: str, level: str,
     """
     Perform a flying bounce off of ground.
     This gives height without starting flight (which results in extra height)
+    This is harder but still possible without Jump.
     """
     return False and can_jump(world, team, level, state)
 
