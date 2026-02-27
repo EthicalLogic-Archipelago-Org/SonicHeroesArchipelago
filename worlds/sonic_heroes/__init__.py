@@ -45,6 +45,8 @@ class SonicHeroesWorld(World):
     #UT Stuff Here
     ut_can_gen_without_yaml: bool = True
 
+    id_offset: int = 0x100
+
     @staticmethod
     def interpret_slot_data(slot_data: Dict[str, Any]) -> Dict[str, Any]:
         return slot_data
