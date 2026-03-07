@@ -514,13 +514,18 @@ def is_loc_in_world_chaotix(world: SonicHeroesWorld, loc: LocationCSVData):
         if not world.is_this_sanity_enabled(CHAOTIX, OBJSANITY):
             return False
 
+        if loc.act == 1 and CHAOTIXACTA not in world.options.included_levels_and_sanities:
+            return False
+
+        if loc.act == 2 and CHAOTIXACTB not in world.options.included_levels_and_sanities:
+            return False
+
         if loc.level != CASINOPARK:
             return True
 
         if int(loc.name[loc.name.index(":"):].replace(":", "").replace(" ", "")) % world.options.chaotix_sanity.value == 0:
             # modulus of check # and sanity value is 0, return true (check # 10 is in if sanity < 20)
             return True
-
         return False
 
     if loc.loc_type == KEYSANITY or loc.loc_type == CHECKPOINTSANITY:
