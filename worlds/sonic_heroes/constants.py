@@ -1503,8 +1503,7 @@ def get_ability_item_name_without_world(team: str, region: str, ability: str) ->
     return result
 
 
-def get_all_ability_item_names_for_character_and_region(world: SonicHeroesWorld, team: str,
-                                                        char_name: str, region: str) -> list[str]:
+def get_all_ability_item_names_for_character_and_region(world: SonicHeroesWorld, team: str, char_name: str, region: str) -> list[str]:
     """
     Returns a list of all ability item names for a given character and region.
     """
