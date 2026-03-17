@@ -33,6 +33,8 @@ class SonicHeroesWorld(World):
     web: ClassVar[WebWorld] = SonicHeroesWeb()
     options_dataclass = SonicHeroesOptions
     options: SonicHeroesOptions
+
+
     item_name_to_id: ClassVar[dict[str, int]] = \
     {item.name: item.code for item in itemList}
     location_name_to_id: ClassVar[dict[str, int]] = {loc.name: loc.code for loc in get_full_location_list()}
@@ -180,20 +182,11 @@ class SonicHeroesWorld(World):
         # Check invalid options here
         check_invalid_options(self)
 
-        if SONICACTB in self.options.included_levels_and_sanities:
-            self.options.included_levels_and_sanities.value.remove(SONICACTB)
-
-        if SONICKEYSANITYBOTHACTS in self.options.included_levels_and_sanities:
-            self.options.included_levels_and_sanities.value.remove(SONICKEYSANITYBOTHACTS)
-            self.options.included_levels_and_sanities.value.add(SONICKEYSANITY1SET)
-
-        if SONICCHECKPOINTSANITYBOTHACTS in self.options.included_levels_and_sanities:
-            self.options.included_levels_and_sanities.value.remove(SONICCHECKPOINTSANITYBOTHACTS)
-            self.options.included_levels_and_sanities.value.add(SONICKEYSANITY1SET)
-
         #change stuff based on options
         self.handle_option_checking()
 
+        #if self.settings.allow_debug_for_mod:
+            #self.force_super_hard_mode()
 
         if self.options.unlock_type == UnlockType.option_legacy_level_gates:
             self.handle_level_gates_start()
@@ -336,8 +329,6 @@ class SonicHeroesWorld(World):
             self.shuffled_bosses = ["B23"]
             self.gate_level_counts = [14]
 
-            self.options.included_levels_and_sanities.value.add(SUPERHARDMODE)
-
         return \
         {
             "APWorldVersion": self.apworldversion,
@@ -426,12 +417,10 @@ class SonicHeroesWorld(World):
                 unreachable_regions.add(region)
 
         if self.highlight_unreachable_regions:
-            visualize_regions(self.get_region("Menu"), f"{self.player_name}_world.puml", show_entrance_names=True,
-                              regions_to_highlight=unreachable_regions)
+            visualize_regions(self.get_region("Menu"), f"{self.player_name}_world.puml", show_entrance_names=True, regions_to_highlight=unreachable_regions)
 
         else:
-            visualize_regions(self.get_region("Menu"), f"{self.player_name}_world.puml", show_entrance_names=True,
-                              regions_to_highlight=reachable_regions)
+            visualize_regions(self.get_region("Menu"), f"{self.player_name}_world.puml", show_entrance_names=True, regions_to_highlight=reachable_regions)
         # !pragma layout smetana
         # put this at top to display PUML (after start UML)
 
@@ -516,6 +505,8 @@ class SonicHeroesWorld(World):
 
         if not slot_data:
             return None
+
+        print(f"USING UT RE GEN PASSTHROUGH HERE")
 
         self.is_ut_gen = True
 
@@ -778,6 +769,24 @@ class SonicHeroesWorld(World):
             else:
                 self.gate_emblem_costs.append(final_boss_emblem_cost)
                 self.shuffled_bosses.append(f"B{boss_name_to_slot_data_id[METALMADNESS]}")
+
+
+    def force_super_hard_mode(self):
+        if self.options.ability_unlocks == AbilityUnlocks.option_all_regions_separate:
+            self.options.ability_unlocks.value = AbilityUnlocks.option_entire_story
+
+        if SONICACTB in self.options.included_levels_and_sanities:
+            self.options.included_levels_and_sanities.value.remove(SONICACTB)
+
+        if SONICKEYSANITYBOTHACTS in self.options.included_levels_and_sanities:
+            self.options.included_levels_and_sanities.value.remove(SONICKEYSANITYBOTHACTS)
+            self.options.included_levels_and_sanities.value.add(SONICKEYSANITY1SET)
+
+        if SONICCHECKPOINTSANITYBOTHACTS in self.options.included_levels_and_sanities:
+            self.options.included_levels_and_sanities.value.remove(SONICCHECKPOINTSANITYBOTHACTS)
+            self.options.included_levels_and_sanities.value.add(SONICCHECKPOINTSANITY1SET)
+
+        self.options.included_levels_and_sanities.value.add(SUPERHARDMODE)
     
     
     def try_to_guess_how_many_locations_are_here(self, team: str, level: str) -> int:
