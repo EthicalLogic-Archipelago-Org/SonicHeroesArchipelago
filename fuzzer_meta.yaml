@@ -1,0 +1,208 @@
+null:
+  progression_balancing: 50
+  #accessibility: full
+Sonic Heroes:
+  make_puml: False
+  fuzz_constraints:
+    #Legacy Level Gates
+    #cap number of level gates to number of allowed bosses
+    - option: legacy_number_of_level_gates
+      max_count_of: legacy_level_gates_allowed_bosses
+
+    #remove emeralds if SuperHardMode only (due to constraints, have to do this)
+    - option: unlock_type
+      if_value: legacy_level_gates
+      then_exclude:
+        goal_unlock_conditions: "Emeralds"
+    #Ability Character Unlocks
+    #prevent emblems and Teams Dark, Rose, Chaotix, and SuperHard
+    - option: unlock_type
+      if_value: ability_character_unlocks
+      then:
+        accessibility: full
+        ability_unlocks: entire_story
+      then_include:
+        included_levels_and_sanities:
+          - "Sonic Act A"
+          - "Sonic KeySanity 1 Set"
+          - "Sonic CheckpointSanity 1 Set"
+      then_exclude:
+        goal_unlock_conditions: "Emblems"
+        included_levels_and_sanities:
+          - "Sonic KeySanity Both Acts"
+          - "Sonic CheckpointSanity Both Acts"
+          - "Dark Act A"
+          - "Dark Act B"
+          - "Dark ObjSanity"
+          - "Dark KeySanity 1 Set"
+          - "Dark KeySanity Both Acts"
+          - "Dark CheckpointSanity 1 Set"
+          - "Dark CheckpointSanity Both Acts"
+          - "Rose Act A"
+          - "Rose Act B"
+          - "Rose ObjSanity"
+          - "Rose KeySanity 1 Set"
+          - "Rose KeySanity Both Acts"
+          - "Rose CheckpointSanity 1 Set"
+          - "Rose CheckpointSanity Both Acts"
+          - "Chaotix Act A"
+          - "Chaotix Act B"
+          - "Chaotix ObjSanity"
+          - "Chaotix KeySanity 1 Set"
+          - "Chaotix KeySanity Both Acts"
+          - "Chaotix CheckpointSanity 1 Set"
+          - "Chaotix CheckpointSanity Both Acts"
+          - "Super Hard Mode"
+          - "Super Hard CheckpointSanity"
+
+    #destruction
+
+    #Generic
+    #at least one story is required
+    - option: included_levels_and_sanities
+      ensure_any:
+        - "Sonic Act A"
+        - "Sonic Act B"
+        - "Dark Act A"
+        - "Dark Act B"
+        - "Rose Act A"
+        - "Rose Act B"
+        - "Chaotix Act A"
+        - "Chaotix Act B"
+        - "Super Hard Mode"
+
+    #Super Hard Mode and Sonic Act B are mutual
+    - option: included_levels_and_sanities
+      mutually_exclusive: [ "Super Hard Mode", "Sonic Act B" ]
+
+    #SuperHard CheckpointSanity cannot be enabled if Sonic Act B is enabled (SuperHardMode is already taken care of with mutual check above)
+    - option: included_levels_and_sanities
+      if_selected: "Sonic Act B"
+      must_exclude: "Super Hard CheckpointSanity"
+
+
+    #SuperHard
+    #1 set sanities require at least 1 act
+    - option: included_levels_and_sanities
+      if_any_selected:
+        - "Super Hard CheckpointSanity"
+      requires_any:
+        - "Super Hard Mode"
+    # Super Hard Mode prevents Sonic sanities Both Acts
+    - option: included_levels_and_sanities
+      if_selected: "Super Hard Mode"
+      must_exclude:
+        - "Sonic KeySanity Both Acts"
+        - "Sonic CheckpointSanity Both Acts"
+    # Super Hard Mode Only on the Legacy Level Gates option (with no Checkpoint Sanity) cannot have Emeralds placed as there is no access to the emerald stages.
+    - option: included_levels_and_sanities
+      if_selected: "Super Hard Mode"
+      must_exclude:
+        - "Sonic KeySanity Both Acts"
+        - "Sonic CheckpointSanity Both Acts"
+
+
+
+
+    #Sonic
+    #1 set and both sets are mutually exclusive
+    - option: included_levels_and_sanities
+      mutually_exclusive: [ "Sonic KeySanity 1 Set", "Sonic KeySanity Both Acts" ]
+    - option: included_levels_and_sanities
+      mutually_exclusive: [ "Sonic CheckpointSanity 1 Set", "Sonic CheckpointSanity Both Acts" ]
+    #1 set sanities require at least 1 act
+    - option: included_levels_and_sanities
+      if_any_selected:
+        - "Sonic KeySanity 1 Set"
+        - "Sonic CheckpointSanity 1 Set"
+      requires_any:
+        - "Sonic Act A"
+        - "Sonic Act B"
+    #both acts sanity require both acts enabled
+    - option: included_levels_and_sanities
+      if_selected: "Sonic KeySanity Both Acts"
+      must_include: [ "Sonic Act A", "Sonic Act B" ]
+    - option: included_levels_and_sanities
+      if_selected: "Sonic CheckpointSanity Both Acts"
+      must_include: [ "Sonic Act A", "Sonic Act B" ]
+
+    #Dark
+    #1 set and both sets are mutually exclusive
+    - option: included_levels_and_sanities
+      mutually_exclusive: [ "Dark KeySanity 1 Set", "Dark KeySanity Both Acts" ]
+    - option: included_levels_and_sanities
+      mutually_exclusive: [ "Dark CheckpointSanity 1 Set", "Dark CheckpointSanity Both Acts" ]
+    #1 set sanities require at least 1 act
+    - option: included_levels_and_sanities
+      if_any_selected:
+        - "Dark KeySanity 1 Set"
+        - "Dark CheckpointSanity 1 Set"
+      requires_any:
+        - "Dark Act A"
+        - "Dark Act B"
+    #both acts sanity require both acts enabled
+    - option: included_levels_and_sanities
+      if_selected: "Dark KeySanity Both Acts"
+      must_include: [ "Dark Act A", "Dark Act B" ]
+    - option: included_levels_and_sanities
+      if_selected: "Dark CheckpointSanity Both Acts"
+      must_include: [ "Dark Act A", "Dark Act B" ]
+    #Dark Objsanity requires Act B
+    - option: included_levels_and_sanities
+      if_selected: "Dark ObjSanity"
+      must_include: "Dark Act B"
+
+    #Rose
+    #1 set and both sets are mutually exclusive
+    - option: included_levels_and_sanities
+      mutually_exclusive: [ "Rose KeySanity 1 Set", "Rose KeySanity Both Acts" ]
+    - option: included_levels_and_sanities
+      mutually_exclusive: [ "Rose CheckpointSanity 1 Set", "Rose CheckpointSanity Both Acts" ]
+    #1 set sanities require at least 1 act
+    - option: included_levels_and_sanities
+      if_any_selected:
+        - "Rose KeySanity 1 Set"
+        - "Rose CheckpointSanity 1 Set"
+      requires_any:
+        - "Rose Act A"
+        - "Rose Act B"
+    #both acts sanity require both acts enabled
+    - option: included_levels_and_sanities
+      if_selected: "Rose KeySanity Both Acts"
+      must_include: [ "Rose Act A", "Rose Act B" ]
+    - option: included_levels_and_sanities
+      if_selected: "Rose CheckpointSanity Both Acts"
+      must_include: [ "Rose Act A", "Rose Act B" ]
+    #Rose Objsanity requires Act B
+    - option: included_levels_and_sanities
+      if_selected: "Rose ObjSanity"
+      must_include: "Rose Act B"
+
+    #Chaotix
+    #1 set and both sets are mutually exclusive
+    - option: included_levels_and_sanities
+      mutually_exclusive: [ "Chaotix KeySanity 1 Set", "Chaotix KeySanity Both Acts" ]
+    - option: included_levels_and_sanities
+      mutually_exclusive: [ "Chaotix CheckpointSanity 1 Set", "Chaotix CheckpointSanity Both Acts" ]
+    #1 set sanities require at least 1 act
+    - option: included_levels_and_sanities
+      if_any_selected:
+        - "Chaotix KeySanity 1 Set"
+        - "Chaotix CheckpointSanity 1 Set"
+      requires_any:
+        - "Chaotix Act A"
+        - "Chaotix Act B"
+    #both acts sanity require both acts enabled
+    - option: included_levels_and_sanities
+      if_selected: "Chaotix KeySanity Both Acts"
+      must_include: [ "Chaotix Act A", "Chaotix Act B" ]
+    - option: included_levels_and_sanities
+      if_selected: "Chaotix CheckpointSanity Both Acts"
+      must_include: [ "Chaotix Act A", "Chaotix Act B" ]
+    #Chaotix Objsanity requires at least 1 act
+    - option: included_levels_and_sanities
+      if_any_selected:
+        - "Chaotix ObjSanity"
+      requires_any:
+        - "Chaotix Act A"
+        - "Chaotix Act B"
