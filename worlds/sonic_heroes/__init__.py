@@ -45,9 +45,10 @@ class SonicHeroesWorld(World):
     topology_present: bool = True
 
     #UT Stuff Here
-    ut_can_gen_without_yaml: bool = True
+    ut_can_gen_without_yaml: ClassVar[bool] = True
 
-    id_offset: int = 0x100
+    id_offset: ClassVar[int] = 0x100
+    apworldversion: ClassVar[str] = "2.2.0"
 
     @staticmethod
     def interpret_slot_data(slot_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -140,7 +141,6 @@ class SonicHeroesWorld(World):
         self.legacy_gates_mode: bool = False
 
         self.bonus_keys_needed_for_bonus_stage: int = 1
-        self.apworldversion: str = "2.1.0"
         #self.goal_unlock_conditions: set[str] = set()
 
         self.emblems_to_create: int = 0
@@ -270,6 +270,8 @@ class SonicHeroesWorld(World):
         create_items(self)
 
         if self.options.unlock_type == UnlockType.option_ability_character_unlocks:
+            self.multiworld.push_precollected(self.create_item(f"{SONIC} {JUMP}"))
+            self.multiworld.push_precollected(self.create_item(f"{SONIC} {POWERATTACK}"))
             if self.options.sonic_story_starting_character == SonicStoryStartingCharacter.option_sonic:
                 self.multiworld.push_precollected(self.create_item(PLAYABLESONIC))
             elif self.options.sonic_story_starting_character == SonicStoryStartingCharacter.option_tails:

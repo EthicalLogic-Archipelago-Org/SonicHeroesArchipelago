@@ -43,7 +43,6 @@ def create_items(world: SonicHeroesWorld):
     trap_items_to_weights[CHARMYTRAP] = world.options.charmy_trap_weight.value
 
 
-
     #create_item(world, EMBLEM, ItemClassification.progression)
     #total_location_count -= 1
 
