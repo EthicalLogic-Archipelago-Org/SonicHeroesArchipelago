@@ -34,12 +34,13 @@ def create_trap_items(world: SonicHeroesWorld, amount: int):
 def create_items(world: SonicHeroesWorld):
     total_location_count = len(world.multiworld.get_unfilled_locations(world.player))
 
+    #print(f"Total Location Count: {total_location_count}")
+
     trap_items_to_weights[STEALTHTRAP] = world.options.stealth_trap_weight.value
     trap_items_to_weights[FREEZETRAP] = world.options.freeze_trap_weight.value
     trap_items_to_weights[NOSWAPTRAP] = world.options.no_swap_trap_weight.value
     trap_items_to_weights[RINGTRAP] = world.options.ring_trap_weight.value
     trap_items_to_weights[CHARMYTRAP] = world.options.charmy_trap_weight.value
-
 
 
     #create_item(world, EMBLEM, ItemClassification.progression)

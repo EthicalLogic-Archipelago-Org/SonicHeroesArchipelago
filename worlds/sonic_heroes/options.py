@@ -14,7 +14,7 @@ class MakePuml(Toggle):
     Should This APWorld Make a Puml File?
     """
     display_name = "Make Puml"
-    visibility = Visibility.spoiler
+    visibility = Visibility.none
 
 
 class UnlockType(Choice):
@@ -575,46 +575,47 @@ def check_invalid_options(world: SonicHeroesWorld):
 
         if temp_enabled_teams == 0:
             if EMERALDS in world.options.goal_unlock_conditions and not SUPERHARDCHECKPOINTSANITY in world.options.included_levels_and_sanities:
-                raise OptionError("Super Hard Mode Only on the Legacy Level Gates option (with no Checkpoint Sanity) cannot have Emeralds placed as there is no access to the emerald stages.")
+                raise OptionError("Super Hard Mode Only on the Legacy Level Gates option (with no Checkpoint Sanity) cannot have Emeralds placed as there is no access to the emerald stages. (and therefore not enough locations)")
 
 
-
-    if SONICKEYSANITY1SET in world.options.goal_unlock_conditions and SONICKEYSANITYBOTHACTS in world.options.goal_unlock_conditions:
+    temp_team: str = SONIC
+    temp_sanity: str = KEYSANITY
+    if SONICKEYSANITY1SET in world.options.included_levels_and_sanities and SONICKEYSANITYBOTHACTS in world.options.included_levels_and_sanities:
         temp_team = SONIC
         temp_sanity = KEYSANITY
         raise OptionError(f"Team {temp_team} has multiple enabled choices of this sanity: {temp_sanity}")
 
-    if SONICCHECKPOINTSANITY1SET in world.options.goal_unlock_conditions and SONICCHECKPOINTSANITYBOTHACTS in world.options.goal_unlock_conditions:
+    if SONICCHECKPOINTSANITY1SET in world.options.included_levels_and_sanities.value and SONICCHECKPOINTSANITYBOTHACTS in world.options.included_levels_and_sanities.value:
         temp_team = SONIC
         temp_sanity = CHECKPOINTSANITY
         raise OptionError(f"Team {temp_team} has multiple enabled choices of this sanity: {temp_sanity}")
 
-    if DARKKEYSANITY1SET in world.options.goal_unlock_conditions and DARKKEYSANITYBOTHACTS in world.options.goal_unlock_conditions:
+    if DARKKEYSANITY1SET in world.options.included_levels_and_sanities and DARKKEYSANITYBOTHACTS in world.options.included_levels_and_sanities:
         temp_team = DARK
         temp_sanity = KEYSANITY
         raise OptionError(f"Team {temp_team} has multiple enabled choices of this sanity: {temp_sanity}")
 
-    if DARKCHECKPOINTSANITY1SET in world.options.goal_unlock_conditions and DARKCHECKPOINTSANITYBOTHACTS in world.options.goal_unlock_conditions:
+    if DARKCHECKPOINTSANITY1SET in world.options.included_levels_and_sanities and DARKCHECKPOINTSANITYBOTHACTS in world.options.included_levels_and_sanities:
         temp_team = DARK
         temp_sanity = CHECKPOINTSANITY
         raise OptionError(f"Team {temp_team} has multiple enabled choices of this sanity: {temp_sanity}")
 
-    if ROSEKEYSANITY1SET in world.options.goal_unlock_conditions and ROSEKEYSANITYBOTHACTS in world.options.goal_unlock_conditions:
+    if ROSEKEYSANITY1SET in world.options.included_levels_and_sanities and ROSEKEYSANITYBOTHACTS in world.options.included_levels_and_sanities:
         temp_team = ROSE
         temp_sanity = KEYSANITY
         raise OptionError(f"Team {temp_team} has multiple enabled choices of this sanity: {temp_sanity}")
 
-    if ROSECHECKPOINTSANITY1SET in world.options.goal_unlock_conditions and ROSECHECKPOINTSANITYBOTHACTS in world.options.goal_unlock_conditions:
+    if ROSECHECKPOINTSANITY1SET in world.options.included_levels_and_sanities and ROSECHECKPOINTSANITYBOTHACTS in world.options.included_levels_and_sanities:
         temp_team = ROSE
         temp_sanity = CHECKPOINTSANITY
         raise OptionError(f"Team {temp_team} has multiple enabled choices of this sanity: {temp_sanity}")
 
-    if CHAOTIXKEYSANITY1SET in world.options.goal_unlock_conditions and CHAOTIXKEYSANITYBOTHACTS in world.options.goal_unlock_conditions:
+    if CHAOTIXKEYSANITY1SET in world.options.included_levels_and_sanities and CHAOTIXKEYSANITYBOTHACTS in world.options.included_levels_and_sanities:
         temp_team = CHAOTIX
         temp_sanity = KEYSANITY
         raise OptionError(f"Team {temp_team} has multiple enabled choices of this sanity: {temp_sanity}")
 
-    if CHAOTIXCHECKPOINTSANITY1SET in world.options.goal_unlock_conditions and CHAOTIXCHECKPOINTSANITYBOTHACTS in world.options.goal_unlock_conditions:
+    if CHAOTIXCHECKPOINTSANITY1SET in world.options.included_levels_and_sanities and CHAOTIXCHECKPOINTSANITYBOTHACTS in world.options.included_levels_and_sanities:
         temp_team = CHAOTIX
         temp_sanity = CHECKPOINTSANITY
         raise OptionError(f"Team {temp_team} has multiple enabled choices of this sanity: {temp_sanity}")
@@ -681,12 +682,12 @@ def check_invalid_options(world: SonicHeroesWorld):
                     else:
                         if not world.is_this_sanity_enabled(team, KEYSANITY) or not world.is_this_sanity_enabled(team, CHECKPOINTSANITY):
                             raise OptionError(f"Region Based Ability Unlocks with both acts Requires "
-                                              f"either Both Key Sanity and Checkpoint Sanity or one of "
+                                              f"Both Key Sanity and Checkpoint Sanity and one of "
                                               f"those with both sets (Set For Each Act) for team {team}.")
 
                         if not world.is_this_sanity_enabled(team, KEYSANITY, both_acts_required=True) and not world.is_this_sanity_enabled(team, CHECKPOINTSANITY, both_acts_required=True):
                             raise OptionError(f"Region Based Ability Unlocks with both acts Requires "
-                                              f"either Both Key Sanity and Checkpoint Sanity or one of "
+                                              f"Both Key Sanity and Checkpoint Sanity and one of "
                                               f"those with both sets (Set For Each Act) for team {team}.")
 
 

@@ -23,14 +23,18 @@ class SonicHeroesWeb(WebWorld):
     ))
 
     tutorials = [setup_en]
-    option_groups = sonic_heroes_option_groups
+    #option_groups = sonic_heroes_option_groups
     game_info_languages = ["en"]
+    option_groups = sonic_heroes_option_groups
+
 
 class SonicHeroesWorld(World):
     game: ClassVar[str] = SONICHEROES
     web: ClassVar[WebWorld] = SonicHeroesWeb()
     options_dataclass = SonicHeroesOptions
     options: SonicHeroesOptions
+
+
     item_name_to_id: ClassVar[dict[str, int]] = \
     {item.name: item.code for item in itemList}
     location_name_to_id: ClassVar[dict[str, int]] = {loc.name: loc.code for loc in get_full_location_list()}
@@ -41,7 +45,10 @@ class SonicHeroesWorld(World):
     topology_present: bool = True
 
     #UT Stuff Here
-    ut_can_gen_without_yaml: bool = True
+    ut_can_gen_without_yaml: ClassVar[bool] = True
+
+    id_offset: ClassVar[int] = 0x100
+    apworldversion: ClassVar[str] = "2.2.0"
 
     @staticmethod
     def interpret_slot_data(slot_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -134,7 +141,6 @@ class SonicHeroesWorld(World):
         self.legacy_gates_mode: bool = False
 
         self.bonus_keys_needed_for_bonus_stage: int = 1
-        self.apworldversion: str = "2.1.0"
         #self.goal_unlock_conditions: set[str] = set()
 
         self.emblems_to_create: int = 0
@@ -158,7 +164,6 @@ class SonicHeroesWorld(World):
     def get_filler_item_name(self) -> str:
         """
         Called when the item pool needs to be filled with additional items to match location count.
-
         Any returned item name must be for a "repeatable" item, i.e. one that it's okay to generate arbitrarily many of.
         For most worlds this will be one or more of your filler items, but the classification of these items
         does not need to be ItemClassification.filler.
@@ -180,6 +185,8 @@ class SonicHeroesWorld(World):
         #change stuff based on options
         self.handle_option_checking()
 
+        #if self.settings.allow_debug_for_mod:
+            #self.force_super_hard_mode()
 
         if self.options.unlock_type == UnlockType.option_legacy_level_gates:
             self.handle_level_gates_start()
@@ -226,7 +233,7 @@ class SonicHeroesWorld(World):
     def create_regions(self) -> None:
         create_regions(self)
 
-        victory_item = SonicHeroesItem(VICTORYITEM, ItemClassification.progression,None, self.player)
+        victory_item = SonicHeroesItem(VICTORYITEM, ItemClassification.progression, None, self.player)
         self.get_location(VICTORYLOCATION).place_locked_item(victory_item)
 
         #print(self.level_goal_event_locations)
@@ -263,6 +270,8 @@ class SonicHeroesWorld(World):
         create_items(self)
 
         if self.options.unlock_type == UnlockType.option_ability_character_unlocks:
+            self.multiworld.push_precollected(self.create_item(f"{SONIC} {JUMP}"))
+            self.multiworld.push_precollected(self.create_item(f"{SONIC} {POWERATTACK}"))
             if self.options.sonic_story_starting_character == SonicStoryStartingCharacter.option_sonic:
                 self.multiworld.push_precollected(self.create_item(PLAYABLESONIC))
             elif self.options.sonic_story_starting_character == SonicStoryStartingCharacter.option_tails:
@@ -338,6 +347,7 @@ class SonicHeroesWorld(World):
             "GoalLevelCompletions": self.options.goal_level_completions.value,
             "GoalLevelCompletionsPerStory": self.options.goal_level_completions_per_story.value,
 
+
             #"SonicStory": self.options.sonic_story.value,
             "SonicStoryStartingCharacter": self.options.sonic_story_starting_character.value,
             #"SonicKeySanity": self.options.sonic_key_sanity.value,
@@ -409,12 +419,10 @@ class SonicHeroesWorld(World):
                 unreachable_regions.add(region)
 
         if self.highlight_unreachable_regions:
-            visualize_regions(self.get_region("Menu"), f"{self.player_name}_world.puml", show_entrance_names=True,
-                              regions_to_highlight=unreachable_regions)
+            visualize_regions(self.get_region("Menu"), f"{self.player_name}_world.puml", show_entrance_names=True, regions_to_highlight=unreachable_regions)
 
         else:
-            visualize_regions(self.get_region("Menu"), f"{self.player_name}_world.puml", show_entrance_names=True,
-                              regions_to_highlight=reachable_regions)
+            visualize_regions(self.get_region("Menu"), f"{self.player_name}_world.puml", show_entrance_names=True, regions_to_highlight=reachable_regions)
         # !pragma layout smetana
         # put this at top to display PUML (after start UML)
 
@@ -499,6 +507,8 @@ class SonicHeroesWorld(World):
 
         if not slot_data:
             return None
+
+        print(f"USING UT RE GEN PASSTHROUGH HERE")
 
         self.is_ut_gen = True
 
@@ -761,6 +771,24 @@ class SonicHeroesWorld(World):
             else:
                 self.gate_emblem_costs.append(final_boss_emblem_cost)
                 self.shuffled_bosses.append(f"B{boss_name_to_slot_data_id[METALMADNESS]}")
+
+
+    def force_super_hard_mode(self):
+        if self.options.ability_unlocks == AbilityUnlocks.option_all_regions_separate:
+            self.options.ability_unlocks.value = AbilityUnlocks.option_entire_story
+
+        if SONICACTB in self.options.included_levels_and_sanities:
+            self.options.included_levels_and_sanities.value.remove(SONICACTB)
+
+        if SONICKEYSANITYBOTHACTS in self.options.included_levels_and_sanities:
+            self.options.included_levels_and_sanities.value.remove(SONICKEYSANITYBOTHACTS)
+            self.options.included_levels_and_sanities.value.add(SONICKEYSANITY1SET)
+
+        if SONICCHECKPOINTSANITYBOTHACTS in self.options.included_levels_and_sanities:
+            self.options.included_levels_and_sanities.value.remove(SONICCHECKPOINTSANITYBOTHACTS)
+            self.options.included_levels_and_sanities.value.add(SONICCHECKPOINTSANITY1SET)
+
+        self.options.included_levels_and_sanities.value.add(SUPERHARDMODE)
     
     
     def try_to_guess_how_many_locations_are_here(self, team: str, level: str) -> int:
