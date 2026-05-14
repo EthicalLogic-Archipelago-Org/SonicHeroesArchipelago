@@ -116,7 +116,7 @@
 }
 
 #inventory-table img.acquired#lullaby{
-    filter: sepia(100%) hue-rotate(-60deg); /* css trick to hue-shift a static image */
+    filter: sepia(100%) hue-rotate(-60deg); /* css trick_filter to hue-shift a static image */
 }
 
 #inventory-table img.acquired#epona{

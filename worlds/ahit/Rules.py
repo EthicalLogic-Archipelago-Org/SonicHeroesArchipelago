@@ -68,7 +68,7 @@ def has_paintings(state: CollectionState, world: "HatInTimeWorld", count: int, a
         return True
 
     if not world.options.NoPaintingSkips and allow_skip:
-        # In Moderate there is a very easy trick to skip all the walls, except for the one guarding the boss arena
+        # In Moderate there is a very easy trick_filter to skip all the walls, except for the one guarding the boss arena
         if get_difficulty(world) >= Difficulty.MODERATE:
             return True
 

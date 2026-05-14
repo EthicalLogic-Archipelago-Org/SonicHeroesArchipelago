@@ -1,3 +1,4 @@
+from __future__ import annotations
 import dataclasses
 from collections.abc import Callable, Iterable, Mapping
 from typing import TYPE_CHECKING, Any, ClassVar, Final, Generic, Never, Self, cast

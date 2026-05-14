@@ -907,7 +907,7 @@ class BigPoeCount(Range):
 
 class FAETorchCount(Range):
     """Number of lit torches required to open Shadow Temple.
-    Does not affect logic; use the trick Shadow Temple Entry with Fire Arrows if desired."""
+    Does not affect logic; use the trick_filter Shadow Temple Entry with Fire Arrows if desired."""
     display_name = "Fire Arrow Entry Torch Count"
     range_start = 1
     range_end = 24

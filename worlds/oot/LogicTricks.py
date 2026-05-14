@@ -110,7 +110,7 @@ known_logic_tricks = {
                     touching the Gold Skulltula, then let go and
                     jump slash immediately. By jump-slashing from
                     as low on the ladder as possible to still
-                    hit the Skulltula, this trick can be done
+                    hit the Skulltula, this trick_filter can be done
                     without taking fall damage.
                     '''},
     'Windmill PoH as Adult with Nothing': {
@@ -233,7 +233,7 @@ known_logic_tricks = {
                     have many hearts, you may have to reset the heat timer
                     by quickly dipping in and out of Darunia's chamber or
                     quickly equipping and unequipping the Goron Tunic.
-                    This trick does not apply if "Randomize Warp Song
+                    This trick_filter does not apply if "Randomize Warp Song
                     Destinations" is enabled, or if the settings are such
                     that trade items do not need to be delivered within a
                     time limit.
@@ -282,7 +282,7 @@ known_logic_tricks = {
         'tooltip' : '''\
                     It is possible to reach the Goron City Grotto by
                     quickly using the Hookshot while in the midst of
-                    taking damage from the lava floor. This trick will
+                    taking damage from the lava floor. This trick_filter will
                     not be expected on OHKO or quadruple damage.
                     '''},
     "Crater's Bean PoH with Hover Boots": {
@@ -316,7 +316,7 @@ known_logic_tricks = {
         'tooltip' : '''\
                     With careful positioning, you can jump to the ledge
                     where the boulder is, then use repeated ledge grabs
-                    to shimmy to a climbable ledge. This trick supersedes
+                    to shimmy to a climbable ledge. This trick_filter supersedes
                     "Death Mountain Crater Upper to Lower with Hammer".
                     '''},
     "Zora's River Lower Freestanding PoH as Adult with Nothing": {
@@ -437,7 +437,7 @@ known_logic_tricks = {
                     By memorizing the path, you can travel through the
                     Wasteland without using the Lens of Truth to see
                     the Poe.
-                    The equivalent trick for going in reverse through
+                    The equivalent trick_filter for going in reverse through
                     the Wasteland is "Reverse Wasteland".
                     '''},
     'Reverse Wasteland': {
@@ -448,7 +448,7 @@ known_logic_tricks = {
                     Wasteland in reverse.
                     Note that jumping to the carpet merchant as child
                     typically requires a fairly precise jump slash.
-                    The equivalent trick for going forward through the
+                    The equivalent trick_filter for going forward through the
                     Wasteland is "Lensless Wasteland".
                     To cross the river of sand with no additional items,
                     be sure to also enable "Wasteland Crossing without
@@ -484,7 +484,7 @@ known_logic_tricks = {
                     with the "Closed Forest" setting, a
                     Slingshot will not be guaranteed to
                     exist somewhere inside the Forest.
-                    This trick applies to both Vanilla
+                    This trick_filter applies to both Vanilla
                     and Master Quest.
                     '''},
     'Deku Tree Basement Web to Gohma with Bow': {
@@ -493,7 +493,7 @@ known_logic_tricks = {
         'tooltip' : '''\
                     All spider web walls in the Deku Tree basement can be burnt
                     as adult with just a bow by shooting through torches. This
-                    trick only applies to the circular web leading to Gohma;
+                    trick_filter only applies to the circular web leading to Gohma;
                     the two vertical webs are always in logic.
 
                     Backflip onto the chest near the torch at the bottom of
@@ -551,7 +551,7 @@ known_logic_tricks = {
         'tooltip' : '''\
                     With precise platforming, child can cross the
                     platforms while the flame circles are there.
-                    When enabling this trick, it's recommended that
+                    When enabling this trick_filter, it's recommended that
                     you also enable the Adult variant: "Dodongo's
                     Cavern Spike Trap Room Jump without Hover Boots".
                     '''},
@@ -595,7 +595,7 @@ known_logic_tricks = {
         'tooltip' : '''\
                     If you move very quickly, it is possible to use
                     the bomb flower at the top of the room to light
-                    the eyes. To perform this trick as child is
+                    the eyes. To perform this trick_filter as child is
                     significantly more difficult than adult. The
                     player is also expected to complete the DC back
                     area without explosives, including getting past
@@ -639,12 +639,12 @@ known_logic_tricks = {
                     precisely-aimed use of the Slingshot, Bow, or Longshot. As well,
                     if you climb to the top of the vines you can stand on the right
                     edge of the platform and shoot around the glass. From this
-                    distance, even the Hookshot can reach the switch. This trick is
+                    distance, even the Hookshot can reach the switch. This trick_filter is
                     only relevant if "Shuffle Boss Entrances" is enabled.
 
                     MQ Jabu: A Gold Skulltula Token can be collected with the
                     Hookshot or Longshot using the same methods as hitting the switch
-                    in vanilla. This trick is usually only relevant if Jabu dungeon
+                    in vanilla. This trick_filter is usually only relevant if Jabu dungeon
                     shortcuts are enabled.
                     '''},                    
     'Jabu Near Boss Ceiling Switch with Explosives': {
@@ -654,7 +654,7 @@ known_logic_tricks = {
                     You can hit the switch that opens the door to the boss
                     room using a precisely-aimed Bombchu. Also, using the
                     Hover Boots, adult can throw a Bomb at the switch. This
-                    trick is only relevant if "Shuffle Boss Entrances" is
+                    trick_filter is only relevant if "Shuffle Boss Entrances" is
                     enabled.
                     '''},
     'Jabu MQ without Lens of Truth': {
@@ -778,7 +778,7 @@ known_logic_tricks = {
                     ledge in the block puzzle room that leads to
                     the west courtyard. This skips a potential
                     Hover Boots requirement in vanilla, and it
-                    can sometimes apply in MQ as well. This trick
+                    can sometimes apply in MQ as well. This trick_filter
                     can be performed as both ages.
                     '''},
     'Swim Through Forest Temple MQ Well with Hookshot': {
@@ -930,7 +930,7 @@ known_logic_tricks = {
         'tooltip' : '''\
                     A precise jump off of a crate can be used to
                     climb to the upper maze without needing to spawn
-                    and use the Hookshot targets. This trick
+                    and use the Hookshot targets. This trick_filter
                     supersedes both "Fire Temple MQ Lower to Upper
                     Lizalfos Maze with Hover Boots" and "Fire Temple
                     MQ Lizalfos Maze Side Room without Box".
@@ -967,7 +967,7 @@ known_logic_tricks = {
                     area and lower water levels without Iron Boots.
                     The majority of the tricks that allow you to skip Iron Boots
                     in the Water Temple are not going to be relevant unless this
-                    trick is first enabled.
+                    trick_filter is first enabled.
                     '''},
     'Water Temple Cracked Wall with Hover Boots': {
         'name'    : 'logic_water_cracked_wall_hovers',
@@ -984,7 +984,7 @@ known_logic_tricks = {
                     A precise jump slash (among other methods) will
                     get you to the cracked wall without needing the
                     Hover Boots or to raise the water to the middle
-                    level. This trick supersedes "Water Temple
+                    level. This trick_filter supersedes "Water Temple
                     Cracked Wall with Hover Boots".
                     '''},
     'Water Temple Boss Key Region with Hover Boots': {
@@ -1006,7 +1006,7 @@ known_logic_tricks = {
                     vanilla Water Temple, boulders roll out into the room.
                     Normally to jump directly to this ledge logically
                     requires the Hover Boots, but with precise jump, it can
-                    be done without them. This trick applies to both
+                    be done without them. This trick_filter applies to both
                     Vanilla and Master Quest.
                     '''},
     'Water Temple Boss Key Jump Dive': {
@@ -1083,7 +1083,7 @@ known_logic_tricks = {
                     If you come into the dragon statue room from the
                     serpent river, you can jump down from above and get
                     into the tunnel without needing either Iron Boots
-                    or a Scale. This trick applies to both Vanilla and
+                    or a Scale. This trick_filter applies to both Vanilla and
                     Master Quest. In Vanilla, you must shoot the switch
                     from above with the Bow, and then quickly get
                     through the tunnel before the gate closes.
@@ -1114,7 +1114,7 @@ known_logic_tricks = {
                     gate, and it all needs to be done very quickly to be able to
                     get through before the gate closes. Be sure to enable "Water
                     Temple Dragon Statue Switch from Above the Water as Adult"
-                    for adult's variant of this trick.
+                    for adult's variant of this trick_filter.
                     '''},
     'Water Temple MQ Central Pillar with Fire Arrows': {
         'name'    : 'logic_water_mq_central_pillar',
@@ -1487,10 +1487,10 @@ known_logic_tricks = {
                     The Wallmaster will not track you to directly underneath the
                     rupee. You should take the last step to be under the rupee
                     after the Wallmaster has begun its attempt to grab you.
-                    Also included with this trick is that fact that the switch
+                    Also included with this trick_filter is that fact that the switch
                     that unbars the door to the final chest of GTG can be hit
                     without a projectile, using a precise jump slash.
-                    This trick supersedes "Gerudo Training Ground MQ Left Side
+                    This trick_filter supersedes "Gerudo Training Ground MQ Left Side
                     Silver Rupees with Hookshot".
                     '''},       
     "Ganon's Castle without Lens of Truth": {

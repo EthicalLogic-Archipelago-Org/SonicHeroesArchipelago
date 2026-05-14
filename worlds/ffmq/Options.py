@@ -9,7 +9,7 @@ class Logic(Choice):
     logic will only ensure the availability of the Mirror and the Mask. Standard: Items are randomly placed and logic
     merely verifies that they're all accessible. As for Region access, only the Coins are considered. Expert: Same as
     Standard, but Items Placement logic also includes other routes than Coins: the Crests Teleporters, the
-    Fireburg-Aquaria Lava bridge and the Sealed Temple Exit trick."""
+    Fireburg-Aquaria Lava bridge and the Sealed Temple Exit trick_filter."""
     option_friendly = 0
     option_standard = 1
     option_expert = 2

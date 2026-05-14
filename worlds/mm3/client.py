@@ -503,7 +503,7 @@ class MegaMan3Client(BizHawkClient):
 
         if bar_state[0] not in (0x00, 0x80):
             return  # Game is not initialized
-            # Bit of a trick here, bar state can only be 0x00 or 0x80 (display health bar, or don't)
+            # Bit of a trick_filter here, bar state can only be 0x00 or 0x80 (display health bar, or don't)
             # This means it can double as init guard and in-stage tracker
 
         if not ctx.finished_game and completed_stages[0] & 0x20:
