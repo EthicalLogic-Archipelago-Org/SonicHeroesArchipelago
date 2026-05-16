@@ -15,6 +15,8 @@ EVENT_LOCATION_ID: int = -999999 #not used as this is event
 LEVEL_GOAL_ALL_TEAMS_EVENT_ITEM = "Level Completion Event Item"
 LEVEL_GOAL_PER_TEAM_EVENT_ITEM_WITHOUT_TEAM = "Level Completion Event Item For Team"
 
+BOBSLED_ITEM_NAME: str = "Bobsled"
+
 
 class ChaosEmerald(enum.StrEnum):
     GREEN = f"Green {CHAOS_EMERALD}"

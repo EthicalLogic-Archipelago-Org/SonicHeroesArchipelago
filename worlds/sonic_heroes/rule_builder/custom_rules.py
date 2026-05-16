@@ -114,6 +114,33 @@ class HasFormationCharWithLevelForTeam(HasFormationCharForTeam, game=SONIC_HEROE
 
 
 @dataclasses.dataclass(kw_only=True)
+class HasFullFlyingStackWithTallChar(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
+    team: Team
+
+    @override
+    def _instantiate(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
+        has_flying_char: Rule[SonicHeroesWorldBase] = False_[SonicHeroesWorldBase]()
+        has_tall_power_char: Rule[SonicHeroesWorldBase] = False_[SonicHeroesWorldBase]()
+        has_all_3: Rule[SonicHeroesWorldBase] = True_[SonicHeroesWorldBase]()
+
+        char_list: list[Character] = get_all_characters_for_team(world=world, team=self.team)
+
+        if Character.OMEGA in char_list:
+            has_tall_power_char |= SonicHeroesMacroRule(child=Has(item_name=get_playable_char_item_name(character=Character.OMEGA)), name=f"Tall Power Char ({Character.OMEGA.char_name})")
+        if Character.BIG in char_list:
+            has_tall_power_char |= SonicHeroesMacroRule(child=Has(item_name=get_playable_char_item_name(character=Character.BIG)), name=f"Tall Power Char ({Character.BIG.char_name})")
+        if Character.VECTOR in char_list:
+            has_tall_power_char |= SonicHeroesMacroRule(child=Has(item_name=get_playable_char_item_name(character=Character.VECTOR)), name=f"Tall Power Char ({Character.VECTOR.char_name})")
+
+        for char in char_list:
+            has_all_3 &= Has(item_name=get_playable_char_item_name(character=char))
+            if char.formation == Formation.FLYING:
+                has_flying_char |= Has(item_name=get_playable_char_item_name(character=char))
+
+        return (has_flying_char & has_tall_power_char & has_all_3).resolve(world=world)
+
+
+@dataclasses.dataclass(kw_only=True)
 class CanAutoPowerAttack(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
     """
     Checks for having the power char and a second char for the auto attack feature

@@ -1,9 +1,8 @@
 """
 Options for Sonic Heroes AP
 """
-from __future__ import annotations
 import dataclasses
-from typing import TYPE_CHECKING, ClassVar
+from typing import ClassVar
 
 from Options import Choice, OptionGroup, PerGameCommonOptions, Toggle, Visibility
 
@@ -45,12 +44,12 @@ class HoverFrame(Choice):
     """
     Should Hover Frames be enabled logically?
     Holding the jump button allows for a certain amount of "Hover Frames"
-    Combining this with tornado allows for extra height and distance
+    Combining this with homing attack or tornado allows for extra height and distance
     """
     display_name: str = "Collision Abuse"
     option_disabled: int = 0
     option_jump_hover: int = 1
-    option_jump_and_tornado_hover: int = 2
+    option_jump_and_homing_or_tornado_hover: int = 2
     default: ClassVar[int] = option_disabled
 
 class Parkour(Toggle):
@@ -86,6 +85,17 @@ class FlyGroundBounce(Choice):
 
 sonic_heroes_option_groups: list[OptionGroup] = \
 [
+    OptionGroup(name="Tricks",
+                options = \
+                [
+                    Difficulty,
+                    BadnikBounce,
+                    CollisAbuse,
+                    HoverFrame,
+                    Parkour,
+                    FlyDepleteBoost,
+                    FlyGroundBounce,
+                ]),
     OptionGroup(name="Hidden",
                 options = \
                 [

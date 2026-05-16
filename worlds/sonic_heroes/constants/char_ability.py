@@ -64,14 +64,24 @@ class Ability(enum.Enum):
 
 
 class Character(enum.Enum):
+    SONIC = ("Sonic", Team.SONIC, Formation.SPEED, [Ability.HOMING_ATTACK, Ability.TORNADO, Ability.ROCKET_ACCEL, Ability.LIGHT_DASH, Ability.TRIANGLE_JUMP, Ability.LIGHT_ATTACK])
+    TAILS = ("Tails", Team.SONIC, Formation.FLYING, [Ability.THUNDER_SHOOT, Ability.FLIGHT, Ability.DUMMY_RINGS])
     KNUCKLES = ("Knuckles", Team.SONIC, Formation.POWER, [Ability.POWER_ATTACK, Ability.FIRE_DUNK, Ability.GLIDE, Ability.COMBO_FINISHER])
 
     SHADOW = ("Shadow", Team.DARK, Formation.SPEED, [Ability.HOMING_ATTACK, Ability.TORNADO, Ability.ROCKET_ACCEL, Ability.LIGHT_DASH, Ability.TRIANGLE_JUMP])
     ROUGE = ("Rouge", Team.DARK, Formation.FLYING, [Ability.THUNDER_SHOOT, Ability.FLIGHT, Ability.DUMMY_RINGS])
     OMEGA = ("Omega", Team.DARK, Formation.POWER, [Ability.POWER_ATTACK, Ability.FIRE_DUNK, Ability.GLIDE, Ability.COMBO_FINISHER])
 
-    CHARMY = ("Charmy", Team.CHAOTIX, Formation.FLYING, [Ability.THUNDER_SHOOT, Ability.FLIGHT, Ability.FLOWER_STING])
+    AMY = ("Amy", Team.ROSE, Formation.SPEED, [Ability.AMY_HAMMER_HOVER, Ability.HOMING_ATTACK, Ability.TORNADO, Ability.ROCKET_ACCEL])
+    CREAM = ("Cream", Team.ROSE, Formation.FLYING, [Ability.THUNDER_SHOOT, Ability.FLIGHT, Ability.CHEESE_CANNON])
+    BIG = ("Big", Team.ROSE, Formation.POWER, [Ability.POWER_ATTACK, Ability.BELLY_FLOP, Ability.FIRE_DUNK, Ability.GLIDE, Ability.COMBO_FINISHER])
 
+    ESPIO = ("Espio", Team.CHAOTIX, Formation.SPEED, [Ability.HOMING_ATTACK, Ability.TORNADO, Ability.ROCKET_ACCEL, Ability.TRIANGLE_JUMP, Ability.INVISIBILITY, Ability.SHURIKEN])
+    CHARMY = ("Charmy", Team.CHAOTIX, Formation.FLYING, [Ability.THUNDER_SHOOT, Ability.FLIGHT, Ability.FLOWER_STING])
+    VECTOR = ("Vector", Team.CHAOTIX, Formation.POWER, [Ability.POWER_ATTACK, Ability.BELLY_FLOP, Ability.FIRE_DUNK, Ability.GLIDE, Ability.COMBO_FINISHER])
+
+    SUPER_HARD_MODE_SONIC = ("Super Hard Mode Sonic", Team.SONIC, Formation.SPEED, [Ability.HOMING_ATTACK, Ability.TORNADO, Ability.ROCKET_ACCEL, Ability.LIGHT_DASH, Ability.TRIANGLE_JUMP, Ability.LIGHT_ATTACK])
+    SUPER_HARD_MODE_TAILS = ("Super Hard Mode Tails", Team.SONIC, Formation.FLYING, [Ability.THUNDER_SHOOT, Ability.FLIGHT, Ability.DUMMY_RINGS])
     SUPER_HARD_MODE_KNUCKLES = ("Super Hard Mode Knuckles", Team.SUPER_HARD_MODE, Formation.POWER, [Ability.POWER_ATTACK, Ability.FIRE_DUNK, Ability.GLIDE, Ability.COMBO_FINISHER])
 
     def __init__(self, char_name: str, team: Team, formation: Formation, abilities: list[Ability]) -> None:

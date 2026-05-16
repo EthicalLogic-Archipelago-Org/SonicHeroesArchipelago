@@ -8,7 +8,8 @@ from worlds.sonic_heroes.constants.enemies import SonicHeroesEnemy
 
 def get_func_str(func_name: str, params: dict[str, str | int | bool | enum.Enum | SonicHeroesEnemy]) -> str:
     if func_name == "":
-        return "True_[SonicHeroesWorldBase]()"
+        # return "True_[SonicHeroesWorldBase]()"
+        return "None"
     if func_name == "NOTPOSSIBLE":
         return "False_[SonicHeroesWorldBase]()"
 

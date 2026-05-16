@@ -8,7 +8,8 @@ from rule_builder.rules import Rule
 from ..constants.char_ability import Ability, Formation, Team
 from ..constants.stage import Stage
 from ..constants.stage_objs import StageObj
-from .rule_functions import can_team_blast_rule, can_ability_rule, has_formation_char_rule, has_stage_obj_rule
+from .functions_ability_char import can_team_blast_rule, can_ability_rule, has_formation_char_rule
+from .functions_stage_obj import has_stage_obj_rule
 from ..world_base import SonicHeroesWorldBase
 
 

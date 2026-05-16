@@ -11,9 +11,12 @@ from .parser_functions import get_func_str
 
 PARSER_TRICK_MAPPING: dict[str, Callable[[Team, Stage], str]] = \
 {
+    "Medium": lambda team, stage: get_func_str(func_name="can_medium_diff_rule", params={}),
+
     "BadnikBounce": lambda team, stage: get_func_str(func_name="can_badnik_bounce_rule", params={}),
     "CollisAbuse": lambda team, stage: get_func_str(func_name="can_collis_abuse_rule", params={}),
-    "HoverFrame": lambda team, stage: get_func_str(func_name="can_hover_frame_rule", params={"includes_tornado": False}),
+    "HoverFrame": lambda team, stage: get_func_str(func_name="can_hover_frame_rule", params={"includes_homing_or_tornado": False}),
+    "Homing0Hover": lambda team, stage: get_func_str(func_name="can_homing_hover_rule", params={"team": team, "stage": stage, "level": 0}),
     "Tornado0Hover": lambda team, stage: get_func_str(func_name="can_tornado_hover_rule", params={"team": team, "stage": stage, "level": 0}),
     "Parkour": lambda team, stage: get_func_str(func_name="can_parkour_rule", params={}),
     "FlyDepleteBoost": lambda team, stage: get_func_str(func_name="can_fly_deplete_boost_rule", params={"team": team, "stage": stage}),

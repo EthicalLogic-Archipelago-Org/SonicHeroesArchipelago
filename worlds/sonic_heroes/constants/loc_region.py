@@ -81,9 +81,7 @@ class SonicHeroesLocationData:
 @dataclasses.dataclass
 class SonicHeroesRegionData:
     region_name: str
-
-    location_list: list[SonicHeroesLocationData] = dataclasses.field(default_factory=list)
-    """Could make this custom class obj (and match off of name or something)"""
+    obj_checks: int
 
 
 @dataclasses.dataclass(kw_only=True)
@@ -94,13 +92,12 @@ class SonicHeroesConnectionData:
     """Source Region Name"""
     target_region: str
     """Target Region Name"""
-    rule_str: str
-    """str repr of Rule"""
     rule: Rule[SonicHeroesWorldBase] = dataclasses.field(default_factory=get_default_true_rule)
+    """Rule"""
 
 
     def __post_init__(self) -> None:
-        # TODO handle rule str to Rule
+        # TODO handle rule str to Rule (to be handled during parsing)
         pass
 
 

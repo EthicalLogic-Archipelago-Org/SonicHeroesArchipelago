@@ -60,7 +60,7 @@ class Stage(enum.Enum):
                 Team.ANY_TEAM: 0,
                 Team.SONIC: 3,
                 Team.DARK: 3,
-                Team.ROSE: 3,
+                Team.ROSE: 2,
                 Team.CHAOTIX: 3,
                 Team.SUPER_HARD_MODE: 0
             },
@@ -71,7 +71,7 @@ class Stage(enum.Enum):
                 Team.DARK: 4,
                 Team.ROSE: 2,
                 Team.CHAOTIX: 4,
-                Team.SUPER_HARD_MODE: 0
+                Team.SUPER_HARD_MODE: 4
             },
             {
                 # chaotix objsanity checks
@@ -84,6 +84,41 @@ class Stage(enum.Enum):
                 Act.ACT_2: "Hermit Crabs Collected",
             },
             "SH"
+        )
+    OCEAN_PALACE = \
+        (
+            "Ocean Palace",
+            StageType.NORMAL_STAGE,
+            StageRegion.OCEAN_REGION,
+            {
+                # bonus keys
+                Team.ANY_TEAM: 0,
+                Team.SONIC: 3,
+                Team.DARK: 3,
+                Team.ROSE: 3,
+                Team.CHAOTIX: 3,
+                Team.SUPER_HARD_MODE: 0
+            },
+            {
+                # checkpoints
+                Team.ANY_TEAM: 0,
+                Team.SONIC: 4,
+                Team.DARK: 5,
+                Team.ROSE: 2,
+                Team.CHAOTIX: 2,
+                Team.SUPER_HARD_MODE: 5
+            },
+            {
+                # chaotix objsanity checks
+                Act.ACT_1: 0,
+                Act.ACT_2: 0,
+            },
+            {
+                # chaotix objsanity str
+                Act.ACT_1: "",
+                Act.ACT_2: "",
+            },
+            "OP"
         )
 
     SEASIDE_HILL_BONUS_STAGE = \

@@ -9,12 +9,16 @@ from rule_builder.rules import Rule
 from ..constants.char_ability import Ability, Formation, Team
 from ..constants.stage import Stage
 from .custom_rules import HasAbilityItem, HasAbilityItemLevel, HasAbilityItemLevelOtherChars, CanTeamBlast, \
-    HasComboHeight, HasFormationCharForTeam, SonicHeroesMacroRule, CanAutoPowerAttack
+    HasComboHeight, HasFormationCharForTeam, SonicHeroesMacroRule, CanAutoPowerAttack, HasFullFlyingStackWithTallChar
 from ..world_base import SonicHeroesWorldBase
 
 
 def has_formation_char_rule(team: Team, formation: Formation) -> Rule[SonicHeroesWorldBase]:
     return HasFormationCharForTeam(team=team, formation=formation)
+
+
+def has_full_flying_stack_with_tall_char(team: Team) -> Rule[SonicHeroesWorldBase]:
+    return SonicHeroesMacroRule(child=HasFullFlyingStackWithTallChar(team=team), name=f"Full Flying Stack with Tall Char as Team: {team}")
 
 
 def can_ability_rule(team: Team, stage: Stage, ability: Ability, level: int = 0, other_chars: int = 0) -> Rule[SonicHeroesWorldBase]:

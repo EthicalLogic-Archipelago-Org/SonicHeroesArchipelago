@@ -4,8 +4,20 @@
 from typing import Callable
 
 from .parser_functions import get_func_str
-from ..constants.char_ability import Team
+from ..constants.char_ability import Team, Formation
 from ..constants.stage import Stage
+
+
+
+PARSER_FORMATION_CHARACTER_MAPPING: dict[str, Callable[[Team, Stage], str]] = \
+{
+    "SpeedChar": lambda team, stage: get_func_str(func_name="has_formation_char_rule", params={"team": team, "formation": Formation.SPEED}),
+    "PowerChar": lambda team, stage: get_func_str(func_name="has_formation_char_rule", params={"team": team, "formation": Formation.POWER}),
+    "FlyingChar": lambda team, stage: get_func_str(func_name="has_formation_char_rule", params={"team": team, "formation": Formation.FLYING}),
+
+
+    "FullFlyingStackwithTallChar": lambda team, stage: get_func_str(func_name="has_full_flying_stack_with_tall_char", params={"team": team}),
+}
 
 
 PARSER_ABILITY_MAPPING: dict[str, Callable[[Team, Stage], str]] = \
