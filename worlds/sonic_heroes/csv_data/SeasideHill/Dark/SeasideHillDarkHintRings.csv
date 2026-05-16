@@ -1,0 +1,9 @@
+Team,Level,Region,Rule,Voiceline,X,Y,Z,Notes,Notes 2
+Dark,Seaside Hill,Beginning Flower Patch,HintRing,27,24.45,190,-1632.55,,
+Dark,Seaside Hill,Eggmans Robots Bottom,HintRing,30,-177.01,330,-6675.51,,
+Dark,Seaside Hill,Eggmans Robots Top,HintRing,414,-705.99,530,-6669.76,,
+Dark,Seaside Hill,Staircase Before Corner Cave Bottom,HintRing,121,-2309.88,480,-6401.89,,
+Dark,Seaside Hill,Ruin Before Corner Cave,HintRing,64,-2831.04,690,-6470.78,,
+Dark,Seaside Hill,First Island,HintRingAND(ComboHeightORJumpORThundershoot0),78,-4490.37,21.5,-10896.22,to be moved to -4505.685 x,can be touched with flying stack OOL
+Dark,Seaside Hill,Ruin Between Big Ruin Beach Islands,HintRing,24,1231.38,51.09,-18541.68,,
+Dark,Seaside Hill,Big Ruin Beach Island 2,HintRing,2,1599.577,33,-19697.19,,

@@ -18,6 +18,8 @@ PARSER_STAGE_OBJ_MAPPING: dict[str, Callable[[Team, Stage], str]] = \
 
     "TripleSpring": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"stage_obj": StageObj.TRIPLE_SPRING}),
 
+    "HintRing": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"stage_obj": StageObj.HINT_RING}),
+
     "DashRamp": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"stage_obj": StageObj.DASH_RAMP}),
 
     "DashPanel": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"stage_obj": StageObj.DASH_PANEL}),
