@@ -30,6 +30,10 @@ PARSER_STAGE_OBJ_MAPPING: dict[str, Callable[[Team, Stage], str]] = \
 
     "Cannon": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"stage_obj": StageObj.CANNON}),
 
+    "ItemBox": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"stage_obj": StageObj.ITEM_BOX}),
+
+    "ItemBalloon": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"stage_obj": StageObj.ITEM_BALLOON}),
+
     "GoalRing": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"stage_obj": StageObj.GOAL_RING}),
 
     "RuinsNoTrigger": lambda team, stage: get_func_str(func_name="has_moving_ruins_rule", params={"needs_trigger": False}),

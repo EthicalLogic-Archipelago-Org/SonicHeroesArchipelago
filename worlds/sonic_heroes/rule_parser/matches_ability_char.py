@@ -23,6 +23,9 @@ PARSER_FORMATION_CHARACTER_MAPPING: dict[str, Callable[[Team, Stage], str]] = \
 PARSER_ABILITY_MAPPING: dict[str, Callable[[Team, Stage], str]] = \
 {
     "BreakThings": lambda team, stage: get_func_str(func_name="can_break_things_rule", params={"team": team, "stage": stage}),
+
+    "BreakIronContainer": lambda team, stage: get_func_str(func_name="can_break_iron_container_rule", params={"team": team, "stage": stage}),
+
     "ComboHeight": lambda team, stage: get_func_str(func_name="can_combo_height_rule", params={"team": team, "stage": stage}),
     "Jump": lambda team, stage: get_func_str(func_name="can_jump_rule", params={"team": team, "stage": stage}),
 

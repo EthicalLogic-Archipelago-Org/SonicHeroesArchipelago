@@ -3,32 +3,6 @@ Constants used by the parser
 """
 import regex
 
-from rule_builder.rules import Rule
-
-from ..constants.char_ability import Team
-from ..constants.stage import Stage
-from ..constants.stage_objs import StageObj
-from ..rule_builder.sonic_heroes_rules import RULES
-from ..world_base import SonicHeroesWorldBase
-
-
-# RULES_NAME: str = "RULES"
-# GET_FORMATION_CHAR_RULE: str = f"{RULES_NAME}.get_formation_character_rule"
-# GET_STAGE_OBJ_RULE: str = f"{RULES_NAME}.get_stage_obj_rule"
-# GET_TEAM_BLAST_RULE: str = f"{RULES_NAME}.get_team_blast_rule"
-# GET_ABILITY_RULE: str = f"{RULES_NAME}.get_ability_rule"
-#
-#
-# TEAM_REF_STR: str = "Team"
-# FORMATION_REF_STR: str = "Formation"
-# HAS_FORM_CHAR_FOR_TEAM_DICT_NAME: str = "HAS_FORMATION_CHAR_RULES"
-#
-# ABILITY_REF_STR: str = "Ability"
-# ABILITY_DICT_NAME: str = "CHAR_ABILITY_RULES"
-#
-# STAGE_OBJ_REF_STR: str = "StageObj"
-# STAGE_OBJ_RULE_DICT_NAME: str = "STAGE_OBJ_RULES"
-
 
 AND_CONDITION_PATTERN: regex.Pattern[str] = regex.compile(pattern=r"(AND)")
 OR_CONDITION_PATTERN: regex.Pattern[str] = regex.compile(pattern=r"(OR)")
@@ -47,6 +21,7 @@ OBJ_CHECKS_HEADER: str = "ObjChecks"
 
 REGION_HEADER: str = "Region"
 VOICE_LINE_HEADER: str = "Voiceline"
+ITEM_HEADER: str = "Item"
 X_HEADER: str = "X"
 Y_HEADER: str = "Y"
 Z_HEADER: str = "Z"
@@ -71,6 +46,7 @@ PARSER_WORLD_BASE_IMPORT: str = "from ....world_base import SonicHeroesWorldBase
 PARSER_REGION_DATA_IMPORT: str = "from ....constants.loc_region import SonicHeroesRegionData"
 PARSER_CONNECTION_DATA_IMPORT: str = "from ....constants.loc_region import SonicHeroesConnectionData"
 PARSER_HINT_RING_IMPORT: str = "from ....constants.hint_rings import HintRingData"
+PARSER_ITEM_BALLOON_BOX_IMPORT: str = "from ....constants.item_balloon_box import *"
 
 
 PARSER_FILE_HEADER_START: str = \
@@ -99,8 +75,19 @@ f"""{PARSER_FILE_HEADER_START}
 
 """
 
+
 HINT_RING_PARSER_FILE_HEADER: str = \
 f"""{PARSER_FILE_HEADER_START}
 {PARSER_HINT_RING_IMPORT}
 
 """
+
+
+ITEM_BALLOON_BOX_PARSER_FILE_HEADER: str = \
+f"""{PARSER_FILE_HEADER_START}
+{PARSER_ITEM_BALLOON_BOX_IMPORT}
+
+"""
+
+
+

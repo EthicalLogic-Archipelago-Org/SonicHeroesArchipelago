@@ -24,7 +24,7 @@ class HintRingData:
     x: float
     y: float
     z: float
-    rule: Rule[SonicHeroesWorldBase] = get_default_true_rule()
+    rule: Rule[SonicHeroesWorldBase] = dataclasses.field(default_factory=get_default_true_rule)
 
     @property
     def pos(self) -> tuple[float, float, float]:

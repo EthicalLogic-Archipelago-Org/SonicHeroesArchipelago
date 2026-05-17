@@ -11,7 +11,7 @@ from ..rule_builder.custom_rules import HasEnemyItem, SonicHeroesMacroRule
 from ..world_base import SonicHeroesWorldBase
 from .functions_ability_char import can_auto_power_attack_rule, can_belly_flop_rule, can_break_things_rule, can_combo_finisher_rule, \
     can_fire_dunk_rule, can_homing_attack_rule, can_jump_rule, can_power_attack_rule, \
-    can_rocket_accel_rule, can_team_blast_rule, can_thundershoot_rule, can_tornado_rule, can_flight_rule, can_kick
+    can_rocket_accel_rule, can_team_blast_rule, can_thundershoot_rule, can_tornado_rule, can_flight_rule, can_kick_rule
 
 
 def has_enemy_obj(team: Team, stage: Stage, enemy: SonicHeroesEnemy) -> Rule[SonicHeroesWorldBase]:
@@ -117,7 +117,7 @@ def can_remove_shield(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
 
 
 def can_kill_basic_egg_pawn(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
-    return can_jump_rule(team=team, stage=stage) | can_homing_attack_rule(team=team, stage=stage, level=0) | can_kick(team=team, stage=stage) | can_auto_power_attack_rule(team=team, stage=stage) | can_break_things_rule(team=team, stage=stage) | can_thundershoot_rule(team=team, stage=stage, level=1) | can_team_blast_rule(team=team, stage=stage)
+    return can_jump_rule(team=team, stage=stage) | can_homing_attack_rule(team=team, stage=stage, level=0) | can_kick_rule(team=team, stage=stage) | can_auto_power_attack_rule(team=team, stage=stage) | can_break_things_rule(team=team, stage=stage) | can_thundershoot_rule(team=team, stage=stage, level=1) | can_team_blast_rule(team=team, stage=stage)
 
 
 def can_kill_egg_pawn_bazooka(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
@@ -125,11 +125,11 @@ def can_kill_egg_pawn_bazooka(team: Team, stage: Stage) -> Rule[SonicHeroesWorld
 
 
 def can_kill_egg_pawn_lance(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
-    return can_homing_attack_rule(team=team, stage=stage, level=0) | can_kick(team=team, stage=stage) | can_auto_power_attack_rule(team=team, stage=stage) | can_break_things_rule(team=team, stage=stage) | can_thundershoot_rule(team=team, stage=stage, level=1) | can_team_blast_rule(team=team, stage=stage)
+    return can_homing_attack_rule(team=team, stage=stage, level=0) | can_kick_rule(team=team, stage=stage) | can_auto_power_attack_rule(team=team, stage=stage) | can_break_things_rule(team=team, stage=stage) | can_thundershoot_rule(team=team, stage=stage, level=1) | can_team_blast_rule(team=team, stage=stage)
 
 
 def can_kill_egg_pawn_machine_gun(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
-    return can_homing_attack_rule(team=team, stage=stage, level=0) | can_kick(team=team, stage=stage) | can_auto_power_attack_rule(team=team, stage=stage) | can_break_things_rule(team=team, stage=stage) | can_thundershoot_rule(team=team, stage=stage, level=1) | can_team_blast_rule(team=team, stage=stage)
+    return can_homing_attack_rule(team=team, stage=stage, level=0) | can_kick_rule(team=team, stage=stage) | can_auto_power_attack_rule(team=team, stage=stage) | can_break_things_rule(team=team, stage=stage) | can_thundershoot_rule(team=team, stage=stage, level=1) | can_team_blast_rule(team=team, stage=stage)
 
 
 def can_break_concrete_shield(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
