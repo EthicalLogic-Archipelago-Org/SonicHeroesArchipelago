@@ -3,7 +3,7 @@ Constants related to Enemies
 """
 import dataclasses
 import enum
-from typing import override
+from typing import Self, override
 
 
 #enemy Enums
@@ -17,6 +17,23 @@ class EnemyHeight(enum.Enum):
     def __init__(self, description: str, relative_value: int) -> None:
         self.description = description
         self.relative_value = relative_value
+
+    @classmethod
+    def match(cls, input_str: str):
+        if input_str == "Ground":
+            return EnemyHeight.GROUND
+        elif input_str == "Jump":
+            return EnemyHeight.JUMP
+        elif input_str == "Homing":
+            return EnemyHeight.HOMING
+        elif input_str == "JumpAndThundershoot":
+            return EnemyHeight.JUMP_THUNDERSHOOT
+        elif input_str == "FlightAndThundershoot":
+            return EnemyHeight.FLIGHT_THUNDERSHOOT
+        else:
+            raise ValueError(f"Unknown EnemyHeight match for {input_str}")
+
+
 
 
 

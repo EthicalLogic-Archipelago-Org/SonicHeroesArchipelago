@@ -15,6 +15,7 @@ from ....world_base import SonicHeroesWorldBase
 
 from ....constants.hint_rings import HintRingData
 
+
 SeasideHillDarkHintRings: list[HintRingData] = \
 [
     HintRingData(team=Team.DARK, stage=Stage.SEASIDE_HILL, region_name="Seaside Hill Dark Beginning Flower Patch", voice_line=27, x=24.45, y=190.0, z=-1632.55, rule=has_stage_obj_rule(stage_obj=StageObj.HINT_RING)),
