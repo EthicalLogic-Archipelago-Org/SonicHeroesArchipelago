@@ -9,6 +9,7 @@ from rule_builder.rules import Rule
 
 from .char_ability import Team
 from .stage import Stage
+from .stage_objs import StageObjBase, StageObj
 from ..helper_functions import get_default_true_rule
 from ..world_base import SonicHeroesWorldBase
 
@@ -34,20 +35,21 @@ class ItemReward(enum.StrEnum):
     None3Spring = "None3Spring"
 
 
+
 @dataclasses.dataclass
-class ItemBalloonBoxData:
-    team: Team
-    stage: Stage
-    region_name: str
+class ItemBoxData(StageObjBase):
     item: ItemReward
-    x: float
-    y: float
-    z: float
     rule: Rule[SonicHeroesWorldBase] = dataclasses.field(default_factory=get_default_true_rule)
 
-    @property
-    def pos(self) -> tuple[float, float, float]:
-        return self.x, self.y, self.z
+    obj_id: StageObj = dataclasses.field(init=False, default=StageObj.ITEM_BOX)
+
+
+@dataclasses.dataclass
+class ItemBalloonData(StageObjBase):
+    item: ItemReward
+    rule: Rule[SonicHeroesWorldBase] = dataclasses.field(default_factory=get_default_true_rule)
+
+    obj_id: StageObj = dataclasses.field(init=False, default=StageObj.ITEM_BALLOON)
 
 
 

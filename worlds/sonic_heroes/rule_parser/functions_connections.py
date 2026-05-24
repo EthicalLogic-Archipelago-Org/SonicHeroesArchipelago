@@ -4,7 +4,7 @@ Functions used by the parser related to Connections
 import csv
 import os
 
-from .functions_parser import handle_full_rule_string
+from .functions_parser import handle_full_rule_string, get_csv_file_name
 from .parser_constants import *
 from .. import csv_data
 from .. import parsed_data
@@ -14,8 +14,8 @@ from ..constants.stage import Stage
 connection_id: int = 0
 
 
-def get_connection_csv_file_name(team: Team, stage: Stage, secret: bool = False) -> str:  # pyright: ignore[reportUnusedParameter]
-    return f"{stage.stage_name.replace(" ", "")}{team.replace(" ", "")}Connections"
+def get_connection_csv_file_name(team: Team, stage: Stage, secret: bool = False) -> str:
+    return get_csv_file_name(team=team, stage=stage, file_type="Connections", secret=secret)
 
 
 def parse_connection_csv(team: Team, stage: Stage, secret: bool = False) -> None:

@@ -67,6 +67,12 @@ def has_full_flying_stack_with_tall_char(team: Team) -> Rule[SonicHeroesWorldBas
 #             return can_combo_finisher_rule(team=team, stage=stage, level=level)
 
 
+def can_break_things_rule(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
+    if team == Team.SONIC:
+        return SonicHeroesMacroRule(child=can_power_attack_rule(team=team, stage=stage, level=0) | can_belly_flop_rule(team=team, stage=stage, level=0) | can_fire_dunk_rule(team=team, stage=stage, level=0) | can_combo_finisher_rule(team=team, stage=stage, level=1) | can_team_blast_rule(team=team, stage=stage), name=f"Break Things as Team: {team} in {stage.stage_name}")
+    return SonicHeroesMacroRule(child=can_power_attack_rule(team=team, stage=stage, level=0) | can_belly_flop_rule(team=team, stage=stage, level=0) | can_fire_dunk_rule(team=team, stage=stage, level=0) | can_combo_finisher_rule(team=team, stage=stage, level=1), name=f"Break Things as Team: {team} in {stage.stage_name}")
+
+
 def can_break_wood_container_rule(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
     if team == Team.SONIC:
         return SonicHeroesMacroRule(child=can_kick_rule(team=team, stage=stage) | can_rocket_accel_rule(team=team, stage=stage, num_other_chars=1) | can_power_attack_rule(team=team, stage=stage, level=0) | can_belly_flop_rule(team=team, stage=stage, level=0) | can_fire_dunk_rule(team=team, stage=stage, level=0) | can_combo_finisher_rule(team=team, stage=stage, level=1) | can_team_blast_rule(team=team, stage=stage), name=f"Break Wood Container as Team: {team} in {stage.stage_name}")
@@ -78,12 +84,6 @@ def can_break_iron_container_rule(team: Team, stage: Stage) -> Rule[SonicHeroesW
     if team == Team.SONIC:
         return SonicHeroesMacroRule(child=can_power_attack_rule(team=team, stage=stage, level=0) | can_belly_flop_rule(team=team, stage=stage, level=0) | can_fire_dunk_rule(team=team, stage=stage, level=0) | can_combo_finisher_rule(team=team, stage=stage, level=1) | can_team_blast_rule(team=team, stage=stage), name=f"Break Iron Container as Team: {team} in {stage.stage_name}")
     return SonicHeroesMacroRule(child=can_power_attack_rule(team=team, stage=stage, level=0) | can_belly_flop_rule(team=team, stage=stage, level=0) | can_fire_dunk_rule(team=team, stage=stage, level=0) | can_combo_finisher_rule(team=team, stage=stage, level=1), name=f"Break Iron Container as Team: {team} in {stage.stage_name}")
-
-
-def can_break_things_rule(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
-    if team == Team.SONIC:
-        return SonicHeroesMacroRule(child=can_power_attack_rule(team=team, stage=stage, level=0) | can_belly_flop_rule(team=team, stage=stage, level=0) | can_fire_dunk_rule(team=team, stage=stage, level=0) | can_combo_finisher_rule(team=team, stage=stage, level=1) | can_team_blast_rule(team=team, stage=stage), name=f"Break Things as Team: {team} in {stage.stage_name}")
-    return SonicHeroesMacroRule(child=can_power_attack_rule(team=team, stage=stage, level=0) | can_belly_flop_rule(team=team, stage=stage, level=0) | can_fire_dunk_rule(team=team, stage=stage, level=0) | can_combo_finisher_rule(team=team, stage=stage, level=1), name=f"Break Things as Team: {team} in {stage.stage_name}")
 
 
 def can_jump_rule(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:

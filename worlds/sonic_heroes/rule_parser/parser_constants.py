@@ -22,6 +22,11 @@ OBJ_CHECKS_HEADER: str = "ObjChecks"
 REGION_HEADER: str = "Region"
 VOICE_LINE_HEADER: str = "Voiceline"
 ITEM_HEADER: str = "Item"
+TYPE_HEADER: str = "Type"
+WEAPON_HEADER: str = "Weapon"
+ARMOR_HEADER: str = "Armor"
+SHIELD_HEADER: str = "Shield"
+HEIGHT_HEADER: str = "Height"
 X_HEADER: str = "X"
 Y_HEADER: str = "Y"
 Z_HEADER: str = "Z"
@@ -47,6 +52,7 @@ PARSER_REGION_DATA_IMPORT: str = "from ....constants.loc_region import SonicHero
 PARSER_CONNECTION_DATA_IMPORT: str = "from ....constants.loc_region import SonicHeroesConnectionData"
 PARSER_HINT_RING_IMPORT: str = "from ....constants.hint_rings import HintRingData"
 PARSER_ITEM_BALLOON_BOX_IMPORT: str = "from ....constants.item_balloon_box import *"
+PARSER_ENEMY_IMPORT: str = "from ....constants.enemies import *"
 
 
 PARSER_FILE_HEADER_START: str = \
@@ -90,4 +96,8 @@ f"""{PARSER_FILE_HEADER_START}
 """
 
 
+ENEMY_PARSER_FILE_HEADER: str = \
+f"""{PARSER_FILE_HEADER_START}
+{PARSER_ENEMY_IMPORT}
 
+"""

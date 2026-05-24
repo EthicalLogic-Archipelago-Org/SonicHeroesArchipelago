@@ -5,7 +5,7 @@ from typing import Callable
 
 from ..constants.char_ability import Team
 from ..constants.stage import Stage
-from .parser_functions import get_func_str
+from .matches_functions import get_func_str
 
 
 

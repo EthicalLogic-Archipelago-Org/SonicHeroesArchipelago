@@ -1,2 +1,2 @@
-Team,Level,Region,Rule,Type,Weapon,Armor,Shield,Height,X,Y,Z,Notes,Notes 2
-Dark,Seaside Hill,First Loop,ItemBox,Egg Flapper,No Weapon,No Armor,No Shield,Ground,0,40,-1412,,
+Team,Level,Region,Rule,LinkID,Type,SpecialType,Weapon,Armor,Shield,Height,RhinoAttack,RhinoPath,X,Y,Z,Notes,Notes 2
+Dark,Seaside Hill,First Loop,,,Egg Flapper,,No Weapon,No Armor,No Shield,Ground,,,0,40,-1412,,

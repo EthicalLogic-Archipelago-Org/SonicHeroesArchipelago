@@ -4,7 +4,7 @@ Constants related to Stages
 from __future__ import annotations
 import dataclasses
 import enum
-from typing import override, TYPE_CHECKING
+from typing import override, TYPE_CHECKING, Self
 
 from .char_ability import Team
 
@@ -47,125 +47,773 @@ class StageType(enum.StrEnum):
     MULTIPLAYER_SPECIAL_STAGE = "Multiplayer Special Stage"
 
 
-# level/stage
+@dataclasses.dataclass(kw_only=True)
+class _StageData:
+    stage_name: str
+    stage_type: StageType = StageType.TEST_STAGE
+    region: StageRegion = StageRegion.ALL_REGIONS
+    bonus_keys: dict[Team, int] = dataclasses.field(default_factory=lambda: {team: 0 for team in Team})
+    checkpoints: dict[Team, int] = dataclasses.field(default_factory=lambda: {team: 0 for team in Team})
+    chaotix_obj_sanity_checks: dict[Act, int] = dataclasses.field(default_factory=lambda: {act: 0 for act in Act})
+    chaotix_obj_sanity_str: dict[Act, str] = dataclasses.field(default_factory=lambda: {act: "NoChaotixSanityChecks" for act in Act})
+    rule_shorthand: str = "NoShorthand"
+
+
 class Stage(enum.Enum):
-    # TEST_LEVEL = "Test Level"
-    SEASIDE_HILL = \
-        (
-            "Seaside Hill",
-            StageType.NORMAL_STAGE,
-            StageRegion.OCEAN_REGION,
+    TEST_LEVEL = _StageData \
+    (
+        stage_name="TEST_LEVEL"
+    )
+    SEASIDE_HILL = _StageData \
+    (
+        stage_name="Seaside Hill",
+        stage_type=StageType.NORMAL_STAGE,
+        region=StageRegion.OCEAN_REGION,
+        bonus_keys=\
             {
-                # bonus keys
                 Team.ANY_TEAM: 0,
                 Team.SONIC: 3,
                 Team.DARK: 3,
                 Team.ROSE: 2,
                 Team.CHAOTIX: 3,
-                Team.SUPER_HARD_MODE: 0
+                Team.SUPER_HARD_MODE: 0,
             },
+        checkpoints=\
             {
-                #checkpoints
                 Team.ANY_TEAM: 0,
                 Team.SONIC: 5,
                 Team.DARK: 4,
                 Team.ROSE: 2,
                 Team.CHAOTIX: 4,
-                Team.SUPER_HARD_MODE: 4
+                Team.SUPER_HARD_MODE: 4,
             },
+        chaotix_obj_sanity_checks=\
             {
-                # chaotix objsanity checks
                 Act.ACT_1: 5,
                 Act.ACT_2: 10,
+
             },
+        chaotix_obj_sanity_str=\
             {
-                # chaotix objsanity str
                 Act.ACT_1: "Hermit Crabs Collected",
                 Act.ACT_2: "Hermit Crabs Collected",
             },
-            "SH"
-        )
-    OCEAN_PALACE = \
-        (
-            "Ocean Palace",
-            StageType.NORMAL_STAGE,
-            StageRegion.OCEAN_REGION,
+        rule_shorthand="SH"
+    )
+    OCEAN_PALACE = _StageData \
+    (
+        stage_name="Ocean Palace",
+        stage_type=StageType.NORMAL_STAGE,
+        region=StageRegion.OCEAN_REGION,
+        bonus_keys= \
             {
-                # bonus keys
                 Team.ANY_TEAM: 0,
                 Team.SONIC: 3,
                 Team.DARK: 3,
                 Team.ROSE: 3,
                 Team.CHAOTIX: 3,
-                Team.SUPER_HARD_MODE: 0
+                Team.SUPER_HARD_MODE: 0,
             },
+        checkpoints= \
             {
-                # checkpoints
+                Team.ANY_TEAM: 0,
+                Team.SONIC: 5,
+                Team.DARK: 4,
+                Team.ROSE: 2,
+                Team.CHAOTIX: 4,
+                Team.SUPER_HARD_MODE: 4,
+            },
+        rule_shorthand="OP"
+    )
+    GRAND_METROPOLIS = _StageData \
+    (
+        stage_name="Grand Metropolis",
+        stage_type=StageType.NORMAL_STAGE,
+        region=StageRegion.HOT_PLANT_REGION,
+        bonus_keys= \
+            {
+                Team.ANY_TEAM: 0,
+                Team.SONIC: 2,
+                Team.DARK: 3,
+                Team.ROSE: 3,
+                Team.CHAOTIX: 3,
+                Team.SUPER_HARD_MODE: 0,
+            },
+        checkpoints= \
+            {
+                Team.ANY_TEAM: 0,
+                Team.SONIC: 4,
+                Team.DARK: 4,
+                Team.ROSE: 3,
+                Team.CHAOTIX: 4,
+                Team.SUPER_HARD_MODE: 4,
+            },
+        chaotix_obj_sanity_checks=\
+            {
+                Act.ACT_1: 85,
+                Act.ACT_2: 85,
+
+            },
+        chaotix_obj_sanity_str=\
+            {
+                Act.ACT_1: "Enemies Killed",
+                Act.ACT_2: "Enemies Killed",
+            },
+        rule_shorthand="GM"
+    )
+    POWER_PLANT = _StageData \
+    (
+        stage_name="Power Plant",
+        stage_type=StageType.NORMAL_STAGE,
+        region=StageRegion.HOT_PLANT_REGION,
+        bonus_keys= \
+            {
+                Team.ANY_TEAM: 0,
+                Team.SONIC: 3,
+                Team.DARK: 3,
+                Team.ROSE: 3,
+                Team.CHAOTIX: 3,
+                Team.SUPER_HARD_MODE: 0,
+            },
+        checkpoints= \
+            {
+                Team.ANY_TEAM: 0,
+                Team.SONIC: 4,
+                Team.DARK: 4,
+                Team.ROSE: 2,
+                Team.CHAOTIX: 3,
+                Team.SUPER_HARD_MODE: 4,
+            },
+        chaotix_obj_sanity_checks=\
+            {
+                Act.ACT_1: 3,
+                Act.ACT_2: 5,
+
+            },
+        chaotix_obj_sanity_str=\
+            {
+                Act.ACT_1: "Gold Turtles Killed",
+                Act.ACT_2: "Gold Turtles Killed",
+            },
+        rule_shorthand="PP"
+    )
+    CASINO_PARK = _StageData \
+    (
+        stage_name="Casino Park",
+        stage_type=StageType.NORMAL_STAGE,
+        region=StageRegion.CASINO_REGION,
+        bonus_keys= \
+            {
+                Team.ANY_TEAM: 0,
+                Team.SONIC: 3,
+                Team.DARK: 3,
+                Team.ROSE: 3,
+                Team.CHAOTIX: 3,
+                Team.SUPER_HARD_MODE: 0,
+            },
+        checkpoints= \
+            {
+                Team.ANY_TEAM: 0,
+                Team.SONIC: 3,
+                Team.DARK: 3,
+                Team.ROSE: 1,
+                Team.CHAOTIX: 3,
+                Team.SUPER_HARD_MODE: 3,
+            },
+        chaotix_obj_sanity_checks=\
+            {
+                Act.ACT_1: 200,
+                Act.ACT_2: 500,
+
+            },
+        chaotix_obj_sanity_str=\
+            {
+                Act.ACT_1: "Rings Collected",
+                Act.ACT_2: "Rings Collected",
+            },
+        rule_shorthand="CP"
+    )
+    BINGO_HIGHWAY = _StageData \
+    (
+        stage_name="Bingo Highway",
+        stage_type=StageType.NORMAL_STAGE,
+        region=StageRegion.CASINO_REGION,
+        bonus_keys= \
+            {
+                Team.ANY_TEAM: 0,
+                Team.SONIC: 3,
+                Team.DARK: 3,
+                Team.ROSE: 3,
+                Team.CHAOTIX: 3,
+                Team.SUPER_HARD_MODE: 0,
+            },
+        checkpoints= \
+            {
+                Team.ANY_TEAM: 0,
+                Team.SONIC: 4,
+                Team.DARK: 4,
+                Team.ROSE: 3,
+                Team.CHAOTIX: 2,
+                Team.SUPER_HARD_MODE: 4,
+            },
+        chaotix_obj_sanity_checks=\
+            {
+                Act.ACT_1: 10,
+                Act.ACT_2: 20,
+
+            },
+        chaotix_obj_sanity_str=\
+            {
+                Act.ACT_1: "Casino Chips Collected",
+                Act.ACT_2: "Casino Chips Collected",
+            },
+        rule_shorthand="BH"
+    )
+    RAIL_CANYON = _StageData \
+    (
+        stage_name="Rail Canyon",
+        stage_type=StageType.NORMAL_STAGE,
+        region=StageRegion.TRAIN_REGION,
+        bonus_keys= \
+            {
+                Team.ANY_TEAM: 0,
+                Team.SONIC: 3,
+                Team.DARK: 3,
+                Team.ROSE: 3,
+                Team.CHAOTIX: 2,
+                Team.SUPER_HARD_MODE: 0,
+            },
+        checkpoints= \
+            {
+                Team.ANY_TEAM: 0,
+                Team.SONIC: 6,
+                Team.DARK: 6,
+                Team.ROSE: 4,
+                Team.CHAOTIX: 5,
+                Team.SUPER_HARD_MODE: 6,
+            },
+        rule_shorthand="RC"
+    )
+    BULLET_STATION = _StageData \
+    (
+        stage_name="Bullet Station",
+        stage_type=StageType.NORMAL_STAGE,
+        region=StageRegion.TRAIN_REGION,
+        bonus_keys= \
+            {
+                Team.ANY_TEAM: 0,
+                Team.SONIC: 3,
+                Team.DARK: 3,
+                Team.ROSE: 3,
+                Team.CHAOTIX: 3,
+                Team.SUPER_HARD_MODE: 0,
+            },
+        checkpoints= \
+            {
                 Team.ANY_TEAM: 0,
                 Team.SONIC: 4,
                 Team.DARK: 5,
                 Team.ROSE: 2,
+                Team.CHAOTIX: 4,
+                Team.SUPER_HARD_MODE: 4,
+            },
+        chaotix_obj_sanity_checks=\
+            {
+                Act.ACT_1: 30,
+                Act.ACT_2: 50,
+
+            },
+        chaotix_obj_sanity_str=\
+            {
+                Act.ACT_1: "Capsules Destroyed",
+                Act.ACT_2: "Capsules Destroyed",
+            },
+        rule_shorthand="BS"
+    )
+    FROG_FOREST = _StageData \
+    (
+        stage_name="Frog Forest",
+        stage_type=StageType.NORMAL_STAGE,
+        region=StageRegion.BIG_PLANT_REGION,
+        bonus_keys= \
+            {
+                Team.ANY_TEAM: 0,
+                Team.SONIC: 3,
+                Team.DARK: 3,
+                Team.ROSE: 3,
+                Team.CHAOTIX: 3,
+                Team.SUPER_HARD_MODE: 0,
+            },
+        checkpoints= \
+            {
+                Team.ANY_TEAM: 0,
+                Team.SONIC: 3,
+                Team.DARK: 3,
+                Team.ROSE: 2,
+                Team.CHAOTIX: 3,
+                Team.SUPER_HARD_MODE: 3,
+            },
+        rule_shorthand="Frog"
+    )
+    LOST_JUNGLE = _StageData \
+    (
+        stage_name="Lost Jungle",
+        stage_type=StageType.NORMAL_STAGE,
+        region=StageRegion.BIG_PLANT_REGION,
+        bonus_keys= \
+            {
+                Team.ANY_TEAM: 0,
+                Team.SONIC: 3,
+                Team.DARK: 3,
+                Team.ROSE: 3,
+                Team.CHAOTIX: 3,
+                Team.SUPER_HARD_MODE: 0,
+            },
+        checkpoints= \
+            {
+                Team.ANY_TEAM: 0,
+                Team.SONIC: 5,
+                Team.DARK: 5,
+                Team.ROSE: 2,
                 Team.CHAOTIX: 2,
-                Team.SUPER_HARD_MODE: 5
+                Team.SUPER_HARD_MODE: 5,
             },
+        chaotix_obj_sanity_checks=\
             {
-                # chaotix objsanity checks
-                Act.ACT_1: 0,
-                Act.ACT_2: 0,
+                Act.ACT_1: 10,
+                Act.ACT_2: 20,
+
             },
+        chaotix_obj_sanity_str=\
             {
-                # chaotix objsanity str
-                Act.ACT_1: "",
-                Act.ACT_2: "",
+                Act.ACT_2: "Chao Saved",
+                Act.ACT_1: "Chao Saved",
             },
-            "OP"
-        )
-
-    SEASIDE_HILL_BONUS_STAGE = \
-        (
-            "Seaside Hill Bonus Stage",
-            StageType.BONUS_STAGE,
-            StageRegion.SPECIAL_STAGE_REGION,
+        rule_shorthand="LJ"
+    )
+    HANG_CASTLE = _StageData \
+    (
+        stage_name="Hang Castle",
+        stage_type=StageType.NORMAL_STAGE,
+        region=StageRegion.GHOST_REGION,
+        bonus_keys= \
             {
-                # bonus keys
-                team: 0 for team in Team
+                Team.ANY_TEAM: 0,
+                Team.SONIC: 3,
+                Team.DARK: 3,
+                Team.ROSE: 3,
+                Team.CHAOTIX: 3,
+                Team.SUPER_HARD_MODE: 0,
             },
+        checkpoints= \
             {
-                # checkpoints
-                team: 0 for team in Team
+                Team.ANY_TEAM: 0,
+                Team.SONIC: 3,
+                Team.DARK: 3,
+                Team.ROSE: 2,
+                Team.CHAOTIX: 2,
+                Team.SUPER_HARD_MODE: 3,
             },
+        chaotix_obj_sanity_checks=\
             {
-                # chaotix objsanity checks
-                Act.ACT_1: 0,
-                Act.ACT_2: 0,
+                Act.ACT_1: 10,
+                Act.ACT_2: 10,
             },
+        chaotix_obj_sanity_str=\
             {
-                # chaotix objsanity str
-                Act.ACT_1: "",
-                Act.ACT_2: "",
+                Act.ACT_1: "Keys Collected",
+                Act.ACT_2: "Keys Collected",
             },
-        )
+        rule_shorthand="HC"
+    )
+    MYSTIC_MANSION = _StageData \
+    (
+        stage_name="Mystic Mansion",
+        stage_type=StageType.NORMAL_STAGE,
+        region=StageRegion.GHOST_REGION,
+        bonus_keys= \
+            {
+                Team.ANY_TEAM: 0,
+                Team.SONIC: 3,
+                Team.DARK: 3,
+                Team.ROSE: 3,
+                Team.CHAOTIX: 3,
+                Team.SUPER_HARD_MODE: 0,
+            },
+        checkpoints= \
+            {
+                Team.ANY_TEAM: 0,
+                Team.SONIC: 4,
+                Team.DARK: 4,
+                Team.ROSE: 2,
+                Team.CHAOTIX: 4,
+                Team.SUPER_HARD_MODE: 5,
+            },
+        chaotix_obj_sanity_checks=\
+            {
+                Act.ACT_1: 60,
+                Act.ACT_2: 46,
 
-    def __init__(self, stage_name: str, stage_type: StageType, region: StageRegion, bonus_keys: dict[Team, int], checkpoints: dict[Team, int], chaotix_obj_sanity_checks: dict[Act, int], chaotix_obj_sanity_str: dict[Act, str], rule_shorthand: str = "NA") -> None:
-        self.stage_name: str = stage_name
-        self.stage_type: StageType = stage_type
-        self.region: StageRegion = region
-        self.bonus_keys: dict[Team, int] = bonus_keys
-        self.checkpoints: dict[Team, int] = checkpoints
-        self.chaotix_obj_sanity_checks: dict[Act, int] = chaotix_obj_sanity_checks
-        self.chaotix_obj_sanity_str: dict[Act, str] = chaotix_obj_sanity_str
-        self.rule_shorthand: str = rule_shorthand
+            },
+        chaotix_obj_sanity_str=\
+            {
+                Act.ACT_1: "Red Torches Extinguished",
+                Act.ACT_2: "Blue Torches Extinguished",
+            },
+        rule_shorthand="MM"
+    )
+    EGG_FLEET = _StageData \
+    (
+        stage_name="Egg Fleet",
+        stage_type=StageType.NORMAL_STAGE,
+        region=StageRegion.SKY_REGION,
+        bonus_keys= \
+            {
+                Team.ANY_TEAM: 0,
+                Team.SONIC: 3,
+                Team.DARK: 3,
+                Team.ROSE: 3,
+                Team.CHAOTIX: 3,
+                Team.SUPER_HARD_MODE: 0,
+            },
+        checkpoints= \
+            {
+                Team.ANY_TEAM: 0,
+                Team.SONIC: 5,
+                Team.DARK: 5,
+                Team.ROSE: 3,
+                Team.CHAOTIX: 4,
+                Team.SUPER_HARD_MODE: 5,
+            },
+        rule_shorthand="EF"
+    )
+    FINAL_FORTRESS = _StageData \
+    (
+        stage_name="Final Fortress",
+        stage_type=StageType.NORMAL_STAGE,
+        region=StageRegion.SKY_REGION,
+        bonus_keys= \
+            {
+                Team.ANY_TEAM: 0,
+                Team.SONIC: 3,
+                Team.DARK: 3,
+                Team.ROSE: 3,
+                Team.CHAOTIX: 3,
+                Team.SUPER_HARD_MODE: 0,
+            },
+        checkpoints= \
+            {
+                Team.ANY_TEAM: 0,
+                Team.SONIC: 3,
+                Team.DARK: 3,
+                Team.ROSE: 2,
+                Team.CHAOTIX: 3,
+                Team.SUPER_HARD_MODE: 3,
+            },
+        chaotix_obj_sanity_checks=\
+            {
+                Act.ACT_1: 5,
+                Act.ACT_2: 10,
+
+            },
+        chaotix_obj_sanity_str=\
+            {
+                Act.ACT_1: "Keys Collected",
+                Act.ACT_2: "Keys Collected",
+            },
+        rule_shorthand="Final"
+    )
+    EGG_HAWK = _StageData \
+    (
+        stage_name="Egg Hawk",
+        stage_type=StageType.BOSS_STAGE,
+        region=StageRegion.BOSS_REGION,
+    )
+    TEAM_FIGHT_1 = _StageData \
+    (
+        stage_name="Team Fight 1",
+        stage_type=StageType.BOSS_STAGE,
+        region=StageRegion.BOSS_REGION,
+    )
+    ROBOT_CARNIVAL = _StageData \
+    (
+        stage_name="Robot Carnival",
+        stage_type=StageType.BOSS_STAGE,
+        region=StageRegion.BOSS_REGION,
+    )
+    EGG_ALBATROSS = _StageData \
+    (
+        stage_name="Egg Albatross",
+        stage_type=StageType.BOSS_STAGE,
+        region=StageRegion.BOSS_REGION,
+    )
+    TEAM_FIGHT_2 = _StageData \
+    (
+        stage_name="Team Fight 2",
+        stage_type=StageType.BOSS_STAGE,
+        region=StageRegion.BOSS_REGION,
+    )
+    ROBOT_STORM = _StageData \
+    (
+        stage_name="Robot Storm",
+        stage_type=StageType.BOSS_STAGE,
+        region=StageRegion.BOSS_REGION,
+    )
+    EGG_EMPEROR = _StageData \
+    (
+        stage_name="Egg Emperor",
+        stage_type=StageType.BOSS_STAGE,
+        region=StageRegion.BOSS_REGION,
+    )
+    METAL_MADNESS = _StageData \
+    (
+        stage_name="Metal Madness",
+        stage_type=StageType.FINAL_BOSS_STAGE,
+        region=StageRegion.FINAL_BOSS_REGION,
+    )
+    METAL_OVERLORD = _StageData \
+    (
+        stage_name="Metal Overlord",
+        stage_type=StageType.FINAL_BOSS_STAGE,
+        region=StageRegion.FINAL_BOSS_REGION,
+    )
+    SEA_GATE = _StageData \
+    (
+        stage_name="Sea Gate",
+        stage_type=StageType.FINAL_BOSS_STAGE,
+        region=StageRegion.FINAL_BOSS_REGION,
+    )
+
+    SEASIDE_BOBSLED_COURSE = _StageData \
+    (
+        stage_name="Seaside Bobsled Course",
+        stage_type=StageType.MULTIPLAYER_BOBSLED_STAGE,
+    )
+    CITY_BOBSLED_COURSE = _StageData \
+    (
+        stage_name="City Bobsled Course",
+        stage_type=StageType.MULTIPLAYER_BOBSLED_STAGE,
+    )
+    CASINO_BOBSLED_COURSE = _StageData \
+    (
+        stage_name="Casino Bobsled Course",
+        stage_type=StageType.MULTIPLAYER_BOBSLED_STAGE,
+    )
+
+    SEASIDE_HILL_BONUS_STAGE = _StageData \
+    (
+        stage_name="Seaside Hill Bonus Stage",
+        stage_type=StageType.BONUS_STAGE,
+        region=StageRegion.SPECIAL_STAGE_REGION,
+    )
+    GRAND_METROPOLIS_BONUS_STAGE = _StageData \
+    (
+        stage_name="Grand Metropolis Bonus Stage",
+        stage_type=StageType.BONUS_STAGE,
+        region=StageRegion.SPECIAL_STAGE_REGION,
+    )
+    CASINO_PARK_BONUS_STAGE = _StageData \
+    (
+        stage_name="Casino Park Bonus Stage",
+        stage_type=StageType.BONUS_STAGE,
+        region=StageRegion.SPECIAL_STAGE_REGION,
+    )
+    RAIL_CANYON_BONUS_STAGE = _StageData \
+    (
+        stage_name="Rail Canyon Bonus Stage",
+        stage_type=StageType.BONUS_STAGE,
+        region=StageRegion.SPECIAL_STAGE_REGION,
+    )
+    FROG_FOREST_BONUS_STAGE = _StageData \
+    (
+        stage_name="Frog Forest Bonus Stage",
+        stage_type=StageType.BONUS_STAGE,
+        region=StageRegion.SPECIAL_STAGE_REGION,
+    )
+    HANG_CASTLE_BONUS_STAGE = _StageData \
+    (
+        stage_name="Hang Castle Bonus Stage",
+        stage_type=StageType.BONUS_STAGE,
+        region=StageRegion.SPECIAL_STAGE_REGION,
+    )
+    EGG_FLEET_BONUS_STAGE = _StageData \
+    (
+        stage_name="Egg Fleet Bonus Stage",
+        stage_type=StageType.BONUS_STAGE,
+        region=StageRegion.SPECIAL_STAGE_REGION,
+    )
+
+    CHAOTIX_RAIL_CANYON = RAIL_CANYON # <- alias here
+
+    SEASIDE_HILL_ACTION_RACE = _StageData \
+    (
+        stage_name="Seaside Hill Action Race",
+        stage_type=StageType.MULTIPLAYER_ACTION_RACE,
+    )
+    GRAND_METROPOLIS_ACTION_RACE = _StageData \
+    (
+        stage_name="Grand Metropolis Action Race",
+        stage_type=StageType.MULTIPLAYER_ACTION_RACE,
+    )
+    BINGO_HIGHWAY_ACTION_RACE = _StageData \
+    (
+        stage_name="Bingo Highway Action Race",
+        stage_type=StageType.MULTIPLAYER_ACTION_RACE,
+    )
+
+    CITY_TOP_BATTLE = _StageData \
+    (
+        stage_name="City Top Battle",
+        stage_type=StageType.MULTIPLAYER_BATTLE,
+    )
+    CASINO_RING_BATTLE = _StageData \
+    (
+        stage_name="Casino Ring Battle",
+        stage_type=StageType.MULTIPLAYER_BATTLE,
+    )
+    TURTLE_SHELL_BATTLE = _StageData \
+    (
+        stage_name="Turtle Shell Battle",
+        stage_type=StageType.MULTIPLAYER_BATTLE,
+    )
+
+    EGG_TREAT_RING_RACE = _StageData \
+    (
+        stage_name="Egg Treat Ring Race",
+        stage_type=StageType.MULTIPLAYER_RING_RACE,
+    )
+    PINBALL_MATCH_RING_RACE = _StageData \
+    (
+        stage_name="Pinball Match Ring Race",
+        stage_type=StageType.MULTIPLAYER_RING_RACE,
+    )
+    HOT_ELEVATOR_RING_RACE = _StageData \
+    (
+        stage_name="Hot Elevator Ring Race",
+        stage_type=StageType.MULTIPLAYER_RING_RACE,
+    )
+    ROAD_ROCK_QUICK_RACE = _StageData \
+    (
+        stage_name="Road Rock Quick Race",
+        stage_type=StageType.MULTIPLAYER_QUICK_RACE,
+    )
+    MAD_EXPRESS_QUICK_RACE = _StageData \
+    (
+        stage_name="Mad Express Quick Race",
+        stage_type=StageType.MULTIPLAYER_QUICK_RACE,
+    )
+    TERROR_HALL_QUICK_RACE = _StageData \
+    (
+        stage_name="Terror Hall Quick Race",
+        stage_type=StageType.MULTIPLAYER_QUICK_RACE,
+    )
+    RAIL_CANYON_EXPERT_RACE = _StageData \
+    (
+        stage_name="Rail Canyon Expert Race",
+        stage_type=StageType.MULTIPLAYER_EXPERT_RACE,
+    )
+    FROG_FOREST_EXPERT_RACE = _StageData \
+    (
+        stage_name="Frog Forest Expert Race",
+        stage_type=StageType.MULTIPLAYER_EXPERT_RACE,
+    )
+    EGG_FLEET_EXPERT_RACE = _StageData \
+    (
+        stage_name="Egg Fleet Expert Race",
+        stage_type=StageType.MULTIPLAYER_EXPERT_RACE,
+    )
+
+    OCEAN_PALACE_EMERALD_STAGE = _StageData \
+    (
+        stage_name="Ocean Palace Emerald Stage",
+        stage_type=StageType.EMERALD_STAGE,
+        region=StageRegion.SPECIAL_STAGE_REGION,
+    )
+    POWER_PLANT_EMERALD_STAGE = _StageData \
+    (
+        stage_name="Power Plant Emerald Stage",
+        stage_type=StageType.EMERALD_STAGE,
+        region=StageRegion.SPECIAL_STAGE_REGION,
+    )
+    BINGO_HIGHWAY_EMERALD_STAGE = _StageData \
+    (
+        stage_name="Bingo Highway Emerald Stage",
+        stage_type=StageType.EMERALD_STAGE,
+        region=StageRegion.SPECIAL_STAGE_REGION,
+    )
+    BULLET_STATION_EMERALD_STAGE = _StageData \
+    (
+        stage_name="Bullet Station Emerald Stage",
+        stage_type=StageType.EMERALD_STAGE,
+        region=StageRegion.SPECIAL_STAGE_REGION,
+    )
+    LOST_JUNGLE_EMERALD_STAGE = _StageData \
+    (
+        stage_name="Lost Jungle Emerald Stage",
+        stage_type=StageType.EMERALD_STAGE,
+        region=StageRegion.SPECIAL_STAGE_REGION,
+    )
+    MYSTIC_MANSION_EMERALD_STAGE = _StageData \
+    (
+        stage_name="Mystic Mansion Emerald Stage",
+        stage_type=StageType.EMERALD_STAGE,
+        region=StageRegion.SPECIAL_STAGE_REGION,
+    )
+    FINAL_FORTRESS_EMERALD_STAGE = _StageData \
+    (
+        stage_name="Final Fortress Emerald Stage",
+        stage_type=StageType.EMERALD_STAGE,
+        region=StageRegion.SPECIAL_STAGE_REGION,
+    )
+    SPECIAL_STAGE_1_MULTIPLAYER = _StageData \
+    (
+        stage_name="Special Stage 1 Multiplayer",
+        stage_type=StageType.MULTIPLAYER_SPECIAL_STAGE,
+    )
+    SPECIAL_STAGE_2_MULTIPLAYER = _StageData \
+    (
+        stage_name="Special Stage 2 Multiplayer",
+        stage_type=StageType.MULTIPLAYER_SPECIAL_STAGE,
+    )
+    SPECIAL_STAGE_3_MULTIPLAYER = _StageData \
+    (
+        stage_name="Special Stage 3 Multiplayer",
+        stage_type=StageType.MULTIPLAYER_SPECIAL_STAGE,
+    )
+
+    def __new__(cls, data: _StageData) -> Self:
+        obj = object.__new__(cls)
+        obj._value_ = data
+        return obj
+
+    def __init__(self, data: _StageData) -> None:
+        self.stage_name: str = data.stage_name
+        self.stage_type: StageType = data.stage_type
+        self.region: StageRegion = data.region
+        self.bonus_keys: dict[Team, int] = data.bonus_keys
+        self.checkpoints: dict[Team, int] = data.checkpoints
+        self.chaotix_obj_sanity_checks: dict[Act, int] = data.chaotix_obj_sanity_checks
+        self.chaotix_obj_sanity_str: dict[Act, str] = data.chaotix_obj_sanity_str
+        self.rule_shorthand: str = data.rule_shorthand
 
 
-    @override
-    def __str__(self) -> str:
-        return self.stage_name
-
-    @override
-    def __repr__(self) -> str:
-        return self.stage_name
-
-
+STAGE_TO_BONUS_STAGE: dict[Stage, Stage] = \
+{
+    Stage.SEASIDE_HILL: Stage.SEASIDE_HILL_BONUS_STAGE,
+    Stage.OCEAN_PALACE: Stage.OCEAN_PALACE_EMERALD_STAGE,
+    Stage.GRAND_METROPOLIS: Stage.GRAND_METROPOLIS_BONUS_STAGE,
+    Stage.POWER_PLANT: Stage.POWER_PLANT_EMERALD_STAGE,
+    Stage.CASINO_PARK: Stage.CASINO_PARK_BONUS_STAGE,
+    Stage.BINGO_HIGHWAY: Stage.BINGO_HIGHWAY_EMERALD_STAGE,
+    Stage.RAIL_CANYON: Stage.RAIL_CANYON_BONUS_STAGE,
+    Stage.BULLET_STATION: Stage.BULLET_STATION_EMERALD_STAGE,
+    Stage.FROG_FOREST: Stage.FROG_FOREST_BONUS_STAGE,
+    Stage.LOST_JUNGLE: Stage.LOST_JUNGLE_EMERALD_STAGE,
+    Stage.HANG_CASTLE: Stage.HANG_CASTLE_BONUS_STAGE,
+    Stage.MYSTIC_MANSION: Stage.MYSTIC_MANSION_EMERALD_STAGE,
+    Stage.EGG_FLEET: Stage.EGG_FLEET_BONUS_STAGE,
+    Stage.FINAL_FORTRESS: Stage.FINAL_FORTRESS_EMERALD_STAGE,
+}
 
 
 @dataclasses.dataclass(kw_only=True)

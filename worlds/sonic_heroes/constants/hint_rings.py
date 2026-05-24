@@ -5,9 +5,7 @@ import dataclasses
 
 from rule_builder.rules import Rule
 
-
-from .char_ability import Team
-from .stage import Stage
+from .stage_objs import StageObj, StageObjBase
 from ..helper_functions import get_default_true_rule
 from ..world_base import SonicHeroesWorldBase
 
@@ -15,17 +13,9 @@ from ..world_base import SonicHeroesWorldBase
 HINT_RING: str = "Hint Ring"
 HINT_RINGS: str = "Hint Rings"
 
-@dataclasses.dataclass
-class HintRingData:
-    team: Team
-    stage: Stage
-    region_name: str
+@dataclasses.dataclass(kw_only=True)
+class HintRingData(StageObjBase):
     voice_line: int
-    x: float
-    y: float
-    z: float
     rule: Rule[SonicHeroesWorldBase] = dataclasses.field(default_factory=get_default_true_rule)
 
-    @property
-    def pos(self) -> tuple[float, float, float]:
-        return self.x, self.y, self.z
+    obj_id: StageObj = dataclasses.field(init=False, default=StageObj.HINT_RING)

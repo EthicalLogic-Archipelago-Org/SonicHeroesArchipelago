@@ -4,7 +4,7 @@ Helper Functions for custom rule builder rules related to enemies
 from rule_builder.rules import Rule, False_
 
 from ..constants.char_ability import Team
-from ..constants.enemies import E2000, Cameron, CameronType, E2000Type, EggBishop, EggFlapperWeapon, EggHammer, EggHammerType, EggPawn, EggPawnShield, EggPawnType, EggPawnWeapon, Klagen, KlagenType, Rhino, EggFlapper, EggFlapperArmor, EnemyHeight, SonicHeroesEnemy, Falco
+from ..constants.enemies import E2000, Cameron, CameronType, E2000Type, EggBishop, EggFlapperWeapon, EggHammer, EggHammerType, EggPawn, EggPawnShield, EggPawnType, EggPawnWeapon, Klagen, KlagenType, Rhino, EggFlapper, EggFlapperArmor, EnemyHeight, SonicHeroesEnemyBase, Falco
 from ..constants.stage import Stage
 from ..options import *
 from ..rule_builder.custom_rules import HasEnemyItem, SonicHeroesMacroRule
@@ -14,7 +14,7 @@ from .functions_ability_char import can_auto_power_attack_rule, can_belly_flop_r
     can_rocket_accel_rule, can_team_blast_rule, can_thundershoot_rule, can_tornado_rule, can_flight_rule, can_kick_rule
 
 
-def has_enemy_obj(team: Team, stage: Stage, enemy: SonicHeroesEnemy) -> Rule[SonicHeroesWorldBase]:
+def has_enemy_obj(team: Team, stage: Stage, enemy: SonicHeroesEnemyBase) -> Rule[SonicHeroesWorldBase]:
     return HasEnemyItem(team=team, stage=stage, enemy=enemy)
 
 
@@ -78,7 +78,7 @@ def can_kill_silver_armor_flapper(team: Team, stage: Stage, height: EnemyHeight)
     return rule
 
 
-def can_kill_egg_flapper(team: Team, stage: Stage, flapper: EggFlapper, height: EnemyHeight) -> Rule[SonicHeroesWorldBase]:
+def can_kill_egg_flapper(team: Team, stage: Stage, flapper: EggFlapper) -> Rule[SonicHeroesWorldBase]:
     rule: Rule[SonicHeroesWorldBase] = has_enemy_obj(team=team, stage=stage, enemy=flapper)
     color_str: str = "PLACEHOLDER"
     match flapper.armor:
@@ -86,30 +86,30 @@ def can_kill_egg_flapper(team: Team, stage: Stage, flapper: EggFlapper, height: 
             match flapper.weapon:
                 case EggFlapperWeapon.NO_WEAPON:
                     color_str = "Red"
-                    rule &= can_kill_red_flapper(team=team, stage=stage, height=height)
+                    rule &= can_kill_red_flapper(team=team, stage=stage, height=flapper.height)
                 case EggFlapperWeapon.NEEDLE:
                     color_str = "Gray"
-                    rule &= can_kill_green_lightning_flapper(team=team, stage=stage, height=height)
+                    rule &= can_kill_green_lightning_flapper(team=team, stage=stage, height=flapper.height)
                 case EggFlapperWeapon.SHOT:
                     color_str = "Green"
-                    rule &= can_kill_green_shot_flapper(team=team, stage=stage, height=height)
+                    rule &= can_kill_green_shot_flapper(team=team, stage=stage, height=flapper.height)
                 case EggFlapperWeapon.MACHINE_GUN:
                     color_str = "Blue"
-                    rule &= can_kill_green_lightning_flapper(team=team, stage=stage, height=height)
+                    rule &= can_kill_green_lightning_flapper(team=team, stage=stage, height=flapper.height)
                 case EggFlapperWeapon.LIGHTNING | EggFlapperWeapon.LASER:  # pyright: ignore[reportUnnecessaryComparison]
                     color_str = "Green"
-                    rule &= can_kill_green_lightning_flapper(team=team, stage=stage, height=height)
+                    rule &= can_kill_green_lightning_flapper(team=team, stage=stage, height=flapper.height)
                 case EggFlapperWeapon.BOMB:
                     color_str = "Pink"
-                    rule &= can_kill_green_lightning_flapper(team=team, stage=stage, height=height)
+                    rule &= can_kill_green_lightning_flapper(team=team, stage=stage, height=flapper.height)
                 case EggFlapperWeapon.SEARCHLIGHT:
                     color_str = "Yellow"
-                    rule &= can_kill_green_shot_flapper(team=team, stage=stage, height=height)
+                    rule &= can_kill_green_shot_flapper(team=team, stage=stage, height=flapper.height)
         case EggFlapperArmor.SILVER_ARMOR:
             color_str = "Silver Armor"
-            rule &= can_kill_silver_armor_flapper(team=team, stage=stage, height=height)
+            rule &= can_kill_silver_armor_flapper(team=team, stage=stage, height=flapper.height)
 
-    return SonicHeroesMacroRule(child=rule, name=f"Kill {color_str} Flapper with {flapper.weapon} at {height.description} Height as Team: {team} in {stage.stage_name}")
+    return SonicHeroesMacroRule(child=rule, name=f"Kill {color_str} Flapper with {flapper.weapon} at {flapper.height.description} Height as Team: {team} in {stage.stage_name}")
 
 
 def can_remove_shield(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:

@@ -1,18 +1,23 @@
 """
 Functions used by the parser
 """
-import csv
-import os
+import dataclasses
+import enum
+from typing import Any
+
 
 from .parser_constants import *
 from .parser_matches import PARSER_ALL_MATCHES
-from .. import csv_data
-from .. import parsed_data
 from ..constants.char_ability import Team
+from ..constants.enemies import SonicHeroesEnemyBase
 from ..constants.stage import Stage
 
 result_str_list: list[str] = []
 parens_mapping_list: list[tuple[int, int]] = []
+
+
+def get_csv_file_name(team: Team, stage: Stage, file_type: str, secret: bool = False) -> str:  # pyright: ignore[reportUnusedParameter]
+    return f"{stage.stage_name.replace(" ", "")}{team.replace(" ", "")}{file_type}"
 
 
 def is_there_parens(rule_str: str) -> bool:
@@ -134,6 +139,9 @@ def handle_full_rule_string(rule_str: str, team: Team, stage: Stage, print_steps
             continue
         result_str += f"{PARSER_ALL_MATCHES[rule_piece](team, stage)}"
     return result_str
+
+
+
 
 
 

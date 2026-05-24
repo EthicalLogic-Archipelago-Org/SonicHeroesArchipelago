@@ -4,7 +4,7 @@ Functions used by the parser related to Hint Rings
 import csv
 import os
 
-from .functions_parser import handle_full_rule_string
+from .functions_parser import get_csv_file_name, handle_full_rule_string
 from .parser_constants import *
 from .. import csv_data
 from .. import parsed_data
@@ -12,8 +12,8 @@ from ..constants.char_ability import Team
 from ..constants.stage import Stage
 
 
-def get_hint_ring_csv_file_name(team: Team, stage: Stage, secret: bool = False) -> str:  # pyright: ignore[reportUnusedParameter]
-    return f"{stage.stage_name.replace(" ", "")}{team.replace(" ", "")}HintRings"
+def get_hint_ring_csv_file_name(team: Team, stage: Stage, secret: bool = False) -> str:
+    return get_csv_file_name(team=team, stage=stage, file_type="HintRings", secret=secret)
 
 
 def parse_hint_ring_csv(team: Team, stage: Stage, secret: bool = False) -> None:

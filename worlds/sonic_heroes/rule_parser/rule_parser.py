@@ -1,8 +1,6 @@
 """
 Regex Rule Parsing
 """
-import csv
-import os.path
 
 from worlds.sonic_heroes.constants.char_ability import Team
 from worlds.sonic_heroes.constants.stage import Stage

@@ -6,7 +6,7 @@ Dark,Seaside Hill,Beginning Flower Patch,0,0,,0,,0,,HintRing,
 Dark,Seaside Hill,Lower Path After Beginning Flower Patch,0,0,,0,,0,,TripleSpring,
 Dark,Seaside Hill,Upper Path After Beginning Flower Patch,0,8,2x4,0,,0,,,
 Dark,Seaside Hill,First Loop,0,4,1x4,0,,3,3x5Rings Box,,
-Dark,Seaside Hill,Eggmans Robots Bottom,4,16,1x10 1x6,4,4xnothing,0,,HintRing,6 Rings require FlyingOneChar
+Dark,Seaside Hill,Eggmans Robots Bottom,4,18,1x2 1x10 1x6,4,4xnothing,0,,HintRing,6 Rings require FlyingOneChar
 Dark,Seaside Hill,Hermit Crab Cliff Below Eggmans Robots,0,0,,0,,1,Extra Life Box,SingleSpring,
 Dark,Seaside Hill,Eggmans Robots Middle,1,0,,1,red flapper,0,,SingleSpring,Red Flapper can get with TripleSpringandHoming0
 Dark,Seaside Hill,Eggmans Robots Top,2,0,,2,Bazooka Nothing,1,Shield Box in Rock,HintRing,Nothing Pawn on cliff above (but Thundershoot)

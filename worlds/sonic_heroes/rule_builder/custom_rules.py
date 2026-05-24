@@ -10,7 +10,7 @@ from BaseClasses import CollectionState
 from NetUtils import JSONMessagePart
 from rule_builder.options import OptionFilter
 from rule_builder.rules import HasAll, HasAny, HasFromListUnique, Rule, WrapperRule, Has, True_, False_
-from worlds.sonic_heroes.constants.enemies import E2000, Cameron, EggFlapper, EggHammer, EnemyType, Falco, Klagen, Rhino, SonicHeroesEnemy, EggPawn
+from worlds.sonic_heroes.constants.enemies import E2000, Cameron, EggFlapper, EggHammer, EnemyType, Falco, Klagen, Rhino, SonicHeroesEnemyBase, EggPawn
 
 from ..constants.apworld import SONIC_HEROES
 from ..constants.char_ability import Ability, Character, Team, Formation
@@ -364,7 +364,7 @@ class HasEnemyItem(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
     """Do you have the enemy spawned into the level?"""
     team: Team
     stage: Stage
-    enemy: SonicHeroesEnemy
+    enemy: SonicHeroesEnemyBase
 
     @override
     def _instantiate(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
@@ -384,7 +384,7 @@ class HasEnemyItem(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
             return self._has_rhino_spawned(world=world)
         if isinstance(self.enemy, E2000):
             return self._has_e2000_spawned(world=world)
-        return Has(item_name=self.enemy.type).resolve(world=world)
+        return Has(item_name=self.enemy.enemy_type).resolve(world=world)
 
     def _has_egg_flapper_spawned(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
         return Has(item_name=EnemyType.EGG_FLAPPER).resolve(world=world)

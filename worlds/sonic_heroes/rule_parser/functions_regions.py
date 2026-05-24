@@ -4,6 +4,8 @@ Functions used by the parser related to Regions
 import csv
 import os
 
+from worlds.sonic_heroes.rule_parser.functions_parser import get_csv_file_name
+
 from .parser_constants import *
 from .. import csv_data
 from .. import parsed_data
@@ -11,8 +13,8 @@ from ..constants.char_ability import Team
 from ..constants.stage import Stage
 
 
-def get_region_csv_file_name(team: Team, stage: Stage, secret: bool = False) -> str:  # pyright: ignore[reportUnusedParameter]
-    return f"{stage.stage_name.replace(" ", "")}{team.replace(" ", "")}Regions"
+def get_region_csv_file_name(team: Team, stage: Stage, secret: bool = False) -> str:
+    return get_csv_file_name(team=team, stage=stage, file_type="Regions", secret=secret)
 
 
 def parse_region_csv(team: Team, stage: Stage, secret: bool = False) -> None:

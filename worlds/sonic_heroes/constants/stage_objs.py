@@ -1,10 +1,13 @@
 """
 Constants related to Stage Objs
 """
+import dataclasses
 import enum
 
+from .char_ability import Team
+from .stage import Stage
 
-#StageObj
+
 class StageObj(enum.StrEnum):
     ALL_STAGE_OBJECTS = "All Stage Objects"
     SINGLE_SPRING = "Single Spring"
@@ -422,3 +425,26 @@ class StageObj(enum.StrEnum):
     SYSTEM_OBJECT_3 = "System Object 3"
     SAMPLE_OBJECT_1 = "Sample Object 1"
     SAMPLE_OBJECT_2 = "Sample Object 2"
+
+
+DEFAULT_STAGE_OBJ_REGION: str = ""
+DEFAULT_STAGE_OBJ_LINK_ID: int = 0
+DEFAULT_STAGE_OBJ_COORD: float = -9999999.0
+
+@dataclasses.dataclass(kw_only=True)
+class StageObjBase:
+    """
+    Base StageObjData Class
+    """
+    team: Team
+    stage: Stage
+    obj_id: StageObj
+    region_name: str = DEFAULT_STAGE_OBJ_REGION
+    link_id: int = DEFAULT_STAGE_OBJ_LINK_ID
+    x: float = DEFAULT_STAGE_OBJ_COORD
+    y: float = DEFAULT_STAGE_OBJ_COORD
+    z: float = DEFAULT_STAGE_OBJ_COORD
+
+    @property
+    def pos(self) -> tuple[float, float, float]:
+        return self.x, self.y, self.z

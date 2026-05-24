@@ -3,7 +3,7 @@
 """
 from typing import Callable
 
-from .parser_functions import get_func_str
+from .matches_functions import get_func_str
 from ..constants.char_ability import Team, Formation
 from ..constants.stage import Stage
 

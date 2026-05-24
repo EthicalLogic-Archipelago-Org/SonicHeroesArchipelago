@@ -5,7 +5,7 @@ import csv
 import os
 
 
-from .functions_parser import handle_full_rule_string
+from .functions_parser import handle_full_rule_string, get_csv_file_name
 from .parser_constants import *
 from .. import csv_data
 from .. import parsed_data
@@ -14,8 +14,9 @@ from ..constants.item_balloon_box import *
 from ..constants.stage import Stage
 
 
-def get_item_balloon_box_csv_file_name(team: Team, stage: Stage, secret: bool = False) -> str:  # pyright: ignore[reportUnusedParameter]
-    return f"{stage.stage_name.replace(" ", "")}{team.replace(" ", "")}ItemBalloonBoxes"
+def get_item_balloon_box_csv_file_name(team: Team, stage: Stage, secret: bool = False) -> str:
+    return get_csv_file_name(team=team, stage=stage, file_type="ItemBalloonBoxes", secret=secret)
+
 
 
 def parse_item_box_balloon_csv(team: Team, stage: Stage, secret: bool = False) -> None:
@@ -44,11 +45,12 @@ def parse_item_box_balloon_csv(team: Team, stage: Stage, secret: bool = False) -
             region_name: str = f"{stage.stage_name} {team} {x[REGION_HEADER]}"
             item_reward: ItemReward = ItemReward(value=x[ITEM_HEADER])
             item_str: str = f"{item_reward.__class__.__name__}.{item_reward.name}"
+            class_str: str = "ItemBalloonData" if x[TYPE_HEADER] == "ItemBalloon" else "ItemBoxData"
 
-            item_balloon_box_str_list.append(f"ItemBalloonBoxData(team={team_str}, stage={stage_str}, region_name=\"{region_name}\", item={item_str}, x={float(x[X_HEADER])}, y={float(x[Y_HEADER])}, z={float(x[Z_HEADER])}, rule={parsed_rule_str})")
+            item_balloon_box_str_list.append(f"{class_str}(team={team_str}, stage={stage_str}, region_name=\"{region_name}\", item={item_str}, x={float(x[X_HEADER])}, y={float(x[Y_HEADER])}, z={float(x[Z_HEADER])}, rule={parsed_rule_str})")
 
 
-    parsed_result: str = f"\n{ITEM_BALLOON_BOX_PARSER_FILE_HEADER}\n{stage.stage_name.replace(" ", "")}{team.replace(" ", "")}ItemBalloonBoxes: list[ItemBalloonBoxData] = \\\n[\n    {',\n    '.join(item_balloon_box_str_list)}\n]"
+    parsed_result: str = f"\n{ITEM_BALLOON_BOX_PARSER_FILE_HEADER}\n{stage.stage_name.replace(" ", "")}{team.replace(" ", "")}ItemBalloonBoxes: list[ItemBalloonData | ItemBoxData] = \\\n[\n    {',\n    '.join(item_balloon_box_str_list)}\n]"
 
     # noinspection PyTypeChecker
     with open(file=f"{os.path.dirname(parsed_data.parse_result_mapping[stage][team].__file__)}/{file_name}.py", mode="w") as output_file:  # pyright: ignore[reportCallIssue, reportArgumentType]

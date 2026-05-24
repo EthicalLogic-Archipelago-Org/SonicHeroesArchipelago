@@ -3,7 +3,10 @@ Constants related to Enemies
 """
 import dataclasses
 import enum
-from typing import Self, override
+
+from .char_ability import Team
+from .stage import Stage
+from .stage_objs import StageObjBase, StageObj
 
 
 #enemy Enums
@@ -32,9 +35,6 @@ class EnemyHeight(enum.Enum):
             return EnemyHeight.FLIGHT_THUNDERSHOOT
         else:
             raise ValueError(f"Unknown EnemyHeight match for {input_str}")
-
-
-
 
 
 class EnemyType(enum.StrEnum):
@@ -179,134 +179,91 @@ class E2000Type(enum.StrEnum):
     E2000R = _EnemySpecialTypes.E2000R
 
 
-@dataclasses.dataclass(init=False)
-class SonicHeroesEnemy:
+@dataclasses.dataclass(kw_only=True)
+class SonicHeroesEnemyBase(StageObjBase):
     """
-    Base Enemy Class
+    Base Enemy Class (inherits from StageObjBase)
     """
-    type: EnemyType = EnemyType.NO_ENEMY
+    enemy_type: EnemyType = dataclasses.field(init=False, default=EnemyType.NO_ENEMY)
+    height: EnemyHeight = EnemyHeight.GROUND
 
-    def get_func_str(self) -> str:
-        return f"{self.__class__.__name__}(type={self.type.__class__.__name__}.{self.type.name})"
+    def __post_init__(self):
+        if type(self) is SonicHeroesEnemyBase:
+            raise TypeError("SonicHeroesEnemyBase cannot be instantiated directly")
 
 
-@dataclasses.dataclass(init=False, kw_only=True)
-class EggFlapper(SonicHeroesEnemy):
+@dataclasses.dataclass(kw_only=True)
+class EggFlapper(SonicHeroesEnemyBase):
     armor: EggFlapperArmor = EggFlapperArmor.NO_ARMOR
     weapon: EggFlapperWeapon = EggFlapperWeapon.NO_WEAPON
 
-    def __init__(self, armor: EggFlapperArmor, weapon: EggFlapperWeapon) -> None:
-        self.armor = armor
-        self.weapon = weapon
-        self.type: EnemyType = EnemyType.EGG_FLAPPER
-
-    @override
-    def get_func_str(self) -> str:
-        return f"{self.__class__.__name__}(armor={self.armor.__class__.__name__}.{self.armor.name}, weapon={self.weapon.__class__.__name__}.{self.weapon.name})"
+    obj_id: StageObj = dataclasses.field(init=False, default=StageObj.EGG_FLAPPER)
+    enemy_type: EnemyType = dataclasses.field(init=False, default=EnemyType.EGG_FLAPPER)
 
 
-@dataclasses.dataclass(init=False, kw_only=True)
-class EggPawn(SonicHeroesEnemy):
+@dataclasses.dataclass(kw_only=True)
+class EggPawn(SonicHeroesEnemyBase):
     weapon: EggPawnWeapon = EggPawnWeapon.NO_WEAPON
     shield: EggPawnShield = EggPawnShield.NO_SHIELD
     special_type: EggPawnType = EggPawnType.REGULAR_PAWN
 
-    def __init__(self, weapon: EggPawnWeapon, shield: EggPawnShield, special_type: EggPawnType) -> None:
-        self.weapon = weapon
-        self.shield = shield
-        self.special_type = special_type
-        self.type: EnemyType = EnemyType.EGG_PAWN
-
-    @override
-    def get_func_str(self) -> str:
-        return f"{self.__class__.__name__}(weapon={self.weapon.__class__.__name__}.{self.weapon.name}, shield={self.shield.__class__.__name__}.{self.shield.name}, special_type={self.special_type.__class__.__name__}.{self.special_type.name})"
+    obj_id: StageObj = dataclasses.field(init=False, default=StageObj.EGG_PAWN)
+    enemy_type: EnemyType = dataclasses.field(init=False, default=EnemyType.EGG_PAWN)
 
 
-@dataclasses.dataclass(init=False, kw_only=True)
-class Klagen(SonicHeroesEnemy):
+@dataclasses.dataclass(kw_only=True)
+class Klagen(SonicHeroesEnemyBase):
     special_type: KlagenType = KlagenType.REGULAR_KLAGEN
 
-    def __init__(self, special_type: KlagenType) -> None:
-        self.special_type = special_type
-        self.type: EnemyType = EnemyType.KLAGEN
-
-    @override
-    def get_func_str(self) -> str:
-        return f"{self.__class__.__name__}(special_type={self.special_type.__class__.__name__}.{self.special_type.name})"
+    obj_id: StageObj = dataclasses.field(init=False, default=StageObj.KLAGEN)
+    enemy_type: EnemyType = dataclasses.field(init=False, default=EnemyType.KLAGEN)
 
 
-@dataclasses.dataclass(init=False, kw_only=True)
-class Falco(SonicHeroesEnemy):
-    def __init__(self) -> None:
-        self.type: EnemyType = EnemyType.FALCO
+@dataclasses.dataclass(kw_only=True)
+class Falco(SonicHeroesEnemyBase):
 
-    @override
-    def get_func_str(self) -> str:
-        return f"{self.__class__.__name__}()"
+    obj_id: StageObj = dataclasses.field(init=False, default=StageObj.FALCO)
+    enemy_type: EnemyType = dataclasses.field(init=False, default=EnemyType.FALCO)
 
 
 @dataclasses.dataclass(init=False, kw_only=True)
-class EggHammer(SonicHeroesEnemy):
+class EggHammer(SonicHeroesEnemyBase):
     special_type: EggHammerType = EggHammerType.REGULAR_EGG_HAMMER
 
-    def __init__(self, special_type: EggHammerType) -> None:
-        self.special_type = special_type
-        self.type: EnemyType = EnemyType.EGG_HAMMER
-
-    @override
-    def get_func_str(self) -> str:
-        return f"{self.__class__.__name__}(special_type={self.special_type.__class__.__name__}.{self.special_type.name})"
+    obj_id: StageObj = dataclasses.field(init=False, default=StageObj.EGG_HAMMER)
+    enemy_type: EnemyType = dataclasses.field(init=False, default=EnemyType.EGG_HAMMER)
 
 
-@dataclasses.dataclass(init=False, kw_only=True)
-class Cameron(SonicHeroesEnemy):
+@dataclasses.dataclass(kw_only=True)
+class Cameron(SonicHeroesEnemyBase):
     special_type: CameronType = CameronType.REGULAR_CAMERON
 
-    def __init__(self, special_type: CameronType) -> None:
-        self.special_type = special_type
-        self.type: EnemyType = EnemyType.CAMERON
-
-    @override
-    def get_func_str(self) -> str:
-        return f"{self.__class__.__name__}(special_type={self.special_type.__class__.__name__}.{self.special_type.name})"
+    obj_id: StageObj = dataclasses.field(init=False, default=StageObj.CAMERON)
+    enemy_type: EnemyType = dataclasses.field(init=False, default=EnemyType.CAMERON)
 
 
-@dataclasses.dataclass(init=False, kw_only=True)
-class Rhino(SonicHeroesEnemy):
+@dataclasses.dataclass(kw_only=True)
+class Rhino(SonicHeroesEnemyBase):
     attack: RhinoAttack = RhinoAttack.RHINO_NO_ATTACK
     path: RhinoPath = RhinoPath.NORMAL_RHINO_PATH
 
-    def __init__(self, attack: RhinoAttack, path: RhinoPath) -> None:
-        self.attack = attack
-        self.path = path
-        self.type: EnemyType = EnemyType.RHINO
-
-    @override
-    def get_func_str(self) -> str:
-        return f"{self.__class__.__name__}(attack={self.attack.__class__.__name__}.{self.attack.name}, path={self.path.__class__.__name__}.{self.path.name})"
+    obj_id: StageObj = dataclasses.field(init=False, default=StageObj.RHINO_LINER)
+    enemy_type: EnemyType = dataclasses.field(init=False, default=EnemyType.RHINO)
 
 
-@dataclasses.dataclass(init=False, kw_only=True)
-class EggBishop(SonicHeroesEnemy):
+
+@dataclasses.dataclass(kw_only=True)
+class EggBishop(SonicHeroesEnemyBase):
     special_type: EggBishopType = EggBishopType.EGG_BISHOP
 
-    def __init__(self, special_type: EggBishopType) -> None:
-        self.special_type = special_type
-        self.type: EnemyType = EnemyType.EGG_BISHOP
+    obj_id: StageObj = dataclasses.field(init=False, default=StageObj.EGG_BISHOP)
+    enemy_type: EnemyType = dataclasses.field(init=False, default=EnemyType.EGG_BISHOP)
 
-    @override
-    def get_func_str(self) -> str:
-        return f"{self.__class__.__name__}(special_type={self.special_type.__class__.__name__}.{self.special_type.name})"
-
-
-@dataclasses.dataclass(init=False, kw_only=True)
-class E2000(SonicHeroesEnemy):
+@dataclasses.dataclass(kw_only=True)
+class E2000(SonicHeroesEnemyBase):
     special_type: E2000Type = E2000Type.E2000
 
-    def __init__(self, special_type: E2000Type) -> None:
-        self.special_type = special_type
-        self.type: EnemyType = EnemyType.E2000
+    obj_id: StageObj = dataclasses.field(init=False, default=StageObj.E2000)
+    enemy_type: EnemyType = dataclasses.field(init=False, default=EnemyType.E2000)
 
-    @override
-    def get_func_str(self) -> str:
-        return f"{self.__class__.__name__}(special_type={self.special_type.__class__.__name__}.{self.special_type.name})"
+
