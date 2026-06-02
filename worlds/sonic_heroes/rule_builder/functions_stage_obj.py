@@ -19,6 +19,9 @@ def has_stage_obj_rule(stage_obj: StageObj) -> Rule[SonicHeroesWorldBase]:
 def has_bobsled_rule(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
     return Has(item_name=BOBSLED_ITEM_NAME)
 
+def can_break_key_cage(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
+    return True_[SonicHeroesWorldBase]()
+
 
 def has_moving_ruins_rule(needs_trigger: bool) -> Rule[SonicHeroesWorldBase]:
     rule: Rule[SonicHeroesWorldBase] = True_[SonicHeroesWorldBase]()

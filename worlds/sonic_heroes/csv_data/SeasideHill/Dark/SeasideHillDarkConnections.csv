@@ -43,7 +43,7 @@ Dark,Seaside Hill,Staircase Before Corner Cave Bottom,Staircase Before Corner Ca
 Dark,Seaside Hill,Staircase Before Corner Cave Middle,Staircase Before Corner Cave Bottom,,
 Dark,Seaside Hill,Staircase Before Corner Cave Middle,Staircase Before Corner Cave Top,FlyAnyOR(Homing0ANDHoverFrameANDJumpANDRedFlapper)OR(JumpANDKillRedFlapperJumpANDTornado0Hover),red flappers in air (can reach with jump)
 Dark,Seaside Hill,Staircase Before Corner Cave Top,Staircase Before Corner Cave Middle,,
-Dark,Seaside Hill,Staircase Before Corner Cave Top,Ruin Before Corner Cave,FlyAnyOR(BadnikBounceANDHoming0ANDJumpAND(RedFlapperORGreenShot))OR(JumpANDKillRedFlapperJumpANDKillGreenShotJumpANDTornado0Hover),possible with Jump and hover frames and enemy
+Dark,Seaside Hill,Staircase Before Corner Cave Top,Ruin Before Corner Cave,FlyAnyOR(BadnikBounceANDHoming0ANDJumpAND(RedFlapperORGreenFlapperBazooka))OR(JumpANDKillRedFlapperJumpANDKillGreenFlapperBazookaJumpANDTornado0Hover),possible with Jump and hover frames and enemy
 Dark,Seaside Hill,Ruin Before Corner Cave,Staircase Before Corner Cave Top,,
 Dark,Seaside Hill,Ruin Before Corner Cave,Corner Cave,,
 Dark,Seaside Hill,Corner Cave,Ruin Before Corner Cave,FlyAnyANDJumpORFlyAnyANDThundershoot0ORFlyAnyAND(ComboHeightANDParkour)ORCollisAbuseANDJumpANDSpeedCharORHoming0HoverANDJump,

@@ -4,7 +4,7 @@ Functions used by the parser related to Connections
 import csv
 import os
 
-from .functions_parser import handle_full_rule_string, get_csv_file_name
+from .functions_parser import get_parsed_entry_str, handle_full_rule_string, get_csv_file_name
 from .parser_constants import *
 from .. import csv_data
 from .. import parsed_data
@@ -41,16 +41,31 @@ def parse_connection_csv(team: Team, stage: Stage, secret: bool = False) -> None
             elif x[RULE_HEADER] == "NOTPOSSIBLE":
                 parsed_rule_str = f"False_[SonicHeroesWorldBase]()"
             else:
-                print(f"Rule String here: {x[RULE_HEADER]}")
+                # print(f"Rule String here: {x[RULE_HEADER]}")
                 parsed_rule_str = handle_full_rule_string(rule_str=x[RULE_HEADER], team=team, stage=stage)
 
-            connection_str_list.append(f"SonicHeroesConnectionData(name=\"{connection_name}\", source_region=\"{source_reg}\", target_region=\"{target_reg}\", rule={parsed_rule_str})")
+            class_str: str = "SonicHeroesConnectionData"
 
-    parsed_result: str = f"\n{CONNECTION_PARSER_FILE_HEADER}\n{stage.stage_name.replace(" ", "")}{team.replace(" ", "")}Connections: list[SonicHeroesConnectionData] = \\\n[\n    {',\n    '.join(connection_str_list)}\n]"
+            params_dict: dict[str, str] = \
+            {
+                "name": f"\"{connection_name}\"",
+                "source_region": f"\"{source_reg}\"",
+                "target_region": f"\"{target_reg}\"",
+                "rule": parsed_rule_str,
+            }
+
+            connection_str_list.append(get_parsed_entry_str(entry_class_name=class_str, params=params_dict))
+
+            #connection_str_list.append(f"SonicHeroesConnectionData(name=\"{connection_name}\", source_region=\"{source_reg}\", target_region=\"{target_reg}\", rule={parsed_rule_str})")
+
+    list_name: str = "CONNECTIONS"
+    # list_name: str = f"{stage.stage_name.replace(" ", "")}{team.replace(" ", "")}Connections"
+
+    parsed_result: str = f"\n{CONNECTION_PARSER_FILE_HEADER}\n{list_name}: list[SonicHeroesConnectionData] = \\\n[\n    {',\n    '.join(connection_str_list)}\n]"
 
     # noinspection PyTypeChecker
-    with open(file=f"{os.path.dirname(parsed_data.parse_result_mapping[stage][team].__file__)}/{file_name}.py", mode="w") as output_file:  # pyright: ignore[reportCallIssue, reportArgumentType]
+    with open(file=f"{os.path.dirname(parsed_data.parser_result_mapping[stage][team].__file__)}/{file_name}.py", mode="w") as output_file:  # pyright: ignore[reportCallIssue, reportArgumentType]
         # noinspection PyTypeChecker
-        print(f"Writing File here: {os.path.dirname(parsed_data.parse_result_mapping[stage][team].__file__)}/{file_name}.py")  # pyright: ignore[reportCallIssue, reportArgumentType]
+        print(f"Writing File here: {os.path.dirname(parsed_data.parser_result_mapping[stage][team].__file__)}/{file_name}.py")  # pyright: ignore[reportCallIssue, reportArgumentType]
         _ = output_file.write(parsed_result)
 

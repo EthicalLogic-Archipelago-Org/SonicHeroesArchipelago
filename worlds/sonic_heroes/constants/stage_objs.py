@@ -439,6 +439,7 @@ class StageObjBase:
     team: Team
     stage: Stage
     obj_id: StageObj
+    location_name: str = ""
     region_name: str = DEFAULT_STAGE_OBJ_REGION
     link_id: int = DEFAULT_STAGE_OBJ_LINK_ID
     x: float = DEFAULT_STAGE_OBJ_COORD

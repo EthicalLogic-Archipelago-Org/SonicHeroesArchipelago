@@ -5,9 +5,9 @@ Helper Functions used by APWorld
 from rule_builder.rules import Rule, True_
 
 from .constants.apworld import RULE_CACHING_ENABLED_ATTR
-from .constants.items_events import PLAYABLE
+from .constants.items_events import OBJ_SANITY_EVENT_ITEM, PLAYABLE
 from .constants.char_ability import Ability, Character, Team
-from .constants.stage import Stage
+from .constants.stage import Stage, Act
 from .constants.stage_objs import StageObj
 from .world_base import SonicHeroesWorldBase
 
@@ -56,3 +56,11 @@ def is_rule_caching_enabled(world: SonicHeroesWorldBase) -> bool:
 
 def get_default_true_rule() -> Rule[SonicHeroesWorldBase]:
     return True_[SonicHeroesWorldBase]()
+
+
+def get_obj_sanity_event_item_name(team: Team, stage: Stage, act: Act) -> str:
+    return f"{team} {stage.stage_name} {act} {OBJ_SANITY_EVENT_ITEM}"
+
+
+def is_this_act_enabled(world: SonicHeroesWorldBase, team: Team, act: Act) -> bool:
+    return True

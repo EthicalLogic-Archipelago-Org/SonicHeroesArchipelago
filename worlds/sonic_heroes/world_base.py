@@ -32,5 +32,5 @@ class SonicHeroesWorldBase(World):
     """
 
     def __init__(self, multiworld: MultiWorld, player: int) -> None:
-        super().__init__(multiworld, player)
+        super().__init__(multiworld=multiworld, player=player)
         self.rule_macros = {}

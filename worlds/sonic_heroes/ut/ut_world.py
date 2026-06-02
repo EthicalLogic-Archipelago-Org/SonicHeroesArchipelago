@@ -3,9 +3,11 @@ The World For Universal Tracker
 """
 from typing import override, Any, ClassVar
 
-from BaseClasses import CollectionState
+from BaseClasses import CollectionState, MultiWorld
 from NetUtils import JSONMessagePart
+
 from ..constants.apworld import GENERATION_IS_FAKE_ATTR, RE_GEN_PASSTHROUGH_ATTR
+from ..constants.char_ability import Team
 from ..constants.items_events import UT_GLITCH_ITEM
 from ..world_base import SonicHeroesWorldBase
 
@@ -14,6 +16,10 @@ class SonicHeroesUTWorld(SonicHeroesWorldBase):
     ut_can_gen_without_yaml: ClassVar[bool] = True
     glitches_item_name: ClassVar[str] = UT_GLITCH_ITEM
     is_ut_gen: bool = False
+
+    def __init__(self, multiworld: MultiWorld, player: int) -> None:
+        super().__init__(multiworld=multiworld, player=player)
+        self.enabled_teams: list[Team] = []
 
 
     @staticmethod

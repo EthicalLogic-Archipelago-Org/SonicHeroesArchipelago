@@ -16,7 +16,7 @@ from ....world_base import SonicHeroesWorldBase
 from ....constants.loc_region import SonicHeroesRegionData
 
 
-SeasideHillDarkRegions: list[SonicHeroesRegionData] = \
+REGIONS: list[SonicHeroesRegionData] = \
 [
     SonicHeroesRegionData(region_name="Seaside Hill Dark Start", obj_checks=0),
     SonicHeroesRegionData(region_name="Seaside Hill Dark ObjSanity", obj_checks=0),

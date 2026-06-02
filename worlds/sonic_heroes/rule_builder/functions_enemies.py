@@ -2,16 +2,17 @@
 Helper Functions for custom rule builder rules related to enemies
 """
 from rule_builder.rules import Rule, False_
+from worlds.sonic_heroes.rule_builder.functions_stage_obj import has_bobsled_rule
 
-from ..constants.char_ability import Team
+from ..constants.char_ability import Formation, Team
 from ..constants.enemies import E2000, Cameron, CameronType, E2000Type, EggBishop, EggFlapperWeapon, EggHammer, EggHammerType, EggPawn, EggPawnShield, EggPawnType, EggPawnWeapon, Klagen, KlagenType, Rhino, EggFlapper, EggFlapperArmor, EnemyHeight, SonicHeroesEnemyBase, Falco
 from ..constants.stage import Stage
 from ..options import *
 from ..rule_builder.custom_rules import HasEnemyItem, SonicHeroesMacroRule
 from ..world_base import SonicHeroesWorldBase
 from .functions_ability_char import can_auto_power_attack_rule, can_belly_flop_rule, can_break_things_rule, can_combo_finisher_rule, \
-    can_fire_dunk_rule, can_homing_attack_rule, can_jump_rule, can_power_attack_rule, \
-    can_rocket_accel_rule, can_team_blast_rule, can_thundershoot_rule, can_tornado_rule, can_flight_rule, can_kick_rule
+    can_fire_dunk_rule, can_homing_attack_rule, can_jump_rule, can_light_attack_rule, can_power_attack_rule, \
+    can_rocket_accel_rule, can_team_blast_rule, can_thundershoot_rule, can_tornado_rule, can_flight_rule, can_kick_rule, has_all_3_chars_rule, has_flying_and_1_more_char_rule, has_flying_and_tall_char_rule, has_formation_char_rule, has_full_flying_stack_with_tall_char, has_tall_character
 
 
 def has_enemy_obj(team: Team, stage: Stage, enemy: SonicHeroesEnemyBase) -> Rule[SonicHeroesWorldBase]:
@@ -20,29 +21,49 @@ def has_enemy_obj(team: Team, stage: Stage, enemy: SonicHeroesEnemyBase) -> Rule
 
 def can_kill_red_flapper(team: Team, stage: Stage, height: EnemyHeight) -> Rule[SonicHeroesWorldBase]:
     rule: Rule[SonicHeroesWorldBase] = False_[SonicHeroesWorldBase]()
+    if height.relative_value <= EnemyHeight.JUMP_FLIGHT_THUNDERSHOOT.relative_value:
+        rule |= can_jump_rule(team=team, stage=stage) & can_flight_rule(team=team, stage=stage, num_other_chars=0) & can_thundershoot_rule(team=team, stage=stage, level=0)
     if height.relative_value <= EnemyHeight.FLIGHT_THUNDERSHOOT.relative_value:
         rule |= can_flight_rule(team=team, stage=stage, num_other_chars=0) & can_thundershoot_rule(team=team, stage=stage, level=0)
     if height.relative_value <= EnemyHeight.JUMP_THUNDERSHOOT.relative_value:
         rule |= can_jump_rule(team=team, stage=stage) & can_thundershoot_rule(team=team, stage=stage, level=0)
-    if height.relative_value <= EnemyHeight.HOMING.relative_value:
-        rule |= can_homing_attack_rule(team=team, stage=stage, level=0) | can_thundershoot_rule(team=team, stage=stage, level=0)
+    if height.relative_value <= EnemyHeight.FULL_FLY_STACK_TALL_CHAR_JUMP.relative_value:
+        rule |= can_jump_rule(team=team, stage=stage) & has_full_flying_stack_with_tall_char(team=team) & has_all_3_chars_rule(team=team)
+    if height.relative_value <= EnemyHeight.FULL_FLY_STACK_JUMP.relative_value:
+        rule |= can_jump_rule(team=team, stage=stage) & (has_all_3_chars_rule(team=team) | has_flying_and_tall_char_rule(team=team))
+    if height.relative_value <= EnemyHeight.TALL_CHAR_JUMP.relative_value:
+        rule |= (can_jump_rule(team=team, stage=stage) & (can_homing_attack_rule(team=team, stage=stage, level=0) | has_tall_character(team=team) | has_flying_and_1_more_char_rule(team=team))) | can_thundershoot_rule(team=team, stage=stage, level=0)
     if height.relative_value <= EnemyHeight.JUMP.relative_value:
         rule |= can_jump_rule(team=team, stage=stage) | can_thundershoot_rule(team=team, stage=stage, level=0) | can_belly_flop_rule(team=team, stage=stage, level=0) | can_fire_dunk_rule(team=team, stage=stage, level=0)
+    if height.relative_value <= EnemyHeight.HALF_JUMP.relative_value:
+        rule |= can_auto_power_attack_rule(team=team, stage=stage, need_speed_lvl_3=False)
     if height.relative_value <= EnemyHeight.GROUND.relative_value:
         rule |= can_kill_basic_egg_pawn(team=team, stage=stage)
     return rule
 
 
+def can_kill_green_shot_flapper_homing_only(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
+    return can_homing_attack_rule(team=team, stage=stage, level=1)
+
+
 def can_kill_green_shot_flapper(team: Team, stage: Stage, height: EnemyHeight) -> Rule[SonicHeroesWorldBase]:
     rule: Rule[SonicHeroesWorldBase] = False_[SonicHeroesWorldBase]()
+    if height.relative_value <= EnemyHeight.JUMP_FLIGHT_THUNDERSHOOT.relative_value:
+        rule |= can_jump_rule(team=team, stage=stage) & can_flight_rule(team=team, stage=stage, num_other_chars=0) & can_thundershoot_rule(team=team, stage=stage, level=1)
     if height.relative_value <= EnemyHeight.FLIGHT_THUNDERSHOOT.relative_value:
         rule |= can_flight_rule(team=team, stage=stage, num_other_chars=0) & can_thundershoot_rule(team=team, stage=stage, level=1)
     if height.relative_value <= EnemyHeight.JUMP_THUNDERSHOOT.relative_value:
         rule |= can_jump_rule(team=team, stage=stage) & can_thundershoot_rule(team=team, stage=stage, level=1)
-    if height.relative_value <= EnemyHeight.HOMING.relative_value:
-        rule |= can_homing_attack_rule(team=team, stage=stage, level=0) | can_thundershoot_rule(team=team, stage=stage, level=1)
+    if height.relative_value <= EnemyHeight.FULL_FLY_STACK_TALL_CHAR_JUMP.relative_value:
+        rule |= can_jump_rule(team=team, stage=stage) & has_full_flying_stack_with_tall_char(team=team) & has_all_3_chars_rule(team=team)
+    if height.relative_value <= EnemyHeight.FULL_FLY_STACK_JUMP.relative_value:
+        rule |= can_jump_rule(team=team, stage=stage) & (has_all_3_chars_rule(team=team) | has_flying_and_tall_char_rule(team=team))
+    if height.relative_value <= EnemyHeight.TALL_CHAR_JUMP.relative_value:
+        rule |= (can_jump_rule(team=team, stage=stage) & (has_tall_character(team=team) | has_flying_and_1_more_char_rule(team=team))) | can_thundershoot_rule(team=team, stage=stage, level=1) | (has_tall_character(team=team) & can_belly_flop_rule(team=team, stage=stage, level=0))
     if height.relative_value <= EnemyHeight.JUMP.relative_value:
         rule |= can_jump_rule(team=team, stage=stage) | can_thundershoot_rule(team=team, stage=stage, level=1) | can_belly_flop_rule(team=team, stage=stage, level=0) | can_fire_dunk_rule(team=team, stage=stage, level=0)
+    if height.relative_value <= EnemyHeight.HALF_JUMP.relative_value:
+        rule |= can_auto_power_attack_rule(team=team, stage=stage, need_speed_lvl_3=False)
     if height.relative_value <= EnemyHeight.GROUND.relative_value:
         rule |= can_kill_basic_egg_pawn(team=team, stage=stage)
     return rule
@@ -50,14 +71,22 @@ def can_kill_green_shot_flapper(team: Team, stage: Stage, height: EnemyHeight) -
 
 def can_kill_green_lightning_flapper(team: Team, stage: Stage, height: EnemyHeight) -> Rule[SonicHeroesWorldBase]:
     rule: Rule[SonicHeroesWorldBase] = False_[SonicHeroesWorldBase]()
+    if height.relative_value <= EnemyHeight.JUMP_FLIGHT_THUNDERSHOOT.relative_value:
+        rule |= can_jump_rule(team=team, stage=stage) & can_flight_rule(team=team, stage=stage, num_other_chars=0) & can_thundershoot_rule(team=team, stage=stage, level=1)
     if height.relative_value <= EnemyHeight.FLIGHT_THUNDERSHOOT.relative_value:
         rule |= can_flight_rule(team=team, stage=stage, num_other_chars=0) & can_thundershoot_rule(team=team, stage=stage, level=1)
     if height.relative_value <= EnemyHeight.JUMP_THUNDERSHOOT.relative_value:
         rule |= can_jump_rule(team=team, stage=stage) & can_thundershoot_rule(team=team, stage=stage, level=1)
-    if height.relative_value <= EnemyHeight.HOMING.relative_value:
-        rule |= can_homing_attack_rule(team=team, stage=stage, level=0) | can_thundershoot_rule(team=team, stage=stage, level=1)
+    if height.relative_value <= EnemyHeight.FULL_FLY_STACK_TALL_CHAR_JUMP.relative_value:
+        rule |= can_jump_rule(team=team, stage=stage) & has_full_flying_stack_with_tall_char(team=team) & has_all_3_chars_rule(team=team)
+    if height.relative_value <= EnemyHeight.FULL_FLY_STACK_JUMP.relative_value:
+        rule |= can_jump_rule(team=team, stage=stage) & (has_all_3_chars_rule(team=team) | has_flying_and_tall_char_rule(team=team))
+    if height.relative_value <= EnemyHeight.TALL_CHAR_JUMP.relative_value:
+        rule |= (can_jump_rule(team=team, stage=stage) & (has_tall_character(team=team) | has_flying_and_1_more_char_rule(team=team))) | can_thundershoot_rule(team=team, stage=stage, level=1) | (has_tall_character(team=team) & can_belly_flop_rule(team=team, stage=stage, level=0))
     if height.relative_value <= EnemyHeight.JUMP.relative_value:
-        rule |= can_thundershoot_rule(team=team, stage=stage, level=1) | can_belly_flop_rule(team=team, stage=stage, level=0) | can_fire_dunk_rule(team=team, stage=stage, level=0)
+        rule |= can_jump_rule(team=team, stage=stage) | can_thundershoot_rule(team=team, stage=stage, level=1) | can_belly_flop_rule(team=team, stage=stage, level=0) | can_fire_dunk_rule(team=team, stage=stage, level=0)
+    if height.relative_value <= EnemyHeight.HALF_JUMP.relative_value:
+        rule |= can_auto_power_attack_rule(team=team, stage=stage, need_speed_lvl_3=False)
     if height.relative_value <= EnemyHeight.GROUND.relative_value:
         rule |= can_kill_basic_egg_pawn(team=team, stage=stage)
     return rule
@@ -65,22 +94,32 @@ def can_kill_green_lightning_flapper(team: Team, stage: Stage, height: EnemyHeig
 
 def can_kill_silver_armor_flapper(team: Team, stage: Stage, height: EnemyHeight) -> Rule[SonicHeroesWorldBase]:
     rule: Rule[SonicHeroesWorldBase] = False_[SonicHeroesWorldBase]()
+    can_kill_ground_silver_armor: Rule[SonicHeroesWorldBase] = can_power_attack_rule(team=team, stage=stage, level=0) | can_belly_flop_rule(team=team, stage=stage, level=0) | can_fire_dunk_rule(team=team, stage=stage, level=0) | can_combo_finisher_rule(team=team, stage=stage, level=1)
+
+    if height.relative_value <= EnemyHeight.JUMP_FLIGHT_THUNDERSHOOT.relative_value:
+        rule |= can_jump_rule(team=team, stage=stage) & can_flight_rule(team=team, stage=stage, num_other_chars=0) & can_thundershoot_rule(team=team, stage=stage, level=0) & can_kill_ground_silver_armor
     if height.relative_value <= EnemyHeight.FLIGHT_THUNDERSHOOT.relative_value:
-        rule |= can_flight_rule(team=team, stage=stage, num_other_chars=0) & can_thundershoot_rule(team=team, stage=stage, level=0) & (can_power_attack_rule(team=team, stage=stage, level=0) | can_belly_flop_rule(team=team, stage=stage, level=0) | can_fire_dunk_rule(team=team, stage=stage, level=0) | can_combo_finisher_rule(team=team, stage=stage, level=1))
+        rule |= can_flight_rule(team=team, stage=stage, num_other_chars=0) & can_thundershoot_rule(team=team, stage=stage, level=0) & can_kill_ground_silver_armor
     if height.relative_value <= EnemyHeight.JUMP_THUNDERSHOOT.relative_value:
-        rule |= can_jump_rule(team=team, stage=stage) & can_thundershoot_rule(team=team, stage=stage, level=0) & (can_power_attack_rule(team=team, stage=stage, level=0) | can_belly_flop_rule(team=team, stage=stage, level=0) | can_fire_dunk_rule(team=team, stage=stage, level=0) | can_combo_finisher_rule(team=team, stage=stage, level=1))
-    if height.relative_value <= EnemyHeight.HOMING.relative_value:
-        rule |= can_thundershoot_rule(team=team, stage=stage, level=0) & (can_power_attack_rule(team=team, stage=stage, level=0) | can_belly_flop_rule(team=team, stage=stage, level=0) | can_fire_dunk_rule(team=team, stage=stage, level=0) | can_combo_finisher_rule(team=team, stage=stage, level=1))
+        rule |= can_jump_rule(team=team, stage=stage) & can_thundershoot_rule(team=team, stage=stage, level=0) & can_kill_ground_silver_armor
+    if height.relative_value <= EnemyHeight.FULL_FLY_STACK_TALL_CHAR_JUMP.relative_value:
+        rule |= can_jump_rule(team=team, stage=stage) & can_thundershoot_rule(team=team, stage=stage, level=0) & can_kill_ground_silver_armor
+    if height.relative_value <= EnemyHeight.FULL_FLY_STACK_JUMP.relative_value:
+        rule |= can_thundershoot_rule(team=team, stage=stage, level=0) & can_kill_ground_silver_armor
+    if height.relative_value <= EnemyHeight.TALL_CHAR_JUMP.relative_value:
+        rule |= can_thundershoot_rule(team=team, stage=stage, level=0) & can_kill_ground_silver_armor
     if height.relative_value <= EnemyHeight.JUMP.relative_value:
-        rule |= (can_thundershoot_rule(team=team, stage=stage, level=0) & can_power_attack_rule(team=team, stage=stage, level=0)) | can_belly_flop_rule(team=team, stage=stage, level=0) | can_fire_dunk_rule(team=team, stage=stage, level=0)
+        rule |= (can_thundershoot_rule(team=team, stage=stage, level=0) & can_kill_ground_silver_armor) | can_belly_flop_rule(team=team, stage=stage, level=0) | can_fire_dunk_rule(team=team, stage=stage, level=0)
+    if height.relative_value <= EnemyHeight.HALF_JUMP.relative_value:
+        rule |= can_auto_power_attack_rule(team=team, stage=stage, need_speed_lvl_3=False) | (can_thundershoot_rule(team=team, stage=stage, level=0) & can_kill_ground_silver_armor)
     if height.relative_value <= EnemyHeight.GROUND.relative_value:
-        rule |= can_power_attack_rule(team=team, stage=stage, level=0) | can_belly_flop_rule(team=team, stage=stage, level=0) | can_fire_dunk_rule(team=team, stage=stage, level=0) | can_combo_finisher_rule(team=team, stage=stage, level=1)
+        rule |= can_kill_ground_silver_armor
     return rule
 
 
 def can_kill_egg_flapper(team: Team, stage: Stage, flapper: EggFlapper) -> Rule[SonicHeroesWorldBase]:
     rule: Rule[SonicHeroesWorldBase] = has_enemy_obj(team=team, stage=stage, enemy=flapper)
-    color_str: str = "PLACEHOLDER"
+    color_str: str = "PLACEHOLDER COLOR"
     match flapper.armor:
         case EggFlapperArmor.NO_ARMOR:
             match flapper.weapon:
@@ -90,7 +129,7 @@ def can_kill_egg_flapper(team: Team, stage: Stage, flapper: EggFlapper) -> Rule[
                 case EggFlapperWeapon.NEEDLE:
                     color_str = "Gray"
                     rule &= can_kill_green_lightning_flapper(team=team, stage=stage, height=flapper.height)
-                case EggFlapperWeapon.SHOT:
+                case EggFlapperWeapon.BAZOOKA:
                     color_str = "Green"
                     rule &= can_kill_green_shot_flapper(team=team, stage=stage, height=flapper.height)
                 case EggFlapperWeapon.MACHINE_GUN:
@@ -112,39 +151,127 @@ def can_kill_egg_flapper(team: Team, stage: Stage, flapper: EggFlapper) -> Rule[
     return SonicHeroesMacroRule(child=rule, name=f"Kill {color_str} Flapper with {flapper.weapon} at {flapper.height.description} Height as Team: {team} in {stage.stage_name}")
 
 
-def can_remove_shield(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
+def can_kill_basic_egg_pawn_homing_only(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
+    return can_homing_attack_rule(team=team, stage=stage, level=0)
+
+def can_kill_basic_egg_pawn_thundershoot_only(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
+    return can_thundershoot_rule(team=team, stage=stage, level=2)
+
+def can_kill_basic_egg_pawn_power_attack_only(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
+    return can_power_attack_rule(team=team, stage=stage, level=0)
+
+def can_kill_basic_egg_pawn_bell_flop_only(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
+    return can_belly_flop_rule(team=team, stage=stage, level=0)
+
+def can_kill_basic_egg_pawn_fire_dunk_only(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
+    return can_fire_dunk_rule(team=team, stage=stage, level=0)
+
+
+def can_kill_basic_egg_pawn(team: Team, stage: Stage, height: EnemyHeight = EnemyHeight.GROUND) -> Rule[SonicHeroesWorldBase]:
+    rule: Rule[SonicHeroesWorldBase] = False_[SonicHeroesWorldBase]()
+    if height.relative_value <= EnemyHeight.JUMP.relative_value:
+        rule |= (can_jump_rule(team=team, stage=stage) |
+                 can_kill_basic_egg_pawn_homing_only(team=team, stage=stage) |
+                 can_kill_basic_egg_pawn_thundershoot_only(team=team, stage=stage) |
+                 can_kill_basic_egg_pawn_bell_flop_only(team=team, stage=stage) |
+                 can_kill_basic_egg_pawn_fire_dunk_only(team=team, stage=stage) |
+                 can_light_attack_rule(team=team, stage=stage) |
+                 can_team_blast_rule(team=team, stage=stage))
+    if height.relative_value <= EnemyHeight.HALF_JUMP.relative_value:
+        rule |= (can_jump_rule(team=team, stage=stage) |
+                 can_auto_power_attack_rule(team=team, stage=stage, need_speed_lvl_3=False) |
+                 can_kill_basic_egg_pawn_homing_only(team=team, stage=stage) |
+                 can_kill_basic_egg_pawn_thundershoot_only(team=team, stage=stage) |
+                 can_kill_basic_egg_pawn_bell_flop_only(team=team, stage=stage) |
+                 can_kill_basic_egg_pawn_fire_dunk_only(team=team, stage=stage) |
+                 can_light_attack_rule(team=team, stage=stage) |
+                 can_team_blast_rule(team=team, stage=stage))
+    if height.relative_value <= EnemyHeight.GROUND.relative_value:
+        rule |= (can_jump_rule(team=team, stage=stage) |
+                 can_kill_basic_egg_pawn_homing_only(team=team, stage=stage) |
+                 can_kick_rule(team=team, stage=stage) |
+                 can_auto_power_attack_rule(team=team, stage=stage) |
+                 can_break_things_rule(team=team, stage=stage) |
+                 can_kill_basic_egg_pawn_power_attack_only(team=team, stage=stage) |
+                 can_kill_basic_egg_pawn_bell_flop_only(team=team, stage=stage) |
+                 can_kill_basic_egg_pawn_fire_dunk_only(team=team, stage=stage) |
+                 can_kill_basic_egg_pawn_thundershoot_only(team=team, stage=stage) |
+                 can_light_attack_rule(team=team, stage=stage) |
+                 can_team_blast_rule(team=team, stage=stage))
+    return rule
+
+
+def can_kill_egg_pawn_bazooka(team: Team, stage: Stage, height: EnemyHeight = EnemyHeight.GROUND) -> Rule[SonicHeroesWorldBase]:
+    return can_kill_basic_egg_pawn(team=team, stage=stage, height=height)
+
+def can_kill_basic_egg_pawn_lance_homing_only(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
+    return can_homing_attack_rule(team=team, stage=stage, level=1)
+
+def can_kill_basic_egg_pawn_lance_thundershoot_only(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
+    return can_thundershoot_rule(team=team, stage=stage, level=2)
+
+def can_kill_basic_egg_pawn_lance_power_attack_only(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
+    return can_power_attack_rule(team=team, stage=stage, level=1)
+
+def can_kill_basic_egg_pawn_lance_bell_flop_only(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
+    return can_belly_flop_rule(team=team, stage=stage, level=1)
+
+def can_kill_basic_egg_pawn_lance_fire_dunk_only(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
+    return can_fire_dunk_rule(team=team, stage=stage, level=1)
+
+
+def can_kill_egg_pawn_lance(team: Team, stage: Stage, height: EnemyHeight = EnemyHeight.GROUND) -> Rule[SonicHeroesWorldBase]:
+    rule: Rule[SonicHeroesWorldBase] = False_[SonicHeroesWorldBase]()
+    if height.relative_value <= EnemyHeight.JUMP.relative_value:
+        rule |= (can_kill_basic_egg_pawn_lance_homing_only(team=team, stage=stage) |
+                 can_kill_basic_egg_pawn_lance_thundershoot_only(team=team, stage=stage) |
+                 can_kill_basic_egg_pawn_lance_bell_flop_only(team=team, stage=stage) |
+                 can_kill_basic_egg_pawn_lance_fire_dunk_only(team=team, stage=stage) |
+                 can_light_attack_rule(team=team, stage=stage) |
+                 can_team_blast_rule(team=team, stage=stage))
+    if height.relative_value <= EnemyHeight.HALF_JUMP.relative_value:
+        rule |= (can_auto_power_attack_rule(team=team, stage=stage, need_speed_lvl_3=False) |
+                 can_kill_basic_egg_pawn_lance_homing_only(team=team, stage=stage) |
+                 can_kill_basic_egg_pawn_lance_thundershoot_only(team=team, stage=stage) |
+                 can_kill_basic_egg_pawn_lance_bell_flop_only(team=team, stage=stage) |
+                 can_kill_basic_egg_pawn_lance_fire_dunk_only(team=team, stage=stage) |
+                 can_light_attack_rule(team=team, stage=stage) |
+                 can_team_blast_rule(team=team, stage=stage))
+    if height.relative_value <= EnemyHeight.GROUND.relative_value:
+        rule |= (can_kill_basic_egg_pawn_lance_homing_only(team=team, stage=stage) |
+                 can_kick_rule(team=team, stage=stage) |
+                 can_auto_power_attack_rule(team=team, stage=stage) |
+                 can_break_things_rule(team=team, stage=stage) |
+                 can_kill_basic_egg_pawn_lance_power_attack_only(team=team, stage=stage) |
+                 can_kill_basic_egg_pawn_lance_bell_flop_only(team=team, stage=stage) |
+                 can_kill_basic_egg_pawn_lance_fire_dunk_only(team=team, stage=stage) |
+                 can_kill_basic_egg_pawn_lance_thundershoot_only(team=team, stage=stage) |
+                 can_light_attack_rule(team=team, stage=stage) |
+                 can_team_blast_rule(team=team, stage=stage))
+    return rule
+
+
+def can_kill_egg_pawn_machine_gun(team: Team, stage: Stage, height: EnemyHeight = EnemyHeight.GROUND) -> Rule[SonicHeroesWorldBase]:
+    return can_homing_attack_rule(team=team, stage=stage, level=0) | can_kick_rule(team=team, stage=stage) | can_auto_power_attack_rule(team=team, stage=stage) | can_break_things_rule(team=team, stage=stage) | can_thundershoot_rule(team=team, stage=stage, level=1) | can_team_blast_rule(team=team, stage=stage)
+
+
+def can_remove_shield(team: Team, stage: Stage, height: EnemyHeight = EnemyHeight.GROUND) -> Rule[SonicHeroesWorldBase]:
     return SonicHeroesMacroRule(child=can_homing_attack_rule(team=team, stage=stage, level=3) | (can_tornado_rule(team=team, stage=stage, level=0) | can_rocket_accel_rule(team=team, stage=stage, num_other_chars=1)) | can_team_blast_rule(team=team, stage=stage), name=f"Remove shield as Team: {team} in {stage.stage_name}")
 
 
-def can_kill_basic_egg_pawn(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
-    return can_jump_rule(team=team, stage=stage) | can_homing_attack_rule(team=team, stage=stage, level=0) | can_kick_rule(team=team, stage=stage) | can_auto_power_attack_rule(team=team, stage=stage) | can_break_things_rule(team=team, stage=stage) | can_thundershoot_rule(team=team, stage=stage, level=1) | can_team_blast_rule(team=team, stage=stage)
+def can_break_concrete_shield(team: Team, stage: Stage, height: EnemyHeight = EnemyHeight.GROUND) -> Rule[SonicHeroesWorldBase]:
+    return SonicHeroesMacroRule(child=can_combo_finisher_rule(team=team, stage=stage, level=2) | can_thundershoot_rule(team=team, stage=stage, level=3) | can_light_attack_rule(team=team, stage=stage) | can_team_blast_rule(team=team, stage=stage), name=f"Break Concrete Shield as Team: {team} in {stage.stage_name}")
 
 
-def can_kill_egg_pawn_bazooka(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
-    return can_kill_basic_egg_pawn(team=team, stage=stage)
+def can_break_plain_shield(team: Team, stage: Stage, height: EnemyHeight = EnemyHeight.GROUND) -> Rule[SonicHeroesWorldBase]:
+    return SonicHeroesMacroRule(child=can_break_things_rule(team=team, stage=stage) | can_light_attack_rule(team=team, stage=stage) | can_team_blast_rule(team=team, stage=stage), name=f"Break Plain Shield as Team: {team} in {stage.stage_name}")
 
 
-def can_kill_egg_pawn_lance(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
-    return can_homing_attack_rule(team=team, stage=stage, level=0) | can_kick_rule(team=team, stage=stage) | can_auto_power_attack_rule(team=team, stage=stage) | can_break_things_rule(team=team, stage=stage) | can_thundershoot_rule(team=team, stage=stage, level=1) | can_team_blast_rule(team=team, stage=stage)
+def can_break_spike_shield(team: Team, stage: Stage, height: EnemyHeight = EnemyHeight.GROUND) -> Rule[SonicHeroesWorldBase]:
+    return SonicHeroesMacroRule(child=can_break_things_rule(team=team, stage=stage) | can_light_attack_rule(team=team, stage=stage) | can_team_blast_rule(team=team, stage=stage), name=f"Break Spike Shield as Team: {team} in {stage.stage_name}")
 
 
-def can_kill_egg_pawn_machine_gun(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
-    return can_homing_attack_rule(team=team, stage=stage, level=0) | can_kick_rule(team=team, stage=stage) | can_auto_power_attack_rule(team=team, stage=stage) | can_break_things_rule(team=team, stage=stage) | can_thundershoot_rule(team=team, stage=stage, level=1) | can_team_blast_rule(team=team, stage=stage)
-
-
-def can_break_concrete_shield(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
-    return SonicHeroesMacroRule(child=can_combo_finisher_rule(team=team, stage=stage, level=2) | can_thundershoot_rule(team=team, stage=stage, level=3) | can_team_blast_rule(team=team, stage=stage), name=f"Break Concrete Shield as Team: {team} in {stage.stage_name}")
-
-
-def can_break_plain_shield(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
-    return SonicHeroesMacroRule(child=can_break_things_rule(team=team, stage=stage) | can_team_blast_rule(team=team, stage=stage), name=f"Break Plain Shield as Team: {team} in {stage.stage_name}")
-
-
-def can_break_spike_shield(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
-    return SonicHeroesMacroRule(child=can_break_things_rule(team=team, stage=stage) | can_team_blast_rule(team=team, stage=stage), name=f"Break Spike Shield as Team: {team} in {stage.stage_name}")
-
-
-def can_kill_regular_egg_pawn(team: Team, stage: Stage, pawn: EggPawn, is_king: bool = False, is_casino: bool = False) -> Rule[SonicHeroesWorldBase]:
+def can_kill_regular_egg_pawn(team: Team, stage: Stage, pawn: EggPawn, height: EnemyHeight = EnemyHeight.GROUND, is_king: bool = False, is_casino: bool = False) -> Rule[SonicHeroesWorldBase]:
     rule: Rule[SonicHeroesWorldBase] = has_enemy_obj(team=team, stage=stage, enemy=pawn)
     enemy_str: str = ""
     if is_king:
@@ -157,43 +284,43 @@ def can_kill_regular_egg_pawn(team: Team, stage: Stage, pawn: EggPawn, is_king: 
         case EggPawnShield.NO_SHIELD:
             match pawn.weapon:
                 case EggPawnWeapon.NO_WEAPON:
-                    rule &= can_kill_basic_egg_pawn(team=team, stage=stage)
+                    rule &= can_kill_basic_egg_pawn(team=team, stage=stage, height=height)
                 case EggPawnWeapon.BAZOOKA:
-                    rule &= can_kill_egg_pawn_bazooka(team=team, stage=stage)
+                    rule &= can_kill_egg_pawn_bazooka(team=team, stage=stage, height=height)
                 case EggPawnWeapon.LANCE:
-                    rule &= can_kill_egg_pawn_lance(team=team, stage=stage)
+                    rule &= can_kill_egg_pawn_lance(team=team, stage=stage, height=height)
                 case EggPawnWeapon.MACHINE_GUN:
-                    rule &= can_kill_egg_pawn_machine_gun(team=team, stage=stage)
+                    rule &= can_kill_egg_pawn_machine_gun(team=team, stage=stage, height=height)
         case EggPawnShield.CONCRETE_SHIELD:
             match pawn.weapon:
                 case EggPawnWeapon.NO_WEAPON:
-                    rule &= (can_remove_shield(team=team, stage=stage) | can_break_concrete_shield(team=team, stage=stage)) & can_kill_basic_egg_pawn(team=team, stage=stage)
+                    rule &= (can_remove_shield(team=team, stage=stage, height=height) | can_break_concrete_shield(team=team, stage=stage, height=height)) & can_kill_basic_egg_pawn(team=team, stage=stage, height=height)
                 case EggPawnWeapon.BAZOOKA:
-                    rule &= (can_remove_shield(team=team, stage=stage) | can_break_concrete_shield(team=team, stage=stage)) & can_kill_egg_pawn_bazooka(team=team, stage=stage)
+                    rule &= (can_remove_shield(team=team, stage=stage, height=height) | can_break_concrete_shield(team=team, stage=stage, height=height)) & can_kill_egg_pawn_bazooka(team=team, stage=stage, height=height)
                 case EggPawnWeapon.LANCE:
-                    rule &= (can_remove_shield(team=team, stage=stage) | can_break_concrete_shield(team=team, stage=stage)) & can_kill_egg_pawn_lance(team=team, stage=stage)
+                    rule &= (can_remove_shield(team=team, stage=stage, height=height) | can_break_concrete_shield(team=team, stage=stage, height=height)) & can_kill_egg_pawn_lance(team=team, stage=stage, height=height)
                 case EggPawnWeapon.MACHINE_GUN:
-                    rule &= (can_remove_shield(team=team, stage=stage) | can_break_concrete_shield(team=team, stage=stage)) & can_kill_egg_pawn_machine_gun(team=team, stage=stage)
+                    rule &= (can_remove_shield(team=team, stage=stage, height=height) | can_break_concrete_shield(team=team, stage=stage, height=height)) & can_kill_egg_pawn_machine_gun(team=team, stage=stage, height=height)
         case EggPawnShield.PLAIN_SHIELD:
             match pawn.weapon:
                 case EggPawnWeapon.NO_WEAPON:
-                    rule &= (can_remove_shield(team=team, stage=stage) | can_break_plain_shield(team=team, stage=stage)) & can_kill_basic_egg_pawn(team=team, stage=stage)
+                    rule &= (can_remove_shield(team=team, stage=stage) | can_break_plain_shield(team=team, stage=stage)) & can_kill_basic_egg_pawn(team=team, stage=stage, height=height)
                 case EggPawnWeapon.BAZOOKA:
-                    rule &= (can_remove_shield(team=team, stage=stage) | can_break_plain_shield(team=team, stage=stage)) & can_kill_egg_pawn_bazooka(team=team, stage=stage)
+                    rule &= (can_remove_shield(team=team, stage=stage) | can_break_plain_shield(team=team, stage=stage)) & can_kill_egg_pawn_bazooka(team=team, stage=stage, height=height)
                 case EggPawnWeapon.LANCE:
-                    rule &= (can_remove_shield(team=team, stage=stage) | can_break_plain_shield(team=team, stage=stage)) & can_kill_egg_pawn_lance(team=team, stage=stage)
+                    rule &= (can_remove_shield(team=team, stage=stage) | can_break_plain_shield(team=team, stage=stage)) & can_kill_egg_pawn_lance(team=team, stage=stage, height=height)
                 case EggPawnWeapon.MACHINE_GUN:
-                    rule &= (can_remove_shield(team=team, stage=stage) | can_break_plain_shield(team=team, stage=stage)) & can_kill_egg_pawn_machine_gun(team=team, stage=stage)
+                    rule &= (can_remove_shield(team=team, stage=stage) | can_break_plain_shield(team=team, stage=stage)) & can_kill_egg_pawn_machine_gun(team=team, stage=stage, height=height)
         case EggPawnShield.SPIKE_SHIELD:
             match pawn.weapon:
                 case EggPawnWeapon.NO_WEAPON:
-                    rule &= (can_remove_shield(team=team, stage=stage) | can_break_spike_shield(team=team, stage=stage)) & can_kill_basic_egg_pawn(team=team, stage=stage)
+                    rule &= (can_remove_shield(team=team, stage=stage) | can_break_spike_shield(team=team, stage=stage)) & can_kill_basic_egg_pawn(team=team, stage=stage, height=height)
                 case EggPawnWeapon.BAZOOKA:
-                    rule &= (can_remove_shield(team=team, stage=stage) | can_break_spike_shield(team=team, stage=stage)) & can_kill_egg_pawn_bazooka(team=team, stage=stage)
+                    rule &= (can_remove_shield(team=team, stage=stage) | can_break_spike_shield(team=team, stage=stage)) & can_kill_egg_pawn_bazooka(team=team, stage=stage, height=height)
                 case EggPawnWeapon.LANCE:
-                    rule &= (can_remove_shield(team=team, stage=stage) | can_break_spike_shield(team=team, stage=stage)) & can_kill_egg_pawn_lance(team=team, stage=stage)
+                    rule &= (can_remove_shield(team=team, stage=stage) | can_break_spike_shield(team=team, stage=stage)) & can_kill_egg_pawn_lance(team=team, stage=stage, height=height)
                 case EggPawnWeapon.MACHINE_GUN:
-                    rule &= (can_remove_shield(team=team, stage=stage) | can_break_spike_shield(team=team, stage=stage)) & can_kill_egg_pawn_machine_gun(team=team, stage=stage)
+                    rule &= (can_remove_shield(team=team, stage=stage) | can_break_spike_shield(team=team, stage=stage)) & can_kill_egg_pawn_machine_gun(team=team, stage=stage, height=height)
 
     return SonicHeroesMacroRule(child=rule, name=f"Kill {enemy_str} with {pawn.shield} and {pawn.weapon} as Team: {team} in {stage.stage_name}")
 
@@ -216,6 +343,21 @@ def can_kill_egg_pawn(team: Team, stage: Stage, pawn: EggPawn) -> Rule[SonicHero
             return can_kill_casino_egg_pawn(team=team, stage=stage, pawn=pawn)
         case EggPawnType.CASINO_PAWN_2:
             return can_kill_casino_egg_pawn(team=team, stage=stage, pawn=pawn)
+
+
+def can_kill_egg_pawn_with_bobsled(team: Team, stage: Stage, pawn: EggPawn) -> Rule[SonicHeroesWorldBase]:
+    enemy_str: str = ""
+    if pawn.special_type is EggPawnType.KING_PAWN:
+        enemy_str += "King "
+    if pawn.special_type is EggPawnType.CASINO_PAWN_1 or pawn.special_type is EggPawnType.CASINO_PAWN_2:
+        enemy_str += "Casino "
+    enemy_str += "Egg Pawn"
+
+    return SonicHeroesMacroRule(child=has_bobsled_rule(team=team, stage=stage) & has_formation_char_rule(team=team, formation=Formation.SPEED) | has_formation_char_rule(team=team, formation=Formation.POWER), name=f"Kill {enemy_str} with {pawn.shield} and {pawn.weapon} as Team: {team} in {stage.stage_name} with Bobsled")
+
+
+def can_kill_egg_pawn_with_seaside_hill_first_bobsled(team: Team, stage: Stage, pawn: EggPawn) -> Rule[SonicHeroesWorldBase]:
+    return False_[SonicHeroesWorldBase]()
 
 
 def can_kill_regular_klagen(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:

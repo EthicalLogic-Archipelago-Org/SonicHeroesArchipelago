@@ -13,6 +13,7 @@ LEVEL_HEADER: str = "Level"
 SOURCE_HEADER: str = "Source"
 TARGET_HEADER: str = "Target"
 RULE_HEADER: str = "Rule"
+RULE_OPERATOR_HEADER: str = "RuleOperator"
 NOTES_HEADER: str = "Notes"
 NOTES_2_HEADER: str = "Notes 2"
 
@@ -23,6 +24,7 @@ REGION_HEADER: str = "Region"
 VOICE_LINE_HEADER: str = "Voiceline"
 ITEM_HEADER: str = "Item"
 TYPE_HEADER: str = "Type"
+SPECIAL_TYPE_HEADER: str = "SpecialType"
 WEAPON_HEADER: str = "Weapon"
 ARMOR_HEADER: str = "Armor"
 SHIELD_HEADER: str = "Shield"
@@ -30,6 +32,11 @@ HEIGHT_HEADER: str = "Height"
 X_HEADER: str = "X"
 Y_HEADER: str = "Y"
 Z_HEADER: str = "Z"
+
+NUM_RINGS_HEADER: str = "NumRings"
+LENGTH_HEADER: str = "Length"
+RADIUS_HEADER: str = "Radius"
+LINK_ID_HEADER: str = "LinkID"
 
 
 PARSER_DOCSTRING_MSG: str = \
@@ -53,6 +60,7 @@ PARSER_CONNECTION_DATA_IMPORT: str = "from ....constants.loc_region import Sonic
 PARSER_HINT_RING_IMPORT: str = "from ....constants.hint_rings import HintRingData"
 PARSER_ITEM_BALLOON_BOX_IMPORT: str = "from ....constants.item_balloon_box import *"
 PARSER_ENEMY_IMPORT: str = "from ....constants.enemies import *"
+PARSER_RING_IMPORT: str = "from ....constants.rings import RingData, RingLayout"
 
 
 PARSER_FILE_HEADER_START: str = \
@@ -99,5 +107,12 @@ f"""{PARSER_FILE_HEADER_START}
 ENEMY_PARSER_FILE_HEADER: str = \
 f"""{PARSER_FILE_HEADER_START}
 {PARSER_ENEMY_IMPORT}
+
+"""
+
+
+RING_PARSER_FILE_HEADER: str = \
+f"""{PARSER_FILE_HEADER_START}
+{PARSER_RING_IMPORT}
 
 """

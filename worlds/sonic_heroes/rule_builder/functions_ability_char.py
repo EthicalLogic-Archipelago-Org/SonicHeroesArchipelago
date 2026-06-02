@@ -8,13 +8,30 @@ from rule_builder.rules import Rule
 
 from ..constants.char_ability import Ability, Formation, Team
 from ..constants.stage import Stage
-from .custom_rules import HasAbilityItem, HasAbilityItemLevel, HasAbilityItemLevelOtherChars, CanTeamBlast, \
-    HasComboHeight, HasFormationCharForTeam, SonicHeroesMacroRule, CanAutoPowerAttack, HasFullFlyingStackWithTallChar
+from .custom_rules import HasAbilityItem, HasAbilityItemLevel, HasAbilityItemLevelOtherChars, CanTeamBlast, HasAll3Char, \
+    HasComboHeight, HasFlyingAnd1MoreChar, HasFormationCharForTeam, SonicHeroesMacroRule, CanAutoPowerAttack, HasFullFlyingStackWithTallChar, \
+    HasTallChar
 from ..world_base import SonicHeroesWorldBase
 
 
 def has_formation_char_rule(team: Team, formation: Formation) -> Rule[SonicHeroesWorldBase]:
     return HasFormationCharForTeam(team=team, formation=formation)
+
+
+def has_flying_and_1_more_char_rule(team: Team) -> Rule[SonicHeroesWorldBase]:
+    return SonicHeroesMacroRule(child=HasFlyingAnd1MoreChar(team=team), name=f"Has Flying and 1 More Char as Team: {team}")
+
+
+def has_flying_and_tall_char_rule(team: Team) -> Rule[SonicHeroesWorldBase]:
+    return SonicHeroesMacroRule(child=has_formation_char_rule(team=team, formation=Formation.FLYING) & has_tall_character(team=team), name=f"Has Flying and Tall Char as Team: {team}")
+
+
+def has_all_3_chars_rule(team: Team) -> Rule[SonicHeroesWorldBase]:
+    return SonicHeroesMacroRule(child=HasAll3Char(team=team), name=f"Has All 3 Chars as Team: {team}")
+
+
+def has_tall_character(team: Team) -> Rule[SonicHeroesWorldBase]:
+    return SonicHeroesMacroRule(child=HasTallChar(team=team), name=f"Has Tall Char as Team: {team}")
 
 
 def has_full_flying_stack_with_tall_char(team: Team) -> Rule[SonicHeroesWorldBase]:

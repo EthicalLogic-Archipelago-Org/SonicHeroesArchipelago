@@ -3,36 +3,50 @@ Constants related to Enemies
 """
 import dataclasses
 import enum
+from typing import Self
 
+from rule_builder.rules import Rule
+
+from ..helper_functions import get_default_true_rule
 from .char_ability import Team
 from .stage import Stage
 from .stage_objs import StageObjBase, StageObj
-
+from ..world_base import SonicHeroesWorldBase
 
 #enemy Enums
 class EnemyHeight(enum.Enum):
     GROUND = ("Ground", 0)
-    JUMP = ("Jump", 1)
-    HOMING = ("Homing", 2)
-    JUMP_THUNDERSHOOT = ("Jump + Thundershoot", 3)
-    FLIGHT_THUNDERSHOOT = ("Flight + Thundershoot", 4)
+    HALF_JUMP = ("Half Jump", 1)
+    JUMP = ("Jump", 2)
+    TALL_CHAR_JUMP = ("Tall Char Jump", 3)
+    FULL_FLY_STACK_JUMP = ("Full Fly Stack Jump", 4)
+    FULL_FLY_STACK_TALL_CHAR_JUMP = ("Full Fly Stack Tall Char Jump", 5)
+    JUMP_THUNDERSHOOT = ("Jump Thundershoot", 6)
+    FLIGHT_THUNDERSHOOT = ("Flight Thundershoot", 7)
+    JUMP_FLIGHT_THUNDERSHOOT = ("Jump Flight Thundershoot", 8)
 
     def __init__(self, description: str, relative_value: int) -> None:
-        self.description = description
-        self.relative_value = relative_value
+        self.description: str = description
+        self.relative_value: int = relative_value
 
     @classmethod
     def match(cls, input_str: str):
         if input_str == "Ground":
-            return EnemyHeight.GROUND
+            return cls.GROUND
+        if input_str == "HalfJump":
+            return cls.HALF_JUMP
         elif input_str == "Jump":
-            return EnemyHeight.JUMP
-        elif input_str == "Homing":
-            return EnemyHeight.HOMING
+            return cls.JUMP
+        elif input_str == "TallCharJump":
+            return cls.TALL_CHAR_JUMP
+        elif input_str == "FullFlyStackJump":
+            return cls.FULL_FLY_STACK_JUMP
+        elif input_str == "FullFlyStackTallCharJump":
+            return cls.FULL_FLY_STACK_TALL_CHAR_JUMP
         elif input_str == "JumpAndThundershoot":
-            return EnemyHeight.JUMP_THUNDERSHOOT
+            return cls.JUMP_THUNDERSHOOT
         elif input_str == "FlightAndThundershoot":
-            return EnemyHeight.FLIGHT_THUNDERSHOOT
+            return cls.FLIGHT_THUNDERSHOOT
         else:
             raise ValueError(f"Unknown EnemyHeight match for {input_str}")
 
@@ -108,8 +122,13 @@ class _EnemySpecialTypes(enum.StrEnum):
 class EggFlapperWeapon(enum.StrEnum):
     NO_WEAPON = _EnemyWeapons.NO_WEAPON
     NEEDLE = _EnemyWeapons.NEEDLE
-    SHOT = _EnemyWeapons.SHOT
+    BAZOOKA = _EnemyWeapons.BAZOOKA
+    #SHOT = BAZOOKA # <- it is actually the same model
     MACHINE_GUN = _EnemyWeapons.MACHINE_GUN
+    MACHINE_GUN_90 = MACHINE_GUN
+    MACHINE_GUN_120 = MACHINE_GUN
+    MACHINE_GUN_150 = MACHINE_GUN
+    MACHINE_GUN_180 = MACHINE_GUN
     # LASER = _EnemyWeapons.LASER
     LIGHTNING = _EnemyWeapons.LIGHTNING
     LASER = LIGHTNING
@@ -127,6 +146,10 @@ class EggPawnWeapon(enum.StrEnum):
     LANCE = _EnemyWeapons.LANCE
     BAZOOKA = _EnemyWeapons.BAZOOKA
     MACHINE_GUN = _EnemyWeapons.MACHINE_GUN
+    MACHINE_GUN_90 = MACHINE_GUN
+    MACHINE_GUN_120 = MACHINE_GUN
+    MACHINE_GUN_150 = MACHINE_GUN
+    MACHINE_GUN_180 = MACHINE_GUN
 
 
 class EggPawnShield(enum.StrEnum):
@@ -186,8 +209,9 @@ class SonicHeroesEnemyBase(StageObjBase):
     """
     enemy_type: EnemyType = dataclasses.field(init=False, default=EnemyType.NO_ENEMY)
     height: EnemyHeight = EnemyHeight.GROUND
+    rule: Rule[SonicHeroesWorldBase] = dataclasses.field(default_factory=get_default_true_rule)
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         if type(self) is SonicHeroesEnemyBase:
             raise TypeError("SonicHeroesEnemyBase cannot be instantiated directly")
 
@@ -251,13 +275,13 @@ class Rhino(SonicHeroesEnemyBase):
     enemy_type: EnemyType = dataclasses.field(init=False, default=EnemyType.RHINO)
 
 
-
 @dataclasses.dataclass(kw_only=True)
 class EggBishop(SonicHeroesEnemyBase):
     special_type: EggBishopType = EggBishopType.EGG_BISHOP
 
     obj_id: StageObj = dataclasses.field(init=False, default=StageObj.EGG_BISHOP)
     enemy_type: EnemyType = dataclasses.field(init=False, default=EnemyType.EGG_BISHOP)
+
 
 @dataclasses.dataclass(kw_only=True)
 class E2000(SonicHeroesEnemyBase):

@@ -4,11 +4,13 @@ Functions used by the parser related to Hint Rings
 import csv
 import os
 
-from .functions_parser import get_csv_file_name, handle_full_rule_string
+
+from .functions_parser import get_csv_file_name, get_parsed_entry_str, handle_full_rule_string
 from .parser_constants import *
 from .. import csv_data
 from .. import parsed_data
 from ..constants.char_ability import Team
+from ..constants.hint_rings import HINT_RING
 from ..constants.stage import Stage
 
 
@@ -40,19 +42,39 @@ def parse_hint_ring_csv(team: Team, stage: Stage, secret: bool = False) -> None:
 
             team_str: str = f"{team.__class__.__name__}.{team.name}"
             stage_str: str = f"{stage.__class__.__name__}.{stage.name}"
+
             region_name: str = f"{stage.stage_name} {team} {x[REGION_HEADER]}"
             voice_line: int = int(x[VOICE_LINE_HEADER])
 
+            name_str: str = f"{stage.stage_name} {team} {x[REGION_HEADER]} {HINT_RING}" if x[NAME_HEADER] == "" else f"{stage.stage_name} {team} {x[REGION_HEADER]} {x[NAME_HEADER]}"
 
-            hint_ring_str_list.append(f"HintRingData(team={team_str}, stage={stage_str}, region_name=\"{region_name}\", voice_line={voice_line}, x={float(x[X_HEADER])}, y={float(x[Y_HEADER])}, z={float(x[Z_HEADER])}, rule={parsed_rule_str})")
+            class_str: str = "HintRingData"
+            params_dict: dict[str, str] = \
+            {
+                "team": team_str,
+                "stage": stage_str,
+                "location_name": f"\"{name_str}\"",
+                "region_name": f"\"{region_name}\"",
+                "voice_line": f"{voice_line}",
+                "link_id": str(x[LINK_ID_HEADER]),
+                "x": str(x[X_HEADER]),
+                "y": str(x[Y_HEADER]),
+                "z": str(x[Z_HEADER]),
+                "rule": parsed_rule_str,
+            }
 
+            hint_ring_str_list.append(get_parsed_entry_str(entry_class_name=class_str, params=params_dict))
+            # hint_ring_str_list.append(f"HintRingData(team={team_str}, stage={stage_str}, location_name=\"{name_str}\", region_name=\"{region_name}\", voice_line={voice_line}, link_id={x[LINK_ID_HEADER]}, x={float(x[X_HEADER])}, y={float(x[Y_HEADER])}, z={float(x[Z_HEADER])}, rule={parsed_rule_str})")
 
-    parsed_result: str = f"\n{HINT_RING_PARSER_FILE_HEADER}\n{stage.stage_name.replace(" ", "")}{team.replace(" ", "")}HintRings: list[HintRingData] = \\\n[\n    {',\n    '.join(hint_ring_str_list)}\n]"
+    list_name: str = "HINT_RINGS"
+    # list_name: str = f"{stage.stage_name.replace(" ", "")}{team.replace(" ", "")}HintRings"
+
+    parsed_result: str = f"\n{HINT_RING_PARSER_FILE_HEADER}\n{list_name}: list[HintRingData] = \\\n[\n    {',\n    '.join(hint_ring_str_list)}\n]"
 
     # noinspection PyTypeChecker
-    with open(file=f"{os.path.dirname(parsed_data.parse_result_mapping[stage][team].__file__)}/{file_name}.py", mode="w") as output_file:  # pyright: ignore[reportCallIssue, reportArgumentType]
+    with open(file=f"{os.path.dirname(parsed_data.parser_result_mapping[stage][team].__file__)}/{file_name}.py", mode="w") as output_file:  # pyright: ignore[reportCallIssue, reportArgumentType]
         # noinspection PyTypeChecker
-        print(f"Writing File here: {os.path.dirname(parsed_data.parse_result_mapping[stage][team].__file__)}/{file_name}.py")  # pyright: ignore[reportCallIssue, reportArgumentType]
+        print(f"Writing File here: {os.path.dirname(parsed_data.parser_result_mapping[stage][team].__file__)}/{file_name}.py")  # pyright: ignore[reportCallIssue, reportArgumentType]
         _ = output_file.write(parsed_result)
 
 

@@ -89,8 +89,8 @@ class Stage(enum.Enum):
             },
         chaotix_obj_sanity_checks=\
             {
-                Act.ACT_1: 5,
-                Act.ACT_2: 10,
+                Act.ACT_1: 10,
+                Act.ACT_2: 20,
 
             },
         chaotix_obj_sanity_str=\
@@ -120,8 +120,8 @@ class Stage(enum.Enum):
                 Team.SONIC: 5,
                 Team.DARK: 4,
                 Team.ROSE: 2,
-                Team.CHAOTIX: 4,
-                Team.SUPER_HARD_MODE: 4,
+                Team.CHAOTIX: 2,
+                Team.SUPER_HARD_MODE: 5,
             },
         rule_shorthand="OP"
     )
@@ -796,24 +796,58 @@ class Stage(enum.Enum):
         self.chaotix_obj_sanity_str: dict[Act, str] = data.chaotix_obj_sanity_str
         self.rule_shorthand: str = data.rule_shorthand
 
+    @override
+    def __str__(self) -> str:
+        return f"<{self.__class__.__name__}.{self.name}: \"{self.stage_name}\">"
 
-STAGE_TO_BONUS_STAGE: dict[Stage, Stage] = \
-{
-    Stage.SEASIDE_HILL: Stage.SEASIDE_HILL_BONUS_STAGE,
-    Stage.OCEAN_PALACE: Stage.OCEAN_PALACE_EMERALD_STAGE,
-    Stage.GRAND_METROPOLIS: Stage.GRAND_METROPOLIS_BONUS_STAGE,
-    Stage.POWER_PLANT: Stage.POWER_PLANT_EMERALD_STAGE,
-    Stage.CASINO_PARK: Stage.CASINO_PARK_BONUS_STAGE,
-    Stage.BINGO_HIGHWAY: Stage.BINGO_HIGHWAY_EMERALD_STAGE,
-    Stage.RAIL_CANYON: Stage.RAIL_CANYON_BONUS_STAGE,
-    Stage.BULLET_STATION: Stage.BULLET_STATION_EMERALD_STAGE,
-    Stage.FROG_FOREST: Stage.FROG_FOREST_BONUS_STAGE,
-    Stage.LOST_JUNGLE: Stage.LOST_JUNGLE_EMERALD_STAGE,
-    Stage.HANG_CASTLE: Stage.HANG_CASTLE_BONUS_STAGE,
-    Stage.MYSTIC_MANSION: Stage.MYSTIC_MANSION_EMERALD_STAGE,
-    Stage.EGG_FLEET: Stage.EGG_FLEET_BONUS_STAGE,
-    Stage.FINAL_FORTRESS: Stage.FINAL_FORTRESS_EMERALD_STAGE,
-}
+    @override
+    def __repr__(self) -> str:
+        return self.__str__()
+
+
+    @classmethod
+    def get_stages_of_type(cls, stage_type: StageType) -> list[Stage]:
+        return [stage for stage in cls if stage.stage_type is stage_type]
+
+
+    @classmethod
+    def get_stage_to_bonus_stage(cls) -> dict[Stage, Stage]:
+        return \
+        {
+            cls.SEASIDE_HILL: cls.SEASIDE_HILL_BONUS_STAGE,
+            cls.OCEAN_PALACE: cls.OCEAN_PALACE_EMERALD_STAGE,
+            cls.GRAND_METROPOLIS: cls.GRAND_METROPOLIS_BONUS_STAGE,
+            cls.POWER_PLANT: cls.POWER_PLANT_EMERALD_STAGE,
+            cls.CASINO_PARK: cls.CASINO_PARK_BONUS_STAGE,
+            cls.BINGO_HIGHWAY: cls.BINGO_HIGHWAY_EMERALD_STAGE,
+            cls.RAIL_CANYON: cls.RAIL_CANYON_BONUS_STAGE,
+            cls.BULLET_STATION: cls.BULLET_STATION_EMERALD_STAGE,
+            cls.FROG_FOREST: cls.FROG_FOREST_BONUS_STAGE,
+            cls.LOST_JUNGLE: cls.LOST_JUNGLE_EMERALD_STAGE,
+            cls.HANG_CASTLE: cls.HANG_CASTLE_BONUS_STAGE,
+            cls.MYSTIC_MANSION: cls.MYSTIC_MANSION_EMERALD_STAGE,
+            cls.EGG_FLEET: cls.EGG_FLEET_BONUS_STAGE,
+            cls.FINAL_FORTRESS: cls.FINAL_FORTRESS_EMERALD_STAGE,
+        }
+
+
+# STAGE_TO_BONUS_STAGE: dict[Stage, Stage] = \
+# {
+#     Stage.SEASIDE_HILL: Stage.SEASIDE_HILL_BONUS_STAGE,
+#     Stage.OCEAN_PALACE: Stage.OCEAN_PALACE_EMERALD_STAGE,
+#     Stage.GRAND_METROPOLIS: Stage.GRAND_METROPOLIS_BONUS_STAGE,
+#     Stage.POWER_PLANT: Stage.POWER_PLANT_EMERALD_STAGE,
+#     Stage.CASINO_PARK: Stage.CASINO_PARK_BONUS_STAGE,
+#     Stage.BINGO_HIGHWAY: Stage.BINGO_HIGHWAY_EMERALD_STAGE,
+#     Stage.RAIL_CANYON: Stage.RAIL_CANYON_BONUS_STAGE,
+#     Stage.BULLET_STATION: Stage.BULLET_STATION_EMERALD_STAGE,
+#     Stage.FROG_FOREST: Stage.FROG_FOREST_BONUS_STAGE,
+#     Stage.LOST_JUNGLE: Stage.LOST_JUNGLE_EMERALD_STAGE,
+#     Stage.HANG_CASTLE: Stage.HANG_CASTLE_BONUS_STAGE,
+#     Stage.MYSTIC_MANSION: Stage.MYSTIC_MANSION_EMERALD_STAGE,
+#     Stage.EGG_FLEET: Stage.EGG_FLEET_BONUS_STAGE,
+#     Stage.FINAL_FORTRESS: Stage.FINAL_FORTRESS_EMERALD_STAGE,
+# }
 
 
 @dataclasses.dataclass(kw_only=True)

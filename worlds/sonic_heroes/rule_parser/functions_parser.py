@@ -20,6 +20,18 @@ def get_csv_file_name(team: Team, stage: Stage, file_type: str, secret: bool = F
     return f"{stage.stage_name.replace(" ", "")}{team.replace(" ", "")}{file_type}"
 
 
+def get_parsed_entry_str(entry_class_name: str, params: dict[str, str]) -> str:
+    _result: str = f"{entry_class_name}("
+
+    for key, value in params.items():
+        _result += f"{key}={value}, "
+    if _result[-2:] == ", ":
+        _result = _result[:-2]
+
+    _result += ")"
+    return _result
+
+
 def is_there_parens(rule_str: str) -> bool:
     return '(' in rule_str and ')' in rule_str
 

@@ -4,7 +4,7 @@ Functions used by the parser related to Regions
 import csv
 import os
 
-from worlds.sonic_heroes.rule_parser.functions_parser import get_csv_file_name
+from worlds.sonic_heroes.rule_parser.functions_parser import get_csv_file_name, get_parsed_entry_str
 
 from .parser_constants import *
 from .. import csv_data
@@ -30,14 +30,25 @@ def parse_region_csv(team: Team, stage: Stage, secret: bool = False) -> None:
         region_str_list: list[str] = []
         for x in reader:
             region_name: str = f"{stage.stage_name} {team} {x[NAME_HEADER]}"
+            class_str: str = "SonicHeroesRegionData"
 
-            region_str_list.append(f"SonicHeroesRegionData(region_name=\"{region_name}\", obj_checks={x[OBJ_CHECKS_HEADER]})")
+            params_dict: dict[str, str] = \
+            {
+                "region_name": f"\"{region_name}\"",
+                "obj_checks": x[OBJ_CHECKS_HEADER],
+            }
 
-    parsed_result: str = f"\n{REGION_PARSER_FILE_HEADER}\n{stage.stage_name.replace(" ", "")}{team.replace(" ", "")}Regions: list[SonicHeroesRegionData] = \\\n[\n    {',\n    '.join(region_str_list)}\n]"
+            region_str_list.append(get_parsed_entry_str(entry_class_name=class_str, params=params_dict))
+            #region_str_list.append(f"SonicHeroesRegionData(region_name=\"{region_name}\", obj_checks={x[OBJ_CHECKS_HEADER]})")
+
+    list_name: str = "REGIONS"
+    # list_name: str = f"{stage.stage_name.replace(" ", "")}{team.replace(" ", "")}Regions"
+
+    parsed_result: str = f"\n{REGION_PARSER_FILE_HEADER}\n{list_name}: list[SonicHeroesRegionData] = \\\n[\n    {',\n    '.join(region_str_list)}\n]"
 
     # noinspection PyTypeChecker
-    with open(file=f"{os.path.dirname(parsed_data.parse_result_mapping[stage][team].__file__)}/{file_name}.py", mode="w") as output_file:  # pyright: ignore[reportCallIssue, reportArgumentType]
+    with open(file=f"{os.path.dirname(parsed_data.parser_result_mapping[stage][team].__file__)}/{file_name}.py", mode="w") as output_file:  # pyright: ignore[reportCallIssue, reportArgumentType]
         # noinspection PyTypeChecker
-        print(f"Writing File here: {os.path.dirname(parsed_data.parse_result_mapping[stage][team].__file__)}/{file_name}.py")  # pyright: ignore[reportCallIssue, reportArgumentType]
+        print(f"Writing File here: {os.path.dirname(parsed_data.parser_result_mapping[stage][team].__file__)}/{file_name}.py")  # pyright: ignore[reportCallIssue, reportArgumentType]
         _ = output_file.write(parsed_result)
 

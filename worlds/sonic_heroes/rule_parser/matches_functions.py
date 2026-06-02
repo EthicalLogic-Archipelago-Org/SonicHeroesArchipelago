@@ -18,9 +18,20 @@ def get_str_to_create(obj: Any, print_steps: bool = False) -> str:  # pyright: i
     if dataclasses.is_dataclass(obj):  # pyright: ignore[reportAny]
         for field_name, field_value in obj.__dict__.items():  # pyright: ignore[reportAny]
             if dataclasses.is_dataclass(field_value):  # pyright: ignore[reportAny]
-                args_str_list.append(f"{field_name}={get_str_to_create(obj=field_value, print_steps=print_steps)}")
+                print(f"{_result} has a dataclass field {field_value.__class__.__name__} :: {str(field_value)}")  # pyright: ignore[reportUnknownMemberType, reportAttributeAccessIssue]
+                if str(field_value) == "True_()":
+                    args_str_list.append(f"{field_name}=True_[SonicHeroesWorldBase]()")
+                elif str(field_value) == "False_()":
+                    args_str_list.append(f"{field_name}=False_[SonicHeroesWorldBase]()")
+                else:
+                    args_str_list.append(f"{field_name}={get_str_to_create(obj=field_value, print_steps=print_steps)}")
+
             else:
                 field_tuple = dataclasses.fields(obj)
+
+                if field_name.startswith("__") and field_name.endswith("__"):
+                    continue
+
                 field_obj: dataclasses.Field[Any] = [field for field in field_tuple if field.name == field_name][0]  # pyright: ignore[reportExplicitAny]
 
                 if field_obj.default is not dataclasses.MISSING:
