@@ -25,7 +25,7 @@ def parse_egg_flapper_csv_entry(team: Team, stage: Stage, entry: dict[str, str |
     team_str: str = f"{team.__class__.__name__}.{team.name}"
     stage_str: str = f"{stage.__class__.__name__}.{stage.name}"
     region_name: str = f"{stage.stage_name} {team} {entry[REGION_HEADER]}"
-    loc_name_str: str = f"{region_name} {entry[NAME_HEADER]}"
+    loc_name_str: str = f"{entry[REGION_HEADER]} {entry[NAME_HEADER]}"
     weapon: EggFlapperWeapon = EggFlapperWeapon(value=entry[WEAPON_HEADER])
     weapon_str: str = f"{weapon.__class__.__name__}.{weapon.name}"
     armor: EggFlapperArmor = EggFlapperArmor(value=entry[ARMOR_HEADER])
@@ -70,7 +70,7 @@ def parse_egg_pawn_csv_entry(team: Team, stage: Stage, entry: dict[str, str | An
     team_str: str = f"{team.__class__.__name__}.{team.name}"
     stage_str: str = f"{stage.__class__.__name__}.{stage.name}"
     region_name: str = f"{stage.stage_name} {team} {entry[REGION_HEADER]}"
-    loc_name_str: str = f"{region_name} {entry[NAME_HEADER]}"
+    loc_name_str: str = f"{entry[REGION_HEADER]} {entry[NAME_HEADER]}"
     special_type: EggPawnType = EggPawnType(value=entry[SPECIAL_TYPE_HEADER])
     special_type_str: str = f"{special_type.__class__.__name__}.{special_type.name}"
     weapon: EggPawnWeapon = EggPawnWeapon(value=entry[WEAPON_HEADER])

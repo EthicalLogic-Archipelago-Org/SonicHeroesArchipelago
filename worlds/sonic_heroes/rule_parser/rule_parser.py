@@ -13,7 +13,6 @@ from worlds.sonic_heroes.rule_parser.functions_regions import parse_region_csv
 from worlds.sonic_heroes.rule_parser.functions_rings import parse_ring_csv
 
 from worlds.sonic_heroes.parsed_data import *
-from worlds.sonic_heroes.location_generation import generate_and_print
 
 
 def parse_team_stage(team: Team, stage: Stage) -> None:
@@ -31,13 +30,10 @@ def parse_team_stage(team: Team, stage: Stage) -> None:
     pass
 
 
-#parse_team_stage(team=Team.DARK, stage=Stage.SEASIDE_HILL)
+# parse_team_stage(team=Team.DARK, stage=Stage.SEASIDE_HILL)
 
 # print(f"{parser_connection_mapping[Stage.SEASIDE_HILL][Team.DARK][2]}")
 # print(f"{parser_enemy_mapping[Stage.SEASIDE_HILL][Team.DARK][2]}")
 # print(f"{parser_hint_ring_mapping[Stage.SEASIDE_HILL][Team.DARK][2]}")
 # print(f"{parser_item_balloon_box_mapping[Stage.SEASIDE_HILL][Team.DARK][2]}")
 # print(f"{parser_region_mapping[Stage.SEASIDE_HILL][Team.DARK][2]}")
-
-
-generate_and_print()

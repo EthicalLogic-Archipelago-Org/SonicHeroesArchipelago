@@ -51,10 +51,12 @@ def parse_item_box_balloon_csv(team: Team, stage: Stage, secret: bool = False) -
 
             if x[TYPE_HEADER] == "ItemBalloon":
                 class_str = "ItemBalloonData"
-                name_str = f"{stage.stage_name} {team} {x[REGION_HEADER]} {ITEM_BALLOON}" if x[NAME_HEADER] == "" else f"{stage.stage_name} {team} {x[REGION_HEADER]} {x[NAME_HEADER]}"
+                #name_str = f"{stage.stage_name} {team} {x[REGION_HEADER]} {ITEM_BALLOON}" if x[NAME_HEADER] == "" else f"{stage.stage_name} {team} {x[REGION_HEADER]} {x[NAME_HEADER]}"
+                name_str = f"{x[REGION_HEADER]} {ITEM_BALLOON}" if x[NAME_HEADER] == "" else f"{x[REGION_HEADER]} {x[NAME_HEADER]}"
             else:
                 class_str = "ItemBoxData"
                 name_str = f"{stage.stage_name} {team} {x[REGION_HEADER]} {ITEM_BOX}" if x[NAME_HEADER] == "" else f"{stage.stage_name} {team} {x[REGION_HEADER]} {x[NAME_HEADER]}"
+                name_str = f"{x[REGION_HEADER]} {ITEM_BOX}" if x[NAME_HEADER] == "" else f"{x[REGION_HEADER]} {x[NAME_HEADER]}"
 
 
             params_dict: dict[str, str] = \

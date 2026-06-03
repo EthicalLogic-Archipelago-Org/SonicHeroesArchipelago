@@ -45,7 +45,8 @@ def parse_ring_csv(team: Team, stage: Stage, secret: bool = False) -> None:
 
             region_name: str = f"{stage.stage_name} {team} {x[REGION_HEADER]}"
 
-            name_str: str = f"{stage.stage_name} {team} {x[REGION_HEADER]} {x[NAME_HEADER]}"
+            #name_str: str = f"{stage.stage_name} {team} {x[REGION_HEADER]} {x[NAME_HEADER]}"
+            name_str: str = f"{x[REGION_HEADER]} {x[NAME_HEADER]}"
 
             layout: RingLayout = RingLayout(value=x[TYPE_HEADER])
             layout_str: str = f"{layout.__class__.__name__}.{layout.name}"

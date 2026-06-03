@@ -46,7 +46,8 @@ def parse_hint_ring_csv(team: Team, stage: Stage, secret: bool = False) -> None:
             region_name: str = f"{stage.stage_name} {team} {x[REGION_HEADER]}"
             voice_line: int = int(x[VOICE_LINE_HEADER])
 
-            name_str: str = f"{stage.stage_name} {team} {x[REGION_HEADER]} {HINT_RING}" if x[NAME_HEADER] == "" else f"{stage.stage_name} {team} {x[REGION_HEADER]} {x[NAME_HEADER]}"
+            #name_str: str = f"{stage.stage_name} {team} {x[REGION_HEADER]} {HINT_RING}" if x[NAME_HEADER] == "" else f"{stage.stage_name} {team} {x[REGION_HEADER]} {x[NAME_HEADER]}"
+            name_str: str = f"{x[REGION_HEADER]} {HINT_RING}" if x[NAME_HEADER] == "" else f"{x[REGION_HEADER]} {x[NAME_HEADER]}"
 
             class_str: str = "HintRingData"
             params_dict: dict[str, str] = \

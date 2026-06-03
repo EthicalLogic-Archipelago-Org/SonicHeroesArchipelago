@@ -59,3 +59,6 @@ parser_result_mapping: dict[Stage, dict[Team, ModuleType]] = \
 }
 
 
+
+__all__ = ["parser_connection_mapping", "parser_enemy_mapping", "parser_hint_ring_mapping", "parser_item_balloon_box_mapping", "parser_region_mapping", "parser_ring_mapping", "parser_result_mapping",]
+

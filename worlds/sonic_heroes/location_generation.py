@@ -3,11 +3,12 @@ generate locations programmatically
 """
 
 from rule_builder.rules import Rule, True_, Has
+from worlds.sonic_heroes.constants.item_balloon_box import ItemBalloonData
 
 
 from .constants.char_ability import Team
 from .constants.items_events import EVENT_ITEM, EVENT_LOCATION, EVENT_LOCATION_ID, LEVEL_GOAL_ALL_TEAMS_EVENT_ITEM, \
-    LEVEL_GOAL_PER_TEAM_EVENT_ITEM_WITHOUT_TEAM, BONUS_KEY
+    LEVEL_GOAL_PER_TEAM_EVENT_ITEM_WITHOUT_TEAM, BONUS_KEY, OBJ_SANITY
 from .constants.loc_region import *
 from .constants.stage import Stage, StageType, Act
 from .constants.stage_objs import StageObj
@@ -15,9 +16,10 @@ from .constants.stage_objs import StageObj
 from .helper_functions import get_obj_sanity_event_item_name
 from .rule_builder.custom_rules import CanGetEmerald, CanGoalStage
 from .rule_builder.functions_stage_obj import has_stage_obj_rule, can_break_key_cage
-
+from .parsed_data import parser_enemy_mapping, parser_hint_ring_mapping, parser_item_balloon_box_mapping, parser_ring_mapping
 
 loc_id: int = LOCATION_START_ID
+already_used_loc_ids: list[int] = []
 FULL_LOCATION_DICT: dict[Stage, dict[Team, list[SonicHeroesLocationData]]] = \
 {
     stage:
@@ -35,6 +37,10 @@ def append_location(name: str, team: Team, stage: Stage, code: int, act: int, pa
     code = loc_id
     if not loc_type.is_actual_location:
         code = EVENT_LOCATION_ID
+    elif code in already_used_loc_ids:
+        raise ValueError(f"DUPLICATE LOCATION ID!! Loc Name: {name} Code: {code} Loc_Type: {loc_type} Locked_Item: {locked_item}")
+    already_used_loc_ids.append(code)
+
     add_location_to_dict(name=name, team=team, stage=stage, code=code, act=act, parent_region=parent_region, rule_str=rule_str, rule=rule, loc_type=loc_type, locked_item=locked_item)
     if loc_type.is_actual_location:
         loc_id += num_to_increment_id
@@ -42,6 +48,19 @@ def append_location(name: str, team: Team, stage: Stage, code: int, act: int, pa
 
 def add_location_to_dict(name: str, team: Team, stage: Stage, code: int, act: int, parent_region: str, rule_str: str, rule: Rule[SonicHeroesWorldBase], loc_type: LocationType, locked_item: str = "") -> None:
     FULL_LOCATION_DICT[stage][team].append(SonicHeroesLocationData(name=name, team=team, stage=stage, code=code, act=act, parent_region=parent_region, rule_str=rule_str, rule=rule, loc_type=loc_type, locked_item=locked_item))
+
+
+def append_sanity_location_with_act(name: str, team: Team, stage: Stage, code: int, act: int, parent_region: str, rule_str: str, rule: Rule[SonicHeroesWorldBase], loc_type: LocationType, locked_item: str = "", num_to_increment_id: int = 1) -> None:
+    match act:
+        case 0:
+            name = f"{stage.stage_name} {team} {name}"
+        case 1:
+            name = f"{stage.stage_name} {team} {Act.ACT_1} {name}"
+        case 2:
+            name = f"{stage.stage_name} {team} {Act.ACT_2} {name}"
+        case _:
+            raise ValueError(f"Invalid Act for append_sanity_location_with_act: name: {name} team: {team} stage {stage.stage_name} act: {act}")
+    append_location(name=name, team=team, stage=stage, code=code, act=act, parent_region=parent_region, rule_str=rule_str, rule=rule, loc_type=loc_type, locked_item=locked_item, num_to_increment_id=num_to_increment_id)
 
 
 def generate_level_goal_locations_for_not_super_hard_mode() -> None:
@@ -59,8 +78,8 @@ def generate_level_goal_locations_for_team(team: Team) -> None:
     # Egg Hawk Goal
     if team != Team.SUPER_HARD_MODE and team != Team.ANY_TEAM:
         for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
-            append_location(name=f"{reg_lvl.stage_name} {team} {Act.ACT_1}", team=team, stage=reg_lvl, code=-999, act=1, parent_region=f"{reg_lvl.stage_name} {team} Goal", rule_str="", rule=True_[SonicHeroesWorldBase](), loc_type=LocationType.LEVEL)
-            append_location(name=f"{reg_lvl.stage_name} {team} {Act.ACT_2}", team=team, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl.stage_name} {team} Goal", rule_str="", rule=True_[SonicHeroesWorldBase](), loc_type=LocationType.LEVEL)
+            append_location(name=f"{reg_lvl.stage_name} {team} {Act.ACT_1}", team=team, stage=reg_lvl, code=-999, act=1, parent_region=f"{reg_lvl.stage_name} {team} Goal", rule_str="", rule=CanGoalStage(team=team, stage=reg_lvl), loc_type=LocationType.LEVEL)
+            append_location(name=f"{reg_lvl.stage_name} {team} {Act.ACT_2}", team=team, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl.stage_name} {team} Goal", rule_str="", rule=CanGoalStage(team=team, stage=reg_lvl), loc_type=LocationType.LEVEL)
 
         for boss in Stage.get_stages_of_type(stage_type=StageType.BOSS_STAGE):
             append_location(name=f"{boss.stage_name} {team}", team=team, stage=boss, code=-999, act=0, parent_region=f"{boss.stage_name}", rule_str="", rule=True_[SonicHeroesWorldBase](), loc_type=LocationType.BOSS, num_to_increment_id=2)
@@ -69,7 +88,7 @@ def generate_level_goal_locations_for_team(team: Team) -> None:
     elif team == Team.SUPER_HARD_MODE:
         #Super Hard Mode
         for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
-            append_location(name=f"{reg_lvl.stage_name} {team}", team=team, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl.stage_name} {team} Goal", rule_str="", rule=True_[SonicHeroesWorldBase](), loc_type=LocationType.LEVEL)
+            append_location(name=f"{reg_lvl.stage_name} {team}", team=team, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl.stage_name} {team} Goal", rule_str="", rule=CanGoalStage(team=team, stage=reg_lvl), loc_type=LocationType.LEVEL)
     else:
         print(f"BIG PROBLEM!! Team {team} in generate_level_goal_locations_for_team")
 
@@ -123,7 +142,7 @@ def generate_key_sanity() -> None:
     for team in Team:
         for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
             for x in range(reg_lvl.bonus_keys[team]):
-                append_location(name=f"{reg_lvl.stage_name} {team} {BONUS_KEY} {x + 1}", team=team, stage=reg_lvl, code=-999, act=0, parent_region=f"{reg_lvl.stage_name} {team} {BONUS_KEY} {x + 1}", rule_str=f"THISSHOULDNOTMATTER(KEYCAGE)", rule=has_stage_obj_rule(stage_obj=StageObj.BONUS_KEY) & can_break_key_cage(team=team, stage=reg_lvl), loc_type=LocationType.KEY_SANITY)
+                append_sanity_location_with_act(name=f"{BONUS_KEY} {x + 1}", team=team, stage=reg_lvl, code=-999, act=0, parent_region=f"{reg_lvl.stage_name} {team} {BONUS_KEY} {x + 1}", rule_str=f"THISSHOULDNOTMATTER(KEYCAGE)", rule=has_stage_obj_rule(stage_obj=StageObj.BONUS_KEY) & can_break_key_cage(team=team, stage=reg_lvl), loc_type=LocationType.KEY_SANITY)
             if team is Team.ROSE and reg_lvl is Stage.CASINO_PARK:
                 append_location(name=f"SUPER SECRET HIDDEN {BONUS_KEY}", team=team, stage=reg_lvl, code=-999, act=0, parent_region=f"SUPER SECRET HIDDEN {BONUS_KEY}", rule_str=f"THISSHOULDNOTMATTER(KEYCAGE)", rule=has_stage_obj_rule(stage_obj=StageObj.BONUS_KEY) & can_break_key_cage(team=team, stage=reg_lvl), loc_type=LocationType.KEY_SANITY)
 
@@ -132,7 +151,7 @@ def generate_key_sanity() -> None:
     for team in Team:
         for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
             for x in range(reg_lvl.bonus_keys[team]):
-                append_location(name=f"{reg_lvl.stage_name} {team} {Act.ACT_1} {BONUS_KEY} {x + 1}", team=team, stage=reg_lvl, code=-999, act=1, parent_region=f"{reg_lvl.stage_name} {team} {BONUS_KEY} {x + 1}", rule_str=f"THISSHOULDNOTMATTER(KEYCAGE)", rule=has_stage_obj_rule(stage_obj=StageObj.BONUS_KEY) & can_break_key_cage(team=team, stage=reg_lvl), loc_type=LocationType.KEY_SANITY)
+                append_sanity_location_with_act(name=f"{BONUS_KEY} {x + 1}", team=team, stage=reg_lvl, code=-999, act=1, parent_region=f"{reg_lvl.stage_name} {team} {BONUS_KEY} {x + 1}", rule_str=f"THISSHOULDNOTMATTER(KEYCAGE)", rule=has_stage_obj_rule(stage_obj=StageObj.BONUS_KEY) & can_break_key_cage(team=team, stage=reg_lvl), loc_type=LocationType.KEY_SANITY)
             if team is Team.ROSE and reg_lvl is Stage.CASINO_PARK:
                 append_location(name=f"SUPER SECRET HIDDEN {Act.ACT_1} {BONUS_KEY}", team=team, stage=reg_lvl, code=-999, act=1, parent_region=f"SUPER SECRET HIDDEN {BONUS_KEY}", rule_str=f"THISSHOULDNOTMATTER(KEYCAGE)", rule=has_stage_obj_rule(stage_obj=StageObj.BONUS_KEY) & can_break_key_cage(team=team, stage=reg_lvl), loc_type=LocationType.KEY_SANITY)
 
@@ -141,7 +160,7 @@ def generate_key_sanity() -> None:
     for team in Team:
         for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
             for x in range(reg_lvl.bonus_keys[team]):
-                append_location(name=f"{reg_lvl.stage_name} {team} {Act.ACT_2} {BONUS_KEY} {x + 1}", team=team, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl.stage_name} {team} {BONUS_KEY} {x + 1}", rule_str=f"THISSHOULDNOTMATTER(KEYCAGE)", rule=has_stage_obj_rule(stage_obj=StageObj.BONUS_KEY) & can_break_key_cage(team=team, stage=reg_lvl), loc_type=LocationType.KEY_SANITY)
+                append_sanity_location_with_act(name=f"{BONUS_KEY} {x + 1}", team=team, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl.stage_name} {team} {BONUS_KEY} {x + 1}", rule_str=f"THISSHOULDNOTMATTER(KEYCAGE)", rule=has_stage_obj_rule(stage_obj=StageObj.BONUS_KEY) & can_break_key_cage(team=team, stage=reg_lvl), loc_type=LocationType.KEY_SANITY)
             if team is Team.ROSE and reg_lvl is Stage.CASINO_PARK:
                 append_location(name=f"SUPER SECRET HIDDEN {Act.ACT_2} {BONUS_KEY}", team=team, stage=reg_lvl, code=-999, act=2, parent_region=f"SUPER SECRET HIDDEN {BONUS_KEY}", rule_str=f"THISSHOULDNOTMATTER(KEYCAGE)", rule=has_stage_obj_rule(stage_obj=StageObj.BONUS_KEY) & can_break_key_cage(team=team, stage=reg_lvl), loc_type=LocationType.KEY_SANITY)
 
@@ -156,7 +175,7 @@ def generate_checkpoint_sanity_for_not_super_hard_mode() -> None:
             continue
         for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
             for x in range(reg_lvl.checkpoints[team]):
-                append_location(name=f"{reg_lvl.stage_name} {team} Checkpoint {x + 1}", team=team, stage=reg_lvl, code=-999, act=0, parent_region=f"{reg_lvl.stage_name} {team} Checkpoint {x + 1}", rule_str=f"Checkpoint", rule=has_stage_obj_rule(stage_obj=StageObj.CHECKPOINT), loc_type=LocationType.CHECKPOINT_SANITY)
+                append_sanity_location_with_act(name=f"Checkpoint {x + 1}", team=team, stage=reg_lvl, code=-999, act=0, parent_region=f"{reg_lvl.stage_name} {team} Checkpoint {x + 1}", rule_str=f"Checkpoint", rule=has_stage_obj_rule(stage_obj=StageObj.CHECKPOINT), loc_type=LocationType.CHECKPOINT_SANITY)
 
     # Act 1
     loc_id = LOCATION_START_ID_OFFSET + 0x2100
@@ -165,7 +184,7 @@ def generate_checkpoint_sanity_for_not_super_hard_mode() -> None:
             continue
         for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
             for x in range(reg_lvl.checkpoints[team]):
-                append_location(name=f"{reg_lvl.stage_name} {team} {Act.ACT_1} Checkpoint {x + 1}", team=team, stage=reg_lvl, code=-999, act=1, parent_region=f"{reg_lvl.stage_name} {team} Checkpoint {x + 1}", rule_str=f"Checkpoint", rule=has_stage_obj_rule(stage_obj=StageObj.CHECKPOINT), loc_type=LocationType.CHECKPOINT_SANITY)
+                append_sanity_location_with_act(name=f"Checkpoint {x + 1}", team=team, stage=reg_lvl, code=-999, act=1, parent_region=f"{reg_lvl.stage_name} {team} Checkpoint {x + 1}", rule_str=f"Checkpoint", rule=has_stage_obj_rule(stage_obj=StageObj.CHECKPOINT), loc_type=LocationType.CHECKPOINT_SANITY)
 
     # Act 2
     loc_id = LOCATION_START_ID_OFFSET + 0x2200
@@ -174,7 +193,7 @@ def generate_checkpoint_sanity_for_not_super_hard_mode() -> None:
             continue
         for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
             for x in range(reg_lvl.checkpoints[team]):
-                append_location(name=f"{reg_lvl.stage_name} {team} {Act.ACT_2} Checkpoint {x + 1}", team=team, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl.stage_name} {team} Checkpoint {x + 1}", rule_str=f"Checkpoint", rule=has_stage_obj_rule(stage_obj=StageObj.CHECKPOINT), loc_type=LocationType.CHECKPOINT_SANITY)
+                append_sanity_location_with_act(name=f"Checkpoint {x + 1}", team=team, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl.stage_name} {team} Checkpoint {x + 1}", rule_str=f"Checkpoint", rule=has_stage_obj_rule(stage_obj=StageObj.CHECKPOINT), loc_type=LocationType.CHECKPOINT_SANITY)
 
 
 def generate_checkpoint_sanity_super_hard_mode() -> None:
@@ -205,20 +224,137 @@ def generate_metal_madness_extra_locations() -> None:
 
 def generate_hint_ring_sanity_locations() -> None:
     global loc_id
+    loc_id = LOCATION_START_ID_OFFSET + 0x2400
+
+    stage: Stage = Stage.SEASIDE_HILL
+    team: Team = Team.DARK
+
+    for hint_ring_data in parser_hint_ring_mapping[stage][team]:
+        # destruction
+        append_sanity_location_with_act(name=f"{hint_ring_data.location_name}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=0, parent_region=f"{hint_ring_data.region_name}", rule_str=f"HintRing", rule=hint_ring_data.rule, loc_type=LocationType.HINT_RING_SANITY)
+
+    #loc_id = LOCATION_START_ID_OFFSET + 0x2500
+
+    for hint_ring_data in parser_hint_ring_mapping[stage][team]:
+        append_sanity_location_with_act(name=f"{hint_ring_data.location_name}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=1, parent_region=f"{hint_ring_data.region_name}", rule_str=f"HintRing", rule=hint_ring_data.rule, loc_type=LocationType.HINT_RING_SANITY)
+
+    #loc_id = LOCATION_START_ID_OFFSET + 0x2600
+
+    for hint_ring_data in parser_hint_ring_mapping[stage][team]:
+        append_sanity_location_with_act(name=f"{hint_ring_data.location_name}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=2, parent_region=f"{hint_ring_data.region_name}", rule_str=f"HintRing", rule=hint_ring_data.rule, loc_type=LocationType.HINT_RING_SANITY)
 
 
 def generate_item_balloons_boxes_sanity_locations() -> None:
     global loc_id
+    loc_id = LOCATION_START_ID_OFFSET + 0x2500
+
+    stage: Stage = Stage.SEASIDE_HILL
+    team: Team = Team.DARK
+
+    for item_balloon_box_data in parser_item_balloon_box_mapping[stage][team]:
+        # destruction
+        rule_str: str = f"ItemBalloon" if isinstance(item_balloon_box_data, ItemBalloonData) else f"ItemBox"
+        append_sanity_location_with_act(name=f"{item_balloon_box_data.location_name}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=0, parent_region=f"{item_balloon_box_data.region_name}", rule_str=rule_str, rule=item_balloon_box_data.rule, loc_type=LocationType.ITEM_BOX_BALLOON_SANITY)
+
+    #loc_id = LOCATION_START_ID_OFFSET + 0x2
+
+    stage = Stage.SEASIDE_HILL
+    team = Team.DARK
+
+    for item_balloon_box_data in parser_item_balloon_box_mapping[stage][team]:
+        # destruction
+        rule_str = f"ItemBalloon" if isinstance(item_balloon_box_data, ItemBalloonData) else f"ItemBox"
+        append_sanity_location_with_act(name=f"{item_balloon_box_data.location_name}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=1, parent_region=f"{item_balloon_box_data.region_name}", rule_str=rule_str, rule=item_balloon_box_data.rule, loc_type=LocationType.ITEM_BOX_BALLOON_SANITY)
+
+    #loc_id = LOCATION_START_ID_OFFSET + 0x2
+
+    stage = Stage.SEASIDE_HILL
+    team = Team.DARK
+
+    for item_balloon_box_data in parser_item_balloon_box_mapping[stage][team]:
+        # destruction
+        rule_str = f"ItemBalloon" if isinstance(item_balloon_box_data, ItemBalloonData) else f"ItemBox"
+        append_sanity_location_with_act(name=f"{item_balloon_box_data.location_name}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=2, parent_region=f"{item_balloon_box_data.region_name}", rule_str=rule_str, rule=item_balloon_box_data.rule, loc_type=LocationType.ITEM_BOX_BALLOON_SANITY)
+
+
+def generate_enemy_sanity_locations() -> None:
+    global loc_id
+    loc_id = LOCATION_START_ID_OFFSET + 0x2600
+
+    stage: Stage = Stage.SEASIDE_HILL
+    team: Team = Team.DARK
+
+    for enemy_data in parser_enemy_mapping[stage][team]:
+        # destruction
+        append_sanity_location_with_act(name=f"{enemy_data.location_name}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=0, parent_region=f"{enemy_data.region_name}", rule_str=f"{enemy_data.enemy_type}", rule=enemy_data.rule, loc_type=LocationType.ENEMY_SANITY)
+
+
+    #loc_id = LOCATION_START_ID_OFFSET + 0x2
+
+    stage = Stage.SEASIDE_HILL
+    team = Team.DARK
+
+    for enemy_data in parser_enemy_mapping[stage][team]:
+        # destruction
+        append_sanity_location_with_act(name=f"{enemy_data.location_name}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=1, parent_region=f"{enemy_data.region_name}", rule_str=f"{enemy_data.enemy_type}", rule=enemy_data.rule, loc_type=LocationType.ENEMY_SANITY)
+
+    #loc_id = LOCATION_START_ID_OFFSET + 0x2
+
+    stage = Stage.SEASIDE_HILL
+    team = Team.DARK
+
+    for enemy_data in parser_enemy_mapping[stage][team]:
+        # destruction
+        append_sanity_location_with_act(name=f"{enemy_data.location_name}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=2, parent_region=f"{enemy_data.region_name}", rule_str=f"{enemy_data.enemy_type}", rule=enemy_data.rule, loc_type=LocationType.ENEMY_SANITY)
 
 
 def generate_ring_sanity_locations() -> None:
+    generate_ring_sanity_group_locations()
+    generate_ring_sanity_individual_ring_locations()
+
+
+def generate_ring_sanity_group_locations() -> None:
     global loc_id
+    loc_id = LOCATION_START_ID_OFFSET + 0x20000
+
+    stage: Stage = Stage.SEASIDE_HILL
+    team: Team = Team.DARK
+
+    for ring_data in parser_ring_mapping[stage][team]:
+        append_sanity_location_with_act(name=f"{ring_data.location_name} Ring Group", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=0, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY)
+
+    for ring_data in parser_ring_mapping[stage][team]:
+        append_sanity_location_with_act(name=f"{ring_data.location_name} Ring Group", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=1, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY)
+
+    for ring_data in parser_ring_mapping[stage][team]:
+        append_sanity_location_with_act(name=f"{ring_data.location_name} Ring Group", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=2, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY)
+
+
+def generate_ring_sanity_individual_ring_locations() -> None:
+    global loc_id
+    loc_id = LOCATION_START_ID_OFFSET + 0x30000
+
+    stage: Stage = Stage.SEASIDE_HILL
+    team: Team = Team.DARK
+
+    for ring_data in parser_ring_mapping[stage][team]:
+        for x in range(ring_data.num_rings):
+            append_sanity_location_with_act(name=f"{ring_data.location_name} Ring {x + 1}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=0, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY)
+
+    for ring_data in parser_ring_mapping[stage][team]:
+        for x in range(ring_data.num_rings):
+            append_sanity_location_with_act(name=f"{ring_data.location_name} Ring {x + 1}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=1, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY)
+
+    for ring_data in parser_ring_mapping[stage][team]:
+        for x in range(ring_data.num_rings):
+            append_sanity_location_with_act(name=f"{ring_data.location_name} Ring {x + 1}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=2, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY)
 
 
 def generate_all_event_locations() -> None:
     generate_boss_all_teams_events()
     generate_level_goal_events()
     generate_bonus_key_events()
+    generate_dark_obj_sanity_events()
     pass
 
 
@@ -255,10 +391,17 @@ def generate_bonus_key_events() -> None:
     for team in Team:
         for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
             for x in range(reg_lvl.bonus_keys[team]):
-                append_location(name=f"{reg_lvl.stage_name} {team} {BONUS_KEY} {x + 1} {EVENT_LOCATION}", team=team, stage=reg_lvl, code=EVENT_LOCATION_ID, act=0, parent_region=f"{reg_lvl.stage_name} {team} {BONUS_KEY} {x + 1}", rule_str=f"THISSHOULDNOTMATTER(KEYCAGE)", rule=has_stage_obj_rule(stage_obj=StageObj.BONUS_KEY) & can_break_key_cage(team=team, stage=reg_lvl), loc_type=LocationType.EVENT, locked_item=f"{reg_lvl.stage_name} {team} {BONUS_KEY} {x + 1} {EVENT_ITEM}")
+                append_location(name=f"{reg_lvl.stage_name} {team} {BONUS_KEY} {x + 1} {EVENT_LOCATION}", team=team, stage=reg_lvl, code=EVENT_LOCATION_ID, act=0, parent_region=f"{reg_lvl.stage_name} {team} {BONUS_KEY} {x + 1}", rule_str=f"THISSHOULDNOTMATTER(KEYCAGE)", rule=has_stage_obj_rule(stage_obj=StageObj.BONUS_KEY) & can_break_key_cage(team=team, stage=reg_lvl), loc_type=LocationType.EVENT, locked_item=f"{reg_lvl.stage_name} {team} {BONUS_KEY} {EVENT_ITEM}")
 
         #not doing super secret hidden
 
+
+def generate_dark_obj_sanity_events() -> None:
+    team: Team = Team.DARK
+    stage: Stage = Stage.SEASIDE_HILL
+    for enemy_data in parser_enemy_mapping[stage][team]:
+        # destruction
+        append_location(name=f"{enemy_data.location_name} {OBJ_SANITY} {EVENT_LOCATION}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=EVENT_LOCATION_ID, act=2, parent_region=f"{enemy_data.region_name}", rule_str=f"{enemy_data.enemy_type} {EVENT_LOCATION}", rule=enemy_data.rule, loc_type=LocationType.EVENT, locked_item=get_obj_sanity_event_item_name(team=Team.DARK, stage=stage, act=Act.ACT_2))
 
 
 
@@ -305,40 +448,31 @@ def print_full_dict() -> None:
 
 
 def generate_all_locations() -> None:
-    # generate_level_goal_locations_for_not_super_hard_mode()
-    # generate_emerald_locations()
-    # generate_dark_obj_sanity()
-    # generate_rose_obj_sanity()
-    # generate_chaotix_obj_sanity()
+    generate_level_goal_locations_for_not_super_hard_mode()
+    generate_emerald_locations()
+    generate_dark_obj_sanity()
+    generate_rose_obj_sanity()
+    generate_chaotix_obj_sanity()
 
-    # generate_key_sanity()
-    # generate_checkpoint_sanity_for_not_super_hard_mode()
-    # generate_checkpoint_sanity_super_hard_mode()
-    # generate_level_goal_locations_for_super_hard_mode_hard_mode_goals()
+    generate_key_sanity()
+    generate_checkpoint_sanity_for_not_super_hard_mode()
+    generate_checkpoint_sanity_super_hard_mode()
+    generate_level_goal_locations_for_super_hard_mode_hard_mode_goals()
     generate_metal_madness_extra_locations()
-    #
-    # #events
+
+    generate_hint_ring_sanity_locations()
+    generate_item_balloons_boxes_sanity_locations()
+    generate_enemy_sanity_locations()
+    generate_ring_sanity_locations()
+
+
+    #events
     generate_all_event_locations()
-
-
-    # welcome
-    # patch updates stuff
-    # general
-    # off topic (dont care)
-    # FAQ
-    # help (tricks)
-    # feedback / ask dev questions
-
-    # voice
 
 
 
     pass
 
 
-
-
-def generate_and_print() -> None:
-    generate_all_locations()
-    print_full_dict()
+generate_all_locations()
 
