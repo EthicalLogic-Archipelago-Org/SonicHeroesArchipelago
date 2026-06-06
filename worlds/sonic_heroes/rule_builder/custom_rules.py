@@ -9,17 +9,19 @@ from typing import override
 from BaseClasses import CollectionState
 from NetUtils import JSONMessagePart
 from rule_builder.options import OptionFilter
-from rule_builder.rules import HasAll, HasAny, HasFromListUnique, Rule, WrapperRule, Has, True_, False_, CanReachRegion
+from rule_builder.rules import AtLeast, HasAll, HasAny, HasFromListUnique, Rule, WrapperRule, Has, True_, False_, CanReachRegion
 
 
 from ..constants.apworld import SONIC_HEROES
 from ..constants.char_ability import Ability, Character, Team, Formation
 from ..constants.enemies import E2000, Cameron, EggFlapper, EggHammer, EnemyType, Falco, Klagen, Rhino, SonicHeroesEnemyBase, EggPawn
-from ..constants.items_events import OBJ_SANITY_EVENT_ITEM, UT_GLITCH_ITEM, DARK_OBJ_SANITY_AMOUNT, ROSE_OBJ_SANITY_AMOUNT
+from ..constants.items_events import OBJ_SANITY_EVENT_ITEM, UT_GLITCH_ITEM, DARK_OBJ_SANITY_AMOUNT, \
+    ROSE_OBJ_SANITY_AMOUNT, PROGRESSIVE
 from ..constants.stage import Act, Stage, StageType
 from ..constants.stage_objs import StageObj
 from ..helper_functions import get_abilities_for_char, get_abilities_for_team, get_all_characters_for_team, get_correct_ability_item_name, get_playable_char_item_name, is_rule_caching_enabled, get_characters_in_team_with_ability, is_this_act_enabled
 from ..rule_builder.functions_stage_obj import has_stage_obj_rule
+
 from ..world_base import SonicHeroesWorldBase
 
 
@@ -68,52 +70,168 @@ class SonicHeroesMacroRule(WrapperRule[SonicHeroesWorldBase], game=SONIC_HEROES)
             return f"{self.name}{suffix}"
 
         @override
+        def _evaluate(self, state: CollectionState) -> bool:
+            return state.has("Item Here", self.player)
+
+        @override
         def __str__(self) -> str:
             return self.name
 
 
 @dataclasses.dataclass(kw_only=True)
-class HasFormationCharForTeam(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
-    """Checks if you have the Character Item for the Formation and Team"""
-    team: Team
-    formation: Formation
+class HasCharacter(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
+    character: Character
 
     @override
     def _instantiate(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
-        rule: Rule[SonicHeroesWorldBase] = False_[SonicHeroesWorldBase]()
-        for char in get_all_characters_for_team(world=world, team=self.team):
-            if char.formation == self.formation:
-                rule |= Has(item_name=get_playable_char_item_name(character=char))
-        return rule.resolve(world=world)
+        return self._has_char_rule(world=world).resolve(world=world)
+
+
+    def _has_char_rule(self, world: SonicHeroesWorldBase) -> Rule[SonicHeroesWorldBase]:
+        return Has(item_name=get_playable_char_item_name(character=self.character))
+
+
+    def _get_ability_rule(self, world: SonicHeroesWorldBase, ability: Ability) -> Rule[SonicHeroesWorldBase]:
+        team: Team = self.character.get_team(world=world)
+        rule: Rule[SonicHeroesWorldBase] = Has(item_name=get_correct_ability_item_name(world=world, team=team, ability=ability))
+
+        match ability:
+            case Ability.HOMING_ATTACK:
+                rule |= Has(item_name=f"{PROGRESSIVE} {team.value} {Ability.HOMING_ATTACK.ability_name}")
+            case Ability.TORNADO:
+                rule |= Has(item_name=f"{PROGRESSIVE} {team.value} {Ability.TORNADO.ability_name}")
+            case Ability.TRIANGLE_JUMP:
+                rule |= Has(item_name=f"{PROGRESSIVE} {team.value} {Ability.HOMING_ATTACK.ability_name}", count=2)
+            case Ability.INVISIBILITY:
+                rule |= Has(item_name=f"{PROGRESSIVE} {team.value} {Ability.TORNADO.ability_name}", count=2)
+            case Ability.THUNDER_SHOOT:
+                rule |= Has(item_name=f"{PROGRESSIVE} {team.value} {Ability.FLIGHT.ability_name}")
+            case Ability.FLIGHT:
+                rule |= Has(item_name=f"{PROGRESSIVE} {team.value} {Ability.FLIGHT.ability_name}", count=2)
+            case Ability.DUMMY_RINGS:
+                rule |= Has(item_name=f"{PROGRESSIVE} {team.value} {Ability.FLIGHT.ability_name}")
+            case Ability.CHEESE_CANNON:
+                rule |= Has(item_name=f"{PROGRESSIVE} {team.value} {Ability.FLIGHT.ability_name}")
+            case Ability.POWER_ATTACK:
+                rule |= Has(item_name=f"{PROGRESSIVE} {team.value} {Ability.POWER_ATTACK.ability_name}")
+            case Ability.COMBO_FINISHER:
+                rule |= Has(item_name=f"{PROGRESSIVE} {team.value} {Ability.POWER_ATTACK.ability_name}", count=2)
+            case _:
+                pass
+        return rule
 
 
 @dataclasses.dataclass(kw_only=True)
-class HasFormationCharWithLevelForTeam(HasFormationCharForTeam, game=SONIC_HEROES):
-    stage: Stage
-    level: int
+class HasLevelForCharacter(HasCharacter, game=SONIC_HEROES):
+    """Checks if you have the Character Item and enough Abilities to be the level"""
+    level: int = 0
 
     @override
     def _instantiate(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
-        rule: Rule[SonicHeroesWorldBase] = False_[SonicHeroesWorldBase]()
-        for char in get_all_characters_for_team(world=world, team=self.team):
-            if char.formation == self.formation:
-                rule |= Has(item_name=get_playable_char_item_name(character=char)) & self._has_level_for_character(world=world, character=char)
-        return rule.resolve(world=world)
+        return (self._has_char_rule(world=world) & self._has_level_rule(world=world)).resolve(world=world)
 
-    def _has_level_for_character(self, world: SonicHeroesWorldBase, character: Character) -> Rule[SonicHeroesWorldBase]:
-        ability_item_list: list[str] = [get_correct_ability_item_name(world=world, team=self.team, stage=self.stage, ability=ability) for ability in get_abilities_for_char(world=world, character=character)]
-        # has x abilities from char
+
+    def _has_level_rule(self, world: SonicHeroesWorldBase) -> Rule[SonicHeroesWorldBase]:
+        ability_rules: list[Rule[SonicHeroesWorldBase]] = [self._get_ability_rule(world=world, ability=ability) for ability in self.character.get_abilities(world=world)]
         match self.level:
             case 0:
                 return True_[SonicHeroesWorldBase]()
             case 1:
-                return HasFromListUnique(*ability_item_list, count=1)
+                return AtLeast(*ability_rules, count=1)
             case 2:
-                return HasFromListUnique(*ability_item_list, count=ceil(len(ability_item_list) / 2))
+                return AtLeast(*ability_rules, count=ceil(len(ability_rules) / 2))
             case 3:
-                return HasFromListUnique(*ability_item_list, count=len(ability_item_list))
+                return AtLeast(*ability_rules, count=len(ability_rules))
             case _:
                 return False_[SonicHeroesWorldBase]()
+
+
+@dataclasses.dataclass(kw_only=True)
+class HasAbilityForCharacter(HasLevelForCharacter, game=SONIC_HEROES):
+    """Checks if you have the Character Item and enough Abilities to be the level"""
+    ability: Ability
+
+    @override
+    def _instantiate(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
+        return (self._has_char_rule(world=world) & self._get_ability_rule(world=world, ability=self.ability) & self._has_level_rule(world=world)).resolve(world=world)
+
+
+@dataclasses.dataclass(kw_only=True)
+class HasFormationCharForTeam(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
+    team: Team
+    formation: Formation
+    level: int = 0
+
+    @override
+    def _instantiate(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
+        rule: Rule[SonicHeroesWorldBase] = False_[SonicHeroesWorldBase]()
+        for char in get_all_characters_for_team(world=world, team=self.team):
+            if char.formation is self.formation:
+                rule |= HasLevelForCharacter(character=char, level=self.level)
+        return rule.resolve(world=world)
+
+
+@dataclasses.dataclass(kw_only=True)
+class HasAbilityForTeam(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
+    """
+    Checks for having the ability item for the Team and Stage and having a character that has the ability (Jump matches all)
+    """
+    team: Team
+    ability: Ability
+    level: int = 0
+    num_other_chars: int = 0
+
+    @override
+    def _instantiate(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
+        rule: Rule[SonicHeroesWorldBase] = False_[SonicHeroesWorldBase]()
+
+        for char in self._get_chars_with_ability(world=world):
+            rule |= HasAbilityForCharacter(character=char, ability=self.ability, level=self.level) & self._get_other_chars_rule(world=world, character=char)
+
+        return rule.resolve(world=world)
+
+    def _get_chars_with_ability(self, world: SonicHeroesWorldBase) -> list[Character]:
+        return [character for character in get_all_characters_for_team(world=world, team=self.team) if self.ability is Ability.JUMP or self.ability in character.get_abilities(world=world)]
+
+    def _get_other_chars_rule(self, world: SonicHeroesWorldBase, character: Character) -> Rule[SonicHeroesWorldBase]:
+        rule: Rule[SonicHeroesWorldBase] = False_[SonicHeroesWorldBase]()
+        if self.num_other_chars < 1:
+            return True_[SonicHeroesWorldBase]()
+        if self.num_other_chars == 1:
+            for char in get_all_characters_for_team(world=world, team=self.team):
+                if char is character:
+                    continue
+                rule |= HasCharacter(character=char)
+        elif self.num_other_chars == 2:
+            rule = True_[SonicHeroesWorldBase]()
+            for char in get_all_characters_for_team(world=world, team=self.team):
+                if char is character:
+                    continue
+                rule &= HasCharacter(character=char)
+        else:
+            raise ValueError(f"Invalid Num other Chars in HasAbilityForTeam: {self.num_other_chars}")
+        return rule
+
+
+@dataclasses.dataclass(init=False, kw_only=True)
+class HasComboHeight(HasAbilityForTeam, game=SONIC_HEROES):
+    """
+    Checks for having the Combo Finisher item for the Team and Stage and having a character that has the ability
+    MAKE SURE TO ALSO CHECK FOR POWER ATTACK (in the macro rule)
+    """
+    def __init__(self, team: Team) -> None:
+        super().__init__(team=team, ability=Ability.COMBO_FINISHER, level=1, num_other_chars=0)
+
+
+    @override
+    def _instantiate(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
+        rule: Rule[SonicHeroesWorldBase] = False_[SonicHeroesWorldBase]()
+        for character in get_all_characters_for_team(world=world, team=self.team):
+            if character is Character.KNUCKLES:
+                rule |= HasAbilityForCharacter(character=character, ability=self.ability, level=self.level)
+            if character is Character.SUPER_HARD_MODE_KNUCKLES:
+                rule |= HasAbilityForCharacter(character=character, ability=self.ability, level=self.level)
+        return rule.resolve(world=world)
 
 
 @dataclasses.dataclass(kw_only=True)
@@ -135,9 +253,9 @@ class HasFlyingAnd1MoreChar(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
             for other_char in char_list:
                 if char is other_char:
                     continue
-                has_1_more_char_rule |= Has(item_name=get_playable_char_item_name(character=other_char))
+                has_1_more_char_rule |= HasCharacter(character=other_char)
 
-            has_flying_and_1_more_chars_rule |= (Has(item_name=get_playable_char_item_name(character=char)) & has_1_more_char_rule)
+            has_flying_and_1_more_chars_rule |= (HasCharacter(character=char) & has_1_more_char_rule)
 
         return has_flying_and_1_more_chars_rule
 
@@ -155,11 +273,11 @@ class HasTallChar(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
         char_list: list[Character] = get_all_characters_for_team(world=world, team=self.team)
 
         if Character.OMEGA in char_list:
-            has_tall_power_char |= SonicHeroesMacroRule(child=Has(item_name=get_playable_char_item_name(character=Character.OMEGA)), name=f"Tall Power Char: ({Character.OMEGA.char_name})")
+            has_tall_power_char |= SonicHeroesMacroRule(child=HasCharacter(character=Character.OMEGA), name=f"Tall Power Char: ({Character.OMEGA.char_name})")
         if Character.BIG in char_list:
-            has_tall_power_char |= SonicHeroesMacroRule(child=Has(item_name=get_playable_char_item_name(character=Character.BIG)), name=f"Tall Power Char: ({Character.BIG.char_name})")
+            has_tall_power_char |= SonicHeroesMacroRule(child=HasCharacter(character=Character.BIG), name=f"Tall Power Char: ({Character.BIG.char_name})")
         if Character.VECTOR in char_list:
-            has_tall_power_char |= SonicHeroesMacroRule(child=Has(item_name=get_playable_char_item_name(character=Character.VECTOR)), name=f"Tall Power Char: ({Character.VECTOR.char_name})")
+            has_tall_power_char |= SonicHeroesMacroRule(child=HasCharacter(character=Character.VECTOR), name=f"Tall Power Char: ({Character.VECTOR.char_name})")
         return has_tall_power_char
 
 
@@ -174,7 +292,7 @@ class HasAll3Char(HasTallChar, game=SONIC_HEROES):
         has_all_3: Rule[SonicHeroesWorldBase] = True_[SonicHeroesWorldBase]()
         char_list: list[Character] = get_all_characters_for_team(world=world, team=self.team)
         for char in char_list:
-            has_all_3 &= Has(item_name=get_playable_char_item_name(character=char))
+            has_all_3 &= HasCharacter(character=char)
         return has_all_3
 
 
@@ -187,12 +305,7 @@ class HasFullFlyingStackWithTallChar(HasAll3Char, game=SONIC_HEROES):
 
 
     def _has_flying_char(self, world: SonicHeroesWorldBase) -> Rule[SonicHeroesWorldBase]:
-        has_flying_char: Rule[SonicHeroesWorldBase] = False_[SonicHeroesWorldBase]()
-        char_list: list[Character] = get_all_characters_for_team(world=world, team=self.team)
-        for char in char_list:
-            if char.formation == Formation.FLYING:
-                has_flying_char |= Has(item_name=get_playable_char_item_name(character=char))
-        return has_flying_char
+        return HasFormationCharForTeam(team=self.team, formation=Formation.FLYING)
 
 
 @dataclasses.dataclass(kw_only=True)
@@ -201,152 +314,25 @@ class CanAutoPowerAttack(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
     Checks for having the power char and a second char for the auto attack feature
     """
     team: Team
-    stage: Stage
     need_speed_lvl_3: bool
 
     @override
     def _instantiate(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
         rule: Rule[SonicHeroesWorldBase] = False_[SonicHeroesWorldBase]()
         for char in get_all_characters_for_team(world=world, team=self.team):
-            if char.formation == Formation.POWER:
-                temp_rule: Rule[SonicHeroesWorldBase] = Has(item_name=get_playable_char_item_name(character=char))
+            if char.formation is Formation.POWER:
+                temp_rule: Rule[SonicHeroesWorldBase] = HasCharacter(character=char)
                 if self.need_speed_lvl_3:
-                    temp_rule &= HasFormationCharWithLevelForTeam(team=self.team, stage=self.stage, formation=Formation.SPEED, level=3)
+                    temp_rule &= HasFormationCharForTeam(team=self.team, formation=Formation.SPEED, level=3)
                 else:
                     has_other_char_rule: Rule[SonicHeroesWorldBase] = False_[SonicHeroesWorldBase]()
                     for other_char in get_all_characters_for_team(world=world, team=self.team):
-                        if other_char != char:
-                            has_other_char_rule |= Has(item_name=get_playable_char_item_name(character=other_char))
+                        if other_char is not char:
+                            has_other_char_rule |= HasCharacter(character=other_char)
                     temp_rule &= has_other_char_rule
                 rule |= temp_rule
         return rule.resolve(world=world)
 
-
-@dataclasses.dataclass(kw_only=True)
-class HasAbilityItem(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
-    """
-    Checks for having the ability item for the Team and Stage and having a character that has the ability (Jump matches all)
-    """
-    ability: Ability
-    team: Team
-    stage: Stage
-
-    @override
-    def _instantiate(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
-        rule: Rule[SonicHeroesWorldBase] = HasAny(*[get_playable_char_item_name(character=char) for char in get_characters_in_team_with_ability(world=world, team=self.team, ability=self.ability)])
-        rule &= Has(item_name=get_correct_ability_item_name(world=world, team=self.team, stage=self.stage, ability=self.ability))
-        return rule.resolve(world=world)
-
-
-@dataclasses.dataclass(kw_only=True)
-class HasAbilityItemLevel(HasAbilityItem, game=SONIC_HEROES):
-    """
-    Checks for having the ability item for the Team and Stage and having a character that has the ability
-    Also checks for the character's other abilities for the required level
-    """
-    level: int
-
-    @override
-    def _instantiate(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
-        rule: Rule[SonicHeroesWorldBase] = Has(item_name=get_correct_ability_item_name(world=world, team=self.team, stage=self.stage, ability=self.ability))
-        rule &= self._has_char_level_with_ability_rule(world=world)
-        return rule.resolve(world=world)
-
-    def _has_char_level_with_ability_rule(self, world: SonicHeroesWorldBase) -> Rule[SonicHeroesWorldBase]:
-        combined_char_level_rule: Rule[SonicHeroesWorldBase] = False_[SonicHeroesWorldBase]()
-        for char in get_characters_in_team_with_ability(world=world, team=self.team, ability=self.ability):
-            # has char
-            char_level_rule: Rule[SonicHeroesWorldBase] = Has(item_name=get_playable_char_item_name(character=char))
-            ability_item_list: list[str] = [get_correct_ability_item_name(world=world, team=self.team, stage=self.stage, ability=ability) for ability in get_abilities_for_char(world=world, character=char)]
-            #has x abilities from char
-            match self.level:
-                case 0:
-                    char_level_rule &= True_[SonicHeroesWorldBase]()
-                case 1:
-                    char_level_rule &= HasFromListUnique(*ability_item_list, count=1)
-                case 2:
-                    char_level_rule &= HasFromListUnique(*ability_item_list, count=ceil(len(ability_item_list) / 2))
-                case 3:
-                    char_level_rule &= HasFromListUnique(*ability_item_list, count=len(ability_item_list))
-                case _:
-                    char_level_rule &= False_[SonicHeroesWorldBase]()
-            combined_char_level_rule |= char_level_rule
-        return combined_char_level_rule
-
-
-@dataclasses.dataclass(init=False, kw_only=True)
-class HasComboHeight(HasAbilityItemLevel, game=SONIC_HEROES):
-    """
-    Checks for having the Combo Finisher item for the Team and Stage and having a character that has the ability
-    MAKE SURE TO ALSO CHECK FOR POWER ATTACK (in the macro rule)
-    """
-    def __init__(self, team: Team, stage: Stage) -> None:
-        super().__init__(team=team, stage=stage, ability=Ability.COMBO_FINISHER, level=0)
-
-
-    @override
-    def _instantiate(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
-        rule: Rule[SonicHeroesWorldBase] = Has(item_name=get_correct_ability_item_name(world=world, team=self.team, stage=self.stage, ability=self.ability))
-        rule &= self._has_knuckles_or_super_hard_knuckles_rule(world=world)
-        return rule.resolve(world=world)
-
-    def _has_knuckles_or_super_hard_knuckles_rule(self, world: SonicHeroesWorldBase) -> Rule[SonicHeroesWorldBase]:
-        char_rule: Rule[SonicHeroesWorldBase] = False_[SonicHeroesWorldBase]()
-        char_list: list[Character] = get_characters_in_team_with_ability(world=world, team=self.team, ability=self.ability)
-        if Character.KNUCKLES in char_list:
-            char_rule |= Has(item_name=get_playable_char_item_name(character=Character.KNUCKLES))
-        if Character.SUPER_HARD_MODE_KNUCKLES in char_list:
-            char_rule |= Has(item_name=get_playable_char_item_name(character=Character.SUPER_HARD_MODE_KNUCKLES))
-        return char_rule
-
-
-@dataclasses.dataclass(kw_only=True)
-class HasAbilityItemLevelOtherChars(HasAbilityItemLevel, game=SONIC_HEROES):
-    """
-    Checks for having the ability item for the Team and Stage and having a character that has the ability
-    Also checks for the character's other abilities for the required level
-    Also checks for having other characters in addition to the leader
-    """
-    num_other_chars: int
-
-    @override
-    def _instantiate(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
-        rule: Rule[SonicHeroesWorldBase] = Has(item_name=get_correct_ability_item_name(world=world, team=self.team, stage=self.stage, ability=self.ability))
-        rule &= self._has_other_chars_rule(world=world)
-        return rule.resolve(world=world)
-
-    def _has_other_chars_rule(self, world: SonicHeroesWorldBase) -> Rule[SonicHeroesWorldBase]:
-        combined_char_level_rule: Rule[SonicHeroesWorldBase] = False_[SonicHeroesWorldBase]()
-        for char in get_characters_in_team_with_ability(world=world, team=self.team, ability=self.ability):
-            # has char
-            char_level_rule: Rule[SonicHeroesWorldBase] = Has(item_name=get_playable_char_item_name(character=char))
-            ability_item_list: list[str] = [get_correct_ability_item_name(world=world, team=self.team, stage=self.stage, ability=ability) for ability in get_abilities_for_char(world=world, character=char)]
-            #has x abilities from char
-            match self.level:
-                case 0:
-                    char_level_rule &= True_[SonicHeroesWorldBase]()
-                case 1:
-                    char_level_rule &= HasFromListUnique(*ability_item_list, count=1)
-                case 2:
-                    char_level_rule &= HasFromListUnique(*ability_item_list, count=ceil(len(ability_item_list) / 2))
-                case 3:
-                    char_level_rule &= HasFromListUnique(*ability_item_list, count=len(ability_item_list))
-                case _:
-                    char_level_rule &= False_[SonicHeroesWorldBase]()
-            # has other chars
-            other_chars: list[str] = [get_playable_char_item_name(character=other_char) for other_char in get_all_characters_for_team(world=world, team=self.team) if other_char != char]
-            match self.num_other_chars:
-                case 0:
-                    char_level_rule &= True_[SonicHeroesWorldBase]()
-                case 1:
-                    char_level_rule &= HasFromListUnique(*other_chars, count=1)
-                case 2:
-                    char_level_rule &= HasFromListUnique(*other_chars, count=2)
-                case _:
-                    char_level_rule &= False_[SonicHeroesWorldBase]()
-
-            combined_char_level_rule |= char_level_rule
-        return combined_char_level_rule
 
 
 @dataclasses.dataclass(kw_only=True)
@@ -359,8 +345,14 @@ class CanTeamBlast(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
     def _instantiate(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
         combined_ability_rule: Rule[SonicHeroesWorldBase] = True_[SonicHeroesWorldBase]()
         combined_ability_rule &= HasAll(*[get_playable_char_item_name(character=char) for char in get_all_characters_for_team(world=world, team=self.team)])
-        combined_ability_rule &= HasAll(*[get_correct_ability_item_name(world=world, team=self.team, stage=self.stage, ability=ability) for ability in get_abilities_for_team(world=world, team=self.team)])
+        combined_ability_rule &= HasAll(*[get_correct_ability_item_name(world=world, team=self.team, ability=ability) for ability in get_abilities_for_team(world=world, team=self.team)])
         return SonicHeroesMacroRule(child=combined_ability_rule, name=f"Team Blast in {self.stage.stage_name} as Team: {self.team}", description="Team Blast Description Here").resolve(world=world)
+
+    def _get_all_abilities_for_char_rule(self, world: SonicHeroesWorldBase, character: Character) -> Rule[SonicHeroesWorldBase]:
+
+        pass
+
+
 
 
 @dataclasses.dataclass(kw_only=True)
@@ -404,31 +396,31 @@ class CanGoalStage(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
 
     def _can_goal_dark_stage(self, world: SonicHeroesWorldBase) -> Rule[SonicHeroesWorldBase]:
         rule: Rule[SonicHeroesWorldBase] = False_[SonicHeroesWorldBase]()
-        if is_this_act_enabled(world=world, team=self.team, act=Act.ACT_1):
+        if is_this_act_enabled(world=world, team=self.team, act=Act.ACT_A):
             rule |= self._can_reach_goal_vanilla(world=world)
-        if is_this_act_enabled(world=world, team=self.team, act=Act.ACT_2):
+        if is_this_act_enabled(world=world, team=self.team, act=Act.ACT_B):
             rule |= Has(item_name=f"{self.stage.stage_name} {self.team} {OBJ_SANITY_EVENT_ITEM}", count=DARK_OBJ_SANITY_AMOUNT)
         return rule
 
     def _can_goal_rose_stage(self, world: SonicHeroesWorldBase) -> Rule[SonicHeroesWorldBase]:
         rule: Rule[SonicHeroesWorldBase] = False_[SonicHeroesWorldBase]()
-        if is_this_act_enabled(world=world, team=self.team, act=Act.ACT_1):
+        if is_this_act_enabled(world=world, team=self.team, act=Act.ACT_A):
             rule |= self._can_reach_goal_vanilla(world=world)
-        if is_this_act_enabled(world=world, team=self.team, act=Act.ACT_2):
+        if is_this_act_enabled(world=world, team=self.team, act=Act.ACT_B):
             rule |= Has(item_name=f"{self.stage.stage_name} {self.team} {OBJ_SANITY_EVENT_ITEM}", count=ROSE_OBJ_SANITY_AMOUNT)
         return rule
 
     def _can_goal_chaotix_stage(self, world: SonicHeroesWorldBase) -> Rule[SonicHeroesWorldBase]:
         rule: Rule[SonicHeroesWorldBase] = False_[SonicHeroesWorldBase]()
         # TODO fix for stealth levels
-        if is_this_act_enabled(world=world, team=self.team, act=Act.ACT_1):
-            if self.stage.chaotix_obj_sanity_checks[Act.ACT_1] > 0:
-                rule |= Has(item_name=f"{self.stage.stage_name} {self.team} {OBJ_SANITY_EVENT_ITEM}", count=self.stage.chaotix_obj_sanity_checks[Act.ACT_1])
+        if is_this_act_enabled(world=world, team=self.team, act=Act.ACT_A):
+            if self.stage.chaotix_obj_sanity_checks[Act.ACT_A] > 0:
+                rule |= Has(item_name=f"{self.stage.stage_name} {self.team} {OBJ_SANITY_EVENT_ITEM}", count=self.stage.chaotix_obj_sanity_checks[Act.ACT_A])
             else:
                 rule |= self._can_reach_goal_vanilla(world=world)
-        if is_this_act_enabled(world=world, team=self.team, act=Act.ACT_2):
-            if self.stage.chaotix_obj_sanity_checks[Act.ACT_2] > 0:
-                rule |= Has(item_name=f"{self.stage.stage_name} {self.team} {OBJ_SANITY_EVENT_ITEM}",count=self.stage.chaotix_obj_sanity_checks[Act.ACT_2])
+        if is_this_act_enabled(world=world, team=self.team, act=Act.ACT_B):
+            if self.stage.chaotix_obj_sanity_checks[Act.ACT_B] > 0:
+                rule |= Has(item_name=f"{self.stage.stage_name} {self.team} {OBJ_SANITY_EVENT_ITEM}", count=self.stage.chaotix_obj_sanity_checks[Act.ACT_B])
             else:
                 rule |= self._can_reach_goal_vanilla(world=world)
         return rule

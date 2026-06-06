@@ -19,3 +19,5 @@ class HintRingData(StageObjBase):
     rule: Rule[SonicHeroesWorldBase] = dataclasses.field(default_factory=get_default_true_rule)
 
     obj_id: StageObj = dataclasses.field(init=False, default=StageObj.HINT_RING)
+
+

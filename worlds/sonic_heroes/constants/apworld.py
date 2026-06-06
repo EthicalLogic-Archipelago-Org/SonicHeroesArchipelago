@@ -32,3 +32,7 @@ TUTORIAL_AUTHORS: list[str] = ["EthicalLogic"]
 RULE_CACHING_ENABLED_ATTR: str = "rule_caching_enabled"
 RE_GEN_PASSTHROUGH_ATTR: str = "re_gen_passthrough"
 GENERATION_IS_FAKE_ATTR: str = "generation_is_fake"
+
+VICTORY: str = "VICTORY"
+VICTORY_ITEM: str = f"{VICTORY} ITEM"
+VICTORY_LOCATION: str = f"{VICTORY} LOCATION"

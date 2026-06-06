@@ -12,9 +12,29 @@ if TYPE_CHECKING:
     from .loc_region import SonicHeroesConnectionData, SonicHeroesRegionData
 
 
-class Act(enum.StrEnum):
-    ACT_1 = "Act 1"
-    ACT_2 = "Act 2"
+class Act(enum.IntFlag):
+    NONE = 0
+    ACT_A = enum.auto()
+    ACT_B = enum.auto()
+    BOTH_ACTS = ACT_A | ACT_B
+
+
+    def get_act_str(self) -> str:
+        if self is Act.BOTH_ACTS:
+            return "Both Acts"
+        if self is Act.ACT_A:
+            return "Act A"
+        if self is Act.ACT_B:
+            return "Act B"
+        return "No Acts"
+
+
+    def is_an_act_enabled(self) -> bool:
+        return self is not Act.NONE
+
+
+
+
 
 class StageRegion(enum.StrEnum):
     ALL_REGIONS = "All Regions"
@@ -54,8 +74,8 @@ class _StageData:
     region: StageRegion = StageRegion.ALL_REGIONS
     bonus_keys: dict[Team, int] = dataclasses.field(default_factory=lambda: {team: 0 for team in Team})
     checkpoints: dict[Team, int] = dataclasses.field(default_factory=lambda: {team: 0 for team in Team})
-    chaotix_obj_sanity_checks: dict[Act, int] = dataclasses.field(default_factory=lambda: {act: 0 for act in Act})
-    chaotix_obj_sanity_str: dict[Act, str] = dataclasses.field(default_factory=lambda: {act: "NoChaotixSanityChecks" for act in Act})
+    chaotix_obj_sanity_checks: dict[Act, int] = dataclasses.field(default_factory=lambda: {act: 0 for act in [Act.ACT_A, Act.ACT_B]})
+    chaotix_obj_sanity_str: dict[Act, str] = dataclasses.field(default_factory=lambda: {act: "NoChaotixSanityChecks" for act in [Act.ACT_A, Act.ACT_B]})
     rule_shorthand: str = "NoShorthand"
 
 
@@ -89,14 +109,14 @@ class Stage(enum.Enum):
             },
         chaotix_obj_sanity_checks=\
             {
-                Act.ACT_1: 10,
-                Act.ACT_2: 20,
+                Act.ACT_A: 10,
+                Act.ACT_B: 20,
 
             },
         chaotix_obj_sanity_str=\
             {
-                Act.ACT_1: "Hermit Crabs Collected",
-                Act.ACT_2: "Hermit Crabs Collected",
+                Act.ACT_A: "Hermit Crabs Collected",
+                Act.ACT_B: "Hermit Crabs Collected",
             },
         rule_shorthand="SH"
     )
@@ -150,14 +170,14 @@ class Stage(enum.Enum):
             },
         chaotix_obj_sanity_checks=\
             {
-                Act.ACT_1: 85,
-                Act.ACT_2: 85,
+                Act.ACT_A: 85,
+                Act.ACT_B: 85,
 
             },
         chaotix_obj_sanity_str=\
             {
-                Act.ACT_1: "Enemies Killed",
-                Act.ACT_2: "Enemies Killed",
+                Act.ACT_A: "Enemies Killed",
+                Act.ACT_B: "Enemies Killed",
             },
         rule_shorthand="GM"
     )
@@ -186,14 +206,14 @@ class Stage(enum.Enum):
             },
         chaotix_obj_sanity_checks=\
             {
-                Act.ACT_1: 3,
-                Act.ACT_2: 5,
+                Act.ACT_A: 3,
+                Act.ACT_B: 5,
 
             },
         chaotix_obj_sanity_str=\
             {
-                Act.ACT_1: "Gold Turtles Killed",
-                Act.ACT_2: "Gold Turtles Killed",
+                Act.ACT_A: "Gold Turtles Killed",
+                Act.ACT_B: "Gold Turtles Killed",
             },
         rule_shorthand="PP"
     )
@@ -222,14 +242,14 @@ class Stage(enum.Enum):
             },
         chaotix_obj_sanity_checks=\
             {
-                Act.ACT_1: 200,
-                Act.ACT_2: 500,
+                Act.ACT_A: 200,
+                Act.ACT_B: 500,
 
             },
         chaotix_obj_sanity_str=\
             {
-                Act.ACT_1: "Rings Collected",
-                Act.ACT_2: "Rings Collected",
+                Act.ACT_A: "Rings Collected",
+                Act.ACT_B: "Rings Collected",
             },
         rule_shorthand="CP"
     )
@@ -258,14 +278,14 @@ class Stage(enum.Enum):
             },
         chaotix_obj_sanity_checks=\
             {
-                Act.ACT_1: 10,
-                Act.ACT_2: 20,
+                Act.ACT_A: 10,
+                Act.ACT_B: 20,
 
             },
         chaotix_obj_sanity_str=\
             {
-                Act.ACT_1: "Casino Chips Collected",
-                Act.ACT_2: "Casino Chips Collected",
+                Act.ACT_A: "Casino Chips Collected",
+                Act.ACT_B: "Casino Chips Collected",
             },
         rule_shorthand="BH"
     )
@@ -319,14 +339,14 @@ class Stage(enum.Enum):
             },
         chaotix_obj_sanity_checks=\
             {
-                Act.ACT_1: 30,
-                Act.ACT_2: 50,
+                Act.ACT_A: 30,
+                Act.ACT_B: 50,
 
             },
         chaotix_obj_sanity_str=\
             {
-                Act.ACT_1: "Capsules Destroyed",
-                Act.ACT_2: "Capsules Destroyed",
+                Act.ACT_A: "Capsules Destroyed",
+                Act.ACT_B: "Capsules Destroyed",
             },
         rule_shorthand="BS"
     )
@@ -380,14 +400,14 @@ class Stage(enum.Enum):
             },
         chaotix_obj_sanity_checks=\
             {
-                Act.ACT_1: 10,
-                Act.ACT_2: 20,
+                Act.ACT_A: 10,
+                Act.ACT_B: 20,
 
             },
         chaotix_obj_sanity_str=\
             {
-                Act.ACT_2: "Chao Saved",
-                Act.ACT_1: "Chao Saved",
+                Act.ACT_A: "Chao Saved",
+                Act.ACT_B: "Chao Saved",
             },
         rule_shorthand="LJ"
     )
@@ -416,13 +436,13 @@ class Stage(enum.Enum):
             },
         chaotix_obj_sanity_checks=\
             {
-                Act.ACT_1: 10,
-                Act.ACT_2: 10,
+                Act.ACT_A: 10,
+                Act.ACT_B: 10,
             },
         chaotix_obj_sanity_str=\
             {
-                Act.ACT_1: "Keys Collected",
-                Act.ACT_2: "Keys Collected",
+                Act.ACT_A: "Keys Collected",
+                Act.ACT_B: "Keys Collected",
             },
         rule_shorthand="HC"
     )
@@ -451,14 +471,14 @@ class Stage(enum.Enum):
             },
         chaotix_obj_sanity_checks=\
             {
-                Act.ACT_1: 60,
-                Act.ACT_2: 46,
+                Act.ACT_A: 60,
+                Act.ACT_B: 46,
 
             },
         chaotix_obj_sanity_str=\
             {
-                Act.ACT_1: "Red Torches Extinguished",
-                Act.ACT_2: "Blue Torches Extinguished",
+                Act.ACT_A: "Red Torches Extinguished",
+                Act.ACT_B: "Blue Torches Extinguished",
             },
         rule_shorthand="MM"
     )
@@ -512,14 +532,14 @@ class Stage(enum.Enum):
             },
         chaotix_obj_sanity_checks=\
             {
-                Act.ACT_1: 5,
-                Act.ACT_2: 10,
+                Act.ACT_A: 5,
+                Act.ACT_B: 10,
 
             },
         chaotix_obj_sanity_str=\
             {
-                Act.ACT_1: "Keys Collected",
-                Act.ACT_2: "Keys Collected",
+                Act.ACT_A: "Keys Collected",
+                Act.ACT_B: "Keys Collected",
             },
         rule_shorthand="Final"
     )

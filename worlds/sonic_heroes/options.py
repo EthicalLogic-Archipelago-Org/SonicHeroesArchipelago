@@ -4,7 +4,7 @@ Options for Sonic Heroes AP
 import dataclasses
 from typing import ClassVar
 
-from Options import Choice, OptionGroup, PerGameCommonOptions, Toggle, Visibility
+from Options import Choice, DefaultOnToggle, OptionGroup, PerGameCommonOptions, Toggle, Visibility, OptionError
 
 
 class MakePuml(Toggle):
@@ -13,6 +13,27 @@ class MakePuml(Toggle):
     """
     display_name: str = "Make Puml"
     visibility: Visibility = Visibility.none
+
+
+class ProgressiveAbilityItems(DefaultOnToggle):
+    """
+    Replace some (but not all) ability items with a progressive ability item
+    Homing -> Triangle Jump
+    Tornado -> Invisible
+    Thundershoot -> Flight (Dummy Rings and Cheese Cannon)
+    Power Attack -> Combo Finisher
+    """
+    display_name: str = "Progressive Ability Items"
+
+
+class RingSanityDark(Choice):
+    """
+    How should Ring Sanity for Dark be handled?
+    """
+    display_name: str = "Ring Sanity Dark"
+    option_disabled: int = 0
+    option_groups: int = 1
+    option_all_rings: int = 2
 
 
 class Difficulty(Choice):
@@ -85,6 +106,12 @@ class FlyGroundBounce(Choice):
 
 sonic_heroes_option_groups: list[OptionGroup] = \
 [
+    OptionGroup(name="Meta",
+                options = \
+                [
+                    ProgressiveAbilityItems,
+                    RingSanityDark,
+                ]),
     OptionGroup(name="Tricks",
                 options = \
                 [
@@ -107,6 +134,10 @@ sonic_heroes_option_groups: list[OptionGroup] = \
 class SonicHeroesOptions(PerGameCommonOptions):
     make_puml: MakePuml
 
+    progressive_ability_items: ProgressiveAbilityItems
+
+    ring_sanity_dark: RingSanityDark
+
     difficulty: Difficulty
     badnik_bounce: BadnikBounce
     collis_abuse: CollisAbuse
@@ -116,6 +147,8 @@ class SonicHeroesOptions(PerGameCommonOptions):
     fly_ground_bounce: FlyGroundBounce
 
 
-
+def check_options(options: SonicHeroesOptions) -> None:
+    if options.badnik_bounce == BadnikBounce.option_true and options.hover_frame == HoverFrame.option_disabled:
+        raise OptionError(f"Badnik Bounce requires hover frames to be enabled")
 
 

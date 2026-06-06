@@ -13,6 +13,7 @@ from ..world_base import SonicHeroesWorldBase
 
 RING: str = "Ring"
 RINGS: str = "Rings"
+RING_GROUP: str = "Ring Group"
 
 
 class RingLayout(enum.StrEnum):

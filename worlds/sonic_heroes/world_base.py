@@ -34,3 +34,7 @@ class SonicHeroesWorldBase(World):
     def __init__(self, multiworld: MultiWorld, player: int) -> None:
         super().__init__(multiworld=multiworld, player=player)
         self.rule_macros = {}
+        self.unplaced_items: int = 0
+
+        self.starting_inventory_amounts: dict[str, int] = {}
+        """List of item names to start with"""

@@ -6,9 +6,12 @@ from typing import override, Any, ClassVar
 from BaseClasses import CollectionState, MultiWorld
 from NetUtils import JSONMessagePart
 
+
 from ..constants.apworld import GENERATION_IS_FAKE_ATTR, RE_GEN_PASSTHROUGH_ATTR
 from ..constants.char_ability import Team
 from ..constants.items_events import UT_GLITCH_ITEM
+from ..constants.loc_region import LocationType
+from ..constants.stage import Act
 from ..world_base import SonicHeroesWorldBase
 
 
@@ -19,7 +22,10 @@ class SonicHeroesUTWorld(SonicHeroesWorldBase):
 
     def __init__(self, multiworld: MultiWorld, player: int) -> None:
         super().__init__(multiworld=multiworld, player=player)
-        self.enabled_teams: list[Team] = []
+        self.enabled_team_acts: dict[Team, Act] = {team: Act.NONE for team in Team}
+        """Dict of Team to enabled Acts flag"""
+        self.enabled_sanity_acts: dict[Team, dict[LocationType, Act]] = {team: {loc_type: Act.NONE for loc_type in LocationType.get_sanity_types()} for team in Team}
+        """Dict of Team to Sanity Type to Act Flag"""
 
 
     @staticmethod
@@ -51,7 +57,7 @@ class SonicHeroesUTWorld(SonicHeroesWorldBase):
 
     def handle_ut_gen(self) -> None:
         re_gen_passthrough: dict[str, dict[str, Any]] | None = getattr(self.multiworld, RE_GEN_PASSTHROUGH_ATTR, {})  # pyright: ignore[reportExplicitAny]
-        if not (re_gen_passthrough and self.game in re_gen_passthrough):
+        if not re_gen_passthrough or not self.game in re_gen_passthrough:
             return
         slot_data: dict[str, Any] = re_gen_passthrough[self.game]  # pyright: ignore[reportExplicitAny]
         #TODO pull YAML and rando stuff here

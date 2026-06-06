@@ -8,6 +8,8 @@ from .char_ability import Team
 from .stage import Stage
 
 
+
+
 class StageObj(enum.StrEnum):
     ALL_STAGE_OBJECTS = "All Stage Objects"
     SINGLE_SPRING = "Single Spring"
@@ -425,6 +427,33 @@ class StageObj(enum.StrEnum):
     SYSTEM_OBJECT_3 = "System Object 3"
     SAMPLE_OBJECT_1 = "Sample Object 1"
     SAMPLE_OBJECT_2 = "Sample Object 2"
+
+
+SEASIDE_HILL_DARK_STAGE_OBJS: list[StageObj] = \
+[
+    StageObj.SINGLE_SPRING,
+    StageObj.TRIPLE_SPRING,
+    StageObj.RINGS,
+    StageObj.HINT_RING,
+    StageObj.DASH_PANEL,
+    StageObj.DASH_RING,
+    StageObj.RAINBOW_HOOPS,
+    StageObj.CHECKPOINT,
+    StageObj.DASH_RAMP,
+    StageObj.CANNON,
+    StageObj.ITEM_BOX,
+    StageObj.ITEM_BALLOON,
+    StageObj.GOAL_RING,
+    StageObj.PULLEY,
+    StageObj.PROPELLER,
+    StageObj.POLE,
+    StageObj.GONG,
+    StageObj.FAN,
+    StageObj.WARP_FLOWER,
+    StageObj.BONUS_KEY,
+    StageObj.MOVING_RUIN_PLATFORM,
+    StageObj.TRIGGER_RUINS,
+]
 
 
 DEFAULT_STAGE_OBJ_REGION: str = ""

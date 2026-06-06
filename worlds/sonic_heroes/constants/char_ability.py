@@ -3,17 +3,19 @@ Constants related to Characters, Abilities, and Teams
 """
 import enum
 
-from worlds.sonic_heroes.world_base import SonicHeroesWorldBase
+from .items_events import PLAYABLE
+from ..world_base import SonicHeroesWorldBase
 
 
 class Team(enum.StrEnum):
+    ANY_TEAM = "Any Team"
+    """Used for either All Teams or None"""
     SONIC = "Sonic"
     DARK = "Dark"
     ROSE = "Rose"
     CHAOTIX = "Chaotix"
     SUPER_HARD_MODE = "Super Hard Mode"
-    ANY_TEAM = "Any Team"
-    """Used for either All Teams or None"""
+
 
 
 class Formation(enum.StrEnum):
@@ -92,6 +94,12 @@ class Character(enum.Enum):
 
     def get_abilities(self, world: SonicHeroesWorldBase) -> list[Ability]:
         return self.abilities
+
+    def get_playable_item_name(self) -> str:
+        return f"{PLAYABLE} {self.char_name}"
+
+    def get_team(self, world: SonicHeroesWorldBase) -> Team:
+        return self.default_team
 
 
 

@@ -115,6 +115,8 @@ def can_amy_hammer_hover_rule(team: Team, stage: Stage) -> Rule[SonicHeroesWorld
 
 def can_homing_attack_rule(team: Team, stage: Stage, level: int) -> Rule[SonicHeroesWorldBase]:
     ability: Ability = Ability.HOMING_ATTACK
+    has_homing_attack_item: Rule[SonicHeroesWorldBase]
+
     return SonicHeroesMacroRule(child=HasAbilityItemLevel(ability=ability, team=team, stage=stage, level=level) & can_jump_rule(team=team, stage=stage), name=f"{ability.ability_name} Level {level} as Team: {team} in {stage.stage_name}")
 
 

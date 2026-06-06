@@ -1,27 +1,166 @@
 """
 The World
 """
-from typing import override, ClassVar
+from typing import override, ClassVar, Any
 
-from BaseClasses import MultiWorld
+from BaseClasses import CollectionState, Item, ItemClassification, MultiWorld, Region
+from rule_builder.rules import Has
+from worlds.sonic_heroes.constants.items_events import SonicHeroesItemData
+from worlds.sonic_heroes.helper_functions import get_playable_char_item_name
+from worlds.sonic_heroes.items import create_items, create_precollected_items
+from worlds.sonic_heroes.regions import create_regions, create_entrances
 
-from .constants.apworld import SONIC_HEROES
+from .item_generation import FULL_ITEM_GROUPS, FULL_ITEM_LIST
+from .location_generation import FULL_LOCATION_DICT, FULL_LOCATION_GROUPS
+
+from .constants.apworld import SONIC_HEROES, VICTORY_ITEM
+from .constants.char_ability import Team, Character
+from .constants.loc_region import MENU_REGION_NAME, LocationType
+from .constants.stage import Act, Stage
 from .ut.ut_world import SonicHeroesUTWorld
 
 
 class SonicHeroesWorld(SonicHeroesUTWorld):
+    """
+        Sonic Heroes is a great game with no issues. The PC port is a great port of the first Sonic Game to release on multiple consoles (from the start).
+    """
     game: ClassVar[str] = SONIC_HEROES
-    # item_name_groups = item_name_groups
-    # location_name_groups = location_name_groups
-    item_name_to_id: ClassVar[dict[str, int]] = {}
-    location_name_to_id: ClassVar[dict[str, int]] = {}
+    item_name_groups: ClassVar[dict[str, set[str]]] = FULL_ITEM_GROUPS
+    location_name_groups: ClassVar[dict[str, set[str]]] = FULL_LOCATION_GROUPS
+    item_name_to_id: ClassVar[dict[str, int]] = {item_data.item_name: item_data.code for item_data in FULL_ITEM_LIST}
+    location_name_to_id: ClassVar[dict[str, int]] = {location_data.name: location_data.code for stage, team_location_dict in FULL_LOCATION_DICT.items() for team, location_list in team_location_dict.items() for location_data in location_list}
 
     def __init__(self, multiworld: MultiWorld, player: int) -> None:
         super().__init__(multiworld=multiworld, player=player)
 
 
     @override
+    def create_item(self, name: str) -> Item:
+        temp_items: list[SonicHeroesItemData] = [item_data for item_data in FULL_ITEM_LIST if item_data.item_name == name]
+        if len(temp_items) == 0:
+            return Item(name=name, classification=ItemClassification.progression, code=self.item_name_to_id[name], player=self.player)
+        return Item(name=name, classification=temp_items[0].classification, code=self.item_name_to_id[name], player=self.player)
+
+
+    @override
+    def get_filler_item_name(self) -> str:
+        filler_items: list[SonicHeroesItemData] = [item_data for item_data in FULL_ITEM_LIST if ItemClassification.filler in item_data.classification or ItemClassification.trap in item_data.classification]
+        return self.random.choice(seq=filler_items).item_name
+
+
+    @override
     def generate_early(self) -> None:
         #do early gen stuff here
         super().generate_early()
+        #UT
+
+        # check options
+
+        #handle options
+        self.enabled_team_acts[Team.DARK] = Act.BOTH_ACTS
+        self.enabled_sanity_acts[Team.DARK] = {loc_type: Act.BOTH_ACTS for loc_type in LocationType.get_sanity_types()}
+        self.starting_inventory_amounts[get_playable_char_item_name(character=Character.OMEGA)] = 1
+
+        #level gates here (not needed)
+
+
+    @override
+    def create_regions(self) -> None:
+        #create all regions (and all locations as well)
+        create_regions(world=self)
         pass
+
+    @override
+    def create_items(self) -> None:
+        # create items here
+        create_items(world=self)
+
+        # do precollected here
+        create_precollected_items(world=self)
+        pass
+
+    @override
+    def set_rules(self) -> None:
+        self.set_completion_rule(rule=Has(item_name=VICTORY_ITEM))
+        pass
+
+    @override
+    def connect_entrances(self) -> None:
+        #entrances must be done after this
+        create_entrances(world=self)
+        pass
+
+    @override
+    def generate_basic(self) -> None:
+        #should not be needed here
+        return super().generate_basic()
+
+    @override
+    def pre_fill(self) -> None:
+        # should not be needed here
+        pass
+
+    # @override
+    # def fill_hook(self, progitempool: list[Item], usefulitempool: list[Item], filleritempool: list[Item], fill_locations: list[Location]) -> None:
+    #     # should not be needed here
+    #     pass
+
+    @override
+    def post_fill(self) -> None:
+        # if self.should_make_puml_earlier:
+        #     self.make_puml()
+        pass
+
+    # @override
+    # def generate_output(self, output_directory: str) -> None:
+    #     pass
+    #
+    # @override
+    # def extend_hint_information(self, hint_data: dict[int, dict[int, str]]) -> None:
+    #     # Location: "Hint"
+    #     pass
+
+    @override
+    def fill_slot_data(self) -> dict[str, Any]:  # pyright: ignore[reportExplicitAny]
+        # self.make_puml()
+        return {}
+
+
+    # @override
+    # def write_spoiler_header(self, spoiler_handle: TextIO) -> None:
+    #     # print(self.item_name_groups)
+    #     # print(self.location_name_groups)
+    #     pass
+    #
+    # @override
+    # def write_spoiler(self, spoiler_handle: TextIO) -> None:
+    #     pass
+    #
+    # @override
+    # def write_spoiler_end(self, spoiler_handle: TextIO) -> None:
+    #     pass
+
+
+
+    def make_puml(self) -> None:
+        if self.player_name[0:1].isdigit():
+            return
+        from Utils import visualize_regions
+        state: CollectionState = self.multiworld.get_all_state()
+        state.update_reachable_regions(self.player)
+
+        reachable_regions: set[Region] = set(state.reachable_regions[self.player])
+        unreachable_regions: set[Region] = set()  # type: ignore
+        for region in self.multiworld.regions:
+            if region not in reachable_regions:
+                unreachable_regions.add(region)
+        visualize_regions(root_region=self.get_region(region_name=MENU_REGION_NAME), file_name=f"{self.player_name}_world.puml", show_entrance_names=True, regions_to_highlight=unreachable_regions)
+
+        # !pragma layout smetana
+        # put this at top to display PUML (after start UML)
+
+
+
+
+
+
