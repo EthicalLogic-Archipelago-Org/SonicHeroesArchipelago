@@ -56,6 +56,7 @@ REGIONS: list[SonicHeroesRegionData] = \
     SonicHeroesRegionData(region_name="Seaside Hill Dark Before First Bobsled", obj_checks=1),
     SonicHeroesRegionData(region_name="Seaside Hill Dark First Bobsled", obj_checks=0),
     SonicHeroesRegionData(region_name="Seaside Hill Dark First Bobsled After Block", obj_checks=7),
+    SonicHeroesRegionData(region_name="Seaside Hill Dark First Bobsled Small Island", obj_checks=0),
     SonicHeroesRegionData(region_name="Seaside Hill Dark Ruin After First Bobsled", obj_checks=0),
     SonicHeroesRegionData(region_name="Seaside Hill Dark Big Ruin After First Bobsled", obj_checks=2),
     SonicHeroesRegionData(region_name="Seaside Hill Dark First Cliff Before Big Ruin Beach", obj_checks=0),

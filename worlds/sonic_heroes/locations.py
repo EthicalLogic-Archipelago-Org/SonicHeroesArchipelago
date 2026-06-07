@@ -2,8 +2,10 @@
 Locations
 """
 from BaseClasses import Location, Region
+
 from worlds.sonic_heroes.helper_functions import is_this_act_enabled
 from .constants.char_ability import Team
+from .constants.items_events import OBJ_SANITY
 from .constants.loc_region import SonicHeroesLocationData, LocationType
 from .constants.stage import Stage, Act
 

@@ -1,11 +1,11 @@
 """
 The World For Universal Tracker
 """
-from typing import override, Any, ClassVar
+from typing import override, Any, ClassVar, Optional
 
 from BaseClasses import CollectionState, MultiWorld
 from NetUtils import JSONMessagePart
-
+from Options import Option
 
 from ..constants.apworld import GENERATION_IS_FAKE_ATTR, RE_GEN_PASSTHROUGH_ATTR
 from ..constants.char_ability import Team
@@ -37,22 +37,23 @@ class SonicHeroesUTWorld(SonicHeroesWorldBase):
     def generate_early(self) -> None:
         #do UT stuff here
         self.is_ut_gen = getattr(self.multiworld, GENERATION_IS_FAKE_ATTR, False)
+        self.handle_ut_gen()
         super().generate_early()
         pass
 
 
-    def explain_rule(self, target_name: str, state: CollectionState) -> list[JSONMessagePart] | None:
-        if target_name == "Do Normal UT thing":
-            return None
-        _result: list[JSONMessagePart] = [{"type": "text", "text": target_name}]
-        return _result
-
-
-    def explain_more(self, target_name: str, state: CollectionState) -> list[JSONMessagePart] | None:
-        if target_name == "Do Normal UT thing":
-            return None
-        _result: list[JSONMessagePart] = [{"type": "text", "text": target_name}]
-        return _result
+    # def explain_rule(self, target_name: str, state: CollectionState) -> list[JSONMessagePart] | None:
+    #     if target_name == "Do Normal UT thing":
+    #         return None
+    #     _result: list[JSONMessagePart] = [{"type": "text", "text": target_name}]
+    #     return _result
+    #
+    #
+    # def explain_more(self, target_name: str, state: CollectionState) -> list[JSONMessagePart] | None:
+    #     if target_name == "Do Normal UT thing":
+    #         return None
+    #     _result: list[JSONMessagePart] = [{"type": "text", "text": target_name}]
+    #     return _result
 
 
     def handle_ut_gen(self) -> None:
@@ -61,6 +62,11 @@ class SonicHeroesUTWorld(SonicHeroesWorldBase):
             return
         slot_data: dict[str, Any] = re_gen_passthrough[self.game]  # pyright: ignore[reportExplicitAny]
         #TODO pull YAML and rando stuff here
+
+        for key, value in slot_data.get("options", {}).items():  # pyright: ignore[reportAny]
+            opt: Option[SonicHeroesWorldBase] | None = getattr(self.options, key, None)  # pyright: ignore[reportAny]
+            if opt is not None:
+                setattr(self.options, key, opt.from_any(data=value))  # pyright: ignore[reportAny]
 
 
 

@@ -4,11 +4,11 @@ Regions
 
 
 from BaseClasses import Region, Location
-from rule_builder.rules import Has, Rule
+from rule_builder.rules import Has, Rule, True_
 
 from .constants.apworld import VICTORY_ITEM, VICTORY_LOCATION
 from .constants.char_ability import Team
-from .constants.items_events import SPAWN_POSITION
+from .constants.items_events import OBJ_SANITY, SPAWN_POSITION
 from .constants.loc_region import MENU_REGION_NAME, METAL_OVERLORD_REGION_NAME
 from .constants.stage import Stage, Act
 
@@ -33,7 +33,7 @@ def create_regions(world: SonicHeroesWorldBase) -> None:
     create_regions_for_team_stage(world=world, team=team, stage=stage)
 
     metal_overlord_region: Region = Region(name=METAL_OVERLORD_REGION_NAME, player=world.player, multiworld=world.multiworld)
-    victory_location: Location = Location(name=VICTORY_LOCATION, address=None, player=world.player)
+    victory_location: Location = Location(name=VICTORY_LOCATION, address=None, parent=metal_overlord_region, player=world.player)
     victory_location.place_locked_item(item=world.create_item(name=VICTORY_ITEM))
     metal_overlord_region.locations.append(victory_location)
     world.multiworld.regions.append(region=metal_overlord_region)
@@ -42,6 +42,7 @@ def create_regions(world: SonicHeroesWorldBase) -> None:
 
 def create_regions_for_team_stage(world: SonicHeroesWorldBase, team: Team, stage: Stage) -> None:
     for region_data in parser_region_mapping[stage][team]:
+        # print(f"Creating region: {region_data.region_name}")
         region: Region = Region(name=region_data.region_name, player=world.player, multiworld=world.multiworld)
         append_locations_to_region(world=world, region=region, team=team, stage=stage)
         world.multiworld.regions.append(region=region)
@@ -62,13 +63,17 @@ def create_entrances(world: SonicHeroesWorldBase) -> None:
 
 
 def create_entrances_for_team(world: SonicHeroesWorldBase, team: Team) -> None:
-    create_regions_for_team_stage(world=world, team=team, stage=Stage.SEASIDE_HILL)
+    create_entrances_for_team_stage(world=world, team=team, stage=Stage.SEASIDE_HILL)
     pass
 
 
 def create_entrances_for_team_stage(world: SonicHeroesWorldBase, team: Team, stage: Stage) -> None:
     for checkpoint in range(stage.checkpoints[team] + 1):
-        create_entrance(world=world, name=f"{MENU_REGION_NAME} -> {get_spawn_position_item_name(team=team, stage=stage, checkpoint=checkpoint).replace(SPAWN_POSITION, "")}", source=MENU_REGION_NAME, target=METAL_OVERLORD_REGION_NAME, rule=Has(item_name=get_spawn_position_item_name(team=team, stage=stage, checkpoint=checkpoint)))
+        target_region: str = f"{stage.stage_name} {team.value} Start" if checkpoint == 0 else f"{stage.stage_name} {team.value} Checkpoint {checkpoint}"
+        create_entrance(world=world, name=f"{MENU_REGION_NAME} -> {target_region}", source=MENU_REGION_NAME, target=target_region, rule=Has(item_name=get_spawn_position_item_name(team=team, stage=stage, checkpoint=checkpoint)))
+
+    # TODO check if OBJ Sanity exists (or force it to always)
+    create_entrance(world=world, name=f"{MENU_REGION_NAME} -> {stage.stage_name} {team.value} {OBJ_SANITY}", source=MENU_REGION_NAME, target=f"{stage.stage_name} {team.value} {OBJ_SANITY}", rule=True_[SonicHeroesWorldBase]())
 
     for connection in parser_connection_mapping[stage][team]:
         create_entrance(world=world, name=connection.name, source=connection.source_region, target=connection.target_region, rule=connection.rule)

@@ -14,33 +14,33 @@ PARSER_STAGE_OBJ_MAPPING: dict[str, Callable[[Team, Stage], str]] = \
 {
     "BobsledAny": lambda team, stage: get_func_str(func_name="has_bobsled_rule", params={"team": team, "stage": stage}),
 
-    "SingleSpring": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"stage_obj": StageObj.SINGLE_SPRING}),
+    "SingleSpring": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"team": team, "stage_obj": StageObj.SINGLE_SPRING}),
 
-    "TripleSpring": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"stage_obj": StageObj.TRIPLE_SPRING}),
+    "TripleSpring": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"team": team, "stage_obj": StageObj.TRIPLE_SPRING}),
 
-    "Rings": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"stage_obj": StageObj.RINGS}),
+    "Rings": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"team": team, "stage_obj": StageObj.RINGS}),
 
-    "HintRing": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"stage_obj": StageObj.HINT_RING}),
+    "HintRing": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"team": team, "stage_obj": StageObj.HINT_RING}),
 
-    "DashRamp": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"stage_obj": StageObj.DASH_RAMP}),
+    "DashRamp": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"team": team, "stage_obj": StageObj.DASH_RAMP}),
 
-    "DashPanel": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"stage_obj": StageObj.DASH_PANEL}),
+    "DashPanel": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"team": team, "stage_obj": StageObj.DASH_PANEL}),
 
-    "DashRing": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"stage_obj": StageObj.DASH_RING}),
+    "DashRing": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"team": team, "stage_obj": StageObj.DASH_RING}),
 
-    "RainbowHoop": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"stage_obj": StageObj.RAINBOW_HOOPS}),
+    "RainbowHoop": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"team": team, "stage_obj": StageObj.RAINBOW_HOOPS}),
 
-    "Cannon": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"stage_obj": StageObj.CANNON}),
+    "Cannon": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"team": team, "stage_obj": StageObj.CANNON}),
 
-    "ItemBox": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"stage_obj": StageObj.ITEM_BOX}),
+    "ItemBox": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"team": team, "stage_obj": StageObj.ITEM_BOX}),
 
-    "ItemBalloon": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"stage_obj": StageObj.ITEM_BALLOON}),
+    "ItemBalloon": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"team": team, "stage_obj": StageObj.ITEM_BALLOON}),
 
-    "GoalRing": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"stage_obj": StageObj.GOAL_RING}),
+    "GoalRing": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"team": team, "stage_obj": StageObj.GOAL_RING}),
 
-    "RuinsNoTrigger": lambda team, stage: get_func_str(func_name="has_moving_ruins_rule", params={"needs_trigger": False}),
+    "RuinsNoTrigger": lambda team, stage: get_func_str(func_name="has_moving_ruins_rule", params={"team": team, "needs_trigger": False}),
 
-    "RuinsTrigger": lambda team, stage: get_func_str(func_name="has_moving_ruins_rule", params={"needs_trigger": True}),
+    "RuinsTrigger": lambda team, stage: get_func_str(func_name="has_moving_ruins_rule", params={"team": team, "needs_trigger": True}),
 }
 
 

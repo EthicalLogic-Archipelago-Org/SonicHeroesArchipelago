@@ -3,6 +3,7 @@ The World Base Class
 """
 from typing import override, ClassVar
 
+
 from worlds.AutoWorld import World
 from BaseClasses import MultiWorld
 from Options import PerGameCommonOptions
@@ -12,10 +13,10 @@ from rule_builder.rules import Rule
 
 from .constants.apworld import SONIC_HEROES
 from .options import SonicHeroesOptions
-
+from .web import SonicHeroesWebWorld
 
 class SonicHeroesWorldBase(World):
-    # web = SonicHeroesWebWorld()
+    web: ClassVar[SonicHeroesWebWorld] = SonicHeroesWebWorld()  # pyright: ignore[reportIncompatibleVariableOverride]
     options_dataclass: ClassVar[type[PerGameCommonOptions]] = SonicHeroesOptions
     options: SonicHeroesOptions  # pyright: ignore[reportIncompatibleVariableOverride]
 

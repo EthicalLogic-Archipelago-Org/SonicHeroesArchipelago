@@ -1,7 +1,7 @@
 """
 Helper Functions for custom rule builder rules related to enemies
 """
-from rule_builder.rules import Rule, False_
+from rule_builder.rules import Rule, False_, True_
 from worlds.sonic_heroes.rule_builder.functions_stage_obj import has_bobsled_rule
 
 from ..constants.char_ability import Formation, Team
@@ -169,6 +169,8 @@ def can_kill_basic_egg_pawn_fire_dunk_only(team: Team, stage: Stage) -> Rule[Son
 
 def can_kill_basic_egg_pawn(team: Team, stage: Stage, height: EnemyHeight = EnemyHeight.GROUND) -> Rule[SonicHeroesWorldBase]:
     rule: Rule[SonicHeroesWorldBase] = False_[SonicHeroesWorldBase]()
+    # return True_[SonicHeroesWorldBase]()
+
     if height.relative_value <= EnemyHeight.JUMP.relative_value:
         rule |= (can_jump_rule(team=team, stage=stage) |
                  can_kill_basic_egg_pawn_homing_only(team=team, stage=stage) |
@@ -321,6 +323,8 @@ def can_kill_regular_egg_pawn(team: Team, stage: Stage, pawn: EggPawn, height: E
                     rule &= (can_remove_shield(team=team, stage=stage) | can_break_spike_shield(team=team, stage=stage)) & can_kill_egg_pawn_lance(team=team, stage=stage, height=height)
                 case EggPawnWeapon.MACHINE_GUN:
                     rule &= (can_remove_shield(team=team, stage=stage) | can_break_spike_shield(team=team, stage=stage)) & can_kill_egg_pawn_machine_gun(team=team, stage=stage, height=height)
+
+    # rule = True_[SonicHeroesWorldBase]()
 
     return SonicHeroesMacroRule(child=rule, name=f"Kill {enemy_str} with {pawn.shield} and {pawn.weapon} as Team: {team} in {stage.stage_name}")
 

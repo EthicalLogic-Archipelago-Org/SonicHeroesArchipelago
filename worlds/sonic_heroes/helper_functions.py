@@ -13,18 +13,19 @@ from .world_base import SonicHeroesWorldBase
 
 def get_correct_ability_item_name(world: SonicHeroesWorldBase, team: Team, ability: Ability) -> str:
     """Gets the correct ability item name from the Character"""
-    return f"{team} {ability}"
+    return f"{team} {ability.ability_name}"
 
-def get_stage_obj_item_name(stage_obj: StageObj) -> str:
+def get_stage_obj_item_name(team: Team, stage_obj: StageObj) -> str:
     """Gets the correct stage item name from the Stage Object"""
-    return f"{stage_obj.name}"
+    return f"{team.value} {stage_obj.value}" if team is not Team.ANY_TEAM else stage_obj.value
+
 
 def get_playable_char_item_name(character: Character) -> str:  # (world: SonicHeroesWorldBase, character: Character) -> str:
     """Gets the playable character item name from the Character"""
     return f"{PLAYABLE} {character.char_name}"
 
 def get_spawn_position_item_name(team: Team, stage: Stage, checkpoint: int) -> str:
-    return f"{stage.stage_name} {team.value} Checkpoint {checkpoint + 1} {SPAWN_POSITION}" if checkpoint > 0 else f"{stage.stage_name} {team.value} Start of Level {SPAWN_POSITION}"
+    return f"{stage.stage_name} {team.value} Checkpoint {checkpoint} {SPAWN_POSITION}" if checkpoint > 0 else f"{stage.stage_name} {team.value} Start of Level {SPAWN_POSITION}"
 
 def get_all_characters_for_team(world: SonicHeroesWorldBase, team: Team) -> list[Character]:
     """Gets all characters for the Team"""
@@ -55,7 +56,8 @@ def get_characters_in_team_with_ability(world: SonicHeroesWorldBase, team: Team,
 
 
 def is_rule_caching_enabled(world: SonicHeroesWorldBase) -> bool:
-    return getattr(world, RULE_CACHING_ENABLED_ATTR, False)
+    return False
+    # return getattr(world, RULE_CACHING_ENABLED_ATTR, False)
 
 def get_default_true_rule() -> Rule[SonicHeroesWorldBase]:
     return True_[SonicHeroesWorldBase]()

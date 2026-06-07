@@ -453,6 +453,8 @@ SEASIDE_HILL_DARK_STAGE_OBJS: list[StageObj] = \
     StageObj.BONUS_KEY,
     StageObj.MOVING_RUIN_PLATFORM,
     StageObj.TRIGGER_RUINS,
+    StageObj.EGG_FLAPPER,
+    StageObj.EGG_PAWN,
 ]
 
 

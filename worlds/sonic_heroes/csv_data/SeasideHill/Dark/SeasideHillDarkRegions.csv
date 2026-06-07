@@ -37,6 +37,7 @@ Dark,Seaside Hill,Ruin Stairs After Second Island,1,0,,1,red flapper,0,,,
 Dark,Seaside Hill,Before First Bobsled,1,0,,1,red flapper,0,,,red flapper on ground
 Dark,Seaside Hill,First Bobsled,0,0,,0,,0,,,
 Dark,Seaside Hill,First Bobsled After Block,7,29,5 6x4,7,7xnothing,2,2x5Rings Balloons,,things need nothing
+Dark,Seaside Hill,First Bobsled Small Island,0,0,,0,,0,,,
 Dark,Seaside Hill,Ruin After First Bobsled,0,0,,0,,0,,,
 Dark,Seaside Hill,Big Ruin After First Bobsled,2,6,1x6,2,2xGreenShot,0,,,
 Dark,Seaside Hill,First Cliff Before Big Ruin Beach,0,4,1x4,0,,0,,,Rings need (SingleSpringAND(FlyAnyORJumpORComboHeight))OR(FlyAnyANDJump)

@@ -1,9 +1,9 @@
 """
 generate items programmatically
 """
-
 from BaseClasses import ItemClassification
-from worlds.sonic_heroes.helper_functions import get_spawn_position_item_name
+
+from .helper_functions import get_spawn_position_item_name, get_stage_obj_item_name
 from .constants.char_ability import Character, Ability, Team
 from .constants.items_events import *
 from .constants.loc_region import *
@@ -32,10 +32,11 @@ def round_item_id_to_nearest_value_multiple(value: int) -> None:
     global item_id
     hex_mod: int = item_id % value
     if hex_mod > 0:
-        print(f"Rounding Item Id to nearest {hex(value)} old id: {hex(item_id)} added: {hex(value - hex_mod)}")
+        #print(f"Rounding Item Id to nearest {hex(value)} old id: {hex(item_id)} added: {hex(value - hex_mod)}")
         item_id += value - hex_mod
     else:
-        print(f"Item Id doesn't need rounding. {hex(value)} old id: {hex(item_id)}")
+        #print(f"Item Id doesn't need rounding. {hex(value)} old id: {hex(item_id)}")
+        pass
 
 
 def append_item(name: str, classification: ItemClassification, item_groups: list[str], amount: int = 1, fillerweight: int = 50, num_to_increment_id: int = 1) -> None:
@@ -64,7 +65,7 @@ def generate_chaos_emerald_items() -> None:
     global item_id
     item_id = ITEM_START_ID_OFFSET + 2
     for emerald in ChaosEmerald:
-        append_item(name=emerald, classification=ItemClassification.progression, item_groups=[EMERALD_ITEM_GROUP])
+        append_item(name=emerald.value, classification=ItemClassification.progression, item_groups=[EMERALD_ITEM_GROUP])
 
 
 def generate_playable_char_items() -> None:
@@ -101,7 +102,7 @@ def generate_stage_obj_items() -> None:
     for team in Team:
         round_item_id_to_nearest_value_multiple(value=0x1000)
         for stage_obj in StageObj:
-            item_name: str = f"{team.value} {stage_obj.value}" if team is not Team.ANY_TEAM else stage_obj.value
+            item_name: str = get_stage_obj_item_name(team=team, stage_obj=stage_obj)
             append_item(name=item_name, classification=ItemClassification.progression, item_groups=[STAGE_OBJECT_ITEM_GROUP])
 
     append_item(name=BOBSLED_ITEM_NAME, classification=ItemClassification.progression, item_groups=[BOBSLED_ITEM_GROUP])

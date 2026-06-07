@@ -8,7 +8,7 @@ Dark,Seaside Hill,Eggmans Robots Middle,Red Flapper,Egg Flapper,,No Weapon,No Ar
 Dark,Seaside Hill,Eggmans Robots Top,Egg Pawn Bazooka,Egg Pawn,Regular Pawn,Bazooka,,No Shield,Ground,,,0,KillEggPawnBazooka,-712.5491,530,-6630.392,,
 Dark,Seaside Hill,Eggmans Robots Top,Egg Pawn,Egg Pawn,Regular Pawn,No Weapon,,No Shield,Ground,,,0,KillEggPawnNothingAND(FlyAnyORJump),-735.9069,609.1093,-6552.866,on upper cliff,
 Dark,Seaside Hill,Top Cliff Route With Hermit Crab,Egg Pawn Left,Egg Pawn,Regular Pawn,No Weapon,,No Shield,Ground,,,0,KillEggPawnNothing,-1818.239,620,-6368.518,left,
-Dark,Seaside Hill,Top Cliff Route With Hermit Crab,Egg Pawn Center ,Egg Pawn,Regular Pawn,No Weapon,,No Shield,Ground,,,0,KillEggPawnNothing,-1840.888,620,-6398.068,center ,
+Dark,Seaside Hill,Top Cliff Route With Hermit Crab,Egg Pawn Center,Egg Pawn,Regular Pawn,No Weapon,,No Shield,Ground,,,0,KillEggPawnNothing,-1840.888,620,-6398.068,center ,
 Dark,Seaside Hill,Top Cliff Route With Hermit Crab,Egg Pawn Right,Egg Pawn,Regular Pawn,No Weapon,,No Shield,Ground,,,0,KillEggPawnNothing,-1799.18,620,-6423.996,right,
 Dark,Seaside Hill,Staircase Before Corner Cave Middle,Red Flapper Left,Egg Flapper,,No Weapon,No Armor,,Jump,,,10,KillRedFlapperJump,-2457.811,580,-6420.685,left,
 Dark,Seaside Hill,Staircase Before Corner Cave Middle,Red Flapper Right,Egg Flapper,,No Weapon,No Armor,,Jump,,,10,KillRedFlapperJump,-2457.811,580,-6460.685,right,

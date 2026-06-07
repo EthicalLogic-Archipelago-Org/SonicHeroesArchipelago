@@ -5,6 +5,7 @@ import dataclasses
 import enum
 from typing import Self
 
+
 from rule_builder.rules import Rule
 
 from ..helper_functions import get_default_true_rule

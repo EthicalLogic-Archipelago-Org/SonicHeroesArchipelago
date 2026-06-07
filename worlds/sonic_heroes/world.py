@@ -6,7 +6,9 @@ from typing import override, ClassVar, Any
 from BaseClasses import CollectionState, Item, ItemClassification, MultiWorld, Region
 from rule_builder.rules import Has
 from worlds.sonic_heroes.constants.items_events import SonicHeroesItemData
-from worlds.sonic_heroes.helper_functions import get_playable_char_item_name
+from worlds.sonic_heroes.constants.stage_objs import StageObj
+from worlds.sonic_heroes.helper_functions import get_playable_char_item_name, get_stage_obj_item_name, \
+    get_spawn_position_item_name
 from worlds.sonic_heroes.items import create_items, create_precollected_items
 from worlds.sonic_heroes.regions import create_regions, create_entrances
 
@@ -15,7 +17,7 @@ from .location_generation import FULL_LOCATION_DICT, FULL_LOCATION_GROUPS
 
 from .constants.apworld import SONIC_HEROES, VICTORY_ITEM
 from .constants.char_ability import Team, Character
-from .constants.loc_region import MENU_REGION_NAME, LocationType
+from .constants.loc_region import MENU_REGION_NAME, LocationType, SonicHeroesLocationData
 from .constants.stage import Act, Stage
 from .ut.ut_world import SonicHeroesUTWorld
 
@@ -38,13 +40,13 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
     def create_item(self, name: str) -> Item:
         temp_items: list[SonicHeroesItemData] = [item_data for item_data in FULL_ITEM_LIST if item_data.item_name == name]
         if len(temp_items) == 0:
-            return Item(name=name, classification=ItemClassification.progression, code=self.item_name_to_id[name], player=self.player)
+            return Item(name=name, classification=ItemClassification.progression, code=None, player=self.player)
         return Item(name=name, classification=temp_items[0].classification, code=self.item_name_to_id[name], player=self.player)
 
 
     @override
     def get_filler_item_name(self) -> str:
-        filler_items: list[SonicHeroesItemData] = [item_data for item_data in FULL_ITEM_LIST if ItemClassification.filler in item_data.classification or ItemClassification.trap in item_data.classification]
+        filler_items: list[SonicHeroesItemData] = [item_data for item_data in FULL_ITEM_LIST if item_data.classification is ItemClassification.filler] # or ItemClassification.trap in item_data.classification]
         return self.random.choice(seq=filler_items).item_name
 
 
@@ -59,7 +61,14 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
         #handle options
         self.enabled_team_acts[Team.DARK] = Act.BOTH_ACTS
         self.enabled_sanity_acts[Team.DARK] = {loc_type: Act.BOTH_ACTS for loc_type in LocationType.get_sanity_types()}
+        #self.enabled_sanity_acts[Team.DARK][LocationType.ENEMY_SANITY] = Act.NONE
+        #self.enabled_sanity_acts[Team.DARK][LocationType.RING_SANITY] = Act.NONE
+
         self.starting_inventory_amounts[get_playable_char_item_name(character=Character.OMEGA)] = 1
+        self.starting_inventory_amounts[get_stage_obj_item_name(team=Team.DARK, stage_obj=StageObj.CHECKPOINT)] = 1
+        # self.starting_inventory_amounts[get_stage_obj_item_name(team=Team.DARK, stage_obj=StageObj.RINGS)] = 1
+        self.starting_inventory_amounts[get_spawn_position_item_name(team=Team.DARK, stage=Stage.SEASIDE_HILL, checkpoint=1)] = 1
+
 
         #level gates here (not needed)
 
@@ -72,11 +81,11 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
 
     @override
     def create_items(self) -> None:
-        # create items here
-        create_items(world=self)
-
         # do precollected here
         create_precollected_items(world=self)
+
+        # create items here
+        create_items(world=self)
         pass
 
     @override
@@ -98,6 +107,7 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
     @override
     def pre_fill(self) -> None:
         # should not be needed here
+        # self.make_puml()
         pass
 
     # @override
@@ -108,7 +118,7 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
     @override
     def post_fill(self) -> None:
         # if self.should_make_puml_earlier:
-        #     self.make_puml()
+        # self.make_puml()
         pass
 
     # @override
@@ -122,8 +132,11 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
 
     @override
     def fill_slot_data(self) -> dict[str, Any]:  # pyright: ignore[reportExplicitAny]
-        # self.make_puml()
-        return {}
+        self.make_puml()
+        return \
+        {
+            "options": self.options.as_dict("progressive_ability_items", "ring_sanity_dark", "difficulty", "badnik_bounce", "collis_abuse", "hover_frame", "parkour", "fly_deplete_boost", "fly_ground_bounce"),
+        }
 
 
     # @override
@@ -145,6 +158,7 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
     def make_puml(self) -> None:
         if self.player_name[0:1].isdigit():
             return
+        print(f"Making PUML for {self.player_name} here")
         from Utils import visualize_regions
         state: CollectionState = self.multiworld.get_all_state()
         state.update_reachable_regions(self.player)

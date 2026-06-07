@@ -12,8 +12,9 @@ from ..helper_functions import get_stage_obj_item_name
 from ..world_base import SonicHeroesWorldBase
 
 
-def has_stage_obj_rule(stage_obj: StageObj) -> Rule[SonicHeroesWorldBase]:
-    return Has(item_name=get_stage_obj_item_name(stage_obj=stage_obj))
+def has_stage_obj_rule(team: Team, stage_obj: StageObj) -> Rule[SonicHeroesWorldBase]:
+    # print(f"RULE IS CHECKING FOR item: {get_stage_obj_item_name(team=team, stage_obj=stage_obj)}")
+    return Has(item_name=get_stage_obj_item_name(team=team, stage_obj=stage_obj))
 
 
 def has_bobsled_rule(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
@@ -23,11 +24,11 @@ def can_break_key_cage(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
     return True_[SonicHeroesWorldBase]()
 
 
-def has_moving_ruins_rule(needs_trigger: bool) -> Rule[SonicHeroesWorldBase]:
+def has_moving_ruins_rule(team: Team, needs_trigger: bool) -> Rule[SonicHeroesWorldBase]:
     rule: Rule[SonicHeroesWorldBase] = True_[SonicHeroesWorldBase]()
     if needs_trigger:
-        rule &= has_stage_obj_rule(stage_obj=StageObj.TRIGGER_RUINS)
-    rule &= has_stage_obj_rule(stage_obj=StageObj.MOVING_RUIN_PLATFORM)
+        rule &= has_stage_obj_rule(team=team, stage_obj=StageObj.TRIGGER_RUINS)
+    rule &= has_stage_obj_rule(team=team, stage_obj=StageObj.MOVING_RUIN_PLATFORM)
     return rule
 
 

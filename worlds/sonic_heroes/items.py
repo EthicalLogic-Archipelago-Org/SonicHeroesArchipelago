@@ -22,6 +22,10 @@ def create_item_and_append(world: SonicHeroesWorldBase, name: str, classificatio
             return
 
     for _ in range(amount):
+        if classification is not ItemClassification.filler:
+            print(f"Creating Item: {name}")
+            pass
+
         world.multiworld.itempool.append(Item(name=name, code=world.item_name_to_id[name], classification=classification, player=world.player))
         world.unplaced_items -= 1
 
@@ -93,6 +97,11 @@ def create_ability_items_for_character_and_team(world: SonicHeroesWorldBase, tea
                     create_item_and_append(world=world, name=f"{PROGRESSIVE} {team.value} {Ability.HOMING_ATTACK.ability_name}", classification=ItemClassification.progression)
                     continue
 
+            if ability is Ability.TORNADO or ability is Ability.INVISIBILITY:
+                if Ability.TORNADO in ability_list and Ability.INVISIBILITY in ability_list:
+                    create_item_and_append(world=world, name=f"{PROGRESSIVE} {team.value} {Ability.TORNADO.ability_name}", classification=ItemClassification.progression)
+                    continue
+
             if ability is Ability.THUNDER_SHOOT or ability is Ability.FLIGHT or ability is Ability.DUMMY_RINGS or ability is Ability.CHEESE_CANNON:
                 if Ability.THUNDER_SHOOT in ability_list and Ability.FLIGHT in ability_list:
                     if ability is Ability.DUMMY_RINGS or ability is Ability.CHEESE_CANNON:
@@ -103,13 +112,16 @@ def create_ability_items_for_character_and_team(world: SonicHeroesWorldBase, tea
             if ability is Ability.POWER_ATTACK or ability is Ability.COMBO_FINISHER:
                 if Ability.POWER_ATTACK in ability_list and Ability.COMBO_FINISHER in ability_list:
                     create_item_and_append(world=world, name=f"{PROGRESSIVE} {team.value} {Ability.POWER_ATTACK.ability_name}", classification=ItemClassification.progression)
+                    continue
 
             create_item_and_append(world=world, name=get_correct_ability_item_name(world=world, team=team, ability=ability), classification=ItemClassification.progression)
 
 
 def create_stage_obj_items(world: SonicHeroesWorldBase) -> None:
     for stage_obj in SEASIDE_HILL_DARK_STAGE_OBJS:
-        create_item_and_append(world=world, name=get_stage_obj_item_name(stage_obj=stage_obj), classification=ItemClassification.progression)
+        create_item_and_append(world=world, name=get_stage_obj_item_name(team=Team.DARK, stage_obj=stage_obj), classification=ItemClassification.progression)
+
+    create_item_and_append(world=world, name=BOBSLED_ITEM_NAME, classification=ItemClassification.progression)
 
 
 def create_spawn_position_items(world: SonicHeroesWorldBase) -> None:
@@ -126,6 +138,7 @@ def create_spawn_position_items_for_team(world: SonicHeroesWorldBase, team: Team
 
 def create_spawn_position_items_for_team_and_stage(world: SonicHeroesWorldBase, team: Team, stage: Stage) -> None:
     for checkpoint in range(stage.checkpoints[team] + 1):
+        # print(f"Creating Spawn Position Item: {get_spawn_position_item_name(team=team, stage=stage, checkpoint=checkpoint)}")
         create_item_and_append(world=world, name=get_spawn_position_item_name(team=team, stage=stage, checkpoint=checkpoint), classification=ItemClassification.progression)
 
 
@@ -138,4 +151,5 @@ def create_filler_items(world: SonicHeroesWorldBase) -> None:
 def create_precollected_items(world: SonicHeroesWorldBase) -> None:
     for item_name, amount in world.starting_inventory_amounts.items():
         for _ in range(amount):
+            # print(f"Starting Inventory Item: {item_name}")
             world.push_precollected(item=Item(name=item_name, classification=ItemClassification.progression, code=world.item_name_to_id[item_name], player=world.player))

@@ -67,7 +67,7 @@ class HoverFrame(Choice):
     Holding the jump button allows for a certain amount of "Hover Frames"
     Combining this with homing attack or tornado allows for extra height and distance
     """
-    display_name: str = "Collision Abuse"
+    display_name: str = "Hover Frame"
     option_disabled: int = 0
     option_jump_hover: int = 1
     option_jump_and_homing_or_tornado_hover: int = 2
@@ -78,14 +78,14 @@ class Parkour(Toggle):
     Should Parkour be enabled logically?
     Parkour involves tricky collision like staying on the small "guardrails" on either side of the path on Seaside Hill
     """
-    display_name: str = "Collision Abuse"
+    display_name: str = "Parkour"
 
 class FlyDepleteBoost(Toggle):
     """
     Should the Fly Deplete Boost trick be enabled logically?
     Gaining height exactly when the fly meter completely fills allows for going above the height cap
     """
-    display_name: str = "Collision Abuse"
+    display_name: str = "Fly Deplete Boost"
 
 class FlyGroundBounce(Choice):
     """
@@ -93,7 +93,7 @@ class FlyGroundBounce(Choice):
     Time the flight button on the frame when hitting the ground to get a bunch of height before starting flight
     It is possible but harder to do without jump (hence the separate option)
     """
-    display_name: str = "Collision Abuse"
+    display_name: str = "Fly Ground Bounce"
     option_disabled: int = 0
     option_with_jump: int = 1
     option_without_jump: int = 2

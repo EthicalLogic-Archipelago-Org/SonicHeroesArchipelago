@@ -1,4 +1,4 @@
 """
 Sonic Heroes APWorld
 """
-# from .world import SonicHeroesWorld
+from .world import SonicHeroesWorld

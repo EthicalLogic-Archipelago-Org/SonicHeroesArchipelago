@@ -19,7 +19,9 @@ from ..constants.items_events import OBJ_SANITY_EVENT_ITEM, UT_GLITCH_ITEM, DARK
     ROSE_OBJ_SANITY_AMOUNT, PROGRESSIVE
 from ..constants.stage import Act, Stage, StageType
 from ..constants.stage_objs import StageObj
-from ..helper_functions import get_abilities_for_char, get_abilities_for_team, get_all_characters_for_team, get_correct_ability_item_name, get_playable_char_item_name, is_rule_caching_enabled, get_characters_in_team_with_ability, is_this_act_enabled
+from ..helper_functions import get_abilities_for_char, get_abilities_for_team, get_all_characters_for_team, \
+    get_correct_ability_item_name, get_playable_char_item_name, is_rule_caching_enabled, \
+    get_characters_in_team_with_ability, is_this_act_enabled, get_stage_obj_item_name
 from ..rule_builder.functions_stage_obj import has_stage_obj_rule
 
 from ..world_base import SonicHeroesWorldBase
@@ -71,7 +73,7 @@ class SonicHeroesMacroRule(WrapperRule[SonicHeroesWorldBase], game=SONIC_HEROES)
 
         @override
         def _evaluate(self, state: CollectionState) -> bool:
-            return state.has("Item Here", self.player)
+            return self.child(state=state)
 
         @override
         def __str__(self) -> str:
@@ -104,6 +106,8 @@ class HasCharacter(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
                 rule |= Has(item_name=f"{PROGRESSIVE} {team.value} {Ability.HOMING_ATTACK.ability_name}", count=2)
             case Ability.INVISIBILITY:
                 rule |= Has(item_name=f"{PROGRESSIVE} {team.value} {Ability.TORNADO.ability_name}", count=2)
+            # case Ability.LIGHT_ATTACK: # <- handled by function in functions_ability_char (macro)
+            #     rule &= CanTeamBlast(team=team)
             case Ability.THUNDER_SHOOT:
                 rule |= Has(item_name=f"{PROGRESSIVE} {team.value} {Ability.FLIGHT.ability_name}")
             case Ability.FLIGHT:
@@ -137,11 +141,11 @@ class HasLevelForCharacter(HasCharacter, game=SONIC_HEROES):
             case 0:
                 return True_[SonicHeroesWorldBase]()
             case 1:
-                return AtLeast(*ability_rules, count=1)
+                return AtLeast(1, *ability_rules)
             case 2:
-                return AtLeast(*ability_rules, count=ceil(len(ability_rules) / 2))
+                return AtLeast(ceil(len(ability_rules) / 2), *ability_rules)
             case 3:
-                return AtLeast(*ability_rules, count=len(ability_rules))
+                return AtLeast(len(ability_rules), *ability_rules)
             case _:
                 return False_[SonicHeroesWorldBase]()
 
@@ -154,6 +158,18 @@ class HasAbilityForCharacter(HasLevelForCharacter, game=SONIC_HEROES):
     @override
     def _instantiate(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
         return (self._has_char_rule(world=world) & self._get_ability_rule(world=world, ability=self.ability) & self._has_level_rule(world=world)).resolve(world=world)
+
+
+@dataclasses.dataclass(kw_only=True)
+class HasAllAbilitiesForCharacter(HasLevelForCharacter, game=SONIC_HEROES):
+    """Checks if you have the Character Item and all Abilities except JUMP. Level is ignored"""
+
+    @override
+    def _instantiate(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
+        rule: Rule[SonicHeroesWorldBase] = self._has_char_rule(world=world)
+        for ability in self.character.get_abilities(world=world):
+            rule &= self._get_ability_rule(world=world, ability=ability)
+        return rule.resolve(world=world)
 
 
 @dataclasses.dataclass(kw_only=True)
@@ -203,7 +219,7 @@ class HasAbilityForTeam(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
                     continue
                 rule |= HasCharacter(character=char)
         elif self.num_other_chars == 2:
-            rule = True_[SonicHeroesWorldBase]()
+            rule |= True_[SonicHeroesWorldBase]()
             for char in get_all_characters_for_team(world=world, team=self.team):
                 if char is character:
                     continue
@@ -334,25 +350,21 @@ class CanAutoPowerAttack(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
         return rule.resolve(world=world)
 
 
-
 @dataclasses.dataclass(kw_only=True)
 class CanTeamBlast(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
-    """Rule for Team Blast, needs Team and Stage"""
+    """Rule for Team Blast, needs Team"""
     team: Team
-    stage: Stage
 
     @override
     def _instantiate(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
-        combined_ability_rule: Rule[SonicHeroesWorldBase] = True_[SonicHeroesWorldBase]()
-        combined_ability_rule &= HasAll(*[get_playable_char_item_name(character=char) for char in get_all_characters_for_team(world=world, team=self.team)])
-        combined_ability_rule &= HasAll(*[get_correct_ability_item_name(world=world, team=self.team, ability=ability) for ability in get_abilities_for_team(world=world, team=self.team)])
-        return SonicHeroesMacroRule(child=combined_ability_rule, name=f"Team Blast in {self.stage.stage_name} as Team: {self.team}", description="Team Blast Description Here").resolve(world=world)
+        rule: Rule[SonicHeroesWorldBase] = True_[SonicHeroesWorldBase]()
 
-    def _get_all_abilities_for_char_rule(self, world: SonicHeroesWorldBase, character: Character) -> Rule[SonicHeroesWorldBase]:
-
-        pass
-
-
+        for character in get_all_characters_for_team(world=world, team=self.team):
+            rule &= HasCharacter(character=character)
+            for ability in character.get_abilities(world=world):
+                rule &= HasAbilityForCharacter(character=character, ability=ability)
+        return rule.resolve(world=world)
+        #return SonicHeroesMacroRule(child=rule, name=f"Team Blast as Team: {self.team}", description="Team Blast Description Here").resolve(world=world)
 
 
 @dataclasses.dataclass(kw_only=True)
@@ -386,7 +398,7 @@ class CanGoalStage(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
 
 
     def _can_reach_goal_vanilla(self, world: SonicHeroesWorldBase) -> Rule[SonicHeroesWorldBase]:
-        return CanReachRegion(region_name=f"{self.stage.stage_name} {self.team} Goal") & has_stage_obj_rule(stage_obj=StageObj.GOAL_RING)
+        return CanReachRegion(region_name=f"{self.stage.stage_name} {self.team} Goal") & has_stage_obj_rule(team=self.team, stage_obj=StageObj.GOAL_RING)
 
     def _can_goal_sonic_stage(self, world: SonicHeroesWorldBase) -> Rule[SonicHeroesWorldBase]:
         if self.stage is Stage.EGG_FLEET:
@@ -439,7 +451,8 @@ class CanGetEmerald(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
         has_speed_char: Rule[SonicHeroesWorldBase] = False_[SonicHeroesWorldBase]()
         for team in world.enabled_teams:  # pyright: ignore[reportAny]
             has_speed_char |= HasFormationCharForTeam(team=team, formation=Formation.SPEED)  # pyright: ignore[reportAny]
-        return SonicHeroesMacroRule(child=has_stage_obj_rule(stage_obj=StageObj.SPECIAL_STAGE_ORBS) & has_speed_char, name=f"Get Chaos Emerald in {self.stage.stage_name}").resolve(world=world)
+        # TODO decide on team handling for Special Stage Stage objs
+        return SonicHeroesMacroRule(child=has_stage_obj_rule(team=Team.ANY_TEAM, stage_obj=StageObj.SPECIAL_STAGE_ORBS) & has_speed_char, name=f"Get Chaos Emerald in {self.stage.stage_name}").resolve(world=world)
 
 
 @dataclasses.dataclass(kw_only=True)
@@ -518,23 +531,25 @@ class HasEnemyItem(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
             return self._has_rhino_spawned(world=world)
         if isinstance(self.enemy, E2000):
             return self._has_e2000_spawned(world=world)
-        return Has(item_name=self.enemy.enemy_type).resolve(world=world)
+
+        print(f"BIG ISSUE HERE with HasEnemyItem")
+        return Has(item_name=get_stage_obj_item_name(team=self.team, stage_obj=self.enemy.obj_id)).resolve(world=world)
 
     def _has_egg_flapper_spawned(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
-        return Has(item_name=EnemyType.EGG_FLAPPER).resolve(world=world)
+        return Has(item_name=get_stage_obj_item_name(team=self.team, stage_obj=self.enemy.obj_id)).resolve(world=world)
     def _has_egg_pawn_spawned(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
-        return Has(item_name=EnemyType.EGG_PAWN).resolve(world=world)
+        return Has(item_name=get_stage_obj_item_name(team=self.team, stage_obj=self.enemy.obj_id)).resolve(world=world)
     def _has_klagen_spawned(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
-        return Has(item_name=EnemyType.KLAGEN).resolve(world=world)
+        return Has(item_name=get_stage_obj_item_name(team=self.team, stage_obj=self.enemy.obj_id)).resolve(world=world)
     def _has_falco_spawned(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
-        return Has(item_name=EnemyType.FALCO).resolve(world=world)
+        return Has(item_name=get_stage_obj_item_name(team=self.team, stage_obj=self.enemy.obj_id)).resolve(world=world)
     def _has_egg_hammer_spawned(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
-        return Has(item_name=EnemyType.EGG_HAMMER).resolve(world=world)
+        return Has(item_name=get_stage_obj_item_name(team=self.team, stage_obj=self.enemy.obj_id)).resolve(world=world)
     def _has_cameron_spawned(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
-        return Has(item_name=EnemyType.CAMERON).resolve(world=world)
+        return Has(item_name=get_stage_obj_item_name(team=self.team, stage_obj=self.enemy.obj_id)).resolve(world=world)
     def _has_rhino_spawned(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
-        return Has(item_name=EnemyType.RHINO).resolve(world=world)
+        return Has(item_name=get_stage_obj_item_name(team=self.team, stage_obj=self.enemy.obj_id)).resolve(world=world)
     def _has_egg_bishop_spawned(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
-        return Has(item_name=EnemyType.EGG_BISHOP).resolve(world=world)
+        return Has(item_name=get_stage_obj_item_name(team=self.team, stage_obj=self.enemy.obj_id)).resolve(world=world)
     def _has_e2000_spawned(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
-        return Has(item_name=EnemyType.E2000).resolve(world=world)
+        return Has(item_name=get_stage_obj_item_name(team=self.team, stage_obj=self.enemy.obj_id)).resolve(world=world)

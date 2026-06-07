@@ -13,4 +13,4 @@ from ..world_base import SonicHeroesWorldBase
 
 
 def can_goal_rule() -> Rule[SonicHeroesWorldBase]:
-    return CanTeamBlast(team=Team.DARK, stage=Stage.SEASIDE_HILL) & HasFromListUnique(*[emerald.value for emerald in ChaosEmerald], count=7)
+    return CanTeamBlast(team=Team.DARK) & HasFromListUnique(*[emerald.value for emerald in ChaosEmerald], count=7)
