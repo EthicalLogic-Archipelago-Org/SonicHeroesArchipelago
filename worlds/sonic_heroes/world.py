@@ -24,7 +24,7 @@ from .ut.ut_world import SonicHeroesUTWorld
 
 class SonicHeroesWorld(SonicHeroesUTWorld):
     """
-        Sonic Heroes is a great game with no issues. The PC port is a great port of the first Sonic Game to release on multiple consoles (from the start).
+    Sonic Heroes is a great game with no issues. The PC port is a great port of the first Sonic Game to release on multiple consoles (from the start).
     """
     game: ClassVar[str] = SONIC_HEROES
     item_name_groups: ClassVar[dict[str, set[str]]] = FULL_ITEM_GROUPS
@@ -162,7 +162,6 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
         from Utils import visualize_regions
         state: CollectionState = self.multiworld.get_all_state()
         state.update_reachable_regions(self.player)
-
         reachable_regions: set[Region] = set(state.reachable_regions[self.player])
         unreachable_regions: set[Region] = set()  # type: ignore
         for region in self.multiworld.regions:

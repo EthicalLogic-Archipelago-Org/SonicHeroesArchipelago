@@ -1,7 +1,7 @@
 """
 The World For Universal Tracker
 """
-from typing import override, Any, ClassVar, Optional
+from typing import override, Any, ClassVar
 
 from BaseClasses import CollectionState, MultiWorld
 from NetUtils import JSONMessagePart

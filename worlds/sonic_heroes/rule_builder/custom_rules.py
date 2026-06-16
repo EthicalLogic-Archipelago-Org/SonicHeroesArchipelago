@@ -8,7 +8,7 @@ from typing import override
 
 from BaseClasses import CollectionState
 from NetUtils import JSONMessagePart
-from rule_builder.options import OptionFilter
+from rule_builder.options import OPERATOR_STRINGS, OptionFilter
 from rule_builder.rules import AtLeast, HasAll, HasAny, HasFromListUnique, Rule, WrapperRule, Has, True_, False_, CanReachRegion
 
 
@@ -461,9 +461,11 @@ class TrickRule(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
 
     @override
     def _instantiate(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
+        _trick_filter: str = f"{self._handle_operator()}{self.option_filter.option.handle_logic_trick_explain(self.option_filter.value)}" # pyright: ignore[reportUnknownMemberType, reportAttributeAccessIssue, reportAny]
+
         return self.Resolved(
             in_logic=self.option_filter.check(world.options),
-            trick_filter=str(self.option_filter),
+            trick_filter=_trick_filter,
             glitch_item_name=UT_GLITCH_ITEM,
             player=world.player,
             caching_enabled=is_rule_caching_enabled(world=world)
@@ -473,6 +475,13 @@ class TrickRule(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
     # def __str__(self) -> str:
     #     return self.trick_filter
 
+    def _handle_operator(self) -> str:
+        if self.option_filter.operator in ["ne", "gt", "lt", "ge", "le"]:
+            return f"{OPERATOR_STRINGS[self.option_filter.operator]} "
+        return ""
+
+
+
     class Resolved(Rule.Resolved):
         in_logic: bool
         trick_filter: str
@@ -480,7 +489,7 @@ class TrickRule(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
 
         @override
         def _evaluate(self, state: CollectionState) -> bool:
-            return state.has(item=self.glitch_item_name, player=self.player)
+            return self.in_logic or state.has(item=self.glitch_item_name, player=self.player)
 
         @override
         def explain_json(self, state: CollectionState | None = None) -> list[JSONMessagePart]:
@@ -503,7 +512,10 @@ class TrickRule(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
 
         @override
         def __str__(self) -> str:
-            return f"{'LogicTrick' if self.in_logic else 'OutOfLogic'}[{self.trick_filter}]"
+            return self.trick_filter
+
+
+        # TODO handle caching here
 
 
 @dataclasses.dataclass(kw_only=True)

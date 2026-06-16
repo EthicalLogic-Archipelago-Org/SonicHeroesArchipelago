@@ -2,12 +2,35 @@
 Options for Sonic Heroes AP
 """
 import dataclasses
-from typing import ClassVar
+from typing import ClassVar, Self
+from unittest import case
 
-from Options import Choice, DefaultOnToggle, OptionGroup, PerGameCommonOptions, Toggle, Visibility, OptionError
+from Options import Choice, OptionGroup, PerGameCommonOptions, Toggle, Visibility, OptionError
+from rule_builder.options import OPERATOR_STRINGS
 
 
-class MakePuml(Toggle):
+class SonicHeroesToggle(Toggle):
+    """
+    Stuff
+    """
+    display_name: str = "Sonic Heroes Toggle"
+
+    @classmethod
+    def handle_logic_trick_explain(cls, expected_value: int = Toggle.option_true) -> str:
+        return cls.display_name
+
+
+class SonicHeroesDefaultOnToggle(SonicHeroesToggle):
+    """
+    Stuff
+    """
+    default: ClassVar[int] = Toggle.option_true
+
+
+
+
+
+class MakePuml(SonicHeroesToggle):
     """
     Should This APWorld Make a Puml File?
     """
@@ -15,7 +38,7 @@ class MakePuml(Toggle):
     visibility: Visibility = Visibility.none
 
 
-class ProgressiveAbilityItems(DefaultOnToggle):
+class ProgressiveAbilityItems(SonicHeroesDefaultOnToggle):
     """
     Replace some (but not all) ability items with a progressive ability item
     Homing -> Triangle Jump
@@ -46,7 +69,21 @@ class Difficulty(Choice):
     option_medium: int = 1
     default: ClassVar[int] = option_none
 
-class BadnikBounce(Toggle):
+    @classmethod
+    def handle_logic_trick_explain(cls, expected_value: int)-> str:
+        match expected_value:
+            case cls.option_none:
+                return f"Base Difficulty"
+            case cls.option_medium:
+                return f"Medium Difficulty"
+            case _:
+                raise ValueError(f"Invalid expected value for handle logic trick explain")
+
+    # OutofLogic[Difficulty >= 1]
+    # Medium Difficulty
+
+
+class BadnikBounce(SonicHeroesToggle):
     """
     Should Badnik Bounce trick be enabled logically?
     This involves jumping into enemies in order to gain extra height
@@ -54,12 +91,14 @@ class BadnikBounce(Toggle):
     """
     display_name: str = "Badnik Bounce"
 
-class CollisAbuse(Toggle):
+
+class CollisAbuse(SonicHeroesToggle):
     """
     Should Collision Abuse trick be enabled logically?
     This refers to jumping into slanted walls and collision to gain extra height
     """
     display_name: str = "Collision Abuse"
+
 
 class HoverFrame(Choice):
     """
@@ -73,19 +112,39 @@ class HoverFrame(Choice):
     option_jump_and_homing_or_tornado_hover: int = 2
     default: ClassVar[int] = option_disabled
 
-class Parkour(Toggle):
+    @classmethod
+    def handle_logic_trick_explain(cls, expected_value: int) -> str:
+        match expected_value:
+            case cls.option_disabled:
+                return f"Hover Frame Disabled"
+            case cls.option_jump_hover:
+                return f"Jump Hover Frame"
+            case cls.option_jump_and_homing_or_tornado_hover:
+                return f"Jump and Homing/Tornado Hover Frame"
+            case _:
+                raise ValueError(f"Invalid expected value for handle logic trick explain")
+
+
+
+class Parkour(SonicHeroesToggle):
     """
     Should Parkour be enabled logically?
     Parkour involves tricky collision like staying on the small "guardrails" on either side of the path on Seaside Hill
     """
     display_name: str = "Parkour"
 
-class FlyDepleteBoost(Toggle):
+
+
+class FlyDepleteBoost(SonicHeroesToggle):
     """
     Should the Fly Deplete Boost trick be enabled logically?
     Gaining height exactly when the fly meter completely fills allows for going above the height cap
     """
     display_name: str = "Fly Deplete Boost"
+
+
+
+
 
 class FlyGroundBounce(Choice):
     """
@@ -98,6 +157,18 @@ class FlyGroundBounce(Choice):
     option_with_jump: int = 1
     option_without_jump: int = 2
     default: ClassVar[int] = option_disabled
+
+    @classmethod
+    def handle_logic_trick_explain(cls, expected_value: int) -> str:
+        match expected_value:
+            case cls.option_disabled:
+                return f"Fly Ground Bounce Disabled"
+            case cls.option_with_jump:
+                return f"Fly Ground Bounce With Jump"
+            case cls.option_without_jump:
+                return f"Fly Ground Bounce Without Jump"
+            case _:
+                raise ValueError(f"Invalid expected value for handle logic trick explain")
 
 
 

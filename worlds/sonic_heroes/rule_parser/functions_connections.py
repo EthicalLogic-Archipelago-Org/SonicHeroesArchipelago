@@ -32,7 +32,7 @@ def parse_connection_csv(team: Team, stage: Stage, secret: bool = False) -> None
         connection_str_list: list[str] = []
         for x in reader:
             connection_id += 1
-            connection_name: str = f"{stage.stage_name} {team} Connection {connection_id}"
+            connection_name: str = f"{stage.stage_name} {team} {x[SOURCE_HEADER]} -> {x[TARGET_HEADER]}"
             source_reg: str = f"{stage.stage_name} {team} {x[SOURCE_HEADER]}"
             target_reg: str = f"{stage.stage_name} {team} {x[TARGET_HEADER]}"
             parsed_rule_str: str = ""
