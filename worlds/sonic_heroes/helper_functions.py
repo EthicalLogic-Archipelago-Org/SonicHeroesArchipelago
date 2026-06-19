@@ -85,6 +85,7 @@ def is_this_act_enabled(world: SonicHeroesWorldBase, team: Team, act: Act) -> bo
             match act:
                 case Act.BOTH_ACTS:
                     return EnabledTeamActs.SONIC_ACT_A in world.enabled_team_acts_flag and EnabledTeamActs.SONIC_ACT_B in world.enabled_team_acts_flag
+                # TODO separate Act A and B (causing issues)
                 case Act.ACT_A | Act.ACT_B:
                     return EnabledTeamActs.SONIC_ACT_A in world.enabled_team_acts_flag or EnabledTeamActs.SONIC_ACT_B in world.enabled_team_acts_flag
 
