@@ -10,7 +10,7 @@ from rule_builder.rules import Rule
 from worlds.sonic_heroes.constants.rings import RING_GROUP
 from worlds.sonic_heroes.options import RingSanityDark
 
-from ..helper_functions import get_default_true_rule, is_this_act_enabled
+from ..helper_functions import get_default_true_rule, is_this_act_enabled, is_this_team_enabled
 
 # if TYPE_CHECKING:
 from .char_ability import Team
@@ -47,11 +47,12 @@ class LocationType(enum.StrEnum):
     OBJ_SANITY = "ObjSanity"
     KEY_SANITY = "KeySanity"
     CHECKPOINT_SANITY = "CheckpointSanity"
-    ENEMY_SANITY = "EnemySanity"
+    BINGO_CHIP_SANITY = "BingoChipSanity"
     HINT_RING_SANITY = "HintRingSanity"
     ITEM_BALLOON_BOX_SANITY = "ItemBalloonBoxSanity"
-    RING_SANITY = "RingSanity"
-    BINGO_CHIP_SANITY = "BingoChipSanity"
+    ENEMY_SANITY = "EnemySanity"
+    RING_SANITY_GROUP = "RingSanityGroup"
+    RING_SANITY_INDIVIDUAL = "RingSanityIndividual"
 
     EVENT = "Event Location"
 
@@ -71,11 +72,12 @@ class LocationType(enum.StrEnum):
         LocationType.OBJ_SANITY,
         LocationType.KEY_SANITY,
         LocationType.CHECKPOINT_SANITY,
-        LocationType.ENEMY_SANITY,
+        LocationType.BINGO_CHIP_SANITY,
         LocationType.HINT_RING_SANITY,
         LocationType.ITEM_BALLOON_BOX_SANITY,
-        LocationType.RING_SANITY,
-        LocationType.BINGO_CHIP_SANITY,
+        LocationType.ENEMY_SANITY,
+        LocationType.RING_SANITY_GROUP,
+        LocationType.RING_SANITY_INDIVIDUAL,
     ]
 
 
@@ -110,8 +112,13 @@ class SonicHeroesLocationData:
 
 
     def is_enabled(self, world: SonicHeroesWorldBase) -> bool:
-        if world.enabled_team_acts[self.team] is Act.NONE:  # pyright: ignore[reportAny]
-            return False
+        if self.act == 0:
+            if self.team is not Team.ANY_TEAM and not is_this_team_enabled(world=world, team=self.team):
+                return False
+        else:
+            if not is_this_act_enabled(world=world, team=self.team, act=Act(value=self.act)):
+                return False
+
 
         match self.loc_type:
             case LocationType.LEVEL:
@@ -121,6 +128,7 @@ class SonicHeroesLocationData:
             case LocationType.EMERALD:
                 return True
             case LocationType.OBJ_SANITY:
+                # TODO handle check size here
                 return is_this_act_enabled(world=world, team=self.team, act=Act(value=self.act)) and self.act & world.enabled_sanity_acts[self.team][self.loc_type] > 0  # pyright: ignore[reportAny]
 
             case LocationType.KEY_SANITY | LocationType.CHECKPOINT_SANITY | LocationType.HINT_RING_SANITY | LocationType.ITEM_BALLOON_BOX_SANITY | LocationType.ENEMY_SANITY | LocationType.BINGO_CHIP_SANITY:
@@ -129,14 +137,21 @@ class SonicHeroesLocationData:
                     return world.enabled_sanity_acts[self.team][self.loc_type] is not Act.NONE and world.enabled_sanity_acts[self.team][self.loc_type] is not Act.BOTH_ACTS  # pyright: ignore[reportAny]
                 return world.enabled_sanity_acts[self.team][self.loc_type] is Act.BOTH_ACTS  # pyright: ignore[reportAny]
 
-            case LocationType.RING_SANITY:
+            case LocationType.RING_SANITY_GROUP:
                 should_add_group: bool = world.options.ring_sanity_dark == RingSanityDark.option_groups and RING_GROUP in self.name
-                should_add_individual: bool = world.options.ring_sanity_dark == RingSanityDark.option_all_rings and RING_GROUP not in self.name
-                matches_option: bool = should_add_group or should_add_individual
                 if Act(value=self.act) is Act.NONE:
                     # Only 1 Set
-                    return matches_option and world.enabled_sanity_acts[self.team][self.loc_type] is not Act.NONE and world.enabled_sanity_acts[self.team][self.loc_type] is not Act.BOTH_ACTS  # pyright: ignore[reportAny]
-                return matches_option and world.enabled_sanity_acts[self.team][self.loc_type] is Act.BOTH_ACTS  # pyright: ignore[reportAny]
+                    return should_add_group and world.enabled_sanity_acts[self.team][self.loc_type] is not Act.NONE and world.enabled_sanity_acts[self.team][self.loc_type] is not Act.BOTH_ACTS  # pyright: ignore[reportAny]
+                return should_add_group and world.enabled_sanity_acts[self.team][self.loc_type] is Act.BOTH_ACTS  # pyright: ignore[reportAny]
+
+            case LocationType.RING_SANITY_INDIVIDUAL:
+                should_add_individual: bool = world.options.ring_sanity_dark == RingSanityDark.option_all_rings and RING_GROUP not in self.name
+                if Act(value=self.act) is Act.NONE:
+                    # Only 1 Set
+                    return should_add_individual and world.enabled_sanity_acts[self.team][self.loc_type] is not Act.NONE and world.enabled_sanity_acts[self.team][self.loc_type] is not Act.BOTH_ACTS  # pyright: ignore[reportAny]
+                return should_add_individual and world.enabled_sanity_acts[self.team][self.loc_type] is Act.BOTH_ACTS  # pyright: ignore[reportAny]
+
+
             case LocationType.EVENT:
                 return True
         raise ValueError(f"LocationData is_enabled didnt return")

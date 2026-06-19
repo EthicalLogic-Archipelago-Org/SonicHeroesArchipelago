@@ -255,12 +255,12 @@ def generate_hint_ring_sanity_locations() -> None:
         # destruction
         append_sanity_location_with_act(name=f"{hint_ring_data.location_name}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=0, parent_region=f"{hint_ring_data.region_name}", rule_str=f"HintRing", rule=hint_ring_data.rule, loc_type=LocationType.HINT_RING_SANITY, location_groups=[HINT_RING_SANITY_LOCATION_GROUP])
 
-    #loc_id = LOCATION_START_ID_OFFSET + 0x2500
+    loc_id = LOCATION_START_ID_OFFSET + 0x2600
 
     for hint_ring_data in parser_hint_ring_mapping[stage][team]:
         append_sanity_location_with_act(name=f"{hint_ring_data.location_name}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=1, parent_region=f"{hint_ring_data.region_name}", rule_str=f"HintRing", rule=hint_ring_data.rule, loc_type=LocationType.HINT_RING_SANITY, location_groups=[HINT_RING_SANITY_LOCATION_GROUP])
 
-    #loc_id = LOCATION_START_ID_OFFSET + 0x2600
+    loc_id = LOCATION_START_ID_OFFSET + 0x2800
 
     for hint_ring_data in parser_hint_ring_mapping[stage][team]:
         append_sanity_location_with_act(name=f"{hint_ring_data.location_name}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=2, parent_region=f"{hint_ring_data.region_name}", rule_str=f"HintRing", rule=hint_ring_data.rule, loc_type=LocationType.HINT_RING_SANITY, location_groups=[HINT_RING_SANITY_LOCATION_GROUP])
@@ -268,7 +268,7 @@ def generate_hint_ring_sanity_locations() -> None:
 
 def generate_item_balloons_boxes_sanity_locations() -> None:
     global loc_id
-    loc_id = LOCATION_START_ID_OFFSET + 0x2500
+    loc_id = LOCATION_START_ID_OFFSET + 0x3000
 
     stage: Stage = Stage.SEASIDE_HILL
     team: Team = Team.DARK
@@ -278,7 +278,7 @@ def generate_item_balloons_boxes_sanity_locations() -> None:
         rule_str: str = f"ItemBalloon" if isinstance(item_balloon_box_data, ItemBalloonData) else f"ItemBox"
         append_sanity_location_with_act(name=f"{item_balloon_box_data.location_name}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=0, parent_region=f"{item_balloon_box_data.region_name}", rule_str=rule_str, rule=item_balloon_box_data.rule, loc_type=LocationType.ITEM_BALLOON_BOX_SANITY, location_groups=[ITEM_BALLOON_BOX_SANITY_LOCATION_GROUP])
 
-    #loc_id = LOCATION_START_ID_OFFSET + 0x2
+    loc_id = LOCATION_START_ID_OFFSET + 0x4000
 
     stage = Stage.SEASIDE_HILL
     team = Team.DARK
@@ -288,7 +288,7 @@ def generate_item_balloons_boxes_sanity_locations() -> None:
         rule_str = f"ItemBalloon" if isinstance(item_balloon_box_data, ItemBalloonData) else f"ItemBox"
         append_sanity_location_with_act(name=f"{item_balloon_box_data.location_name}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=1, parent_region=f"{item_balloon_box_data.region_name}", rule_str=rule_str, rule=item_balloon_box_data.rule, loc_type=LocationType.ITEM_BALLOON_BOX_SANITY, location_groups=[ITEM_BALLOON_BOX_SANITY_LOCATION_GROUP])
 
-    #loc_id = LOCATION_START_ID_OFFSET + 0x2
+    loc_id = LOCATION_START_ID_OFFSET + 0x5000
 
     stage = Stage.SEASIDE_HILL
     team = Team.DARK
@@ -301,7 +301,7 @@ def generate_item_balloons_boxes_sanity_locations() -> None:
 
 def generate_enemy_sanity_locations() -> None:
     global loc_id
-    loc_id = LOCATION_START_ID_OFFSET + 0x2600
+    loc_id = LOCATION_START_ID_OFFSET + 0x6000
 
     stage: Stage = Stage.SEASIDE_HILL
     team: Team = Team.DARK
@@ -311,7 +311,7 @@ def generate_enemy_sanity_locations() -> None:
         append_sanity_location_with_act(name=f"{enemy_data.location_name}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=0, parent_region=f"{enemy_data.region_name}", rule_str=f"{enemy_data.enemy_type}", rule=enemy_data.rule, loc_type=LocationType.ENEMY_SANITY, location_groups=[ENEMY_SANITY_LOCATION_GROUP])
 
 
-    #loc_id = LOCATION_START_ID_OFFSET + 0x2
+    loc_id = LOCATION_START_ID_OFFSET + 0x7000
 
     stage = Stage.SEASIDE_HILL
     team = Team.DARK
@@ -320,7 +320,7 @@ def generate_enemy_sanity_locations() -> None:
         # destruction
         append_sanity_location_with_act(name=f"{enemy_data.location_name}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=1, parent_region=f"{enemy_data.region_name}", rule_str=f"{enemy_data.enemy_type}", rule=enemy_data.rule, loc_type=LocationType.ENEMY_SANITY, location_groups=[ENEMY_SANITY_LOCATION_GROUP])
 
-    #loc_id = LOCATION_START_ID_OFFSET + 0x2
+    loc_id = LOCATION_START_ID_OFFSET + 0x8000
 
     stage = Stage.SEASIDE_HILL
     team = Team.DARK
@@ -343,13 +343,23 @@ def generate_ring_sanity_group_locations() -> None:
     team: Team = Team.DARK
 
     for ring_data in parser_ring_mapping[stage][team]:
-        append_sanity_location_with_act(name=f"{ring_data.location_name} {RING_GROUP}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=0, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY, location_groups=[RING_SANITY_LOCATION_GROUP])
+        if ring_data.id_offset > 0:
+            continue
+        append_sanity_location_with_act(name=f"{ring_data.location_name} {RING_GROUP}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=0, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY_GROUP, location_groups=[RING_SANITY_LOCATION_GROUP])
+
+    loc_id = LOCATION_START_ID_OFFSET + 0x21000
 
     for ring_data in parser_ring_mapping[stage][team]:
-        append_sanity_location_with_act(name=f"{ring_data.location_name} {RING_GROUP}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=1, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY, location_groups=[RING_SANITY_LOCATION_GROUP])
+        if ring_data.id_offset > 0:
+            continue
+        append_sanity_location_with_act(name=f"{ring_data.location_name} {RING_GROUP}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=1, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY_GROUP, location_groups=[RING_SANITY_LOCATION_GROUP])
+
+    loc_id = LOCATION_START_ID_OFFSET + 0x22000
 
     for ring_data in parser_ring_mapping[stage][team]:
-        append_sanity_location_with_act(name=f"{ring_data.location_name} {RING_GROUP}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=2, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY, location_groups=[RING_SANITY_LOCATION_GROUP])
+        if ring_data.id_offset > 0:
+            continue
+        append_sanity_location_with_act(name=f"{ring_data.location_name} {RING_GROUP}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=2, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY_GROUP, location_groups=[RING_SANITY_LOCATION_GROUP])
 
 
 def generate_ring_sanity_individual_ring_locations() -> None:
@@ -360,16 +370,26 @@ def generate_ring_sanity_individual_ring_locations() -> None:
     team: Team = Team.DARK
 
     for ring_data in parser_ring_mapping[stage][team]:
+        if ring_data.id_offset > 0:
+            continue
         for x in range(ring_data.num_rings):
-            append_sanity_location_with_act(name=f"{ring_data.location_name} Ring {x + 1}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=0, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY, location_groups=[RING_SANITY_LOCATION_GROUP])
+            append_sanity_location_with_act(name=f"{ring_data.location_name} Ring {x + 1}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=0, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY_INDIVIDUAL, location_groups=[RING_SANITY_LOCATION_GROUP])
+
+    loc_id = LOCATION_START_ID_OFFSET + 0x40000
 
     for ring_data in parser_ring_mapping[stage][team]:
+        if ring_data.id_offset > 0:
+            continue
         for x in range(ring_data.num_rings):
-            append_sanity_location_with_act(name=f"{ring_data.location_name} Ring {x + 1}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=1, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY, location_groups=[RING_SANITY_LOCATION_GROUP])
+            append_sanity_location_with_act(name=f"{ring_data.location_name} Ring {x + 1}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=1, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY_INDIVIDUAL, location_groups=[RING_SANITY_LOCATION_GROUP])
+
+    loc_id = LOCATION_START_ID_OFFSET + 0x50000
 
     for ring_data in parser_ring_mapping[stage][team]:
+        if ring_data.id_offset > 0:
+            continue
         for x in range(ring_data.num_rings):
-            append_sanity_location_with_act(name=f"{ring_data.location_name} Ring {x + 1}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=2, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY, location_groups=[RING_SANITY_LOCATION_GROUP])
+            append_sanity_location_with_act(name=f"{ring_data.location_name} Ring {x + 1}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=2, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY_INDIVIDUAL, location_groups=[RING_SANITY_LOCATION_GROUP])
 
 
 def generate_all_event_locations() -> None:

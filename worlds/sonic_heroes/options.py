@@ -2,11 +2,9 @@
 Options for Sonic Heroes AP
 """
 import dataclasses
-from typing import ClassVar, Self
-from unittest import case
+from typing import ClassVar
 
 from Options import Choice, OptionGroup, PerGameCommonOptions, Toggle, Visibility, OptionError
-from rule_builder.options import OPERATOR_STRINGS
 
 
 class SonicHeroesToggle(Toggle):

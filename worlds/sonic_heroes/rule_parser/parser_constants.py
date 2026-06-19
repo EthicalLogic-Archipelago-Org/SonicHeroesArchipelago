@@ -37,6 +37,7 @@ NUM_RINGS_HEADER: str = "NumRings"
 LENGTH_HEADER: str = "Length"
 RADIUS_HEADER: str = "Radius"
 LINK_ID_HEADER: str = "LinkID"
+ID_OFFSET_HEADER: str = "ID Offset"
 
 
 PARSER_DOCSTRING_MSG: str = \

@@ -67,6 +67,7 @@ def parse_ring_csv(team: Team, stage: Stage, secret: bool = False) -> None:
                 "y": str(x[Y_HEADER]),
                 "z": str(x[Z_HEADER]),
                 "rule": parsed_rule_str,
+                "id_offset": str(x[ID_OFFSET_HEADER])
             }
 
             ring_str_list.append(get_parsed_entry_str(entry_class_name=class_str, params=params_dict))

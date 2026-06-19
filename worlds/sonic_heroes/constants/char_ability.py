@@ -14,7 +14,7 @@ class Team(enum.StrEnum):
     DARK = "Dark"
     ROSE = "Rose"
     CHAOTIX = "Chaotix"
-    SUPER_HARD_MODE = "Super Hard Mode"
+    SUPER_HARD_MODE = "SuperHardMode"
 
 
 

@@ -18,11 +18,11 @@ from worlds.sonic_heroes.parsed_data import *
 
 
 def parse_team_stage(team: Team, stage: Stage) -> None:
-    parse_region_csv(team=team, stage=stage)
-    parse_connection_csv(team=team, stage=stage)
+    # parse_region_csv(team=team, stage=stage)
+    # parse_connection_csv(team=team, stage=stage)
     # parse_hint_ring_csv(team=team, stage=stage)
     # parse_item_box_balloon_csv(team=team, stage=stage)
-    # parse_ring_csv(team=team, stage=stage)
+    parse_ring_csv(team=team, stage=stage)
     # parse_enemy_csv(team=team, stage=stage)
 
 

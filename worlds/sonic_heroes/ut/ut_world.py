@@ -11,7 +11,7 @@ from ..constants.apworld import GENERATION_IS_FAKE_ATTR, RE_GEN_PASSTHROUGH_ATTR
 from ..constants.char_ability import Team
 from ..constants.items_events import UT_GLITCH_ITEM
 from ..constants.loc_region import LocationType
-from ..constants.stage import Act
+from ..constants.stage import Act, EnabledTeamActs
 from ..world_base import SonicHeroesWorldBase
 
 
@@ -22,8 +22,7 @@ class SonicHeroesUTWorld(SonicHeroesWorldBase):
 
     def __init__(self, multiworld: MultiWorld, player: int) -> None:
         super().__init__(multiworld=multiworld, player=player)
-        self.enabled_team_acts: dict[Team, Act] = {team: Act.NONE for team in Team}
-        """Dict of Team to enabled Acts flag"""
+        self.enabled_team_acts_flag: EnabledTeamActs = EnabledTeamActs.NONE
         self.enabled_sanity_acts: dict[Team, dict[LocationType, Act]] = {team: {loc_type: Act.NONE for loc_type in LocationType.get_sanity_types()} for team in Team}
         """Dict of Team to Sanity Type to Act Flag"""
 

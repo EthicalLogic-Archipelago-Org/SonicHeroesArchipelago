@@ -18,7 +18,7 @@ from .location_generation import FULL_LOCATION_DICT, FULL_LOCATION_GROUPS
 from .constants.apworld import SONIC_HEROES, VICTORY_ITEM
 from .constants.char_ability import Team, Character
 from .constants.loc_region import MENU_REGION_NAME, LocationType, SonicHeroesLocationData
-from .constants.stage import Act, Stage
+from .constants.stage import Act, EnabledTeamActs, Stage
 from .ut.ut_world import SonicHeroesUTWorld
 
 
@@ -34,6 +34,7 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
 
     def __init__(self, multiworld: MultiWorld, player: int) -> None:
         super().__init__(multiworld=multiworld, player=player)
+        self.apworld_version: str = "2.2.0"
 
 
     @override
@@ -59,10 +60,12 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
         # check options
 
         #handle options
-        self.enabled_team_acts[Team.DARK] = Act.BOTH_ACTS
+        self.enabled_team_acts_flag |= EnabledTeamActs.DARK_ACT_A  # pyright: ignore[reportUnannotatedClassAttribute]
+        self.enabled_team_acts_flag |= EnabledTeamActs.DARK_ACT_B
         self.enabled_sanity_acts[Team.DARK] = {loc_type: Act.BOTH_ACTS for loc_type in LocationType.get_sanity_types()}
+        self.enabled_sanity_acts[Team.DARK][LocationType.OBJ_SANITY] = Act.NONE
+        self.enabled_sanity_acts[Team.DARK][LocationType.RING_SANITY_GROUP] = Act.NONE
         #self.enabled_sanity_acts[Team.DARK][LocationType.ENEMY_SANITY] = Act.NONE
-        #self.enabled_sanity_acts[Team.DARK][LocationType.RING_SANITY] = Act.NONE
 
         self.starting_inventory_amounts[get_playable_char_item_name(character=Character.OMEGA)] = 1
         self.starting_inventory_amounts[get_stage_obj_item_name(team=Team.DARK, stage_obj=StageObj.CHECKPOINT)] = 1
@@ -136,8 +139,43 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
         return \
         {
             "options": self.options.as_dict("progressive_ability_items", "ring_sanity_dark", "difficulty", "badnik_bounce", "collis_abuse", "hover_frame", "parkour", "fly_deplete_boost", "fly_ground_bounce"),
-        }
 
+            "APWorldVersion": self.apworld_version,
+            "UnlockType": 0,
+            "AbilityUnlocks": 1,
+            "LegacyNumberOfLevelGates": 0,
+            "LegacyLevelGatesAllowedBosses": [],
+            "RequiredRank": 0,
+
+            "FinalBoss": 2,
+            "GoalUnlockConditions": ["Emeralds"],
+            "GoalLevelCompletions": 0,
+            "GoalLevelCompletionsPerStory": 0,
+
+            "GateEmblemCosts": [0],
+            "ShuffledLevels": [f"D{x}" for x in range(2, 16)],
+            "ShuffledBosses": ["B23"],
+            "GateLevelCounts": [14],
+
+            "ActsAndSanities":
+            {
+                "EnabledActs": self.enabled_team_acts_flag.value,
+                "SanityData":
+                {
+                    team.value.replace(" ", ""):
+                    {
+                        sanity_type.value: act.get_slot_data_int()
+                        for sanity_type, act in self.enabled_sanity_acts[team].items()
+                    }
+                    for team in Team if team is not Team.ANY_TEAM
+                },
+            },
+
+            "DarkSanity": 1,
+            "RoseSanity": 0,
+            "ChaotixSanity": 0,
+
+        }
 
     # @override
     # def write_spoiler_header(self, spoiler_handle: TextIO) -> None:

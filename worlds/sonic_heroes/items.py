@@ -10,7 +10,7 @@ from .constants.items_events import *
 from .constants.stage import Act, Stage, StageType
 from .constants.stage_objs import StageObj, SEASIDE_HILL_DARK_STAGE_OBJS
 
-from .helper_functions import get_abilities_for_char, get_all_characters_for_team, get_correct_ability_item_name, get_playable_char_item_name, get_stage_obj_item_name, get_spawn_position_item_name
+from .helper_functions import get_abilities_for_char, get_all_characters_for_team, get_correct_ability_item_name, get_playable_char_item_name, get_stage_obj_item_name, get_spawn_position_item_name, is_this_act_enabled, is_this_team_enabled
 
 
 def create_item_and_append(world: SonicHeroesWorldBase, name: str, classification: ItemClassification, amount: int = 1) -> None:
@@ -66,9 +66,10 @@ def create_emerald_items(world: SonicHeroesWorldBase) -> None:
 
 
 def create_playable_char_items(world: SonicHeroesWorldBase) -> None:
-    for team, act in world.enabled_team_acts.items():  # pyright: ignore[reportAny]
-        if act is not Act.NONE:
-            create_playable_char_items_for_team(world=world, team=team)  # pyright: ignore[reportAny]
+    for team in Team:
+        if team is not Team.ANY_TEAM:
+            if is_this_team_enabled(world=world, team=team):
+                create_playable_char_items_for_team(world=world, team=team)
 
 
 def create_playable_char_items_for_team(world: SonicHeroesWorldBase, team: Team) -> None:
@@ -77,9 +78,10 @@ def create_playable_char_items_for_team(world: SonicHeroesWorldBase, team: Team)
 
 
 def create_ability_items(world: SonicHeroesWorldBase) -> None:
-    for team, act in world.enabled_team_acts.items():  # pyright: ignore[reportAny]
-        if act is not Act.NONE:
-            create_ability_items_for_team(world=world, team=team)  # pyright: ignore[reportAny]
+    for team in Team:
+        if team is not Team.ANY_TEAM:
+            if is_this_team_enabled(world=world, team=team):
+                create_ability_items_for_team(world=world, team=team)
 
 
 def create_ability_items_for_team(world: SonicHeroesWorldBase, team: Team) -> None:
@@ -125,9 +127,10 @@ def create_stage_obj_items(world: SonicHeroesWorldBase) -> None:
 
 
 def create_spawn_position_items(world: SonicHeroesWorldBase) -> None:
-    for team, act in world.enabled_team_acts.items():  # pyright: ignore[reportAny]
-        if act is not Act.NONE:
-            create_spawn_position_items_for_team(world=world, team=team)  # pyright: ignore[reportAny]
+    for team in Team:
+        if team is not Team.ANY_TEAM:
+            if is_this_team_enabled(world=world, team=team):
+                create_spawn_position_items_for_team(world=world, team=team)
 
 
 def create_spawn_position_items_for_team(world: SonicHeroesWorldBase, team: Team) -> None:

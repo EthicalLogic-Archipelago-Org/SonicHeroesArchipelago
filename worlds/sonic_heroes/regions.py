@@ -12,7 +12,7 @@ from .constants.items_events import OBJ_SANITY, SPAWN_POSITION
 from .constants.loc_region import MENU_REGION_NAME, METAL_OVERLORD_REGION_NAME
 from .constants.stage import Stage, Act
 
-from .helper_functions import get_spawn_position_item_name
+from .helper_functions import get_spawn_position_item_name, is_this_team_enabled
 from .rule_builder.functions_stages import can_goal_rule
 from .locations import append_locations_to_region
 
@@ -55,9 +55,10 @@ def create_entrance(world: SonicHeroesWorldBase, name: str, source: str, target:
 
 
 def create_entrances(world: SonicHeroesWorldBase) -> None:
-    for team, act in world.enabled_team_acts.items():  # pyright: ignore[reportAny]
-        if act is not Act.NONE:
-            create_entrances_for_team(world=world, team=team)  # pyright: ignore[reportAny]
+    for team in Team:
+        if team is not Team.ANY_TEAM:
+            if is_this_team_enabled(world=world, team=team):
+                create_entrances_for_team(world=world, team=team)
 
     create_entrance(world=world, name=f"{MENU_REGION_NAME} -> {METAL_OVERLORD_REGION_NAME}", source=MENU_REGION_NAME, target=METAL_OVERLORD_REGION_NAME, rule=can_goal_rule())
 

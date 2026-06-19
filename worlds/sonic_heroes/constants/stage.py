@@ -5,6 +5,7 @@ from __future__ import annotations
 import dataclasses
 import enum
 from typing import override, TYPE_CHECKING, Self
+from unittest import case
 
 from .char_ability import Team
 
@@ -12,10 +13,23 @@ if TYPE_CHECKING:
     from .loc_region import SonicHeroesConnectionData, SonicHeroesRegionData
 
 
+class EnabledTeamActs(enum.IntFlag):
+    NONE = 0
+    SONIC_ACT_A = 1 << 0
+    SONIC_ACT_B = 1 << 1
+    DARK_ACT_A = 1 << 2
+    DARK_ACT_B = 1 << 3
+    ROSE_ACT_A = 1 << 4
+    ROSE_ACT_B = 1 << 5
+    CHAOTIX_ACT_A = 1 << 6
+    CHAOTIX_ACT_B = 1 << 7
+    SUPER_HARD_MODE = 1 << 8
+
+
 class Act(enum.IntFlag):
     NONE = 0
-    ACT_A = enum.auto()
-    ACT_B = enum.auto()
+    ACT_A = 1
+    ACT_B = 2
     BOTH_ACTS = ACT_A | ACT_B
 
 
@@ -32,8 +46,15 @@ class Act(enum.IntFlag):
     def is_an_act_enabled(self) -> bool:
         return self is not Act.NONE
 
-
-
+    def get_slot_data_int(self) -> int:
+        match self:
+            case Act.BOTH_ACTS:
+                return 2
+            case Act.ACT_A | Act.ACT_B:
+                return 1
+            case Act.NONE:
+                return 0
+        return 0
 
 
 class StageRegion(enum.StrEnum):
