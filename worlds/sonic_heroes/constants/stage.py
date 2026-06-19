@@ -158,7 +158,7 @@ class Stage(enum.Enum):
         checkpoints= \
             {
                 Team.ANY_TEAM: 0,
-                Team.SONIC: 5,
+                Team.SONIC: 4,
                 Team.DARK: 4,
                 Team.ROSE: 2,
                 Team.CHAOTIX: 2,
