@@ -88,7 +88,7 @@ class StageType(enum.StrEnum):
     MULTIPLAYER_SPECIAL_STAGE = "Multiplayer Special Stage"
 
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass(frozen=True, kw_only=True)
 class _StageData:
     stage_name: str
     stage_type: StageType = StageType.TEST_STAGE

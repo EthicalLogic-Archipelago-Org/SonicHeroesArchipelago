@@ -85,7 +85,6 @@ def is_this_act_enabled(world: SonicHeroesWorldBase, team: Team, act: Act) -> bo
             match act:
                 case Act.BOTH_ACTS:
                     return EnabledTeamActs.SONIC_ACT_A in world.enabled_team_acts_flag and EnabledTeamActs.SONIC_ACT_B in world.enabled_team_acts_flag
-                # TODO separate Act A and B (causing issues)
                 case Act.ACT_A | Act.ACT_B:
                     return EnabledTeamActs.SONIC_ACT_A in world.enabled_team_acts_flag or EnabledTeamActs.SONIC_ACT_B in world.enabled_team_acts_flag
 
@@ -116,4 +115,58 @@ def is_this_act_enabled(world: SonicHeroesWorldBase, team: Team, act: Act) -> bo
                 case Act.BOTH_ACTS:
                     raise ValueError(f"Checking for {act.get_act_str()} for Team {team} in is_this_act_enabled")
                 case Act.ACT_A | Act.ACT_B:
+                    return EnabledTeamActs.SUPER_HARD_MODE in world.enabled_team_acts_flag
+
+
+def is_this_specific_act_enabled(world: SonicHeroesWorldBase, team: Team, act: Act) -> bool:
+    if act is Act.NONE:
+        raise ValueError(f"Checking for {act.get_act_str()} in is_this_act_enabled")
+
+    match team:
+        case Team.ANY_TEAM:
+            raise ValueError(f"Checking for {team} in is_this_act_enabled")
+        case Team.SONIC:
+            match act:
+                case Act.BOTH_ACTS:
+                    return EnabledTeamActs.SONIC_ACT_A in world.enabled_team_acts_flag and EnabledTeamActs.SONIC_ACT_B in world.enabled_team_acts_flag
+                case Act.ACT_A:
+                    return EnabledTeamActs.SONIC_ACT_A in world.enabled_team_acts_flag
+                case Act.ACT_B:
+                    return EnabledTeamActs.SONIC_ACT_B in world.enabled_team_acts_flag
+
+        case Team.DARK:
+            match act:
+                case Act.BOTH_ACTS:
+                    return EnabledTeamActs.DARK_ACT_A in world.enabled_team_acts_flag and EnabledTeamActs.DARK_ACT_B in world.enabled_team_acts_flag
+                case Act.ACT_A:
+                    return EnabledTeamActs.DARK_ACT_A in world.enabled_team_acts_flag
+                case Act.ACT_B:
+                    return EnabledTeamActs.DARK_ACT_B in world.enabled_team_acts_flag
+
+        case Team.ROSE:
+            match act:
+                case Act.BOTH_ACTS:
+                    return EnabledTeamActs.ROSE_ACT_A in world.enabled_team_acts_flag and EnabledTeamActs.ROSE_ACT_B in world.enabled_team_acts_flag
+                case Act.ACT_A:
+                    return EnabledTeamActs.ROSE_ACT_A in world.enabled_team_acts_flag
+                case Act.ACT_B:
+                    return EnabledTeamActs.ROSE_ACT_B in world.enabled_team_acts_flag
+
+        case Team.CHAOTIX:
+            match act:
+                case Act.BOTH_ACTS:
+                    return EnabledTeamActs.CHAOTIX_ACT_A in world.enabled_team_acts_flag and EnabledTeamActs.CHAOTIX_ACT_B in world.enabled_team_acts_flag
+                case Act.ACT_A:
+                    return EnabledTeamActs.CHAOTIX_ACT_A in world.enabled_team_acts_flag
+                case Act.ACT_B:
+                    return EnabledTeamActs.CHAOTIX_ACT_B in world.enabled_team_acts_flag
+
+
+        case Team.SUPER_HARD_MODE:
+            match act:
+                case Act.BOTH_ACTS:
+                    raise ValueError(f"Checking for {act.get_act_str()} for Team {team} in is_this_act_enabled")
+                case Act.ACT_A:
+                    return False
+                case Act.ACT_B:
                     return EnabledTeamActs.SUPER_HARD_MODE in world.enabled_team_acts_flag

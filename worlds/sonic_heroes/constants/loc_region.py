@@ -10,7 +10,7 @@ from rule_builder.rules import Rule
 from worlds.sonic_heroes.constants.rings import RING_GROUP
 from worlds.sonic_heroes.options import RingSanityDark
 
-from ..helper_functions import get_default_true_rule, is_this_act_enabled, is_this_team_enabled
+from ..helper_functions import get_default_true_rule, is_this_act_enabled, is_this_specific_act_enabled, is_this_team_enabled
 
 # if TYPE_CHECKING:
 from .char_ability import Team
@@ -119,10 +119,9 @@ class SonicHeroesLocationData:
             if not is_this_act_enabled(world=world, team=self.team, act=Act(value=self.act)):
                 return False
 
-
         match self.loc_type:
             case LocationType.LEVEL:
-                return is_this_act_enabled(world=world, team=self.team, act=Act(value=self.act))
+                return is_this_specific_act_enabled(world=world, team=self.team, act=Act(value=self.act))
             case LocationType.BOSS:
                 return False
             case LocationType.EMERALD:
