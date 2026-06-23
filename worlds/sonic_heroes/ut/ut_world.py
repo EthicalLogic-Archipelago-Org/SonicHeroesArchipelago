@@ -6,6 +6,8 @@ from typing import override, Any, ClassVar
 from BaseClasses import CollectionState, MultiWorld
 from NetUtils import JSONMessagePart
 from Options import Option
+from Utils import get_intended_text, get_fuzzy_results
+from worlds.sonic_heroes.rule_builder.custom_rules import SonicHeroesMacroRule
 
 from ..constants.apworld import GENERATION_IS_FAKE_ATTR, RE_GEN_PASSTHROUGH_ATTR
 from ..constants.char_ability import Team
@@ -41,13 +43,44 @@ class SonicHeroesUTWorld(SonicHeroesWorldBase):
         pass
 
 
-    # def explain_rule(self, target_name: str, state: CollectionState) -> list[JSONMessagePart] | None:
-    #     if target_name == "Do Normal UT thing":
-    #         return None
-    #     _result: list[JSONMessagePart] = [{"type": "text", "text": target_name}]
-    #     return _result
-    #
-    #
+
+    def explain_rule(self, dest_name: str, state: CollectionState, *_: Any, **__: Any) -> list[JSONMessagePart] | None:  # pyright: ignore[reportExplicitAny, reportAny]
+        if not dest_name:
+            _result: list[JSONMessagePart] = [{"type": "text", "text": "Enter a macro, location, or region to get an explanation"}]
+            return _result
+        result, usable, confidence = self._explain_macro(macro_name=dest_name, state=state)
+        if usable:
+            return result
+        return None #Do Normal UT Thing
+
+
+    def _explain_macro(self, macro_name: str, state: CollectionState) -> tuple[list[JSONMessagePart], bool, int]:
+        all_macro_names: set[str] = set(self.rule_macros.keys())
+        guess, usable, response = get_intended_text(input_text=macro_name, possible_answers=all_macro_names)
+        if not usable:
+            picks: list[tuple[str, int]] = get_fuzzy_results(input_word=macro_name, word_list=all_macro_names, limit=1)
+            confidence: int = picks[0][1]
+            return [{"type": "text", "text": response}], False, confidence
+
+        macro_name: str = guess
+        macro: SonicHeroesMacroRule.Resolved = self.rule_macros[macro_name]  # pyright: ignore[reportAssignmentType]
+        assert isinstance(macro, SonicHeroesMacroRule.Resolved)
+        messages: list[JSONMessagePart] = [
+            {"type": "text", "text": "Rule Macro "},
+            {"type": "color", "color": "green" if macro(state) else "salmon", "text": macro.name},
+        ]
+        if macro.description:
+            messages.append({"type": "text", "text": f"\n{macro.description}"})
+        messages.extend(
+            [
+                {"type": "text", "text": "\nLogic: "},
+                *macro.child.explain_json(state),
+            ]
+        )
+        return messages, True, 100
+
+
+
     # def explain_more(self, target_name: str, state: CollectionState) -> list[JSONMessagePart] | None:
     #     if target_name == "Do Normal UT thing":
     #         return None
@@ -66,9 +99,6 @@ class SonicHeroesUTWorld(SonicHeroesWorldBase):
             opt: Option[SonicHeroesWorldBase] | None = getattr(self.options, key, None)  # pyright: ignore[reportAny]
             if opt is not None:
                 setattr(self.options, key, opt.from_any(data=value))  # pyright: ignore[reportAny]
-
-
-
 
 
     #

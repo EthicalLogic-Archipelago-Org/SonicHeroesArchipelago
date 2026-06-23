@@ -21,7 +21,8 @@ from ..constants.stage import Act, Stage, StageType
 from ..constants.stage_objs import StageObj
 from ..helper_functions import get_abilities_for_char, get_abilities_for_team, get_all_characters_for_team, \
     get_correct_ability_item_name, get_playable_char_item_name, is_rule_caching_enabled, \
-    get_characters_in_team_with_ability, is_this_act_enabled, get_stage_obj_item_name, is_this_specific_act_enabled
+    get_characters_in_team_with_ability, is_this_act_enabled, get_stage_obj_item_name, is_this_specific_act_enabled, \
+    get_obj_sanity_event_item_name
 from ..rule_builder.functions_stage_obj import has_stage_obj_rule
 
 from ..world_base import SonicHeroesWorldBase
@@ -381,7 +382,10 @@ class CanGoalStage(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
         if self.stage.stage_type is StageType.NORMAL_STAGE:
 
             if not is_this_specific_act_enabled(world=world, team=self.team, act=self.act):
+                # print(f"Team: {self.team.value}, Stage: {self.stage.stage_name} Act: {self.act.value} is not enabled. Can Not Goal Stage")
                 return False_[SonicHeroesWorldBase]().resolve(world=world)
+
+            # print(f"Team: {self.team.value}, Stage: {self.stage.stage_name} Act: {self.act.value} is enabled. Can Goal Stage")
             match self.team:
                 case Team.SONIC:
                     rule = self._can_goal_sonic_stage(world=world)
@@ -414,21 +418,21 @@ class CanGoalStage(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
         if self.act is Act.ACT_A:
             return self._can_reach_goal_vanilla(world=world)
         if self.act is Act.ACT_B:
-            return Has(item_name=f"{self.stage.stage_name} {self.team} {OBJ_SANITY_EVENT_ITEM}", count=DARK_OBJ_SANITY_AMOUNT)
+            return Has(item_name=get_obj_sanity_event_item_name(team=self.team, stage=self.stage, act=self.act), count=DARK_OBJ_SANITY_AMOUNT)
         raise ValueError(f"Incorrect Act provided for CanGoalStage: {self.team} for {self.stage.stage_name} Act: {self.act}")
 
     def _can_goal_rose_stage(self, world: SonicHeroesWorldBase) -> Rule[SonicHeroesWorldBase]:
         if self.act is Act.ACT_A:
             return self._can_reach_goal_vanilla(world=world)
         if self.act is Act.ACT_B:
-            return Has(item_name=f"{self.stage.stage_name} {self.team} {OBJ_SANITY_EVENT_ITEM}", count=ROSE_OBJ_SANITY_AMOUNT)
+            return Has(item_name=get_obj_sanity_event_item_name(team=self.team, stage=self.stage, act=self.act), count=ROSE_OBJ_SANITY_AMOUNT)
         raise ValueError(f"Incorrect Act provided for CanGoalStage: {self.team} for {self.stage.stage_name} Act: {self.act}")
 
     def _can_goal_chaotix_stage(self, world: SonicHeroesWorldBase) -> Rule[SonicHeroesWorldBase]:
         # rule: Rule[SonicHeroesWorldBase] = False_[SonicHeroesWorldBase]()
         # TODO fix for stealth levels
         if self.stage.chaotix_obj_sanity_checks[self.act] > 0:
-            return Has(item_name=f"{self.stage.stage_name} {self.team} {OBJ_SANITY_EVENT_ITEM}", count=self.stage.chaotix_obj_sanity_checks[Act.ACT_A])
+            return Has(item_name=get_obj_sanity_event_item_name(team=self.team, stage=self.stage, act=self.act), count=self.stage.chaotix_obj_sanity_checks[Act.ACT_A])
         return self._can_reach_goal_vanilla(world=world)
 
     def _can_goal_super_hard_mode_stage(self, world: SonicHeroesWorldBase) -> Rule[SonicHeroesWorldBase]:

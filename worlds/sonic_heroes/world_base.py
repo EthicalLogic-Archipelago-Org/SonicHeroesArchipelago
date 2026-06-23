@@ -1,7 +1,7 @@
 """
 The World Base Class
 """
-from typing import override, ClassVar
+from typing import TYPE_CHECKING, override, ClassVar
 
 
 from worlds.AutoWorld import World
@@ -10,10 +10,11 @@ from Options import PerGameCommonOptions
 from rule_builder.cached_world import CachedRuleBuilderWorld
 from rule_builder.rules import Rule
 
-
 from .constants.apworld import SONIC_HEROES
 from .options import SonicHeroesOptions
 from .web import SonicHeroesWebWorld
+
+
 
 class SonicHeroesWorldBase(World):
     web: ClassVar[SonicHeroesWebWorld] = SonicHeroesWebWorld()  # pyright: ignore[reportIncompatibleVariableOverride]
