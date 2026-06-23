@@ -60,12 +60,12 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
         # check options
 
         #handle options
-        self.enabled_team_acts_flag |= EnabledTeamActs.DARK_ACT_A  # pyright: ignore[reportUnannotatedClassAttribute]
-        # self.enabled_team_acts_flag |= EnabledTeamActs.DARK_ACT_B
-        self.enabled_sanity_acts[Team.DARK] = {loc_type: Act.ACT_A for loc_type in LocationType.get_sanity_types()}
-        self.enabled_sanity_acts[Team.DARK][LocationType.OBJ_SANITY] = Act.NONE
+        # self.enabled_team_acts_flag |= EnabledTeamActs.DARK_ACT_A  # pyright: ignore[reportUnannotatedClassAttribute]
+        self.enabled_team_acts_flag |= EnabledTeamActs.DARK_ACT_B  # pyright: ignore[reportUnannotatedClassAttribute]
+        self.enabled_sanity_acts[Team.DARK] = {loc_type: Act.ACT_B for loc_type in LocationType.get_sanity_types()}
+        # self.enabled_sanity_acts[Team.DARK][LocationType.OBJ_SANITY] = Act.NONE
         self.enabled_sanity_acts[Team.DARK][LocationType.RING_SANITY_GROUP] = Act.NONE
-        #self.enabled_sanity_acts[Team.DARK][LocationType.ENEMY_SANITY] = Act.NONE
+        # self.enabled_sanity_acts[Team.DARK][LocationType.ENEMY_SANITY] = Act.NONE
 
         self.starting_inventory_amounts[get_playable_char_item_name(character=Character.OMEGA)] = 1
         self.starting_inventory_amounts[get_stage_obj_item_name(team=Team.DARK, stage_obj=StageObj.CHECKPOINT)] = 1

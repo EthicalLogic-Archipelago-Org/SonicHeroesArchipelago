@@ -2,7 +2,7 @@
 generate locations programmatically
 """
 
-from rule_builder.rules import Rule, True_, Has
+from rule_builder.rules import Rule, True_, Has, False_
 
 from .constants.char_ability import Team
 from .constants.item_balloon_box import ItemBalloonData
@@ -88,29 +88,29 @@ def append_sanity_location_with_act(name: str, team: Team, stage: Stage, code: i
 def generate_level_goal_locations_for_not_super_hard_mode() -> None:
     global loc_id
     loc_id = LOCATION_START_ID
-    generate_level_goal_locations_for_team(Team.SONIC)
-    generate_level_goal_locations_for_team(Team.DARK)
-    generate_level_goal_locations_for_team(Team.ROSE)
-    generate_level_goal_locations_for_team(Team.CHAOTIX)
+    generate_level_goal_locations_for_team_not_super_hard_mode(team=Team.SONIC)
+    generate_level_goal_locations_for_team_not_super_hard_mode(team=Team.DARK)
+    generate_level_goal_locations_for_team_not_super_hard_mode(team=Team.ROSE)
+    generate_level_goal_locations_for_team_not_super_hard_mode(team=Team.CHAOTIX)
 
 
-def generate_level_goal_locations_for_team(team: Team) -> None:
+def generate_level_goal_locations_for_team_not_super_hard_mode(team: Team) -> None:
     # Act 1 Goal
     # Act 2 Goal
     # Egg Hawk Goal
     if team != Team.SUPER_HARD_MODE and team != Team.ANY_TEAM:
         for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
-            append_location(name=f"{reg_lvl.stage_name} {team} {Act.ACT_A.get_act_str()}", team=team, stage=reg_lvl, code=-999, act=1, parent_region=f"{reg_lvl.stage_name} {team} Goal", rule_str="", rule=CanGoalStage(team=team, stage=reg_lvl), loc_type=LocationType.LEVEL, location_groups=[STAGE_LOCATION_GROUP])
-            append_location(name=f"{reg_lvl.stage_name} {team} {Act.ACT_B.get_act_str()}", team=team, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl.stage_name} {team} Goal", rule_str="", rule=CanGoalStage(team=team, stage=reg_lvl), loc_type=LocationType.LEVEL, location_groups=[STAGE_LOCATION_GROUP])
+            append_location(name=f"{reg_lvl.stage_name} {team} {Act.ACT_A.get_act_str()}", team=team, stage=reg_lvl, code=-999, act=1, parent_region=f"{reg_lvl.stage_name} {team} Goal", rule_str="", rule=CanGoalStage(team=team, stage=reg_lvl, act=Act.ACT_A), loc_type=LocationType.LEVEL, location_groups=[STAGE_LOCATION_GROUP])
+            append_location(name=f"{reg_lvl.stage_name} {team} {Act.ACT_B.get_act_str()}", team=team, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl.stage_name} {team} Goal", rule_str="", rule=CanGoalStage(team=team, stage=reg_lvl, act=Act.ACT_B), loc_type=LocationType.LEVEL, location_groups=[STAGE_LOCATION_GROUP])
 
         for boss in Stage.get_stages_of_type(stage_type=StageType.BOSS_STAGE):
             append_location(name=f"{boss.stage_name} {team}", team=team, stage=boss, code=-999, act=0, parent_region=f"{boss.stage_name}", rule_str="", rule=True_[SonicHeroesWorldBase](), loc_type=LocationType.BOSS, location_groups=[BOSS_LOCATION_GROUP], num_to_increment_id=2)
             # increment id one additional time
 
-    elif team == Team.SUPER_HARD_MODE:
-        #Super Hard Mode
-        for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
-            append_location(name=f"{reg_lvl.stage_name} {team}", team=team, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl.stage_name} {team} Goal", rule_str="", rule=CanGoalStage(team=team, stage=reg_lvl), loc_type=LocationType.LEVEL, location_groups=[STAGE_LOCATION_GROUP])
+    # elif team == Team.SUPER_HARD_MODE:
+    #     #Super Hard Mode
+    #     for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
+    #         append_location(name=f"{reg_lvl.stage_name} {team}", team=team, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl.stage_name} {team} Goal", rule_str="", rule=CanGoalStage(team=team, stage=reg_lvl, act=Act.ACT_B), loc_type=LocationType.LEVEL, location_groups=[STAGE_LOCATION_GROUP])
     else:
         print(f"BIG PROBLEM!! Team {team} in generate_level_goal_locations_for_team")
 
@@ -234,7 +234,7 @@ def generate_level_goal_locations_for_super_hard_mode_hard_mode_goals() -> None:
 
     team: Team = Team.SUPER_HARD_MODE
     for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
-        append_location(name=f"{reg_lvl.stage_name} {team}", team=team, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl.stage_name} {team} Goal", rule_str=f"GoalRing", rule=CanGoalStage(team=team, stage=reg_lvl), loc_type=LocationType.LEVEL, location_groups=[STAGE_LOCATION_GROUP])
+        append_location(name=f"{reg_lvl.stage_name} {team}", team=team, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl.stage_name} {team} Goal", rule_str=f"GoalRing", rule=CanGoalStage(team=team, stage=reg_lvl, act=Act.ACT_B), loc_type=LocationType.LEVEL, location_groups=[STAGE_LOCATION_GROUP])
 
 
 def generate_metal_madness_extra_locations() -> None:
@@ -417,7 +417,8 @@ def generate_level_goal_all_teams_events() -> None:
             #do nothing on ANYTEAM
             continue
         for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
-            append_location(name=f"{reg_lvl.stage_name} {team} Goal {EVENT_LOCATION}", team=team, stage=reg_lvl, code=EVENT_LOCATION_ID, act=0, parent_region=f"{reg_lvl.stage_name} {team} Goal", rule_str=f"", rule=CanGoalStage(team=team, stage=reg_lvl), loc_type=LocationType.EVENT, location_groups=[], locked_item=LEVEL_GOAL_ALL_TEAMS_EVENT_ITEM)
+            rule: Rule[SonicHeroesWorldBase] = CanGoalStage(team=team, stage=reg_lvl, act=Act.ACT_A) | CanGoalStage(team=team, stage=reg_lvl, act=Act.ACT_B)
+            append_location(name=f"{reg_lvl.stage_name} {team} Goal {EVENT_LOCATION}", team=team, stage=reg_lvl, code=EVENT_LOCATION_ID, act=0, parent_region=f"{reg_lvl.stage_name} {team} Goal", rule_str=f"", rule=rule, loc_type=LocationType.EVENT, location_groups=[], locked_item=LEVEL_GOAL_ALL_TEAMS_EVENT_ITEM)
 
 
 def generate_level_goal_per_story_events() -> None:
@@ -426,7 +427,8 @@ def generate_level_goal_per_story_events() -> None:
             #do nothing on ANYTEAM
             continue
         for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
-            append_location(name=f"{reg_lvl.stage_name} {team} Goal {EVENT_LOCATION} For Team {team}", team=team, stage=reg_lvl, code=EVENT_LOCATION_ID, act=0, parent_region=f"{reg_lvl.stage_name} {team} Goal", rule_str=f"", rule=CanGoalStage(team=team, stage=reg_lvl), loc_type=LocationType.EVENT, location_groups=[], locked_item=f"{LEVEL_GOAL_PER_TEAM_EVENT_ITEM_WITHOUT_TEAM} {team}")
+            rule: Rule[SonicHeroesWorldBase] = CanGoalStage(team=team, stage=reg_lvl, act=Act.ACT_A) | CanGoalStage(team=team, stage=reg_lvl, act=Act.ACT_B)
+            append_location(name=f"{reg_lvl.stage_name} {team} Goal {EVENT_LOCATION} For Team {team}", team=team, stage=reg_lvl, code=EVENT_LOCATION_ID, act=0, parent_region=f"{reg_lvl.stage_name} {team} Goal", rule_str=f"", rule=rule, loc_type=LocationType.EVENT, location_groups=[], locked_item=f"{LEVEL_GOAL_PER_TEAM_EVENT_ITEM_WITHOUT_TEAM} {team}")
 
 
 def generate_bonus_key_events() -> None:
