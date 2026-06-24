@@ -3,7 +3,6 @@ Functions used by the parser related to Hint Rings
 """
 import csv
 import os
-from this import s
 
 
 from .functions_parser import handle_full_rule_string, get_csv_file_name, get_parsed_entry_str
