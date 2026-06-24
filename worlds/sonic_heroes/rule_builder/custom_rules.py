@@ -402,7 +402,7 @@ class CanGoalStage(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
         # else:
         #     raise ValueError(f"Wrong StageType in CanGoalStage: {self.stage.stage_name}")
 
-        return SonicHeroesMacroRule(child=rule, name=f"Get Goal {self.stage.stage_name} as Team: {self.team}").resolve(world=world)
+        return SonicHeroesMacroRule(child=rule, name=f"Get Team {self.team.value} {self.stage.stage_name} {self.act.get_act_str()} Goal").resolve(world=world)
 
 
     def _can_reach_goal_vanilla(self, world: SonicHeroesWorldBase) -> Rule[SonicHeroesWorldBase]:

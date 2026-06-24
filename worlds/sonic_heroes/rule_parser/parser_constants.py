@@ -23,6 +23,9 @@ OBJ_CHECKS_HEADER: str = "ObjChecks"
 REGION_HEADER: str = "Region"
 VOICE_LINE_HEADER: str = "Voiceline"
 ITEM_HEADER: str = "Item"
+POWER_HEADER: str = "Power"
+SCALE_HEADER: str = "Scale"
+NO_CONTROL_TIME_HEADER: str = "NoControlTime"
 TYPE_HEADER: str = "Type"
 SPECIAL_TYPE_HEADER: str = "SpecialType"
 WEAPON_HEADER: str = "Weapon"
@@ -62,6 +65,7 @@ PARSER_HINT_RING_IMPORT: str = "from ....constants.hint_rings import HintRingDat
 PARSER_ITEM_BALLOON_BOX_IMPORT: str = "from ....constants.item_balloon_box import *"
 PARSER_ENEMY_IMPORT: str = "from ....constants.enemies import *"
 PARSER_RING_IMPORT: str = "from ....constants.rings import RingData, RingLayout"
+PARSER_TRIPLE_SPRING_IMPORT: str = "from ....constants.triple_spring import *"
 
 
 PARSER_FILE_HEADER_START: str = \
@@ -115,5 +119,12 @@ f"""{PARSER_FILE_HEADER_START}
 RING_PARSER_FILE_HEADER: str = \
 f"""{PARSER_FILE_HEADER_START}
 {PARSER_RING_IMPORT}
+
+"""
+
+
+TRIPLE_SPRING_PARSER_FILE_HEADER: str = \
+f"""{PARSER_FILE_HEADER_START}
+{PARSER_TRIPLE_SPRING_IMPORT}
 
 """
