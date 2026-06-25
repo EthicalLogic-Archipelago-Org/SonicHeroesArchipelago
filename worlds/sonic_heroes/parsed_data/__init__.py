@@ -1,5 +1,7 @@
 from types import ModuleType
 
+from worlds.sonic_heroes.constants.triple_spring import TripleSpringData
+
 from ..constants.enemies import SonicHeroesEnemyBase
 from ..constants.hint_rings import HintRingData
 from ..constants.item_balloon_box import ItemBalloonData, ItemBoxData
@@ -12,6 +14,7 @@ from .hint_ring_mapping import parser_hint_ring_mapping
 from .item_balloon_box_mapping import parser_item_balloon_box_mapping
 from .region_mapping import parser_region_mapping
 from .ring_mapping import parser_ring_mapping
+from .triple_spring_mapping import parser_triple_spring_mapping
 
 from ..constants.char_ability import Team
 from ..constants.loc_region import SonicHeroesConnectionData, SonicHeroesRegionData
@@ -34,6 +37,9 @@ parser_region_mapping: dict[Stage, dict[Team, list[SonicHeroesRegionData]]] = pa
 
 
 parser_ring_mapping: dict[Stage, dict[Team, list[RingData]]] = parser_ring_mapping
+
+
+parser_triple_spring_mapping: dict[Stage, dict[Team, list[TripleSpringData]]] = parser_triple_spring_mapping
 
 
 parser_result_mapping: dict[Stage, dict[Team, ModuleType]] = \
@@ -60,5 +66,5 @@ parser_result_mapping: dict[Stage, dict[Team, ModuleType]] = \
 
 
 
-__all__ = ["parser_connection_mapping", "parser_enemy_mapping", "parser_hint_ring_mapping", "parser_item_balloon_box_mapping", "parser_region_mapping", "parser_ring_mapping", "parser_result_mapping",]
+__all__ = ["parser_connection_mapping", "parser_enemy_mapping", "parser_hint_ring_mapping", "parser_item_balloon_box_mapping", "parser_region_mapping", "parser_ring_mapping", "parser_triple_spring_mapping", "parser_result_mapping",]
 
