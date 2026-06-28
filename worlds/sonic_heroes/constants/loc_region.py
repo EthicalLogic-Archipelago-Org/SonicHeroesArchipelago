@@ -35,6 +35,8 @@ RING_SANITY_LOCATION_GROUP: str = "RingSanity"
 BINGO_CHIP_SANITY_LOCATION_GROUP: str = "BingoChipSanity"
 
 
+REGION: str = "Region"
+CONNECTION: str = "Connection"
 MENU_REGION_NAME: str = "Menu"
 METAL_OVERLORD_REGION_NAME: str = "Metal Overlord"
 

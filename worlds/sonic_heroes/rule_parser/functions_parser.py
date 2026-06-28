@@ -3,17 +3,49 @@ Functions used by the parser
 """
 import dataclasses
 import enum
+from types import ModuleType
 from typing import Any
 
 
+from .. import parsed_data
 from .parser_constants import *
 from .parser_matches import PARSER_ALL_MATCHES
 from ..constants.char_ability import Team
 from ..constants.enemies import SonicHeroesEnemyBase
+from ..constants.loc_region import CONNECTION, REGION
 from ..constants.stage import Stage
+from ..constants.stage_objs import StageObj
+
 
 result_str_list: list[str] = []
 parens_mapping_list: list[tuple[int, int]] = []
+
+def get_stage_objs_to_parse() -> list[StageObj]:
+    return \
+    [
+        StageObj.TRIPLE_SPRING,
+        StageObj.RINGS,
+        StageObj.HINT_RING,
+        StageObj.ITEM_BOX,
+        StageObj.ITEM_BALLOON,
+        StageObj.EGG_FLAPPER,
+        StageObj.EGG_PAWN,
+    ]
+
+
+THINGS_TO_PARSE: list[str | StageObj] = \
+[
+    REGION,
+    CONNECTION,
+    *get_stage_objs_to_parse(),
+]
+
+
+def get_parsed_data_module_for_stage(stage: Stage) -> ModuleType:
+    return parsed_data.parser_level_result_mapping[stage]
+
+def get_parsed_data_module_for_team_stage(team: Team, stage: Stage) -> ModuleType:
+    return get_parsed_data_module_for_stage(stage).parser_team_result_mapping[team]  # pyright: ignore[reportAny]
 
 
 def get_csv_file_name(team: Team, stage: Stage, file_type: str, secret: bool = False) -> str:  # pyright: ignore[reportUnusedParameter]

@@ -5,7 +5,6 @@ Helper Functions for custom rule builder rules related to Abilities and Characte
 
 from rule_builder.rules import Rule
 
-
 from ..constants.char_ability import Ability, Formation, Team
 from ..constants.stage import Stage
 from .custom_rules import *

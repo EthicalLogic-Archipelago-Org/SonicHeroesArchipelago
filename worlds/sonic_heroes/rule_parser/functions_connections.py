@@ -10,6 +10,8 @@ from .. import csv_data
 from .. import parsed_data
 from ..constants.char_ability import Team
 from ..constants.stage import Stage
+from ..helper_functions import *
+
 
 connection_id: int = 0
 
@@ -18,13 +20,21 @@ def get_connection_csv_file_name(team: Team, stage: Stage, secret: bool = False)
     return get_csv_file_name(team=team, stage=stage, file_type="Connections", secret=secret)
 
 
+def get_connection_export_names(team: Team, stage: Stage, secret: bool = False) -> tuple[str, str, str, str]:
+    class_str: str = "SonicHeroesConnectionData"
+    list_name: str = "CONNECTIONS"
+    file_name: str = get_connection_csv_file_name(team=team, stage=stage, secret=secret)
+    return class_str, list_name, file_name, CONNECTION_PARSER_FILE_HEADER
+
+
 def parse_connection_csv(team: Team, stage: Stage, secret: bool = False) -> None:
     global connection_id
     try:
         from importlib.resources import files
     except ImportError:
         from importlib_resources import files  # type: ignore # noqa  # pyright: ignore[reportMissingImports, reportUnknownVariableType]
-    file_name: str = get_connection_csv_file_name(team=team, stage=stage, secret=secret)
+
+    class_str, list_name, file_name, file_header = get_connection_export_names(team=team, stage=stage, secret=secret)
     print(f"File Name here: {file_name}")
 
     with files(csv_data.csv_data_mapping[stage][team]).joinpath(f"{file_name}.csv").open() as csv_file:  # pyright: ignore[reportUnknownMemberType, reportUnknownVariableType]
@@ -44,8 +54,6 @@ def parse_connection_csv(team: Team, stage: Stage, secret: bool = False) -> None
                 # print(f"Rule String here: {x[RULE_HEADER]}")
                 parsed_rule_str = handle_full_rule_string(rule_str=x[RULE_HEADER], team=team, stage=stage)
 
-            class_str: str = "SonicHeroesConnectionData"
-
             params_dict: dict[str, str] = \
             {
                 "name": f"\"{connection_name}\"",
@@ -58,14 +66,13 @@ def parse_connection_csv(team: Team, stage: Stage, secret: bool = False) -> None
 
             #connection_str_list.append(f"SonicHeroesConnectionData(name=\"{connection_name}\", source_region=\"{source_reg}\", target_region=\"{target_reg}\", rule={parsed_rule_str})")
 
-    list_name: str = "CONNECTIONS"
     # list_name: str = f"{stage.stage_name.replace(" ", "")}{team.replace(" ", "")}Connections"
 
-    parsed_result: str = f"\n{CONNECTION_PARSER_FILE_HEADER}\n{list_name}: list[SonicHeroesConnectionData] = \\\n[\n    {',\n    '.join(connection_str_list)}\n]"
+    parsed_result: str = f"\n{file_header}\n{list_name}: list[{class_str}] = \\\n[\n    {',\n    '.join(connection_str_list)}\n]"
 
     # noinspection PyTypeChecker
-    with open(file=f"{os.path.dirname(parsed_data.parser_result_mapping[stage][team].__file__)}/{file_name}.py", mode="w") as output_file:  # pyright: ignore[reportCallIssue, reportArgumentType]
-        # noinspection PyTypeChecker
-        print(f"Writing File here: {os.path.dirname(parsed_data.parser_result_mapping[stage][team].__file__)}/{file_name}.py")  # pyright: ignore[reportCallIssue, reportArgumentType]
+    file_to_write: str = f"{os.path.dirname(get_parsed_data_module_for_team_stage(team=team, stage=stage).__file__)}/{file_name}.py"  # pyright: ignore[reportCallIssue, reportArgumentType]
+    with open(file=file_to_write, mode="w") as output_file:
+        print(f"Writing File here: {file_to_write}")
         _ = output_file.write(parsed_result)
 

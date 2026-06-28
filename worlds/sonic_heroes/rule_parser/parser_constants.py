@@ -8,39 +8,58 @@ AND_CONDITION_PATTERN: regex.Pattern[str] = regex.compile(pattern=r"(AND)")
 OR_CONDITION_PATTERN: regex.Pattern[str] = regex.compile(pattern=r"(OR)")
 OUTER_PARENS_PATTERN: regex.Pattern[str] = regex.compile(pattern=r"\((?>[^()]|(?R))*\)")
 
-TEAM_HEADER: str = "Team"
-LEVEL_HEADER: str = "Level"
+
 SOURCE_HEADER: str = "Source"
 TARGET_HEADER: str = "Target"
-RULE_HEADER: str = "Rule"
-RULE_OPERATOR_HEADER: str = "RuleOperator"
-NOTES_HEADER: str = "Notes"
-NOTES_2_HEADER: str = "Notes 2"
 
-NAME_HEADER: str = "Name"
 OBJ_CHECKS_HEADER: str = "ObjChecks"
 
+
+
+TEAM_HEADER: str = "Team"
+LEVEL_HEADER: str = "Level"
 REGION_HEADER: str = "Region"
-VOICE_LINE_HEADER: str = "Voiceline"
-ITEM_HEADER: str = "Item"
-POWER_HEADER: str = "Power"
-SCALE_HEADER: str = "Scale"
-NO_CONTROL_TIME_HEADER: str = "NoControlTime"
-TYPE_HEADER: str = "Type"
-SPECIAL_TYPE_HEADER: str = "SpecialType"
-WEAPON_HEADER: str = "Weapon"
-ARMOR_HEADER: str = "Armor"
-SHIELD_HEADER: str = "Shield"
-HEIGHT_HEADER: str = "Height"
+NAME_HEADER: str = "Name"
+STAGE_OBJ_HEADER: str = "StageObj"
+RULE_HEADER: str = "Rule"
+LINK_ID_HEADER: str = "LinkID"
 X_HEADER: str = "X"
 Y_HEADER: str = "Y"
 Z_HEADER: str = "Z"
+NOTES_HEADER: str = "Notes"
+NOTES_2_HEADER: str = "Notes 2"
 
-NUM_RINGS_HEADER: str = "NumRings"
-LENGTH_HEADER: str = "Length"
-RADIUS_HEADER: str = "Radius"
-LINK_ID_HEADER: str = "LinkID"
-ID_OFFSET_HEADER: str = "ID Offset"
+SINGLE_SPRING_POWER_HEADER: str = "Single Spring Power"
+SINGLE_SPRING_NO_CONTROL_TIME_HEADER: str = "Single Spring NoControlTime"
+
+TRIPLE_SPRING_POWER_HEADER: str = "Triple Spring Power"
+TRIPLE_SPRING_SCALE_HEADER: str = "Triple Spring Scale"
+TRIPLE_SPRING_NO_CONTROL_TIME_HEADER: str = "Triple Spring NoControlTime"
+TRIPLE_SPRING_ITEM_HEADER: str = "Triple Spring Item"
+
+RING_TYPE_HEADER: str = "Ring Type"
+RING_NUM_RINGS_HEADER: str = "Ring NumRings"
+RING_LENGTH_HEADER: str = "Ring Length"
+RING_RADIUS_HEADER: str = "Ring Radius"
+RING_ID_OFFSET_HEADER: str = "Ring IDOffset"
+
+HINT_RING_VOICELINE_HEADER: str = "Hint Ring Voiceline"
+
+ITEM_BOX_ITEM_HEADER: str = "Item Box Item"
+
+ITEM_BALLOON_ITEM_HEADER: str = "Item Balloon Item"
+
+
+
+EGG_FLAPPER_WEAPON_HEADER: str = "Egg Flapper Weapon"
+EGG_FLAPPER_ARMOR_HEADER: str = "Egg Flapper Armor"
+EGG_FLAPPER_HEIGHT_HEADER: str = "Egg Flapper Height"
+
+EGG_PAWN_SPECIAL_TYPE_HEADER: str = "Egg Pawn Special Type"
+EGG_PAWN_WEAPON_HEADER: str = "Egg Pawn Weapon"
+EGG_PAWN_SHIELD_HEADER: str = "Egg Pawn Shield"
+EGG_PAWN_HEIGHT_HEADER: str = "Egg Pawn Height"
+
 
 
 PARSER_DOCSTRING_MSG: str = \

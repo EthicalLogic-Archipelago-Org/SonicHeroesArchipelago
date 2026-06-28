@@ -16,7 +16,7 @@ from .helper_functions import get_spawn_position_item_name, is_this_team_enabled
 from .rule_builder.functions_stages import can_goal_rule
 from .locations import append_locations_to_region
 
-from .parsed_data import parser_connection_mapping, parser_region_mapping
+from .rule_parser.functions_parser import get_parsed_data_module_for_team_stage
 
 from .world_base import SonicHeroesWorldBase
 
@@ -41,9 +41,9 @@ def create_regions(world: SonicHeroesWorldBase) -> None:
 
 
 def create_regions_for_team_stage(world: SonicHeroesWorldBase, team: Team, stage: Stage) -> None:
-    for region_data in parser_region_mapping[stage][team]:
+    for region_data in get_parsed_data_module_for_team_stage(team=team, stage=stage).regions:  # pyright: ignore[reportAny]
         # print(f"Creating region: {region_data.region_name}")
-        region: Region = Region(name=region_data.region_name, player=world.player, multiworld=world.multiworld)
+        region: Region = Region(name=region_data.region_name, player=world.player, multiworld=world.multiworld)  # pyright: ignore[reportAny]
         append_locations_to_region(world=world, region=region, team=team, stage=stage)
         world.multiworld.regions.append(region=region)
 
@@ -76,8 +76,8 @@ def create_entrances_for_team_stage(world: SonicHeroesWorldBase, team: Team, sta
     # TODO check if OBJ Sanity exists (or force it to always)
     create_entrance(world=world, name=f"{MENU_REGION_NAME} -> {stage.stage_name} {team.value} {OBJ_SANITY}", source=MENU_REGION_NAME, target=f"{stage.stage_name} {team.value} {OBJ_SANITY}", rule=True_[SonicHeroesWorldBase]())
 
-    for connection in parser_connection_mapping[stage][team]:
-        create_entrance(world=world, name=connection.name, source=connection.source_region, target=connection.target_region, rule=connection.rule)
+    for connection in get_parsed_data_module_for_team_stage(team=team, stage=stage).connections:  # pyright: ignore[reportAny]
+        create_entrance(world=world, name=connection.name, source=connection.source_region, target=connection.target_region, rule=connection.rule)  # pyright: ignore[reportAny]
 
 
 

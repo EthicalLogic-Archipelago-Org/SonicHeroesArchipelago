@@ -8,7 +8,7 @@ from typing import override
 
 from BaseClasses import CollectionState
 from NetUtils import JSONMessagePart
-from rule_builder.options import OPERATOR_STRINGS, OptionFilter
+from rule_builder.options import OptionFilter
 from rule_builder.rules import AtLeast, HasAll, HasAny, HasFromListUnique, Rule, WrapperRule, Has, True_, False_, CanReachRegion
 
 
@@ -474,8 +474,16 @@ class TrickRule(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
     #     return self.trick_filter
 
     def _handle_operator(self) -> str:
-        if self.option_filter.operator in ["ne", "gt", "lt", "ge", "le"]:
-            return f"{OPERATOR_STRINGS[self.option_filter.operator]} "
+        if self.option_filter.operator == "ne":
+            return f"!="
+        if self.option_filter.operator == "gt":
+            return f">"
+        if self.option_filter.operator == "lt":
+            return f"<"
+        if self.option_filter.operator == "ge":
+            return f">="
+        if self.option_filter.operator == "le":
+            return f"<="
         return ""
 
 

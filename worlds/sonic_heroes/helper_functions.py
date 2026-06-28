@@ -1,6 +1,7 @@
 """
 Helper Functions used by APWorld
 """
+from types import ModuleType
 from unittest import case
 
 from rule_builder.rules import Rule, True_
@@ -11,6 +12,7 @@ from .constants.char_ability import Ability, Character, Team
 from .constants.stage import EnabledTeamActs, Stage, Act
 from .constants.stage_objs import StageObj
 from .world_base import SonicHeroesWorldBase
+
 
 def get_correct_ability_item_name(world: SonicHeroesWorldBase, team: Team, ability: Ability) -> str:
     """Gets the correct ability item name from the Character"""

@@ -27,4 +27,3 @@ HINT_RINGS: list[HintRingData] = \
     HintRingData(team=Team.DARK, stage=Stage.SEASIDE_HILL, location_name="Ruin Between Big Ruin Beach Islands Hint Ring", region_name="Seaside Hill Dark Ruin Between Big Ruin Beach Islands", voice_line=24, link_id=0, x=1231.38, y=51.09, z=-18541.68, rule=has_stage_obj_rule(team=Team.DARK, stage_obj=StageObj.HINT_RING)),
     HintRingData(team=Team.DARK, stage=Stage.SEASIDE_HILL, location_name="Big Ruin Beach Island 2 Hint Ring", region_name="Seaside Hill Dark Big Ruin Beach Island 2", voice_line=2, link_id=0, x=1599.577, y=33, z=-19697.19, rule=has_stage_obj_rule(team=Team.DARK, stage_obj=StageObj.HINT_RING))
 ]
-

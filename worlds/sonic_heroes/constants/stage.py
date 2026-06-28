@@ -845,6 +845,12 @@ class Stage(enum.Enum):
     def __repr__(self) -> str:
         return self.__str__()
 
+    @classmethod
+    def match_stage_name(cls, stage_name: str) -> Stage:
+        for stage in cls:
+            if stage.stage_name == stage_name:
+                return stage
+        raise ValueError(f"Stage {stage_name} is not a valid stage name")
 
     @classmethod
     def get_stages_of_type(cls, stage_type: StageType) -> list[Stage]:
