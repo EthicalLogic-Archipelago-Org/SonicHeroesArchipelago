@@ -6,10 +6,10 @@ from typing import override, Any, ClassVar
 from BaseClasses import CollectionState, MultiWorld
 from NetUtils import JSONMessagePart
 from Options import Option
-from Utils import get_intended_text, get_fuzzy_results
+from Utils import get_intended_text, get_fuzzy_results  # pyright: ignore[reportUnknownVariableType]
 from worlds.sonic_heroes.rule_builder.custom_rules import SonicHeroesMacroRule
 
-from ..constants.apworld import GENERATION_IS_FAKE_ATTR, RE_GEN_PASSTHROUGH_ATTR
+from ..constants.apworld import RE_GEN_PASSTHROUGH_ATTR
 from ..constants.char_ability import Team
 from ..constants.items_events import UT_GLITCH_ITEM
 from ..constants.loc_region import LocationType
@@ -37,7 +37,6 @@ class SonicHeroesUTWorld(SonicHeroesWorldBase):
     @override
     def generate_early(self) -> None:
         #do UT stuff here
-        self.is_ut_gen = getattr(self.multiworld, GENERATION_IS_FAKE_ATTR, False)
         self.handle_ut_gen()
         super().generate_early()
         pass
@@ -92,6 +91,7 @@ class SonicHeroesUTWorld(SonicHeroesWorldBase):
         re_gen_passthrough: dict[str, dict[str, Any]] | None = getattr(self.multiworld, RE_GEN_PASSTHROUGH_ATTR, {})  # pyright: ignore[reportExplicitAny]
         if not re_gen_passthrough or not self.game in re_gen_passthrough:
             return
+        self.is_ut_gen = True
         slot_data: dict[str, Any] = re_gen_passthrough[self.game]  # pyright: ignore[reportExplicitAny]
         #TODO pull YAML and rando stuff here
 
