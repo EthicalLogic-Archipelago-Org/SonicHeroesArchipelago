@@ -6,15 +6,18 @@ import enum
 from types import ModuleType
 from typing import Any
 
-
 from .. import parsed_data
 from .parser_constants import *
 from .parser_matches import PARSER_ALL_MATCHES
 from ..constants.char_ability import Team
-from ..constants.enemies import SonicHeroesEnemyBase
+from ..constants.enemies import EggFlapper, EggPawn, SonicHeroesEnemyBase
+from ..constants.hint_rings import HintRingData
+from ..constants.item_balloon_box import ItemBoxData, ItemBalloonData
 from ..constants.loc_region import CONNECTION, REGION
+from ..constants.rings import RingData
 from ..constants.stage import Stage
 from ..constants.stage_objs import StageObj
+from ..constants.triple_spring import TripleSpringData
 
 
 result_str_list: list[str] = []
@@ -48,8 +51,117 @@ def get_parsed_data_module_for_team_stage(team: Team, stage: Stage) -> ModuleTyp
     return get_parsed_data_module_for_stage(stage).parser_team_result_mapping[team]  # pyright: ignore[reportAny]
 
 
+
+def get_all_triple_springs() -> dict[Team, dict[Stage, list[TripleSpringData]]]:
+    _result: dict[Team, dict[Stage, list[TripleSpringData]]] = {}
+    for team in Team:
+        _result[team] = {}
+        for stage in Stage:
+            _result[team][stage] = []
+            try:
+                for triple_spring in get_parsed_data_module_for_team_stage(team=team, stage=stage).triple_springs:  # pyright: ignore[reportAny]
+                    _result[team][stage].append(triple_spring)  # pyright: ignore[reportAny]
+            except:
+                pass
+    return _result
+
+
+
+def get_all_rings() -> dict[Team, dict[Stage, list[RingData]]]:
+    _result: dict[Team, dict[Stage, list[RingData]]] = {}
+    for team in Team:
+        _result[team] = {}
+        for stage in Stage:
+            _result[team][stage] = []
+            try:
+                for ring in get_parsed_data_module_for_team_stage(team=team, stage=stage).rings:  # pyright: ignore[reportAny]
+                    _result[team][stage].append(ring)  # pyright: ignore[reportAny]
+            except:
+                pass
+    return _result
+
+
+
+def get_all_hint_rings() -> dict[Team, dict[Stage, list[HintRingData]]]:
+    _result: dict[Team, dict[Stage, list[HintRingData]]] = {}
+    for team in Team:
+        _result[team] = {}
+        for stage in Stage:
+            _result[team][stage] = []
+            try:
+                for hint_ring in get_parsed_data_module_for_team_stage(team=team, stage=stage).hint_rings:  # pyright: ignore[reportAny]
+                    _result[team][stage].append(hint_ring)  # pyright: ignore[reportAny]
+            except:
+                pass
+    return _result
+
+
+
+def get_all_item_boxes() -> dict[Team, dict[Stage, list[ItemBoxData]]]:
+    _result: dict[Team, dict[Stage, list[ItemBoxData]]] = {}
+    for team in Team:
+        _result[team] = {}
+        for stage in Stage:
+            _result[team][stage] = []
+            try:
+                for item_box in get_parsed_data_module_for_team_stage(team=team, stage=stage).item_boxes:  # pyright: ignore[reportAny]
+                    _result[team][stage].append(item_box)  # pyright: ignore[reportAny]
+            except:
+                pass
+    return _result
+
+
+def get_all_item_balloons() -> dict[Team, dict[Stage, list[ItemBalloonData]]]:
+    _result: dict[Team, dict[Stage, list[ItemBalloonData]]] = {}
+    for team in Team:
+        _result[team] = {}
+        for stage in Stage:
+            _result[team][stage] = []
+            try:
+                for item_balloon in get_parsed_data_module_for_team_stage(team=team, stage=stage).item_balloons:  # pyright: ignore[reportAny]
+                    _result[team][stage].append(item_balloon)  # pyright: ignore[reportAny]
+            except:
+                pass
+    return _result
+
+
+def get_all_egg_flappers() -> dict[Team, dict[Stage, list[EggFlapper]]]:
+    _result: dict[Team, dict[Stage, list[EggFlapper]]] = {}
+    for team in Team:
+        _result[team] = {}
+        for stage in Stage:
+            _result[team][stage] = []
+            try:
+                for egg_flapper in get_parsed_data_module_for_team_stage(team=team, stage=stage).egg_flappers:  # pyright: ignore[reportAny]
+                    _result[team][stage].append(egg_flapper)  # pyright: ignore[reportAny]
+            except:
+                pass
+    return _result
+
+
+
+
+def get_all_egg_pawns() -> dict[Team, dict[Stage, list[EggPawn]]]:
+    _result: dict[Team, dict[Stage, list[EggPawn]]] = {}
+    for team in Team:
+        _result[team] = {}
+        for stage in Stage:
+            _result[team][stage] = []
+            try:
+                for egg_pawn in get_parsed_data_module_for_team_stage(team=team, stage=stage).egg_pawns:  # pyright: ignore[reportAny]
+                    _result[team][stage].append(egg_pawn)  # pyright: ignore[reportAny]
+            except:
+                pass
+    return _result
+
+
+
+
+
+
 def get_csv_file_name(team: Team, stage: Stage, file_type: str, secret: bool = False) -> str:  # pyright: ignore[reportUnusedParameter]
     return f"{stage.stage_name.replace(" ", "")}{team.replace(" ", "")}{file_type}"
+
 
 
 def get_parsed_entry_str(entry_class_name: str, params: dict[str, str]) -> str:

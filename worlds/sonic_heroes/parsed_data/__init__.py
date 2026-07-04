@@ -24,3 +24,10 @@ parser_level_result_mapping: dict[Stage, ModuleType] = \
     # Stage.EGG_FLEET: EggFleet,
     # Stage.FINAL_FORTRESS: FinalFortress
 }
+
+
+
+
+
+
+

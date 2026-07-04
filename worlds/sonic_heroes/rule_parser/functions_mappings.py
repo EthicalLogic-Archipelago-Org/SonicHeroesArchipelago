@@ -122,7 +122,7 @@ def export_team_init_mappings(team: Team, stage: Stage) -> None:
 
 
 def export_all_mappings(parsed_team_stages: dict[Team, list[Stage]]) -> None:
-    export_top_level_mappings(parsed_team_stages=parsed_team_stages)
+    # export_top_level_mappings(parsed_team_stages=parsed_team_stages)
     for team, stage_list in parsed_team_stages.items():
         for stage in stage_list:
 

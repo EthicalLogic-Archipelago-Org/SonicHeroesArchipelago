@@ -27,8 +27,8 @@ def parse_team_stage(team: Team, stage: Stage, parsed_team_stages: dict[Team, li
     if stage not in parsed_team_stages[team]:
         parsed_team_stages[team].append(stage)
 
-    # parse_region_csv(team=team, stage=stage)
-    # parse_connection_csv(team=team, stage=stage)
+    parse_region_csv(team=team, stage=stage)
+    parse_connection_csv(team=team, stage=stage)
     parse_stage_obj_csv(team=team, stage=stage)
     pass
 
@@ -54,12 +54,8 @@ def parse() -> None:
 
 parse()
 
-# print(f"{parser_connection_mapping[Stage.SEASIDE_HILL][Team.DARK][2]}")
-# print(f"{parser_enemy_mapping[Stage.SEASIDE_HILL][Team.DARK][2]}")
-# print(f"{parser_hint_ring_mapping[Stage.SEASIDE_HILL][Team.DARK][2]}")
-# print(f"{parser_item_balloon_box_mapping[Stage.SEASIDE_HILL][Team.DARK][2]}")
-# print(f"{parser_region_mapping[Stage.SEASIDE_HILL][Team.DARK][2]}")
-
 
 # for stage_obj in StageObj:
 #     print(stage_obj.value)
+
+

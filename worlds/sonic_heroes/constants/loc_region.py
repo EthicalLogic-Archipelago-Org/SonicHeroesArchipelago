@@ -28,9 +28,20 @@ EMERALD_LOCATION_GROUP: str = "Emerald"
 OBJ_SANITY_LOCATION_GROUP: str = "ObjSanity"
 KEY_SANITY_LOCATION_GROUP: str = "KeySanity"
 CHECKPOINT_SANITY_LOCATION_GROUP: str = "CheckpointSanity"
-ENEMY_SANITY_LOCATION_GROUP: str = "EnemySanity"
+
+EGG_FLAPPER_SANITY_LOCATION_GROUP = "EggFlapperSanity"
+EGG_PAWN_SANITY_LOCATION_GROUP = "EggPawnSanity"
+KLAGEN_SANITY_LOCATION_GROUP = "KlagenSanity"
+FALCO_SANITY_LOCATION_GROUP = "FalcoSanity"
+EGG_HAMMER_SANITY_LOCATION_GROUP = "EggHammerSanity"
+CAMERON_SANITY_LOCATION_GROUP = "CameronSanity"
+RHINO_LINER_SANITY_LOCATION_GROUP = "RhinoLinerSanity"
+EGG_BISHOP_SANITY_LOCATION_GROUP = "EggBishopSanity"
+E2000_SANITY_LOCATION_GROUP = "E2000Sanity"
+
 HINT_RING_SANITY_LOCATION_GROUP: str = "HintRingSanity"
-ITEM_BALLOON_BOX_SANITY_LOCATION_GROUP: str = "ItemBalloonBoxSanity"
+ITEM_BOX_SANITY_LOCATION_GROUP: str = "ItemBoxSanity"
+ITEM_BALLOON_SANITY_LOCATION_GROUP: str = "ItemBalloonSanity"
 RING_SANITY_LOCATION_GROUP: str = "RingSanity"
 BINGO_CHIP_SANITY_LOCATION_GROUP: str = "BingoChipSanity"
 
@@ -51,8 +62,19 @@ class LocationType(enum.StrEnum):
     CHECKPOINT_SANITY = "CheckpointSanity"
     BINGO_CHIP_SANITY = "BingoChipSanity"
     HINT_RING_SANITY = "HintRingSanity"
-    ITEM_BALLOON_BOX_SANITY = "ItemBalloonBoxSanity"
-    ENEMY_SANITY = "EnemySanity"
+    ITEM_BOX_SANITY = "ItemBoxSanity"
+    ITEM_BALLOON_SANITY = "ItemBalloonSanity"
+
+    EGG_FLAPPER_SANITY = "EggFlapperSanity"
+    EGG_PAWN_SANITY = "EggPawnSanity"
+    KLAGEN_SANITY = "KlagenSanity"
+    FALCO_SANITY = "FalcoSanity"
+    EGG_HAMMER_SANITY = "EggHammerSanity"
+    CAMERON_SANITY = "CameronSanity"
+    RHINO_LINER_SANITY = "RhinoLinerSanity"
+    EGG_BISHOP_SANITY = "EggBishopSanity"
+    E2000_SANITY = "E2000Sanity"
+
     RING_SANITY_GROUP = "RingSanityGroup"
     RING_SANITY_INDIVIDUAL = "RingSanityIndividual"
 
@@ -76,8 +98,17 @@ class LocationType(enum.StrEnum):
         LocationType.CHECKPOINT_SANITY,
         LocationType.BINGO_CHIP_SANITY,
         LocationType.HINT_RING_SANITY,
-        LocationType.ITEM_BALLOON_BOX_SANITY,
-        LocationType.ENEMY_SANITY,
+        LocationType.ITEM_BALLOON_SANITY,
+        LocationType.ITEM_BOX_SANITY,
+        LocationType.EGG_FLAPPER_SANITY,
+        LocationType.EGG_PAWN_SANITY,
+        LocationType.KLAGEN_SANITY,
+        LocationType.FALCO_SANITY,
+        LocationType.EGG_HAMMER_SANITY,
+        LocationType.CAMERON_SANITY,
+        LocationType.RHINO_LINER_SANITY,
+        LocationType.EGG_BISHOP_SANITY,
+        LocationType.E2000_SANITY,
         LocationType.RING_SANITY_GROUP,
         LocationType.RING_SANITY_INDIVIDUAL,
     ]
@@ -132,7 +163,7 @@ class SonicHeroesLocationData:
                 # TODO handle check size here
                 return is_this_act_enabled(world=world, team=self.team, act=Act(value=self.act)) and self.act & world.enabled_sanity_acts[self.team][self.loc_type] > 0  # pyright: ignore[reportAny]
 
-            case LocationType.KEY_SANITY | LocationType.CHECKPOINT_SANITY | LocationType.HINT_RING_SANITY | LocationType.ITEM_BALLOON_BOX_SANITY | LocationType.ENEMY_SANITY | LocationType.BINGO_CHIP_SANITY:
+            case LocationType.KEY_SANITY | LocationType.CHECKPOINT_SANITY | LocationType.HINT_RING_SANITY | LocationType.ITEM_BOX_SANITY | LocationType.ITEM_BALLOON_SANITY | LocationType.EGG_FLAPPER_SANITY | LocationType.EGG_PAWN_SANITY | LocationType.KLAGEN_SANITY | LocationType.FALCO_SANITY | LocationType.EGG_HAMMER_SANITY | LocationType.CAMERON_SANITY | LocationType.RHINO_LINER_SANITY | LocationType.EGG_BISHOP_SANITY | LocationType.E2000_SANITY | LocationType.BINGO_CHIP_SANITY:
                 if Act(value=self.act) is Act.NONE:
                     #Only 1 Set
                     return world.enabled_sanity_acts[self.team][self.loc_type] is not Act.NONE and world.enabled_sanity_acts[self.team][self.loc_type] is not Act.BOTH_ACTS  # pyright: ignore[reportAny]

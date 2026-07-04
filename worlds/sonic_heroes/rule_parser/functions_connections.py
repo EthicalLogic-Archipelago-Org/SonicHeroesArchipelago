@@ -4,7 +4,8 @@ Functions used by the parser related to Connections
 import csv
 import os
 
-from .functions_parser import get_parsed_entry_str, handle_full_rule_string, get_csv_file_name
+from .functions_parser import get_parsed_entry_str, handle_full_rule_string, get_csv_file_name, \
+    get_parsed_data_module_for_team_stage
 from .parser_constants import *
 from .. import csv_data
 from .. import parsed_data

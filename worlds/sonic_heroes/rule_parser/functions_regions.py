@@ -4,7 +4,7 @@ Functions used by the parser related to Regions
 import csv
 import os
 
-from .functions_parser import get_csv_file_name, get_parsed_entry_str
+from .functions_parser import get_csv_file_name, get_parsed_entry_str, get_parsed_data_module_for_team_stage
 
 from .parser_constants import *
 from .. import csv_data
