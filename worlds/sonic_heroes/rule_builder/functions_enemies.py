@@ -357,7 +357,7 @@ def can_kill_egg_pawn_with_bobsled(team: Team, stage: Stage, pawn: EggPawn) -> R
         enemy_str += "Casino "
     enemy_str += "Egg Pawn"
 
-    return SonicHeroesMacroRule(child=has_bobsled_rule(team=team, stage=stage) & has_formation_char_rule(team=team, formation=Formation.SPEED) | has_formation_char_rule(team=team, formation=Formation.POWER), name=f"Kill {enemy_str} with {pawn.shield} and {pawn.weapon} as Team: {team} in {stage.stage_name} with Bobsled")
+    return SonicHeroesMacroRule(child=has_enemy_obj(team=team, stage=stage, enemy=pawn) & has_bobsled_rule(team=team, stage=stage) & has_formation_char_rule(team=team, formation=Formation.SPEED) | has_formation_char_rule(team=team, formation=Formation.POWER), name=f"Kill {enemy_str} with {pawn.shield} and {pawn.weapon} as Team: {team} in {stage.stage_name} with Bobsled")
 
 
 def can_kill_egg_pawn_with_seaside_hill_first_bobsled(team: Team, stage: Stage, pawn: EggPawn) -> Rule[SonicHeroesWorldBase]:
