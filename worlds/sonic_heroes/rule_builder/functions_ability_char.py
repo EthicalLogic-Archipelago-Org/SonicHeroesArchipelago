@@ -35,52 +35,6 @@ def has_full_flying_stack_with_tall_char(team: Team) -> Rule[SonicHeroesWorldBas
     return SonicHeroesMacroRule(child=HasFullFlyingStackWithTallChar(team=team), name=f"Full Flying Stack with Tall Char as Team: {team}")
 
 
-# def can_ability_rule(team: Team, stage: Stage, ability: Ability, level: int = 0, other_chars: int = 0) -> Rule[SonicHeroesWorldBase]:
-#     match ability:
-#         case Ability.JUMP:
-#             return can_jump_rule(team=team, stage=stage)
-#         case Ability.AMY_HAMMER_HOVER:
-#             return can_amy_hammer_hover_rule(team=team, stage=stage)
-#         case Ability.HOMING_ATTACK:
-#             return can_homing_attack_rule(team=team, stage=stage, level=level)
-#         case Ability.TORNADO:
-#             return can_tornado_rule(team=team, stage=stage, level=level)
-#         case Ability.ROCKET_ACCEL:
-#             return can_rocket_accel_rule(team=team, stage=stage, num_other_chars=other_chars)
-#         case Ability.LIGHT_DASH:
-#             return can_light_dash_rule(team=team, stage=stage)
-#         case Ability.TRIANGLE_JUMP:
-#             return can_triangle_jump_rule(team=team, stage=stage)
-#         case Ability.LIGHT_ATTACK:
-#             return can_light_attack_rule(team=team, stage=stage)
-#         case Ability.INVISIBILITY:
-#             return can_invisibility_rule(team=team, stage=stage)
-#         case Ability.SHURIKEN:
-#             return can_shuriken_rule(team=team, stage=stage)
-#         case Ability.DUMMY_RINGS:
-#             return can_dummy_rings_rule(team=team, stage=stage)
-#         case Ability.CHEESE_CANNON:
-#             return can_cheese_cannon_rule(team=team, stage=stage)
-#         case Ability.FLOWER_STING:
-#             return can_flower_sting_rule(team=team, stage=stage)
-#         case Ability.THUNDER_SHOOT:
-#             return can_thundershoot_rule(team=team, stage=stage, level=level)
-#         case Ability.FLIGHT:
-#             return can_flight_rule(team=team, stage=stage, num_other_chars=other_chars)
-#         case Ability.POWER_ATTACK:
-#             return can_power_attack_rule(team=team, stage=stage, level=level)
-#         case Ability.BELLY_FLOP:
-#             return can_belly_flop_rule(team=team, stage=stage, level=level)
-#         case Ability.FIRE_DUNK:
-#             return can_fire_dunk_rule(team=team, stage=stage, level=level)
-#         case Ability.ULTIMATE_FIRE_DUNK:
-#             return can_ultimate_fire_dunk_rule(team=team, stage=stage, level=level)
-#         case Ability.GLIDE:
-#             return can_glide_rule(team=team, stage=stage)
-#         case Ability.COMBO_FINISHER:
-#             return can_combo_finisher_rule(team=team, stage=stage, level=level)
-
-
 def can_break_things_rule(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
     if team == Team.SONIC:
         return SonicHeroesMacroRule(child=can_power_attack_rule(team=team, stage=stage, level=0) | can_belly_flop_rule(team=team, stage=stage, level=0) | can_fire_dunk_rule(team=team, stage=stage, level=0) | can_combo_finisher_rule(team=team, stage=stage, level=1) | can_team_blast_rule(team=team, stage=stage), name=f"Break Things as Team: {team} in {stage.stage_name}")

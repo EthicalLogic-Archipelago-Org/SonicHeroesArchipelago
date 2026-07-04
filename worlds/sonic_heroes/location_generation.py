@@ -109,7 +109,17 @@ def generate_level_goal_locations_for_team_not_super_hard_mode(team: Team) -> No
     if team != Team.SUPER_HARD_MODE and team != Team.ANY_TEAM:
         for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
             append_location(name=f"{reg_lvl.stage_name} {team} {Act.ACT_A.get_act_str()}", team=team, stage=reg_lvl, code=-999, act=1, parent_region=f"{reg_lvl.stage_name} {team} Goal", rule_str="", rule=CanGoalStage(team=team, stage=reg_lvl, act=Act.ACT_A), loc_type=LocationType.LEVEL, location_groups=[STAGE_LOCATION_GROUP])
-            append_location(name=f"{reg_lvl.stage_name} {team} {Act.ACT_B.get_act_str()}", team=team, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl.stage_name} {team} Goal", rule_str="", rule=CanGoalStage(team=team, stage=reg_lvl, act=Act.ACT_B), loc_type=LocationType.LEVEL, location_groups=[STAGE_LOCATION_GROUP])
+
+            if team is Team.DARK or team is Team.ROSE:
+                append_location(name=f"{reg_lvl.stage_name} {team} {Act.ACT_B.get_act_str()}", team=team, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl.stage_name} {team} {OBJ_SANITY}", rule_str="", rule=CanGoalStage(team=team, stage=reg_lvl, act=Act.ACT_B), loc_type=LocationType.LEVEL, location_groups=[STAGE_LOCATION_GROUP])
+
+            elif team is Team.CHAOTIX:
+                if reg_lvl.chaotix_obj_sanity_checks[Act.ACT_B] > 0:
+                    append_location(name=f"{reg_lvl.stage_name} {team} {Act.ACT_B.get_act_str()}", team=team, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl.stage_name} {team} {OBJ_SANITY}", rule_str="", rule=CanGoalStage(team=team, stage=reg_lvl, act=Act.ACT_B), loc_type=LocationType.LEVEL, location_groups=[STAGE_LOCATION_GROUP])
+                else:
+                    append_location(name=f"{reg_lvl.stage_name} {team} {Act.ACT_B.get_act_str()}", team=team, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl.stage_name} {team} Goal", rule_str="", rule=CanGoalStage(team=team, stage=reg_lvl, act=Act.ACT_B), loc_type=LocationType.LEVEL, location_groups=[STAGE_LOCATION_GROUP])
+            else:
+                append_location(name=f"{reg_lvl.stage_name} {team} {Act.ACT_B.get_act_str()}", team=team, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl.stage_name} {team} Goal", rule_str="", rule=CanGoalStage(team=team, stage=reg_lvl, act=Act.ACT_B), loc_type=LocationType.LEVEL, location_groups=[STAGE_LOCATION_GROUP])
 
         for boss in Stage.get_stages_of_type(stage_type=StageType.BOSS_STAGE):
             append_location(name=f"{boss.stage_name} {team}", team=team, stage=boss, code=-999, act=0, parent_region=f"{boss.stage_name}", rule_str="", rule=True_[SonicHeroesWorldBase](), loc_type=LocationType.BOSS, location_groups=[BOSS_LOCATION_GROUP], num_to_increment_id=2)
@@ -139,7 +149,7 @@ def generate_dark_obj_sanity() -> None:
 
     for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
         for x in range(100):
-            append_location(name=f"{reg_lvl.stage_name} {Team.DARK} {Act.ACT_B.get_act_str()} Enemies Killed: {x + 1}", team=Team.DARK, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl.stage_name} {Team.DARK} ObjSanity", rule_str="", rule=Has(item_name=get_obj_sanity_event_item_name(team=Team.DARK, stage=reg_lvl, act=Act.ACT_B), count=x + 1), loc_type=LocationType.OBJ_SANITY, location_groups=[OBJ_SANITY_LOCATION_GROUP])
+            append_location(name=f"{reg_lvl.stage_name} {Team.DARK} {Act.ACT_B.get_act_str()} Enemies Killed: {x + 1}", team=Team.DARK, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl.stage_name} {Team.DARK} {OBJ_SANITY}", rule_str="", rule=Has(item_name=get_obj_sanity_event_item_name(team=Team.DARK, stage=reg_lvl, act=Act.ACT_B), count=x + 1), loc_type=LocationType.OBJ_SANITY, location_groups=[OBJ_SANITY_LOCATION_GROUP])
     pass
 
 
@@ -149,7 +159,7 @@ def generate_rose_obj_sanity() -> None:
     loc_id = LOCATION_START_ID_OFFSET + 0x6C8
     for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
         for x in range(200):
-            append_location(name=f"{reg_lvl.stage_name} {Team.ROSE} {Act.ACT_B.get_act_str()} Rings Collected: {x + 1}", team=Team.ROSE, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl} {Team.ROSE} ObjSanity", rule_str="", rule=Has(item_name=get_obj_sanity_event_item_name(team=Team.ROSE, stage=reg_lvl, act=Act.ACT_B), count=x + 1), loc_type=LocationType.OBJ_SANITY, location_groups=[OBJ_SANITY_LOCATION_GROUP])
+            append_location(name=f"{reg_lvl.stage_name} {Team.ROSE} {Act.ACT_B.get_act_str()} Rings Collected: {x + 1}", team=Team.ROSE, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl} {Team.ROSE} {OBJ_SANITY}", rule_str="", rule=Has(item_name=get_obj_sanity_event_item_name(team=Team.ROSE, stage=reg_lvl, act=Act.ACT_B), count=x + 1), loc_type=LocationType.OBJ_SANITY, location_groups=[OBJ_SANITY_LOCATION_GROUP])
 
 
 def generate_chaotix_obj_sanity() -> None:
@@ -160,7 +170,7 @@ def generate_chaotix_obj_sanity() -> None:
     for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
         for act_index, act in enumerate([Act.ACT_A, Act.ACT_B]):
             for x in range(reg_lvl.chaotix_obj_sanity_checks[act]):
-                append_location(name=f"{reg_lvl.stage_name} {Team.CHAOTIX} {act.get_act_str()} {reg_lvl.chaotix_obj_sanity_str[act]}: {x + 1}", team=Team.CHAOTIX, stage=reg_lvl, code=-999, act=act_index + 1, parent_region=f"{reg_lvl.stage_name} {Team.CHAOTIX} ObjSanity", rule_str="", rule=Has(item_name=get_obj_sanity_event_item_name(team=Team.CHAOTIX, stage=reg_lvl, act=act), count=x + 1), loc_type=LocationType.OBJ_SANITY, location_groups=[OBJ_SANITY_LOCATION_GROUP])
+                append_location(name=f"{reg_lvl.stage_name} {Team.CHAOTIX} {act.get_act_str()} {reg_lvl.chaotix_obj_sanity_str[act]}: {x + 1}", team=Team.CHAOTIX, stage=reg_lvl, code=-999, act=act_index + 1, parent_region=f"{reg_lvl.stage_name} {Team.CHAOTIX} {OBJ_SANITY}", rule_str="", rule=Has(item_name=get_obj_sanity_event_item_name(team=Team.CHAOTIX, stage=reg_lvl, act=act), count=x + 1), loc_type=LocationType.OBJ_SANITY, location_groups=[OBJ_SANITY_LOCATION_GROUP])
     pass
 
 
