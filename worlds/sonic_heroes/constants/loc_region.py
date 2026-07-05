@@ -7,13 +7,12 @@ import enum
 from typing import override, Any, TYPE_CHECKING
 
 from rule_builder.rules import Rule
-from worlds.sonic_heroes.constants.rings import RING_GROUP
-from worlds.sonic_heroes.options import RingSanityDark
 
 from ..helper_functions import get_default_true_rule, is_this_act_enabled, is_this_specific_act_enabled, is_this_team_enabled
+from ..options import RingSanityDark
 
-# if TYPE_CHECKING:
 from .char_ability import Team
+from .rings import RING_GROUP
 from .stage import Act, Stage
 
 from ..world_base import SonicHeroesWorldBase

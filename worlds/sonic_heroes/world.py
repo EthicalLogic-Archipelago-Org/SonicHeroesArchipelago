@@ -5,20 +5,22 @@ from typing import override, ClassVar, Any
 
 from BaseClasses import CollectionState, Item, ItemClassification, MultiWorld, Region
 from rule_builder.rules import Has
-from worlds.sonic_heroes.constants.items_events import SonicHeroesItemData
-from worlds.sonic_heroes.constants.stage_objs import StageObj
-from worlds.sonic_heroes.helper_functions import get_playable_char_item_name, get_stage_obj_item_name, \
+
+
+from .helper_functions import get_playable_char_item_name, get_stage_obj_item_name, \
     get_spawn_position_item_name
-from worlds.sonic_heroes.items import create_items, create_precollected_items
-from worlds.sonic_heroes.regions import create_regions, create_entrances
+from .items import create_items, create_precollected_items
+from .regions import create_regions, create_entrances
 
 from .item_generation import FULL_ITEM_GROUPS, FULL_ITEM_LIST
 from .location_generation import FULL_LOCATION_DICT, FULL_LOCATION_GROUPS
 
 from .constants.apworld import SONIC_HEROES, VICTORY_ITEM
 from .constants.char_ability import Team, Character
+from .constants.items_events import SonicHeroesItemData
 from .constants.loc_region import MENU_REGION_NAME, LocationType, SonicHeroesLocationData
 from .constants.stage import Act, EnabledTeamActs, Stage
+from .constants.stage_objs import StageObj
 from .ut.ut_world import SonicHeroesUTWorld
 
 

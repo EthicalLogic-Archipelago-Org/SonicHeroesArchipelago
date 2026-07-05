@@ -7,7 +7,8 @@ from BaseClasses import CollectionState, MultiWorld
 from NetUtils import JSONMessagePart
 from Options import Option
 from Utils import get_intended_text, get_fuzzy_results  # pyright: ignore[reportUnknownVariableType]
-from worlds.sonic_heroes.rule_builder.custom_rules import SonicHeroesMacroRule
+
+from ..rule_builder.custom_rules import SonicHeroesMacroRule
 
 from ..constants.apworld import RE_GEN_PASSTHROUGH_ATTR
 from ..constants.char_ability import Team

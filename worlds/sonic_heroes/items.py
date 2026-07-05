@@ -4,7 +4,7 @@ generate items programmatically
 
 from BaseClasses import ItemClassification, Item
 
-from worlds.sonic_heroes.world_base import SonicHeroesWorldBase
+from .world_base import SonicHeroesWorldBase
 from .constants.char_ability import Team, Character, Ability
 from .constants.items_events import *
 from .constants.stage import Act, Stage, StageType

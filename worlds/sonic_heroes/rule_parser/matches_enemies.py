@@ -3,12 +3,10 @@
 """
 from typing import Callable
 
-from worlds.sonic_heroes.constants.enemies import EggFlapper, EggFlapperArmor, EggFlapperWeapon, EggPawn, EggPawnShield, EggPawnType, EggPawnWeapon, EnemyHeight
-
-from .matches_functions import get_func_str
 from ..constants.char_ability import Team
+from ..constants.enemies import EggFlapper, EggFlapperArmor, EggFlapperWeapon, EggPawn, EggPawnShield, EggPawnType, EggPawnWeapon, EnemyHeight
 from ..constants.stage import Stage
-
+from .matches_functions import get_func_str
 
 
 PARSER_ENEMY_MAPPING: dict[str, Callable[[Team, Stage], str]] = \

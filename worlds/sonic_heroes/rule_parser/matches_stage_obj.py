@@ -3,11 +3,10 @@
 """
 from typing import Callable
 
-from worlds.sonic_heroes.constants.stage_objs import StageObj
-
 from .matches_functions import get_func_str
 from ..constants.char_ability import Team
 from ..constants.stage import Stage
+from ..constants.stage_objs import StageObj
 
 
 PARSER_STAGE_OBJ_MAPPING: dict[str, Callable[[Team, Stage], str]] = \
