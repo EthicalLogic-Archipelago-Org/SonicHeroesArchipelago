@@ -457,6 +457,7 @@ SEASIDE_HILL_DARK_STAGE_OBJS: list[StageObj] = \
     StageObj.EGG_PAWN,
 ]
 
+ALL_STAGE_OBJECTS: str = "All Stage Objects"
 
 DEFAULT_STAGE_OBJ_REGION: str = ""
 DEFAULT_STAGE_OBJ_LINK_ID: int = 0

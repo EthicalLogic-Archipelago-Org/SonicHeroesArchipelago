@@ -46,7 +46,7 @@ def parse() -> None:
     for team in Team:
         parse_team(team=team, parsed_team_stages=parsed_team_stages)
 
-    export_all_mappings(parsed_team_stages)
+    # export_all_mappings(parsed_team_stages)
 
 
     pass

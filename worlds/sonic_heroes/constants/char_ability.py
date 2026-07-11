@@ -103,8 +103,7 @@ class Character(enum.Enum):
 
 
 
-
-
+ALL_ABILITIES: str = "All Abilities"
 
 
 

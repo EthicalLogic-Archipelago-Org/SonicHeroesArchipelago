@@ -216,10 +216,10 @@ def parse_individual_stage_obj_csv_entry(entry: dict[str, str]) -> tuple[StageOb
 
 
 def get_export_names_for_stage_obj(stage_obj: StageObj, team: Team, stage: Stage, secret: bool = False) -> tuple[str, str, str, str]:
-    class_str: str = "PLACEHOLDER_CLASS"
-    list_name: str = "PLACEHOLDER_LIST_NAME"
-    file_name: str = "PLACEHOLDER_FILE_NAME"
-    file_header: str = "PLACEHOLDER_FILE_HEADER"
+    class_str: str = PLACEHOLDER_CLASS
+    list_name: str = PLACEHOLDER_LIST_NAME
+    file_name: str = PLACEHOLDER_FILE_NAME
+    file_header: str = PLACEHOLDER_FILE_HEADER
     match stage_obj:
         case StageObj.ALL_STAGE_OBJECTS:
             raise ValueError(f"All Stage Objects passed to export_stage_obj_entries")
@@ -240,7 +240,8 @@ def get_export_names_for_stage_obj(stage_obj: StageObj, team: Team, stage: Stage
             class_str, list_name, file_name, file_header = get_export_string_egg_pawn(team=team, stage=stage, secret=secret)
 
         case _:
-            raise ValueError(f"Stage Obj: {stage_obj.value} passed to export_stage_obj_entries")
+            pass
+            # raise ValueError(f"Stage Obj: {stage_obj.value} passed to export_stage_obj_entries")
     return class_str, list_name, file_name, file_header
 
 
@@ -253,6 +254,11 @@ def export_stage_obj_entries(stage_obj: StageObj, entries: list[dict[str, str]],
 
     # noinspection PyTypeChecker
     file_to_write: str = f"{os.path.dirname(get_parsed_data_module_for_team_stage(team=team, stage=stage).__file__)}/{file_name}.py"  # pyright: ignore[reportCallIssue, reportArgumentType]
+
+    if file_name == PLACEHOLDER_FILE_NAME:
+        # Dont write file if placeholder
+        return
+
     with open(file=file_to_write, mode="w") as output_file:
         print(f"Writing File here: {file_to_write}")
         _ = output_file.write(parser_result_string)
@@ -278,8 +284,7 @@ def parse_stage_objs_csv(team: Team, stage: Stage, secret: bool = False) -> None
 
 
     for stage_obj, params_dict in stage_obj_params_list.items():
-        # if stage_obj is StageObj.EGG_FLAPPER:
-        #     export_stage_obj_entries(stage_obj=stage_obj, entries=params_dict, team=team, stage=stage, secret=secret)
+        export_stage_obj_entries(stage_obj=stage_obj, entries=params_dict, team=team, stage=stage, secret=secret)
         pass
 
 

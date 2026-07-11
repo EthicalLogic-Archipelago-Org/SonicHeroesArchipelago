@@ -4,11 +4,11 @@ generate items programmatically
 from BaseClasses import ItemClassification
 
 from .helper_functions import get_spawn_position_item_name, get_stage_obj_item_name
-from .constants.char_ability import Character, Ability, Team
+from .constants.char_ability import Character, Ability, Team, ALL_ABILITIES
 from .constants.items_events import *
 from .constants.loc_region import *
 from .constants.stage import Stage, StageType, Act
-from .constants.stage_objs import StageObj
+from .constants.stage_objs import StageObj, ALL_STAGE_OBJECTS
 
 item_id: int = ITEM_START_ID
 already_used_item_ids: list[int] = []
@@ -89,8 +89,12 @@ def generate_ability_items() -> None:
     item_id = ITEM_START_ID_OFFSET + 0x200
     for team in Team:
         round_item_id_to_nearest_value_multiple(value=0x200)
+        item_name: str = f"{team.value} {FORCE_LOCK} {ALL_ABILITIES}" if team is not Team.ANY_TEAM else f"{FORCE_LOCK} {ALL_ABILITIES}"
+        append_item(name=item_name, classification=ItemClassification.progression, item_groups=[ABILITY_ITEM_GROUP])
+        item_name = f"{team.value} {FORCE_UNLOCK} {ALL_ABILITIES}" if team is not Team.ANY_TEAM else f"{FORCE_UNLOCK} {ALL_ABILITIES}"
+        append_item(name=item_name, classification=ItemClassification.progression, item_groups=[ABILITY_ITEM_GROUP])
         for ability in Ability:
-            item_name: str = f"{team.value} {ability.ability_name}" if team is not Team.ANY_TEAM else ability.ability_name
+            item_name = f"{team.value} {ability.ability_name}" if team is not Team.ANY_TEAM else ability.ability_name
             append_item(name=item_name, classification=ItemClassification.progression, item_groups=[ABILITY_ITEM_GROUP])
 
         generate_progressive_ability_items_for_team(team=team)
@@ -101,8 +105,13 @@ def generate_stage_obj_items() -> None:
     item_id = ITEM_START_ID_OFFSET + 0x1000
     for team in Team:
         round_item_id_to_nearest_value_multiple(value=0x1000)
+        item_name: str = f"{team.value} {FORCE_LOCK} {ALL_STAGE_OBJECTS}" if team is not Team.ANY_TEAM else f"{FORCE_LOCK} {ALL_STAGE_OBJECTS}"
+        append_item(name=item_name, classification=ItemClassification.progression, item_groups=[ABILITY_ITEM_GROUP])
+        item_name = f"{team.value} {FORCE_UNLOCK} {ALL_STAGE_OBJECTS}" if team is not Team.ANY_TEAM else f"{FORCE_UNLOCK} {ALL_STAGE_OBJECTS}"
+        append_item(name=item_name, classification=ItemClassification.progression, item_groups=[ABILITY_ITEM_GROUP])
+
         for stage_obj in StageObj:
-            item_name: str = get_stage_obj_item_name(team=team, stage_obj=stage_obj)
+            item_name = get_stage_obj_item_name(team=team, stage_obj=stage_obj)
             append_item(name=item_name, classification=ItemClassification.progression, item_groups=[STAGE_OBJECT_ITEM_GROUP])
 
     append_item(name=BOBSLED_ITEM_NAME, classification=ItemClassification.progression, item_groups=[BOBSLED_ITEM_GROUP])

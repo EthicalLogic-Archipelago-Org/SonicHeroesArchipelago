@@ -7,6 +7,9 @@ from typing import override, Any
 
 import BaseClasses
 
+FORCE_UNLOCK: str = "Force Unlock"
+FORCE_LOCK: str = "Force Lock"
+
 PROGRESSIVE: str = "Progressive"
 PLAYABLE: str = "Playable"
 CHAOS_EMERALD: str = "Chaos Emerald"
