@@ -61,7 +61,7 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
 
         # check options
 
-        #handle options
+        # handle options
         # self.enabled_team_acts_flag |= EnabledTeamActs.DARK_ACT_A  # pyright: ignore[reportUnannotatedClassAttribute]
         self.enabled_team_acts_flag |= EnabledTeamActs.DARK_ACT_B  # pyright: ignore[reportUnannotatedClassAttribute]
         self.enabled_sanity_acts[Team.DARK] = {loc_type: Act.ACT_B for loc_type in LocationType.get_sanity_types()}
@@ -167,7 +167,7 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
                 {
                     team.value.replace(" ", ""):
                     {
-                        sanity_type.value: act.get_slot_data_int()
+                        sanity_type.type_name: act.get_slot_data_int()
                         for sanity_type, act in self.enabled_sanity_acts[team].items()
                     }
                     for team in Team if team is not Team.ANY_TEAM
@@ -177,7 +177,6 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
             "DarkSanity": 1,
             "RoseSanity": 0,
             "ChaotixSanity": 0,
-
         }
 
     # @override

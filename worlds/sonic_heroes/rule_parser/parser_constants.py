@@ -14,8 +14,6 @@ TARGET_HEADER: str = "Target"
 
 OBJ_CHECKS_HEADER: str = "ObjChecks"
 
-
-
 TEAM_HEADER: str = "Team"
 LEVEL_HEADER: str = "Level"
 REGION_HEADER: str = "Region"

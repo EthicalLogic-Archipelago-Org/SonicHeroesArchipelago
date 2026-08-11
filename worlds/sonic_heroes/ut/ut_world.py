@@ -1,6 +1,7 @@
 """
 The World For Universal Tracker
 """
+import re
 from math import floor, log10
 from typing import override, Any, ClassVar
 
@@ -73,7 +74,7 @@ class SonicHeroesUTWorld(SonicHeroesWorldBase):
         if stage is Stage.TEST_LEVEL:
             raise ValueError(f"No Valid Stage in Location: {location_label} ::: Region: {region_label}")
 
-        temp_location_label: str = location_label.removeprefix(stage.stage_name)
+        temp_location_label: str = location_label.removeprefix(f"{stage.stage_name} ")
 
         for temp_team in Team:
             if temp_team is Team.ANY_TEAM:
@@ -81,7 +82,21 @@ class SonicHeroesUTWorld(SonicHeroesWorldBase):
             if temp_location_label.startswith(temp_team):
                 team = temp_team
 
-        location_list: list[SonicHeroesLocationData] = [loc_data for loc_data in FULL_LOCATION_DICT[stage][team] if loc_data.name == location_label]
+        # handle Ring locations (end with Ring 1) (or Ring Group)
+        ring_individual_pattern: re.Pattern[str] = re.compile(r"(Ring \d+)$")
+        ring_group_pattern: re.Pattern[str] = re.compile(r"(Ring Group)$")
+
+        if re.match(ring_individual_pattern, temp_location_label) is not None:
+            temp_location_label = re.sub(ring_individual_pattern, location_label)  # pyright: ignore[reportCallIssue]
+
+        elif re.match(ring_group_pattern, temp_location_label) is not None:
+            temp_location_label = re.sub(ring_group_pattern, location_label)  # pyright: ignore[reportCallIssue]
+
+        else:
+            temp_location_label = location_label
+
+
+        location_list: list[SonicHeroesLocationData] = [loc_data for loc_data in FULL_LOCATION_DICT[stage][team] if loc_data.name == temp_location_label]
 
         if len(location_list) != 1:
             raise ValueError(f"Problem Matching Location: {location_label} For Team: {team.value} and Stage: {stage.stage_name}. Matched: {location_list}")
@@ -134,6 +149,8 @@ class SonicHeroesUTWorld(SonicHeroesWorldBase):
         # sort based on left -> right
         # this is hardest
         # this might be too difficult
+        # maybe append last digits of loc ID (this could be a clean way of handling this)
+        _result += str(location_data.code)[-3:]
 
         return _result
 

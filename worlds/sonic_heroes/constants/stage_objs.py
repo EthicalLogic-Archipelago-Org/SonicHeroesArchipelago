@@ -9,7 +9,6 @@ from .stage import Stage
 
 
 
-
 class StageObj(enum.StrEnum):
     ALL_STAGE_OBJECTS = "All Stage Objects"
     SINGLE_SPRING = "Single Spring"
