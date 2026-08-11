@@ -93,6 +93,7 @@ class _StageData:
     stage_name: str
     stage_type: StageType = StageType.TEST_STAGE
     region: StageRegion = StageRegion.ALL_REGIONS
+    sort_key: str
     bonus_keys: dict[Team, int] = dataclasses.field(default_factory=lambda: {team: 0 for team in Team})
     checkpoints: dict[Team, int] = dataclasses.field(default_factory=lambda: {team: 0 for team in Team})
     chaotix_obj_sanity_checks: dict[Act, int] = dataclasses.field(default_factory=lambda: {act: 0 for act in [Act.ACT_A, Act.ACT_B]})
@@ -103,13 +104,15 @@ class _StageData:
 class Stage(enum.Enum):
     TEST_LEVEL = _StageData \
     (
-        stage_name="TEST_LEVEL"
+        stage_name="TEST_LEVEL",
+        sort_key="99",
     )
     SEASIDE_HILL = _StageData \
     (
         stage_name="Seaside Hill",
         stage_type=StageType.NORMAL_STAGE,
         region=StageRegion.OCEAN_REGION,
+        sort_key="00",
         bonus_keys=\
             {
                 Team.ANY_TEAM: 0,
@@ -146,6 +149,7 @@ class Stage(enum.Enum):
         stage_name="Ocean Palace",
         stage_type=StageType.NORMAL_STAGE,
         region=StageRegion.OCEAN_REGION,
+        sort_key="01",
         bonus_keys= \
             {
                 Team.ANY_TEAM: 0,
@@ -171,6 +175,7 @@ class Stage(enum.Enum):
         stage_name="Grand Metropolis",
         stage_type=StageType.NORMAL_STAGE,
         region=StageRegion.HOT_PLANT_REGION,
+        sort_key="03",
         bonus_keys= \
             {
                 Team.ANY_TEAM: 0,
@@ -207,6 +212,7 @@ class Stage(enum.Enum):
         stage_name="Power Plant",
         stage_type=StageType.NORMAL_STAGE,
         region=StageRegion.HOT_PLANT_REGION,
+        sort_key="04",
         bonus_keys= \
             {
                 Team.ANY_TEAM: 0,
@@ -243,6 +249,7 @@ class Stage(enum.Enum):
         stage_name="Casino Park",
         stage_type=StageType.NORMAL_STAGE,
         region=StageRegion.CASINO_REGION,
+        sort_key="06",
         bonus_keys= \
             {
                 Team.ANY_TEAM: 0,
@@ -279,6 +286,7 @@ class Stage(enum.Enum):
         stage_name="Bingo Highway",
         stage_type=StageType.NORMAL_STAGE,
         region=StageRegion.CASINO_REGION,
+        sort_key="07",
         bonus_keys= \
             {
                 Team.ANY_TEAM: 0,
@@ -315,6 +323,7 @@ class Stage(enum.Enum):
         stage_name="Rail Canyon",
         stage_type=StageType.NORMAL_STAGE,
         region=StageRegion.TRAIN_REGION,
+        sort_key="09",
         bonus_keys= \
             {
                 Team.ANY_TEAM: 0,
@@ -340,6 +349,7 @@ class Stage(enum.Enum):
         stage_name="Bullet Station",
         stage_type=StageType.NORMAL_STAGE,
         region=StageRegion.TRAIN_REGION,
+        sort_key="10",
         bonus_keys= \
             {
                 Team.ANY_TEAM: 0,
@@ -376,6 +386,7 @@ class Stage(enum.Enum):
         stage_name="Frog Forest",
         stage_type=StageType.NORMAL_STAGE,
         region=StageRegion.BIG_PLANT_REGION,
+        sort_key="12",
         bonus_keys= \
             {
                 Team.ANY_TEAM: 0,
@@ -401,6 +412,7 @@ class Stage(enum.Enum):
         stage_name="Lost Jungle",
         stage_type=StageType.NORMAL_STAGE,
         region=StageRegion.BIG_PLANT_REGION,
+        sort_key="13",
         bonus_keys= \
             {
                 Team.ANY_TEAM: 0,
@@ -437,6 +449,7 @@ class Stage(enum.Enum):
         stage_name="Hang Castle",
         stage_type=StageType.NORMAL_STAGE,
         region=StageRegion.GHOST_REGION,
+        sort_key="15",
         bonus_keys= \
             {
                 Team.ANY_TEAM: 0,
@@ -472,6 +485,7 @@ class Stage(enum.Enum):
         stage_name="Mystic Mansion",
         stage_type=StageType.NORMAL_STAGE,
         region=StageRegion.GHOST_REGION,
+        sort_key="16",
         bonus_keys= \
             {
                 Team.ANY_TEAM: 0,
@@ -508,6 +522,7 @@ class Stage(enum.Enum):
         stage_name="Egg Fleet",
         stage_type=StageType.NORMAL_STAGE,
         region=StageRegion.SKY_REGION,
+        sort_key="18",
         bonus_keys= \
             {
                 Team.ANY_TEAM: 0,
@@ -533,6 +548,7 @@ class Stage(enum.Enum):
         stage_name="Final Fortress",
         stage_type=StageType.NORMAL_STAGE,
         region=StageRegion.SKY_REGION,
+        sort_key="19",
         bonus_keys= \
             {
                 Team.ANY_TEAM: 0,
@@ -569,76 +585,89 @@ class Stage(enum.Enum):
         stage_name="Egg Hawk",
         stage_type=StageType.BOSS_STAGE,
         region=StageRegion.BOSS_REGION,
+        sort_key="02",
     )
     TEAM_FIGHT_1 = _StageData \
     (
         stage_name="Team Fight 1",
         stage_type=StageType.BOSS_STAGE,
         region=StageRegion.BOSS_REGION,
+        sort_key="05",
     )
     ROBOT_CARNIVAL = _StageData \
     (
         stage_name="Robot Carnival",
         stage_type=StageType.BOSS_STAGE,
         region=StageRegion.BOSS_REGION,
+        sort_key="08",
     )
     EGG_ALBATROSS = _StageData \
     (
         stage_name="Egg Albatross",
         stage_type=StageType.BOSS_STAGE,
         region=StageRegion.BOSS_REGION,
+        sort_key="11",
     )
     TEAM_FIGHT_2 = _StageData \
     (
         stage_name="Team Fight 2",
         stage_type=StageType.BOSS_STAGE,
         region=StageRegion.BOSS_REGION,
+        sort_key="14",
     )
     ROBOT_STORM = _StageData \
     (
         stage_name="Robot Storm",
         stage_type=StageType.BOSS_STAGE,
         region=StageRegion.BOSS_REGION,
+        sort_key="17",
     )
     EGG_EMPEROR = _StageData \
     (
         stage_name="Egg Emperor",
         stage_type=StageType.BOSS_STAGE,
         region=StageRegion.BOSS_REGION,
+        sort_key="20",
     )
     METAL_MADNESS = _StageData \
     (
         stage_name="Metal Madness",
         stage_type=StageType.FINAL_BOSS_STAGE,
         region=StageRegion.FINAL_BOSS_REGION,
+        sort_key="21",
     )
     METAL_OVERLORD = _StageData \
     (
         stage_name="Metal Overlord",
         stage_type=StageType.FINAL_BOSS_STAGE,
         region=StageRegion.FINAL_BOSS_REGION,
+        sort_key="22",
     )
     SEA_GATE = _StageData \
     (
         stage_name="Sea Gate",
         stage_type=StageType.FINAL_BOSS_STAGE,
         region=StageRegion.FINAL_BOSS_REGION,
+        sort_key="23",
     )
 
     SEASIDE_BOBSLED_COURSE = _StageData \
     (
         stage_name="Seaside Bobsled Course",
         stage_type=StageType.MULTIPLAYER_BOBSLED_STAGE,
+        sort_key="24",
     )
     CITY_BOBSLED_COURSE = _StageData \
     (
         stage_name="City Bobsled Course",
         stage_type=StageType.MULTIPLAYER_BOBSLED_STAGE,
+        sort_key="25",
     )
     CASINO_BOBSLED_COURSE = _StageData \
     (
         stage_name="Casino Bobsled Course",
         stage_type=StageType.MULTIPLAYER_BOBSLED_STAGE,
+        sort_key="26",
     )
 
     SEASIDE_HILL_BONUS_STAGE = _StageData \
@@ -646,42 +675,49 @@ class Stage(enum.Enum):
         stage_name="Seaside Hill Bonus Stage",
         stage_type=StageType.BONUS_STAGE,
         region=StageRegion.SPECIAL_STAGE_REGION,
+        sort_key="27",
     )
     GRAND_METROPOLIS_BONUS_STAGE = _StageData \
     (
         stage_name="Grand Metropolis Bonus Stage",
         stage_type=StageType.BONUS_STAGE,
         region=StageRegion.SPECIAL_STAGE_REGION,
+        sort_key="28",
     )
     CASINO_PARK_BONUS_STAGE = _StageData \
     (
         stage_name="Casino Park Bonus Stage",
         stage_type=StageType.BONUS_STAGE,
         region=StageRegion.SPECIAL_STAGE_REGION,
+        sort_key="29",
     )
     RAIL_CANYON_BONUS_STAGE = _StageData \
     (
         stage_name="Rail Canyon Bonus Stage",
         stage_type=StageType.BONUS_STAGE,
         region=StageRegion.SPECIAL_STAGE_REGION,
+        sort_key="30",
     )
     FROG_FOREST_BONUS_STAGE = _StageData \
     (
         stage_name="Frog Forest Bonus Stage",
         stage_type=StageType.BONUS_STAGE,
         region=StageRegion.SPECIAL_STAGE_REGION,
+        sort_key="31",
     )
     HANG_CASTLE_BONUS_STAGE = _StageData \
     (
         stage_name="Hang Castle Bonus Stage",
         stage_type=StageType.BONUS_STAGE,
         region=StageRegion.SPECIAL_STAGE_REGION,
+        sort_key="32",
     )
     EGG_FLEET_BONUS_STAGE = _StageData \
     (
         stage_name="Egg Fleet Bonus Stage",
         stage_type=StageType.BONUS_STAGE,
         region=StageRegion.SPECIAL_STAGE_REGION,
+        sort_key="33",
     )
 
     CHAOTIX_RAIL_CANYON = RAIL_CANYON # <- alias here
@@ -690,78 +726,93 @@ class Stage(enum.Enum):
     (
         stage_name="Seaside Hill Action Race",
         stage_type=StageType.MULTIPLAYER_ACTION_RACE,
+        sort_key="34",
     )
     GRAND_METROPOLIS_ACTION_RACE = _StageData \
     (
         stage_name="Grand Metropolis Action Race",
         stage_type=StageType.MULTIPLAYER_ACTION_RACE,
+        sort_key="35",
     )
     BINGO_HIGHWAY_ACTION_RACE = _StageData \
     (
         stage_name="Bingo Highway Action Race",
         stage_type=StageType.MULTIPLAYER_ACTION_RACE,
+        sort_key="36",
     )
 
     CITY_TOP_BATTLE = _StageData \
     (
         stage_name="City Top Battle",
         stage_type=StageType.MULTIPLAYER_BATTLE,
+        sort_key="37",
     )
     CASINO_RING_BATTLE = _StageData \
     (
         stage_name="Casino Ring Battle",
         stage_type=StageType.MULTIPLAYER_BATTLE,
+        sort_key="38",
     )
     TURTLE_SHELL_BATTLE = _StageData \
     (
         stage_name="Turtle Shell Battle",
         stage_type=StageType.MULTIPLAYER_BATTLE,
+        sort_key="39",
     )
 
     EGG_TREAT_RING_RACE = _StageData \
     (
         stage_name="Egg Treat Ring Race",
         stage_type=StageType.MULTIPLAYER_RING_RACE,
+        sort_key="40",
     )
     PINBALL_MATCH_RING_RACE = _StageData \
     (
         stage_name="Pinball Match Ring Race",
         stage_type=StageType.MULTIPLAYER_RING_RACE,
+        sort_key="41",
     )
     HOT_ELEVATOR_RING_RACE = _StageData \
     (
         stage_name="Hot Elevator Ring Race",
         stage_type=StageType.MULTIPLAYER_RING_RACE,
+        sort_key="42",
     )
     ROAD_ROCK_QUICK_RACE = _StageData \
     (
         stage_name="Road Rock Quick Race",
         stage_type=StageType.MULTIPLAYER_QUICK_RACE,
+        sort_key="43",
     )
     MAD_EXPRESS_QUICK_RACE = _StageData \
     (
         stage_name="Mad Express Quick Race",
         stage_type=StageType.MULTIPLAYER_QUICK_RACE,
+        sort_key="44",
     )
     TERROR_HALL_QUICK_RACE = _StageData \
     (
         stage_name="Terror Hall Quick Race",
         stage_type=StageType.MULTIPLAYER_QUICK_RACE,
+        sort_key="45",
     )
     RAIL_CANYON_EXPERT_RACE = _StageData \
     (
         stage_name="Rail Canyon Expert Race",
         stage_type=StageType.MULTIPLAYER_EXPERT_RACE,
+        sort_key="46",
     )
     FROG_FOREST_EXPERT_RACE = _StageData \
     (
         stage_name="Frog Forest Expert Race",
         stage_type=StageType.MULTIPLAYER_EXPERT_RACE,
+        sort_key="47",
     )
     EGG_FLEET_EXPERT_RACE = _StageData \
     (
         stage_name="Egg Fleet Expert Race",
         stage_type=StageType.MULTIPLAYER_EXPERT_RACE,
+        sort_key="48",
     )
 
     OCEAN_PALACE_EMERALD_STAGE = _StageData \
@@ -769,57 +820,67 @@ class Stage(enum.Enum):
         stage_name="Ocean Palace Emerald Stage",
         stage_type=StageType.EMERALD_STAGE,
         region=StageRegion.SPECIAL_STAGE_REGION,
+        sort_key="49",
     )
     POWER_PLANT_EMERALD_STAGE = _StageData \
     (
         stage_name="Power Plant Emerald Stage",
         stage_type=StageType.EMERALD_STAGE,
         region=StageRegion.SPECIAL_STAGE_REGION,
+        sort_key="50",
     )
     BINGO_HIGHWAY_EMERALD_STAGE = _StageData \
     (
         stage_name="Bingo Highway Emerald Stage",
         stage_type=StageType.EMERALD_STAGE,
         region=StageRegion.SPECIAL_STAGE_REGION,
+        sort_key="51",
     )
     BULLET_STATION_EMERALD_STAGE = _StageData \
     (
         stage_name="Bullet Station Emerald Stage",
         stage_type=StageType.EMERALD_STAGE,
         region=StageRegion.SPECIAL_STAGE_REGION,
+        sort_key="52",
     )
     LOST_JUNGLE_EMERALD_STAGE = _StageData \
     (
         stage_name="Lost Jungle Emerald Stage",
         stage_type=StageType.EMERALD_STAGE,
         region=StageRegion.SPECIAL_STAGE_REGION,
+        sort_key="53",
     )
     MYSTIC_MANSION_EMERALD_STAGE = _StageData \
     (
         stage_name="Mystic Mansion Emerald Stage",
         stage_type=StageType.EMERALD_STAGE,
         region=StageRegion.SPECIAL_STAGE_REGION,
+        sort_key="54",
     )
     FINAL_FORTRESS_EMERALD_STAGE = _StageData \
     (
         stage_name="Final Fortress Emerald Stage",
         stage_type=StageType.EMERALD_STAGE,
         region=StageRegion.SPECIAL_STAGE_REGION,
+        sort_key="55",
     )
     SPECIAL_STAGE_1_MULTIPLAYER = _StageData \
     (
         stage_name="Special Stage 1 Multiplayer",
         stage_type=StageType.MULTIPLAYER_SPECIAL_STAGE,
+        sort_key="56",
     )
     SPECIAL_STAGE_2_MULTIPLAYER = _StageData \
     (
         stage_name="Special Stage 2 Multiplayer",
         stage_type=StageType.MULTIPLAYER_SPECIAL_STAGE,
+        sort_key="57",
     )
     SPECIAL_STAGE_3_MULTIPLAYER = _StageData \
     (
         stage_name="Special Stage 3 Multiplayer",
         stage_type=StageType.MULTIPLAYER_SPECIAL_STAGE,
+        sort_key="58",
     )
 
     def __new__(cls, data: _StageData) -> Self:
@@ -831,6 +892,7 @@ class Stage(enum.Enum):
         self.stage_name: str = data.stage_name
         self.stage_type: StageType = data.stage_type
         self.region: StageRegion = data.region
+        self.sort_key: str = data.sort_key
         self.bonus_keys: dict[Team, int] = data.bonus_keys
         self.checkpoints: dict[Team, int] = data.checkpoints
         self.chaotix_obj_sanity_checks: dict[Act, int] = data.chaotix_obj_sanity_checks

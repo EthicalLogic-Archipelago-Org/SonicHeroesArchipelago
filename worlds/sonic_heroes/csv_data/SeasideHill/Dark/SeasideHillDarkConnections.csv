@@ -1,5 +1,5 @@
 Team,Level,Source,Target,Rule,Notes
-Dark,Seaside Hill,Start,After Beginning Falling Ruins,(DashPanelANDJumpANDMedium)OR(FlyAnyAND(DashPanelORJump))ORRuinsNoTrigger,NoControlTime to be reduced
+Dark,Seaside Hill,Start,After Beginning Falling Ruins,(JumpANDHoming0ANDTornado0Hover)OR(DashPanelANDJumpANDMedium)OR(FlyAnyAND(DashPanelORJump))ORRuinsNoTrigger,NoControlTime to be reduced
 Dark,Seaside Hill,After Beginning Falling Ruins,Start,NOTPOSSIBLE,
 Dark,Seaside Hill,After Beginning Falling Ruins,Beginning Flower Patch,(BadnikBounceANDFlyAnyANDJump)OR(FlyOneCharANDJump)ORTripleSpring,
 Dark,Seaside Hill,Beginning Flower Patch,After Beginning Falling Ruins,,

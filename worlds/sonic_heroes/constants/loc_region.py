@@ -4,7 +4,7 @@ Constants related to Locations, Regions, and Connections
 from __future__ import annotations
 import dataclasses
 import enum
-from typing import override, Any, TYPE_CHECKING
+from typing import override, Any, TYPE_CHECKING, Self
 
 from rule_builder.rules import Rule
 
@@ -51,66 +51,63 @@ MENU_REGION_NAME: str = "Menu"
 METAL_OVERLORD_REGION_NAME: str = "Metal Overlord"
 
 
+@dataclasses.dataclass(frozen=True, kw_only=True)
+class _LocationType:
+    type_name: str
+    sort_key: str
+    is_real: bool = True
+    is_sanity: bool = False
 
-class LocationType(enum.StrEnum):
-    LEVEL = "Level"
-    BOSS = "Boss"
-    EMERALD = "Emerald"
-    OBJ_SANITY = "ObjSanity"
-    KEY_SANITY = "KeySanity"
-    CHECKPOINT_SANITY = "CheckpointSanity"
-    BINGO_CHIP_SANITY = "BingoChipSanity"
-    HINT_RING_SANITY = "HintRingSanity"
-    ITEM_BOX_SANITY = "ItemBoxSanity"
-    ITEM_BALLOON_SANITY = "ItemBalloonSanity"
 
-    EGG_FLAPPER_SANITY = "EggFlapperSanity"
-    EGG_PAWN_SANITY = "EggPawnSanity"
-    KLAGEN_SANITY = "KlagenSanity"
-    FALCO_SANITY = "FalcoSanity"
-    EGG_HAMMER_SANITY = "EggHammerSanity"
-    CAMERON_SANITY = "CameronSanity"
-    RHINO_LINER_SANITY = "RhinoLinerSanity"
-    EGG_BISHOP_SANITY = "EggBishopSanity"
-    E2000_SANITY = "E2000Sanity"
+class LocationType(enum.Enum):
+    LEVEL = _LocationType(type_name="Level", sort_key="9996") #third to last
+    BOSS = _LocationType(type_name="Boss", sort_key="9997") # second to last
+    EMERALD = _LocationType(type_name="Emerald", sort_key="9998")  # last
 
-    RING_SANITY_GROUP = "RingSanityGroup"
-    RING_SANITY_INDIVIDUAL = "RingSanityIndividual"
+    OBJ_SANITY = _LocationType(type_name="ObjSanity", sort_key="9900", is_sanity=True) # last sanity (before goals/emerald)
+    KEY_SANITY = _LocationType(type_name="KeySanity", sort_key="0010", is_sanity=True) # second sanity (after checkpoint)
+    CHECKPOINT_SANITY = _LocationType(type_name="CheckpointSanity", sort_key="0000", is_sanity=True) # first sanity
+    BINGO_CHIP_SANITY = _LocationType(type_name="BingoChipSanity", sort_key="0050", is_sanity=True) # fourth sanity
+    HINT_RING_SANITY = _LocationType(type_name="HintRingSanity", sort_key="0040", is_sanity=True) #fifth sanity
+    ITEM_BOX_SANITY = _LocationType(type_name="ItemBoxSanity", sort_key="0060", is_sanity=True) # sixth sanity
+    ITEM_BALLOON_SANITY = _LocationType(type_name="ItemBalloonSanity", sort_key="0070", is_sanity=True) #seventh sanity
 
-    EVENT = "Event Location"
+    EGG_FLAPPER_SANITY = _LocationType(type_name="EggFlapperSanity", sort_key="9900", is_sanity=True) # first enemy sanity (last in order before OBJ)
+    EGG_PAWN_SANITY = _LocationType(type_name="EggPawnSanity", sort_key="9910", is_sanity=True) # second enemy sanity (last in order before OBJ)
+    KLAGEN_SANITY = _LocationType(type_name="KlagenSanity", sort_key="9920", is_sanity=True) # third enemy sanity
+    FALCO_SANITY = _LocationType(type_name="FalcoSanity", sort_key="9930", is_sanity=True)  # fourth enemy sanity
+    EGG_HAMMER_SANITY = _LocationType(type_name="EggHammerSanity", sort_key="9940", is_sanity=True)  # fifth enemy sanity
+    CAMERON_SANITY = _LocationType(type_name="CameronSanity", sort_key="9950", is_sanity=True)  # sixth enemy sanity
+    RHINO_LINER_SANITY = _LocationType(type_name="RhinoLinerSanity", sort_key="9960", is_sanity=True)  # seventh enemy sanity
+    EGG_BISHOP_SANITY = _LocationType(type_name="EggBishopSanity", sort_key="9970", is_sanity=True)  # eighth enemy sanity
+    E2000_SANITY = _LocationType(type_name="E2000Sanity", sort_key="9980", is_sanity=True)  # ninth enemy sanity
 
-    @property
-    def is_actual_location(self) -> bool:
-        return self.value != self.EVENT
+    RING_SANITY_GROUP = _LocationType(type_name="RingSanityGroup", sort_key="0020", is_sanity=True)  # third sanity
+    RING_SANITY_INDIVIDUAL = _LocationType(type_name="RingSanityIndividual", sort_key="0030", is_sanity=True)  # third sanity
 
-    @property
-    def is_sanity_location(self) -> bool:
-        return self.value not in [self.LEVEL, self.BOSS, self.EMERALD, self.EVENT]
+    EVENT = _LocationType(type_name="Event Location", sort_key="9999", is_real=False)  # should not show up in UT
+
+
+
+    def __new__(cls, data: _LocationType) -> Self:
+        obj = object.__new__(cls)
+        obj._value_ = data
+        return obj
+
+    def __init__(self, data: _LocationType) -> None:
+        self.type_name: str = data.type_name
+        self.sort_key: str = data.sort_key
+        self.is_real: bool = data.is_real
+        self.is_sanity: bool = data.is_sanity
 
 
     @classmethod
     def get_sanity_types(cls) -> list[LocationType]:
         return \
-    [
-        LocationType.OBJ_SANITY,
-        LocationType.KEY_SANITY,
-        LocationType.CHECKPOINT_SANITY,
-        LocationType.BINGO_CHIP_SANITY,
-        LocationType.HINT_RING_SANITY,
-        LocationType.ITEM_BALLOON_SANITY,
-        LocationType.ITEM_BOX_SANITY,
-        LocationType.EGG_FLAPPER_SANITY,
-        LocationType.EGG_PAWN_SANITY,
-        LocationType.KLAGEN_SANITY,
-        LocationType.FALCO_SANITY,
-        LocationType.EGG_HAMMER_SANITY,
-        LocationType.CAMERON_SANITY,
-        LocationType.RHINO_LINER_SANITY,
-        LocationType.EGG_BISHOP_SANITY,
-        LocationType.E2000_SANITY,
-        LocationType.RING_SANITY_GROUP,
-        LocationType.RING_SANITY_INDIVIDUAL,
-    ]
+        [
+            loc_type for loc_type in cls if loc_type.is_sanity # and loc_type.is_real
+        ]
+
 
 
 @dataclasses.dataclass(kw_only=True)

@@ -60,7 +60,7 @@ def append_location(name: str, team: Team, stage: Stage, code: int, act: int, pa
     if code > 0:
         loc_id = code
     code = loc_id
-    if not loc_type.is_actual_location:
+    if not loc_type.is_real:
         code = EVENT_LOCATION_ID
     elif code in already_used_loc_ids:
         raise ValueError(f"DUPLICATE LOCATION ID!! Loc Name: {name} Code: {code} Loc_Type: {loc_type} Locked_Item: {locked_item}")
@@ -72,7 +72,7 @@ def append_location(name: str, team: Team, stage: Stage, code: int, act: int, pa
         FULL_LOCATION_GROUPS[location_group].add(name)
 
 
-    if loc_type.is_actual_location:
+    if loc_type.is_real:
         loc_id += num_to_increment_id
 
 
@@ -428,6 +428,7 @@ def generate_ring_sanity_group_locations() -> None:
 
     for ring_data in get_parsed_data_module_for_team_stage(team=team, stage=stage).rings:  # pyright: ignore[reportAny]
         if ring_data.id_offset > 0:  # pyright: ignore[reportAny]
+            # need to ignore ones with id_offest as those are duplicates
             continue
         append_sanity_location_with_act(name=f"{ring_data.location_name} {RING_GROUP}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=0, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY_GROUP, location_groups=[RING_SANITY_LOCATION_GROUP])  # pyright: ignore[reportAny]
 
@@ -435,6 +436,7 @@ def generate_ring_sanity_group_locations() -> None:
 
     for ring_data in get_parsed_data_module_for_team_stage(team=team, stage=stage).rings:  # pyright: ignore[reportAny]
         if ring_data.id_offset > 0:  # pyright: ignore[reportAny]
+            # need to ignore ones with id_offest as those are duplicates
             continue
         append_sanity_location_with_act(name=f"{ring_data.location_name} {RING_GROUP}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=1, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY_GROUP, location_groups=[RING_SANITY_LOCATION_GROUP])  # pyright: ignore[reportAny]
 
@@ -442,6 +444,7 @@ def generate_ring_sanity_group_locations() -> None:
 
     for ring_data in get_parsed_data_module_for_team_stage(team=team, stage=stage).rings:  # pyright: ignore[reportAny]
         if ring_data.id_offset > 0:  # pyright: ignore[reportAny]
+            # need to ignore ones with id_offest as those are duplicates
             continue
         append_sanity_location_with_act(name=f"{ring_data.location_name} {RING_GROUP}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=2, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY_GROUP, location_groups=[RING_SANITY_LOCATION_GROUP])  # pyright: ignore[reportAny]
 
@@ -455,6 +458,7 @@ def generate_ring_sanity_individual_ring_locations() -> None:
 
     for ring_data in get_parsed_data_module_for_team_stage(team=team, stage=stage).rings:  # pyright: ignore[reportAny]
         if ring_data.id_offset > 0:  # pyright: ignore[reportAny]
+            # need to ignore ones with id_offest as those are duplicates
             continue
         for x in range(ring_data.num_rings):  # pyright: ignore[reportAny]
             append_sanity_location_with_act(name=f"{ring_data.location_name} Ring {x + 1}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=0, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY_INDIVIDUAL, location_groups=[RING_SANITY_LOCATION_GROUP])  # pyright: ignore[reportAny]
@@ -463,6 +467,7 @@ def generate_ring_sanity_individual_ring_locations() -> None:
 
     for ring_data in get_parsed_data_module_for_team_stage(team=team, stage=stage).rings:  # pyright: ignore[reportAny]
         if ring_data.id_offset > 0:  # pyright: ignore[reportAny]
+            # need to ignore ones with id_offest as those are duplicates
             continue
         for x in range(ring_data.num_rings):  # pyright: ignore[reportAny]
             append_sanity_location_with_act(name=f"{ring_data.location_name} Ring {x + 1}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=1, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY_INDIVIDUAL, location_groups=[RING_SANITY_LOCATION_GROUP])  # pyright: ignore[reportAny]
@@ -471,6 +476,7 @@ def generate_ring_sanity_individual_ring_locations() -> None:
 
     for ring_data in get_parsed_data_module_for_team_stage(team=team, stage=stage).rings:  # pyright: ignore[reportAny]
         if ring_data.id_offset > 0:  # pyright: ignore[reportAny]
+            # need to ignore ones with id_offest as those are duplicates
             continue
         for x in range(ring_data.num_rings):  # pyright: ignore[reportAny]
             append_sanity_location_with_act(name=f"{ring_data.location_name} Ring {x + 1}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=2, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY_INDIVIDUAL, location_groups=[RING_SANITY_LOCATION_GROUP])  # pyright: ignore[reportAny]

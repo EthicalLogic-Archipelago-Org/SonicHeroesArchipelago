@@ -1,6 +1,7 @@
 """
 The World For Universal Tracker
 """
+from math import floor, log10
 from typing import override, Any, ClassVar
 
 from BaseClasses import CollectionState, MultiWorld
@@ -8,13 +9,15 @@ from NetUtils import JSONMessagePart
 from Options import Option
 from Utils import get_intended_text, get_fuzzy_results  # pyright: ignore[reportUnknownVariableType]
 
+from ..location_generation import FULL_LOCATION_DICT
 from ..rule_builder.custom_rules import SonicHeroesMacroRule
+from ..rule_parser.functions_parser import get_parsed_data_module_for_team_stage
 
 from ..constants.apworld import RE_GEN_PASSTHROUGH_ATTR
 from ..constants.char_ability import Team
-from ..constants.items_events import UT_GLITCH_ITEM
-from ..constants.loc_region import LocationType
-from ..constants.stage import Act, EnabledTeamActs
+from ..constants.items_events import UT_GLITCH_ITEM, OBJ_SANITY
+from ..constants.loc_region import LocationType, SonicHeroesLocationData
+from ..constants.stage import Act, EnabledTeamActs, Stage
 from ..world_base import SonicHeroesWorldBase
 
 
@@ -43,6 +46,98 @@ class SonicHeroesUTWorld(SonicHeroesWorldBase):
         pass
 
 
+    def custom_ut_sort(self, region_label: str, location_label: str) -> str | int:
+        # make a bitfield
+        # team most significant             (AnyTeam, Sonic, Dark, Rose, Chaotix)
+        # stage                             (SH -> Final)
+        # region (order through level)      can be several hundred
+        # type (ObjSanity, Act Goal)        (regular, ObjSanity, Goal)
+        # first group second group
+        # left center right
+
+        # could be string
+        # NOT HEXA!!!
+        # 0 (Any Team) 00 (SH) 3 (EggPawnSanity) 0059 (Region) 0 (First Group) 2 (Right)
+        # 0003005902
+        _result: str = ""
+
+        # get team and Stage
+        team: Team = Team.ANY_TEAM
+        stage: Stage = Stage.TEST_LEVEL
+
+        for temp_stage in Stage:
+            if location_label.startswith(temp_stage.stage_name):
+                stage = temp_stage
+                # break # cant break as Seaside Hill Bonus Stage exists (would match SH)
+
+        if stage is Stage.TEST_LEVEL:
+            raise ValueError(f"No Valid Stage in Location: {location_label} ::: Region: {region_label}")
+
+        temp_location_label: str = location_label.removeprefix(stage.stage_name)
+
+        for temp_team in Team:
+            if temp_team is Team.ANY_TEAM:
+                continue
+            if temp_location_label.startswith(temp_team):
+                team = temp_team
+
+        location_list: list[SonicHeroesLocationData] = [loc_data for loc_data in FULL_LOCATION_DICT[stage][team] if loc_data.name == location_label]
+
+        if len(location_list) != 1:
+            raise ValueError(f"Problem Matching Location: {location_label} For Team: {team.value} and Stage: {stage.stage_name}. Matched: {location_list}")
+        location_data: SonicHeroesLocationData = location_list[0]
+
+
+        # get region
+        region_to_index: dict[str, int] = \
+        {
+            region.region_name: index for index, region in enumerate(get_parsed_data_module_for_team_stage(team=team, stage=stage).regions)  # pyright: ignore[reportAny]
+        }
+        #force ObjSanity to last (but before goal)
+        region_to_index[f"{stage.stage_name} {team.value} {OBJ_SANITY}"] = region_to_index[f"{stage.stage_name} {team.value} Goal"]
+        region_to_index[f"{stage.stage_name} {team.value} Goal"] += 1
+
+
+        # start sorting here
+        # Team most significant
+        match team:
+            case Team.SONIC:
+                _result += "0"
+            case Team.DARK:
+                _result += "1"
+            case Team.ROSE:
+                _result += "2"
+            case Team.CHAOTIX:
+                _result += "3"
+            case Team.SUPER_HARD_MODE:
+                _result += "4"
+            case Team.ANY_TEAM:
+                _result += "9"
+
+        # then Stage
+        _result += stage.sort_key
+
+        # then region (ObjSanity and Act Goal matters here)
+        num_of_digits_for_region_key: int = 1 + floor(log10(region_to_index[f"{stage.stage_name} {team.value} Goal"]))
+        _result += f"{region_to_index[region_label]:0{num_of_digits_for_region_key}d}"
+        # for x in range(num_of_digits_for_region_key - 1):
+        #     if region_to_index[region_label] < 10 * x:
+        #         _result += f"0"
+        # _result += str(region_to_index[f"{stage.stage_name} {team.value} Goal"])
+
+        # sort based on type (enemy, item box)
+        _result += location_data.loc_type.sort_key
+
+        # sort based on act
+        _result += str(location_data.act)
+
+        # sort based on left -> right
+        # this is hardest
+        # this might be too difficult
+
+        return _result
+
+
 
     def explain_rule(self, dest_name: str, state: CollectionState, *_: Any, **__: Any) -> list[JSONMessagePart] | None:  # pyright: ignore[reportExplicitAny, reportAny]
         if not dest_name:
@@ -51,6 +146,11 @@ class SonicHeroesUTWorld(SonicHeroesWorldBase):
         result, usable, confidence = self._explain_macro(macro_name=dest_name, state=state)
         if usable:
             return result
+
+        #need to do thing here
+
+
+
         return None #Do Normal UT Thing
 
 
