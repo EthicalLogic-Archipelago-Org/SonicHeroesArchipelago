@@ -15,7 +15,7 @@ PARSER_ENEMY_MAPPING: dict[str, Callable[[Team, Stage], str]] = \
     "KillRedFlapperGround": lambda team, stage: get_func_str(func_name="can_kill_egg_flapper", params={"team": team, "stage": stage, "flapper": EggFlapper(team=team, stage=stage, armor=EggFlapperArmor.NO_ARMOR, weapon=EggFlapperWeapon.NO_WEAPON, height=EnemyHeight.GROUND)}),
     "KillRedFlapperHalfJump": lambda team, stage: get_func_str(func_name="can_kill_egg_flapper", params={"team": team, "stage": stage, "flapper": EggFlapper(team=team, stage=stage, armor=EggFlapperArmor.NO_ARMOR, weapon=EggFlapperWeapon.NO_WEAPON, height=EnemyHeight.HALF_JUMP)}),
     "KillRedFlapperJump": lambda team, stage: get_func_str(func_name="can_kill_egg_flapper", params={"team": team, "stage": stage, "flapper": EggFlapper(team=team, stage=stage, armor=EggFlapperArmor.NO_ARMOR, weapon=EggFlapperWeapon.NO_WEAPON, height=EnemyHeight.JUMP)}),
-
+    # "KillRedFlapperJumpHomingOnly"
 
     "GreenFlapperBazooka": lambda team, stage: get_func_str(func_name="has_enemy_obj", params={"team": team, "stage": stage, "enemy": EggFlapper(team=team, stage=stage, armor=EggFlapperArmor.NO_ARMOR, weapon=EggFlapperWeapon.BAZOOKA)}),
     "KillGreenFlapperBazookaHalfJump": lambda team, stage: get_func_str(func_name="can_kill_egg_flapper", params={"team": team, "stage": stage, "flapper": EggFlapper(team=team, stage=stage, armor=EggFlapperArmor.NO_ARMOR, weapon=EggFlapperWeapon.BAZOOKA, height=EnemyHeight.HALF_JUMP)}),

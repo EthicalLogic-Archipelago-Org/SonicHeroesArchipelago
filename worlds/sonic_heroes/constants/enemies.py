@@ -22,9 +22,10 @@ class EnemyHeight(enum.Enum):
     TALL_CHAR_JUMP = ("Tall Char Jump", 3)
     FULL_FLY_STACK_JUMP = ("Full Fly Stack Jump", 4)
     FULL_FLY_STACK_TALL_CHAR_JUMP = ("Full Fly Stack Tall Char Jump", 5)
-    JUMP_THUNDERSHOOT = ("Jump Thundershoot", 6)
-    FLIGHT_THUNDERSHOOT = ("Flight Thundershoot", 7)
-    JUMP_FLIGHT_THUNDERSHOOT = ("Jump Flight Thundershoot", 8)
+    THUNDERSHOOT = ("Thundershoot", 6)
+    JUMP_THUNDERSHOOT = ("Jump Thundershoot", 7)
+    FLIGHT_THUNDERSHOOT = ("Flight Thundershoot", 8)
+    JUMP_FLIGHT_THUNDERSHOOT = ("Jump Flight Thundershoot", 9)
 
     def __init__(self, description: str, relative_value: int) -> None:
         self.description: str = description
@@ -44,6 +45,8 @@ class EnemyHeight(enum.Enum):
             return cls.FULL_FLY_STACK_JUMP
         elif input_str == "FullFlyStackTallCharJump":
             return cls.FULL_FLY_STACK_TALL_CHAR_JUMP
+        elif input_str == "Thundershoot":
+            return cls.THUNDERSHOOT
         elif input_str == "JumpAndThundershoot":
             return cls.JUMP_THUNDERSHOOT
         elif input_str == "FlightAndThundershoot":

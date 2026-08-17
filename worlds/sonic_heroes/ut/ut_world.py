@@ -147,8 +147,6 @@ class SonicHeroesUTWorld(SonicHeroesWorldBase):
         _result += str(location_data.act)
 
         # sort based on left -> right
-        # this is hardest
-        # this might be too difficult
         # maybe append last digits of loc ID (this could be a clean way of handling this)
         _result += str(location_data.code)[-3:]
 

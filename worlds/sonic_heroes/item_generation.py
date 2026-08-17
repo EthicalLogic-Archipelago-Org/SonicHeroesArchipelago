@@ -128,7 +128,7 @@ def generate_spawn_position_items() -> None:
             round_item_id_to_nearest_value_multiple(value=0x10)
             for checkpoint in range(reg_level.checkpoints[team] + 1):
                 append_item(name=get_spawn_position_item_name(team=team, stage=reg_level, checkpoint=checkpoint), classification=ItemClassification.progression, item_groups=[SPAWN_POSITION_ITEM_GROUP])
-
+        # TODO add force unlock/lock spawn positions item
 
 
 

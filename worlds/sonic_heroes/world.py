@@ -10,6 +10,7 @@ from rule_builder.rules import Has
 from .helper_functions import get_playable_char_item_name, get_stage_obj_item_name, \
     get_spawn_position_item_name
 from .items import create_items, create_precollected_items
+from .options import RingSanityDark
 from .regions import create_regions, create_entrances
 
 from .item_generation import FULL_ITEM_GROUPS, FULL_ITEM_LIST
@@ -66,13 +67,17 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
         self.enabled_team_acts_flag |= EnabledTeamActs.DARK_ACT_B  # pyright: ignore[reportUnannotatedClassAttribute]
         self.enabled_sanity_acts[Team.DARK] = {loc_type: Act.ACT_B for loc_type in LocationType.get_sanity_types()}
         # self.enabled_sanity_acts[Team.DARK][LocationType.OBJ_SANITY] = Act.NONE
-        self.enabled_sanity_acts[Team.DARK][LocationType.RING_SANITY_GROUP] = Act.NONE
-        # self.enabled_sanity_acts[Team.DARK][LocationType.ENEMY_SANITY] = Act.NONE
+
+
+        if self.options.ring_sanity_dark != RingSanityDark.option_all_rings:
+            self.enabled_sanity_acts[Team.DARK][LocationType.RING_SANITY_INDIVIDUAL] = Act.NONE
+        if self.options.ring_sanity_dark != RingSanityDark.option_groups:
+            self.enabled_sanity_acts[Team.DARK][LocationType.RING_SANITY_GROUP] = Act.NONE
 
         self.starting_inventory_amounts[get_playable_char_item_name(character=Character.OMEGA)] = 1
         self.starting_inventory_amounts[get_stage_obj_item_name(team=Team.DARK, stage_obj=StageObj.CHECKPOINT)] = 1
         self.starting_inventory_amounts[get_stage_obj_item_name(team=Team.DARK, stage_obj=StageObj.RINGS)] = 1
-        # self.starting_inventory_amounts[get_stage_obj_item_name(team=Team.DARK, stage_obj=StageObj.RINGS)] = 1
+        # self.starting_inventory_amounts[get_stage_obj_item_name(team=Team.DARK, stage_obj=StageObj.ITEM_BOX)] = 1
         self.starting_inventory_amounts[get_spawn_position_item_name(team=Team.DARK, stage=Stage.SEASIDE_HILL, checkpoint=1)] = 1
 
 

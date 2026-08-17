@@ -32,9 +32,14 @@ def can_kill_red_flapper(team: Team, stage: Stage, flapper: EggFlapper, height: 
         rule = can_jump_rule(team=team, stage=stage) & can_thundershoot_rule(team=team, stage=stage, level=0)
         return SonicHeroesMacroRule(child=can_kill_red_flapper(team=team, stage=stage, flapper=flapper, height=EnemyHeight.FLIGHT_THUNDERSHOOT, color_str=color_str) | rule, name=f"Kill {color_str} Flapper with {flapper.weapon} at {height.description} Height as Team: {team} in {stage.stage_name}")
 
+    if height is EnemyHeight.THUNDERSHOOT:
+        rule = can_thundershoot_rule(team=team, stage=stage, level=0)
+        return SonicHeroesMacroRule(child=can_kill_red_flapper(team=team, stage=stage, flapper=flapper, height=EnemyHeight.JUMP_THUNDERSHOOT, color_str=color_str) | rule, name=f"Kill {color_str} Flapper with {flapper.weapon} at {height.description} Height as Team: {team} in {stage.stage_name}")
+
+
     if height is EnemyHeight.FULL_FLY_STACK_TALL_CHAR_JUMP:
         rule = can_jump_rule(team=team, stage=stage) & (has_all_3_chars_rule(team=team) & has_flying_and_tall_char_rule(team=team))
-        return SonicHeroesMacroRule(child=can_kill_red_flapper(team=team, stage=stage, flapper=flapper, height=EnemyHeight.JUMP_THUNDERSHOOT, color_str=color_str) | rule, name=f"Kill {color_str} Flapper with {flapper.weapon} at {height.description} Height as Team: {team} in {stage.stage_name}")
+        return SonicHeroesMacroRule(child=can_kill_red_flapper(team=team, stage=stage, flapper=flapper, height=EnemyHeight.THUNDERSHOOT, color_str=color_str) | rule, name=f"Kill {color_str} Flapper with {flapper.weapon} at {height.description} Height as Team: {team} in {stage.stage_name}")
 
     if height is EnemyHeight.FULL_FLY_STACK_JUMP:
         rule = can_jump_rule(team=team, stage=stage) & (has_all_3_chars_rule(team=team) | has_flying_and_tall_char_rule(team=team))

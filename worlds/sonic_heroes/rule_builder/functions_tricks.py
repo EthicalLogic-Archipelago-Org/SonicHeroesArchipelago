@@ -8,7 +8,7 @@ from rule_builder.rules import Rule
 from ..constants.char_ability import Team
 from ..constants.stage import Stage
 from ..options import *
-from ..rule_builder.custom_rules import TrickRule
+from ..rule_builder.custom_rules import TrickRule, SonicHeroesMacroRule
 from ..world_base import SonicHeroesWorldBase
 from .functions_ability_char import can_homing_attack_rule, can_jump_rule, can_tornado_rule, can_flight_rule
 
@@ -51,7 +51,10 @@ def can_fly_deplete_boost_rule(team: Team, stage: Stage) -> Rule[SonicHeroesWorl
 
 def can_fly_ground_bounce_rule(team: Team, stage: Stage, needs_jump: bool = True) -> Rule[SonicHeroesWorldBase]:
     if needs_jump:
-        return can_jump_rule(team=team, stage=stage) & TrickRule(option_filter=OptionFilter(option=FlyGroundBounce, value=FlyGroundBounce.option_with_jump, operator="ge"))
+        # Fly Jump and Trick
+        # jumpless or'd with Macro for jump
+        return can_jump_rule(team=team, stage=stage) & can_flight_rule(team=team, stage=stage, num_other_chars=0) & TrickRule(option_filter=OptionFilter(option=FlyGroundBounce, value=FlyGroundBounce.option_with_jump, operator="ge"))
+
     return TrickRule(option_filter=OptionFilter(option=FlyGroundBounce, value=FlyGroundBounce.option_without_jump))
 
 
