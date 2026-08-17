@@ -37,7 +37,7 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
 
     def __init__(self, multiworld: MultiWorld, player: int) -> None:
         super().__init__(multiworld=multiworld, player=player)
-        self.apworld_version: str = "2.2.0"
+        self.apworld_version: str = "99.9.9"
 
 
     @override
