@@ -4,10 +4,13 @@ Constants related to Stage Objs
 import dataclasses
 import enum
 
+from rule_builder.rules import Rule
+
 from .char_ability import Team
 from .stage import Stage
 
-
+from ..helper_functions import get_default_true_rule
+from ..world_base import SonicHeroesWorldBase
 
 class StageObj(enum.StrEnum):
     ALL_STAGE_OBJECTS = "All Stage Objects"
@@ -459,6 +462,9 @@ SEASIDE_HILL_DARK_STAGE_OBJS: list[StageObj] = \
 ALL_STAGE_OBJECTS: str = "All Stage Objects"
 
 DEFAULT_STAGE_OBJ_REGION: str = ""
+DEFAULT_STAGE_OBJ_ID_GROUP: int = 0
+DEFAULT_STAGE_OBJ_ID_OFFSET_GROUP: int = 0
+DEFAULT_STAGE_OBJ_ID_OFFSET_FULL: int = 0
 DEFAULT_STAGE_OBJ_LINK_ID: int = 0
 DEFAULT_STAGE_OBJ_COORD: float = -9999999.0
 
@@ -472,10 +478,14 @@ class StageObjBase:
     obj_id: StageObj
     location_name: str = ""
     region_name: str = DEFAULT_STAGE_OBJ_REGION
+    group: int = DEFAULT_STAGE_OBJ_ID_GROUP
+    id_offset_group: int = DEFAULT_STAGE_OBJ_ID_OFFSET_GROUP
+    id_offset_full: int = DEFAULT_STAGE_OBJ_ID_OFFSET_FULL
     link_id: int = DEFAULT_STAGE_OBJ_LINK_ID
     x: float = DEFAULT_STAGE_OBJ_COORD
     y: float = DEFAULT_STAGE_OBJ_COORD
     z: float = DEFAULT_STAGE_OBJ_COORD
+    rule: Rule[SonicHeroesWorldBase] = dataclasses.field(default_factory=get_default_true_rule)
 
     @property
     def pos(self) -> tuple[float, float, float]:

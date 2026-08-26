@@ -99,6 +99,7 @@ def can_light_attack_rule(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase
 
 
 def can_invisibility_rule(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
+    # TODO check if invis is needed here then get (or make custom rule)
     ability: Ability = Ability.INVISIBILITY
     return SonicHeroesMacroRule(child=HasAbilityForTeam(team=team, ability=ability) & can_jump_rule(team=team, stage=stage) & can_tornado_rule(team=team, stage=stage, level=0), name=f"{ability.ability_name} as Team: {team} in {stage.stage_name}")
 

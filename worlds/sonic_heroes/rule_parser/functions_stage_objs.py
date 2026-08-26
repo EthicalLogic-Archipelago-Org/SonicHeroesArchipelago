@@ -48,7 +48,7 @@ def parse_csv_entry_rings(entry: dict[str, str], params_dict: dict[str, str]) ->
     params_dict["num_rings"] = entry[RING_NUM_RINGS_HEADER]
     params_dict["length"] = entry[RING_LENGTH_HEADER]
     params_dict["radius"] = entry[RING_RADIUS_HEADER]
-    params_dict["id_offset"] = entry[RING_ID_OFFSET_HEADER]
+    # params_dict["id_offset"] = entry[RING_ID_OFFSET_HEADER]
     return params_dict
 
 
@@ -161,6 +161,9 @@ def parse_individual_stage_obj_csv_entry(entry: dict[str, str]) -> tuple[StageOb
     region_str: str = f"{stage.stage_name} {team} {entry[REGION_HEADER]}"
     name_str: str = f"{entry[REGION_HEADER]} {entry[NAME_HEADER]}"
     parsed_rule_str: str = ""
+    group_str: str = f"{entry[GROUP_HEADER]}"
+    id_offset_group_str: str = f"{entry[ID_OFFSET_GROUP_HEADER]}"
+    id_offset_full_str: str = f"{entry[ID_OFFSET_FULL_HEADER]}"
     link_id_str: str = f"{entry[LINK_ID_HEADER]}"
     x_str: str = f"{entry[X_HEADER]}"
     y_str: str = f"{entry[Y_HEADER]}"
@@ -206,6 +209,9 @@ def parse_individual_stage_obj_csv_entry(entry: dict[str, str]) -> tuple[StageOb
         case _:
             pass
 
+    params_dict["group"] = group_str
+    params_dict["id_offset_group"] = id_offset_group_str
+    params_dict["id_offset_full"] = id_offset_full_str
     params_dict["link_id"] = link_id_str
     params_dict["x"] = x_str
     params_dict["y"] = y_str

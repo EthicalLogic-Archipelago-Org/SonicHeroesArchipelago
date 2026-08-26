@@ -213,7 +213,6 @@ class SonicHeroesEnemyBase(StageObjBase):
     """
     enemy_type: EnemyType = dataclasses.field(init=False, default=EnemyType.NO_ENEMY)
     height: EnemyHeight = EnemyHeight.GROUND
-    rule: Rule[SonicHeroesWorldBase] = dataclasses.field(default_factory=get_default_true_rule)
 
     def __post_init__(self) -> None:
         if type(self) is SonicHeroesEnemyBase:

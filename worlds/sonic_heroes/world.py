@@ -10,7 +10,7 @@ from rule_builder.rules import Has
 from .helper_functions import get_playable_char_item_name, get_stage_obj_item_name, \
     get_spawn_position_item_name
 from .items import create_items, create_precollected_items
-from .options import RingSanityDark
+from .options import *
 from .regions import create_regions, create_entrances
 
 from .item_generation import FULL_ITEM_GROUPS, FULL_ITEM_LIST
@@ -63,22 +63,21 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
         # check options
 
         # handle options
-        # self.enabled_team_acts_flag |= EnabledTeamActs.DARK_ACT_A  # pyright: ignore[reportUnannotatedClassAttribute]
-        self.enabled_team_acts_flag |= EnabledTeamActs.DARK_ACT_B  # pyright: ignore[reportUnannotatedClassAttribute]
-        self.enabled_sanity_acts[Team.DARK] = {loc_type: Act.ACT_B for loc_type in LocationType.get_sanity_types()}
-        # self.enabled_sanity_acts[Team.DARK][LocationType.OBJ_SANITY] = Act.NONE
+        self.handle_options_at_gen_early()
 
 
-        if self.options.ring_sanity_dark != RingSanityDark.option_all_rings:
-            self.enabled_sanity_acts[Team.DARK][LocationType.RING_SANITY_INDIVIDUAL] = Act.NONE
-        if self.options.ring_sanity_dark != RingSanityDark.option_groups:
-            self.enabled_sanity_acts[Team.DARK][LocationType.RING_SANITY_GROUP] = Act.NONE
+        if self.options.starting_character_dark == StartingCharacterDark.option_shadow:
+            self.starting_inventory_amounts[get_playable_char_item_name(character=Character.SHADOW)] = 1
+        if self.options.starting_character_dark == StartingCharacterDark.option_rouge:
+            self.starting_inventory_amounts[get_playable_char_item_name(character=Character.ROUGE)] = 1
+        if self.options.starting_character_dark == StartingCharacterDark.option_omega:
+            self.starting_inventory_amounts[get_playable_char_item_name(character=Character.OMEGA)] = 1
 
-        self.starting_inventory_amounts[get_playable_char_item_name(character=Character.OMEGA)] = 1
+
         self.starting_inventory_amounts[get_stage_obj_item_name(team=Team.DARK, stage_obj=StageObj.CHECKPOINT)] = 1
         self.starting_inventory_amounts[get_stage_obj_item_name(team=Team.DARK, stage_obj=StageObj.RINGS)] = 1
         # self.starting_inventory_amounts[get_stage_obj_item_name(team=Team.DARK, stage_obj=StageObj.ITEM_BOX)] = 1
-        self.starting_inventory_amounts[get_spawn_position_item_name(team=Team.DARK, stage=Stage.SEASIDE_HILL, checkpoint=1)] = 1
+        self.starting_inventory_amounts[get_spawn_position_item_name(team=Team.DARK, stage=Stage.SEASIDE_HILL, checkpoint=3)] = 1
 
 
         #level gates here (not needed)
@@ -216,6 +215,109 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
 
         # !pragma layout smetana
         # put this at top to display PUML (after start UML)
+
+
+    def force_enable_required_acts_and_sanities(self) -> None:
+        if not self.options.enabled_acts_dark.is_act_a_enabled() and not self.options.enabled_acts_dark.is_act_b_enabled():
+            self.options.enabled_acts_dark.value = EnabledActsDark.option_act_a
+
+        if self.options.ring_sanity_dark == RingSanityDark.option_disabled:
+            self.options.ring_sanity_dark.value = RingSanityDark.option_groups
+
+        if self.options.hint_ring_sanity_dark == HintRingSanityDark.option_disabled:
+            self.options.hint_ring_sanity_dark.value = HintRingSanityDark.option_groups
+
+        if self.options.item_box_balloon_sanity_dark == ItemBoxBalloonSanityDark.option_disabled:
+            self.options.item_box_balloon_sanity_dark.value = ItemBoxBalloonSanityDark.option_groups
+
+        if self.options.enemy_sanity_dark == EnemySanityDark.option_disabled:
+            self.options.enemy_sanity_dark.value = EnemySanityDark.option_groups
+
+
+    def handle_individual_sanity_option_for_team_at_gen_early(self, team: Team, loc_type: LocationType) -> None:
+        if self.options.both_sanity_location_sets:
+            self.enabled_sanity_acts[team][loc_type] = Act.BOTH_ACTS
+        else:
+            self.enabled_sanity_acts[team][loc_type] = Act.ACT_A
+
+
+
+    def handle_options_at_gen_early(self) -> None:
+        self.force_enable_required_acts_and_sanities()
+
+        # enabled acts
+        self.enabled_team_acts_flag: EnabledTeamActs = EnabledTeamActs.NONE
+
+        if self.options.enabled_acts_dark.is_act_a_enabled():
+            self.enabled_team_acts_flag |= EnabledTeamActs.DARK_ACT_A
+        if self.options.enabled_acts_dark.is_act_b_enabled():
+            self.enabled_team_acts_flag |= EnabledTeamActs.DARK_ACT_B
+
+
+        # force checkpoint and key sanities
+        self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.CHECKPOINT_SANITY)
+        self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.KEY_SANITY)
+
+
+        # enabled sanities
+        # Obj Sanity
+        if self.options.obj_sanity_dark:
+            if not self.options.enabled_acts_dark.is_act_b_enabled():
+                raise OptionError(f"Obj Sanity for Team Dark requires Act B to be enabled")
+            self.enabled_sanity_acts[Team.DARK][LocationType.OBJ_SANITY] = Act.ACT_B
+
+        # Ring Sanity Group
+        if self.options.ring_sanity_dark.is_group_enabled():
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.RING_SANITY_GROUP)
+
+        # Ring Sanity Full
+        if self.options.ring_sanity_dark.is_full_enabled():
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.RING_SANITY_FULL)
+
+
+        # Hint Ring Sanity Group
+        if self.options.hint_ring_sanity_dark.is_group_enabled():
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.HINT_RING_SANITY_GROUP)
+
+        # Hint Ring Sanity Full
+        if self.options.hint_ring_sanity_dark.is_full_enabled():
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.HINT_RING_SANITY_FULL)
+
+        # Item Box Sanity Group
+        if self.options.item_box_balloon_sanity_dark.is_group_enabled():
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.ITEM_BOX_SANITY_GROUP)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.ITEM_BALLOON_SANITY_GROUP)
+
+        # Item Box Sanity Full
+        if self.options.item_box_balloon_sanity_dark.is_full_enabled():
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.ITEM_BOX_SANITY_FULL)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.ITEM_BALLOON_SANITY_FULL)
+
+
+        # Enemy Sanity Group
+        if self.options.enemy_sanity_dark.is_group_enabled():
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.EGG_FLAPPER_SANITY_GROUP)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.EGG_PAWN_SANITY_GROUP)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.KLAGEN_SANITY_GROUP)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.FALCO_SANITY_GROUP)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.EGG_HAMMER_SANITY_GROUP)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.CAMERON_SANITY_GROUP)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.RHINO_LINER_SANITY_GROUP)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.EGG_BISHOP_SANITY_GROUP)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.E2000_SANITY_GROUP)
+
+
+        # Enemy Sanity Full
+        if self.options.enemy_sanity_dark.is_full_enabled():
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.EGG_FLAPPER_SANITY_FULL)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.EGG_PAWN_SANITY_FULL)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.KLAGEN_SANITY_FULL)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.FALCO_SANITY_FULL)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.EGG_HAMMER_SANITY_FULL)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.CAMERON_SANITY_FULL)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.RHINO_LINER_SANITY_FULL)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.EGG_BISHOP_SANITY_FULL)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.E2000_SANITY_FULL)
 
 
 

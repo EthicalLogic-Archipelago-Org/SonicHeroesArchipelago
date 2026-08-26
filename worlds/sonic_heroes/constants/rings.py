@@ -31,7 +31,7 @@ class RingData(StageObjBase):
     num_rings: int
     length: float = DEFAULT_STAGE_OBJ_COORD
     radius: float = DEFAULT_STAGE_OBJ_COORD
-    rule: Rule[SonicHeroesWorldBase] = dataclasses.field(default_factory=get_default_true_rule)
-    id_offset: int = 0
+    #rule: Rule[SonicHeroesWorldBase] = dataclasses.field(default_factory=get_default_true_rule) <- removed (moved to base class)
+    # id_offset: int = 0 <- removed (moved to base class)
 
     obj_id: StageObj = dataclasses.field(init=False, default=StageObj.RINGS)

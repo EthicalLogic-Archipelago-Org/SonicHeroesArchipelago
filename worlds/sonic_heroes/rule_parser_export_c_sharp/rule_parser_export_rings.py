@@ -36,7 +36,6 @@ def get_rings_export_string_for_team(team: Team, parsed_data: dict[Stage, list[R
                     "length": f"{parsed_entry.length}f",
                     "radius": f"{parsed_entry.radius}f",
                     "start_id_offset": f"{start_id_offset}",
-                    "id_offset": f"{parsed_entry.id_offset}",
                     "linkid": f"{parsed_entry.link_id}",
                     "x": f"{parsed_entry.x}f",
                     "y": f"{parsed_entry.y}f",
@@ -45,8 +44,8 @@ def get_rings_export_string_for_team(team: Team, parsed_data: dict[Stage, list[R
                 }
             _result += f"{tab_char}{tab_char}{get_parsed_export_entry_str(entry_class_name=class_str, params=params_dict)},\n"
 
-            if parsed_entry.id_offset >= 0:
-                start_id_offset += parsed_entry.num_rings
+            # if parsed_entry.id_offset >= 0:
+            #     start_id_offset += parsed_entry.num_rings
 
     if _result[-2:] != ",\n":
         _result += f"{tab_char}{tab_char}\n"

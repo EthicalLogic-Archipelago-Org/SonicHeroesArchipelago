@@ -28,21 +28,35 @@ OBJ_SANITY_LOCATION_GROUP: str = "ObjSanity"
 KEY_SANITY_LOCATION_GROUP: str = "KeySanity"
 CHECKPOINT_SANITY_LOCATION_GROUP: str = "CheckpointSanity"
 
-EGG_FLAPPER_SANITY_LOCATION_GROUP = "EggFlapperSanity"
-EGG_PAWN_SANITY_LOCATION_GROUP = "EggPawnSanity"
-KLAGEN_SANITY_LOCATION_GROUP = "KlagenSanity"
-FALCO_SANITY_LOCATION_GROUP = "FalcoSanity"
-EGG_HAMMER_SANITY_LOCATION_GROUP = "EggHammerSanity"
-CAMERON_SANITY_LOCATION_GROUP = "CameronSanity"
-RHINO_LINER_SANITY_LOCATION_GROUP = "RhinoLinerSanity"
-EGG_BISHOP_SANITY_LOCATION_GROUP = "EggBishopSanity"
-E2000_SANITY_LOCATION_GROUP = "E2000Sanity"
+EGG_FLAPPER_SANITY_LOCATION_GROUP_GROUP = "EggFlapperSanityGroup"
+EGG_FLAPPER_SANITY_LOCATION_GROUP_FULL = "EggFlapperSanityFull"
+EGG_PAWN_SANITY_LOCATION_GROUP_GROUP = "EggPawnSanityGroup"
+EGG_PAWN_SANITY_LOCATION_GROUP_FULL = "EggPawnSanityFull"
+KLAGEN_SANITY_LOCATION_GROUP_GROUP = "KlagenSanityGroup"
+KLAGEN_SANITY_LOCATION_GROUP_FULL = "KlagenSanityFull"
+FALCO_SANITY_LOCATION_GROUP_GROUP = "FalcoSanityGroup"
+FALCO_SANITY_LOCATION_GROUP_FULL = "FalcoSanityFull"
+EGG_HAMMER_SANITY_LOCATION_GROUP_GROUP = "EggHammerSanityGroup"
+EGG_HAMMER_SANITY_LOCATION_GROUP_FULL = "EggHammerSanityFull"
+CAMERON_SANITY_LOCATION_GROUP_GROUP = "CameronSanityGroup"
+CAMERON_SANITY_LOCATION_GROUP_FULL = "CameronSanityFull"
+RHINO_LINER_SANITY_LOCATION_GROUP_GROUP = "RhinoLinerSanityGroup"
+RHINO_LINER_SANITY_LOCATION_GROUP_FULL = "RhinoLinerSanityFull"
+EGG_BISHOP_SANITY_LOCATION_GROUP_GROUP = "EggBishopSanityGroup"
+EGG_BISHOP_SANITY_LOCATION_GROUP_FULL = "EggBishopSanityFull"
+E2000_SANITY_LOCATION_GROUP_GROUP = "E2000SanityGroup"
+E2000_SANITY_LOCATION_GROUP_FULL = "E2000SanityFull"
 
-HINT_RING_SANITY_LOCATION_GROUP: str = "HintRingSanity"
-ITEM_BOX_SANITY_LOCATION_GROUP: str = "ItemBoxSanity"
-ITEM_BALLOON_SANITY_LOCATION_GROUP: str = "ItemBalloonSanity"
-RING_SANITY_LOCATION_GROUP: str = "RingSanity"
-BINGO_CHIP_SANITY_LOCATION_GROUP: str = "BingoChipSanity"
+HINT_RING_SANITY_LOCATION_GROUP_GROUP: str = "HintRingSanityGroup"
+HINT_RING_SANITY_LOCATION_GROUP_FULL: str = "HintRingSanityFull"
+ITEM_BOX_SANITY_LOCATION_GROUP_GROUP: str = "ItemBoxSanityGroup"
+ITEM_BOX_SANITY_LOCATION_GROUP_FULL: str = "ItemBoxSanityFull"
+ITEM_BALLOON_SANITY_LOCATION_GROUP_GROUP: str = "ItemBalloonSanityGroup"
+ITEM_BALLOON_SANITY_LOCATION_GROUP_FULL: str = "ItemBalloonSanityFull"
+RING_SANITY_LOCATION_GROUP_GROUP: str = "RingSanityGroup"
+RING_SANITY_LOCATION_GROUP_FULL: str = "RingSanityFull"
+BINGO_CHIP_SANITY_LOCATION_GROUP_GROUP: str = "BingoChipSanityGroup"
+BINGO_CHIP_SANITY_LOCATION_GROUP_FULL: str = "BingoChipSanityFull"
 
 
 REGION: str = "Region"
@@ -67,26 +81,52 @@ class LocationType(enum.Enum):
     OBJ_SANITY = _LocationType(type_name="ObjSanity", sort_key="9900", is_sanity=True) # last sanity (before goals/emerald)
     KEY_SANITY = _LocationType(type_name="KeySanity", sort_key="0010", is_sanity=True) # second sanity (after checkpoint)
     CHECKPOINT_SANITY = _LocationType(type_name="CheckpointSanity", sort_key="0000", is_sanity=True) # first sanity
-    BINGO_CHIP_SANITY = _LocationType(type_name="BingoChipSanity", sort_key="0050", is_sanity=True) # fourth sanity
-    HINT_RING_SANITY = _LocationType(type_name="HintRingSanity", sort_key="0040", is_sanity=True) #fifth sanity
-    ITEM_BOX_SANITY = _LocationType(type_name="ItemBoxSanity", sort_key="0060", is_sanity=True) # sixth sanity
-    ITEM_BALLOON_SANITY = _LocationType(type_name="ItemBalloonSanity", sort_key="0070", is_sanity=True) #seventh sanity
 
-    EGG_FLAPPER_SANITY = _LocationType(type_name="EggFlapperSanity", sort_key="9900", is_sanity=True) # first enemy sanity (last in order before OBJ)
-    EGG_PAWN_SANITY = _LocationType(type_name="EggPawnSanity", sort_key="9910", is_sanity=True) # second enemy sanity (last in order before OBJ)
-    KLAGEN_SANITY = _LocationType(type_name="KlagenSanity", sort_key="9920", is_sanity=True) # third enemy sanity
-    FALCO_SANITY = _LocationType(type_name="FalcoSanity", sort_key="9930", is_sanity=True)  # fourth enemy sanity
-    EGG_HAMMER_SANITY = _LocationType(type_name="EggHammerSanity", sort_key="9940", is_sanity=True)  # fifth enemy sanity
-    CAMERON_SANITY = _LocationType(type_name="CameronSanity", sort_key="9950", is_sanity=True)  # sixth enemy sanity
-    RHINO_LINER_SANITY = _LocationType(type_name="RhinoLinerSanity", sort_key="9960", is_sanity=True)  # seventh enemy sanity
-    EGG_BISHOP_SANITY = _LocationType(type_name="EggBishopSanity", sort_key="9970", is_sanity=True)  # eighth enemy sanity
-    E2000_SANITY = _LocationType(type_name="E2000Sanity", sort_key="9980", is_sanity=True)  # ninth enemy sanity
+    BINGO_CHIP_SANITY_GROUP = _LocationType(type_name="BingoChipSanityGroup", sort_key="0050", is_sanity=True) # fourth sanity
+    BINGO_CHIP_SANITY_FULL = _LocationType(type_name="BingoChipSanityFull", sort_key="0051", is_sanity=True) # fourth sanity
+
+    HINT_RING_SANITY_GROUP = _LocationType(type_name="HintRingSanityGroup", sort_key="0040", is_sanity=True) #fifth sanity
+    HINT_RING_SANITY_FULL = _LocationType(type_name="HintRingSanityFull", sort_key="0041", is_sanity=True) #fifth sanity
+
+    ITEM_BOX_SANITY_GROUP = _LocationType(type_name="ItemBoxSanityGroup", sort_key="0060", is_sanity=True) # sixth sanity
+    ITEM_BOX_SANITY_FULL = _LocationType(type_name="ItemBoxSanityFull", sort_key="0061", is_sanity=True) # sixth sanity
+
+    ITEM_BALLOON_SANITY_GROUP = _LocationType(type_name="ItemBalloonSanityGroup", sort_key="0070", is_sanity=True) #seventh sanity
+    ITEM_BALLOON_SANITY_FULL = _LocationType(type_name="ItemBalloonSanityFull", sort_key="0071", is_sanity=True) #seventh sanity
+
+
+    EGG_FLAPPER_SANITY_GROUP = _LocationType(type_name="EggFlapperSanityGroup", sort_key="9900", is_sanity=True) # first enemy sanity (last in order before OBJ)
+    EGG_FLAPPER_SANITY_FULL = _LocationType(type_name="EggFlapperSanityFull", sort_key="9901", is_sanity=True) # first enemy sanity (last in order before OBJ)
+
+    EGG_PAWN_SANITY_GROUP = _LocationType(type_name="EggPawnSanityGroup", sort_key="9910", is_sanity=True) # second enemy sanity (last in order before OBJ)
+    EGG_PAWN_SANITY_FULL = _LocationType(type_name="EggPawnSanityFull", sort_key="9911", is_sanity=True) # second enemy sanity (last in order before OBJ)
+
+    KLAGEN_SANITY_GROUP = _LocationType(type_name="KlagenSanityGroup", sort_key="9920", is_sanity=True) # third enemy sanity
+    KLAGEN_SANITY_FULL = _LocationType(type_name="KlagenSanityFull", sort_key="9921", is_sanity=True) # third enemy sanity
+
+    FALCO_SANITY_GROUP = _LocationType(type_name="FalcoSanityGroup", sort_key="9930", is_sanity=True)  # fourth enemy sanity
+    FALCO_SANITY_FULL = _LocationType(type_name="FalcoSanityFull", sort_key="9931", is_sanity=True)  # fourth enemy sanity
+
+    EGG_HAMMER_SANITY_GROUP = _LocationType(type_name="EggHammerSanityGroup", sort_key="9940", is_sanity=True)  # fifth enemy sanity
+    EGG_HAMMER_SANITY_FULL = _LocationType(type_name="EggHammerSanityFull", sort_key="9941", is_sanity=True)  # fifth enemy sanity
+
+    CAMERON_SANITY_GROUP = _LocationType(type_name="CameronSanityGroup", sort_key="9950", is_sanity=True)  # sixth enemy sanity
+    CAMERON_SANITY_FULL = _LocationType(type_name="CameronSanityFull", sort_key="9951", is_sanity=True)  # sixth enemy sanity
+
+    RHINO_LINER_SANITY_GROUP = _LocationType(type_name="RhinoLinerSanityGroup", sort_key="9960", is_sanity=True)  # seventh enemy sanity
+    RHINO_LINER_SANITY_FULL = _LocationType(type_name="RhinoLinerSanityFull", sort_key="9961", is_sanity=True)  # seventh enemy sanity
+
+    EGG_BISHOP_SANITY_GROUP = _LocationType(type_name="EggBishopSanityGroup", sort_key="9970", is_sanity=True)  # eighth enemy sanity
+    EGG_BISHOP_SANITY_FULL = _LocationType(type_name="EggBishopSanityFull", sort_key="9971", is_sanity=True)  # eighth enemy sanity
+
+    E2000_SANITY_GROUP = _LocationType(type_name="E2000SanityGroup", sort_key="9980", is_sanity=True)  # ninth enemy sanity
+    E2000_SANITY_FULL = _LocationType(type_name="E2000SanityFull", sort_key="9981", is_sanity=True)  # ninth enemy sanity
+
 
     RING_SANITY_GROUP = _LocationType(type_name="RingSanityGroup", sort_key="0020", is_sanity=True)  # third sanity
-    RING_SANITY_INDIVIDUAL = _LocationType(type_name="RingSanityIndividual", sort_key="0030", is_sanity=True)  # third sanity
+    RING_SANITY_FULL = _LocationType(type_name="RingSanityFull", sort_key="0021", is_sanity=True)  # third sanity
 
     EVENT = _LocationType(type_name="Event Location", sort_key="9999", is_real=False)  # should not show up in UT
-
 
 
     def __new__(cls, data: _LocationType) -> Self:
@@ -157,31 +197,20 @@ class SonicHeroesLocationData:
                 return True
             case LocationType.OBJ_SANITY:
                 # TODO handle check size here
-                return is_this_act_enabled(world=world, team=self.team, act=Act(value=self.act)) and self.act & world.enabled_sanity_acts[self.team][self.loc_type] > 0  # pyright: ignore[reportAny]
-
-            case LocationType.KEY_SANITY | LocationType.CHECKPOINT_SANITY | LocationType.HINT_RING_SANITY | LocationType.ITEM_BOX_SANITY | LocationType.ITEM_BALLOON_SANITY | LocationType.EGG_FLAPPER_SANITY | LocationType.EGG_PAWN_SANITY | LocationType.KLAGEN_SANITY | LocationType.FALCO_SANITY | LocationType.EGG_HAMMER_SANITY | LocationType.CAMERON_SANITY | LocationType.RHINO_LINER_SANITY | LocationType.EGG_BISHOP_SANITY | LocationType.E2000_SANITY | LocationType.BINGO_CHIP_SANITY:
-                if Act(value=self.act) is Act.NONE:
-                    #Only 1 Set
-                    return world.enabled_sanity_acts[self.team][self.loc_type] is not Act.NONE and world.enabled_sanity_acts[self.team][self.loc_type] is not Act.BOTH_ACTS  # pyright: ignore[reportAny]
-                return world.enabled_sanity_acts[self.team][self.loc_type] is Act.BOTH_ACTS  # pyright: ignore[reportAny]
-
-            case LocationType.RING_SANITY_GROUP:
-                should_add_group: bool = world.options.ring_sanity_dark == RingSanityDark.option_groups and RING_GROUP in self.name
-                if Act(value=self.act) is Act.NONE:
-                    # Only 1 Set
-                    return should_add_group and world.enabled_sanity_acts[self.team][self.loc_type] is not Act.NONE and world.enabled_sanity_acts[self.team][self.loc_type] is not Act.BOTH_ACTS  # pyright: ignore[reportAny]
-                return should_add_group and world.enabled_sanity_acts[self.team][self.loc_type] is Act.BOTH_ACTS  # pyright: ignore[reportAny]
-
-            case LocationType.RING_SANITY_INDIVIDUAL:
-                should_add_individual: bool = world.options.ring_sanity_dark == RingSanityDark.option_all_rings and RING_GROUP not in self.name
-                if Act(value=self.act) is Act.NONE:
-                    # Only 1 Set
-                    return should_add_individual and world.enabled_sanity_acts[self.team][self.loc_type] is not Act.NONE and world.enabled_sanity_acts[self.team][self.loc_type] is not Act.BOTH_ACTS  # pyright: ignore[reportAny]
-                return should_add_individual and world.enabled_sanity_acts[self.team][self.loc_type] is Act.BOTH_ACTS  # pyright: ignore[reportAny]
-
-
+                return world.enabled_sanity_acts[self.team][self.loc_type] is not Act.NONE  # pyright: ignore[reportAny]
             case LocationType.EVENT:
                 return True
+
+
+            case _:
+                if world.enabled_sanity_acts[self.team][self.loc_type] is Act.NONE:  # pyright: ignore[reportAny]
+                    return False
+                if Act(value=self.act) is Act.NONE:
+                    #Only 1 Set
+                    return world.enabled_sanity_acts[self.team][self.loc_type] is not Act.BOTH_ACTS  # pyright: ignore[reportAny]
+                return world.enabled_sanity_acts[self.team][self.loc_type] is Act.BOTH_ACTS  # pyright: ignore[reportAny]
+
+
         raise ValueError(f"LocationData is_enabled didnt return")
 
 

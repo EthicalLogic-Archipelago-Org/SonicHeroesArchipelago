@@ -1,16 +1,20 @@
 """
 generate locations programmatically
 """
+from _collections_abc import Sequence
 
 from rule_builder.rules import Rule, True_, Has, False_
 
 from .constants.char_ability import Team
-from .constants.items_events import EVENT_ITEM, EVENT_LOCATION, EVENT_LOCATION_ID, LEVEL_GOAL_ALL_TEAMS_EVENT_ITEM, \
-    LEVEL_GOAL_PER_TEAM_EVENT_ITEM_WITHOUT_TEAM, BONUS_KEY, OBJ_SANITY
+from .constants.enemies import *
+from .constants.items_events import *
 from .constants.loc_region import *
-from .constants.rings import RING_GROUP
+from .constants.hint_rings import *
+from .constants.item_balloon_box import ItemBoxData, ItemBalloonData
+from .constants.rings import RING_GROUP, RingData
 from .constants.stage import Stage, StageType, Act
 from .constants.stage_objs import StageObj
+
 from .rule_builder.custom_rules import CanGetEmerald, CanGoalStage
 from .rule_builder.functions_stage_obj import has_stage_obj_rule, can_break_key_cage
 from .helper_functions import get_obj_sanity_event_item_name
@@ -29,6 +33,19 @@ FULL_LOCATION_DICT: dict[Stage, dict[Team, list[SonicHeroesLocationData]]] = \
     for stage in Stage
 }
 
+TEAM_STAGES_TO_GENERATE_SANITIES: dict[Team, list[Stage]] = \
+{
+    Team.ANY_TEAM: [],
+    Team.SONIC: [],
+    Team.DARK:
+    [
+        Stage.SEASIDE_HILL,
+    ],
+    Team.ROSE: [],
+    Team.CHAOTIX: [],
+    Team.SUPER_HARD_MODE: [],
+}
+
 FULL_LOCATION_GROUPS: dict[str, set[str]] = \
 {
     STAGE_LOCATION_GROUP: set(),
@@ -37,21 +54,84 @@ FULL_LOCATION_GROUPS: dict[str, set[str]] = \
     OBJ_SANITY_LOCATION_GROUP: set(),
     KEY_SANITY_LOCATION_GROUP: set(),
     CHECKPOINT_SANITY_LOCATION_GROUP: set(),
-    EGG_FLAPPER_SANITY_LOCATION_GROUP: set(),
-    EGG_PAWN_SANITY_LOCATION_GROUP: set(),
-    KLAGEN_SANITY_LOCATION_GROUP: set(),
-    FALCO_SANITY_LOCATION_GROUP: set(),
-    EGG_HAMMER_SANITY_LOCATION_GROUP: set(),
-    CAMERON_SANITY_LOCATION_GROUP: set(),
-    RHINO_LINER_SANITY_LOCATION_GROUP: set(),
-    EGG_BISHOP_SANITY_LOCATION_GROUP: set(),
-    E2000_SANITY_LOCATION_GROUP: set(),
-    HINT_RING_SANITY_LOCATION_GROUP: set(),
-    ITEM_BOX_SANITY_LOCATION_GROUP: set(),
-    ITEM_BALLOON_SANITY_LOCATION_GROUP: set(),
-    RING_SANITY_LOCATION_GROUP: set(),
-    BINGO_CHIP_SANITY_LOCATION_GROUP: set(),
+    EGG_FLAPPER_SANITY_LOCATION_GROUP_GROUP: set(),
+    EGG_FLAPPER_SANITY_LOCATION_GROUP_FULL: set(),
+    EGG_PAWN_SANITY_LOCATION_GROUP_GROUP: set(),
+    EGG_PAWN_SANITY_LOCATION_GROUP_FULL: set(),
+    KLAGEN_SANITY_LOCATION_GROUP_GROUP: set(),
+    KLAGEN_SANITY_LOCATION_GROUP_FULL: set(),
+    FALCO_SANITY_LOCATION_GROUP_GROUP: set(),
+    FALCO_SANITY_LOCATION_GROUP_FULL: set(),
+    EGG_HAMMER_SANITY_LOCATION_GROUP_GROUP: set(),
+    EGG_HAMMER_SANITY_LOCATION_GROUP_FULL: set(),
+    CAMERON_SANITY_LOCATION_GROUP_GROUP: set(),
+    CAMERON_SANITY_LOCATION_GROUP_FULL: set(),
+    RHINO_LINER_SANITY_LOCATION_GROUP_GROUP: set(),
+    RHINO_LINER_SANITY_LOCATION_GROUP_FULL: set(),
+    EGG_BISHOP_SANITY_LOCATION_GROUP_GROUP: set(),
+    EGG_BISHOP_SANITY_LOCATION_GROUP_FULL: set(),
+    E2000_SANITY_LOCATION_GROUP_GROUP: set(),
+    E2000_SANITY_LOCATION_GROUP_FULL: set(),
+    HINT_RING_SANITY_LOCATION_GROUP_GROUP: set(),
+    HINT_RING_SANITY_LOCATION_GROUP_FULL: set(),
+    ITEM_BOX_SANITY_LOCATION_GROUP_GROUP: set(),
+    ITEM_BOX_SANITY_LOCATION_GROUP_FULL: set(),
+    ITEM_BALLOON_SANITY_LOCATION_GROUP_GROUP: set(),
+    ITEM_BALLOON_SANITY_LOCATION_GROUP_FULL: set(),
+    RING_SANITY_LOCATION_GROUP_GROUP: set(),
+    RING_SANITY_LOCATION_GROUP_FULL: set(),
+    BINGO_CHIP_SANITY_LOCATION_GROUP_GROUP: set(),
+    BINGO_CHIP_SANITY_LOCATION_GROUP_FULL: set(),
 }
+
+
+
+
+RING_GROUP_NO_ACT_START_ID_OFFSET: int = 0x100000
+RING_GROUP_ACT_A_START_ID_OFFSET: int = 0x110000
+RING_GROUP_ACT_B_START_ID_OFFSET: int = 0x120000
+RING_FULL_NO_ACT_START_ID_OFFSET: int = 0x130000
+RING_FULL_ACT_A_START_ID_OFFSET: int = 0x140000
+RING_FULL_ACT_B_START_ID_OFFSET: int = 0x150000
+
+
+HINT_RING_GROUP_NO_ACT_START_ID_OFFSET: int = 0x2400
+HINT_RING_GROUP_ACT_A_START_ID_OFFSET: int = 0x2600
+HINT_RING_GROUP_ACT_B_START_ID_OFFSET: int = 0x2800
+HINT_RING_FULL_NO_ACT_START_ID_OFFSET: int = 0x2A00
+HINT_RING_FULL_ACT_A_START_ID_OFFSET: int = 0x2C00
+HINT_RING_FULL_ACT_B_START_ID_OFFSET: int = 0x2E00
+
+ITEM_BOX_GROUP_NO_ACT_START_ID_OFFSET: int = 0x3000
+ITEM_BOX_GROUP_ACT_A_START_ID_OFFSET: int = 0x3500
+ITEM_BOX_GROUP_ACT_B_START_ID_OFFSET: int = 0x3A00
+ITEM_BOX_FULL_NO_ACT_START_ID_OFFSET: int = 0x4000
+ITEM_BOX_FULL_ACT_A_START_ID_OFFSET: int = 0x4500
+ITEM_BOX_FULL_ACT_B_START_ID_OFFSET: int = 0x4A00
+
+ITEM_BALLOON_GROUP_NO_ACT_START_ID_OFFSET: int = 0x5000
+ITEM_BALLOON_GROUP_ACT_A_START_ID_OFFSET: int = 0x5500
+ITEM_BALLOON_GROUP_ACT_B_START_ID_OFFSET: int = 0x5A00
+ITEM_BALLOON_FULL_NO_ACT_START_ID_OFFSET: int = 0x6000
+ITEM_BALLOON_FULL_ACT_A_START_ID_OFFSET: int = 0x6500
+ITEM_BALLOON_FULL_ACT_B_START_ID_OFFSET: int = 0x6A00
+
+EGG_FLAPPER_GROUP_NO_ACT_START_ID_OFFSET: int = 0x10000
+EGG_FLAPPER_GROUP_ACT_A_START_ID_OFFSET: int = 0x14000
+EGG_FLAPPER_GROUP_ACT_B_START_ID_OFFSET: int = 0x18000
+EGG_FLAPPER_FULL_NO_ACT_START_ID_OFFSET: int = 0x1C000
+EGG_FLAPPER_FULL_ACT_A_START_ID_OFFSET: int = 0x20000
+EGG_FLAPPER_FULL_ACT_B_START_ID_OFFSET: int = 0x24000
+
+EGG_PAWN_GROUP_NO_ACT_START_ID_OFFSET: int = 0x28000
+EGG_PAWN_GROUP_ACT_A_START_ID_OFFSET: int = 0x2C000
+EGG_PAWN_GROUP_ACT_B_START_ID_OFFSET: int = 0x30000
+EGG_PAWN_FULL_NO_ACT_START_ID_OFFSET: int = 0x34000
+EGG_PAWN_FULL_ACT_A_START_ID_OFFSET: int = 0x38000
+EGG_PAWN_FULL_ACT_B_START_ID_OFFSET: int = 0x3C000
+
+
+
 
 
 
@@ -91,6 +171,27 @@ def append_sanity_location_with_act(name: str, team: Team, stage: Stage, code: i
         case _:
             raise ValueError(f"Invalid Act for append_sanity_location_with_act: name: {name} team: {team} stage {stage.stage_name} act: {act}")
     append_location(name=name, team=team, stage=stage, code=code, act=act, parent_region=parent_region, rule_str=rule_str, rule=rule, loc_type=loc_type, location_groups=location_groups, locked_item=locked_item, num_to_increment_id=num_to_increment_id)
+
+
+def handle_sanity_locations_from_list(team: Team, stage: Stage, loc_list: Sequence[StageObjBase], id_offset_1_set: int, id_offset_act_a: int, id_offset_act_b: int, loc_footnote: str, rule_str: str, loc_type: LocationType, location_groups: list[str], num_to_increment_id: int = 1) -> None:
+    # covariant moment with loc_list
+    if len(loc_footnote) > 0:
+        loc_footnote = f" {loc_footnote}"
+
+    global loc_id
+    loc_id = LOCATION_START_ID_OFFSET + id_offset_1_set
+
+    for loc_data in loc_list:
+        append_sanity_location_with_act(name=f"{loc_data.location_name}{loc_footnote}", team=team, stage=stage, code=-999, act=0, parent_region=f"{loc_data.region_name}", rule_str=rule_str, rule=loc_data.rule, loc_type=loc_type, location_groups=location_groups, num_to_increment_id=num_to_increment_id)
+
+    loc_id = LOCATION_START_ID_OFFSET + id_offset_act_a
+    for loc_data in loc_list:
+        append_sanity_location_with_act(name=f"{loc_data.location_name}{loc_footnote}", team=team, stage=stage, code=-999, act=1, parent_region=f"{loc_data.region_name}", rule_str=rule_str, rule=loc_data.rule, loc_type=loc_type, location_groups=location_groups, num_to_increment_id=num_to_increment_id)
+
+    loc_id = LOCATION_START_ID_OFFSET + id_offset_act_b
+    for loc_data in loc_list:
+        append_sanity_location_with_act(name=f"{loc_data.location_name}{loc_footnote}", team=team, stage=stage, code=-999, act=2, parent_region=f"{loc_data.region_name}", rule_str=rule_str, rule=loc_data.rule, loc_type=loc_type, location_groups=location_groups, num_to_increment_id=num_to_increment_id)
+
 
 
 def generate_level_goal_locations_for_not_super_hard_mode() -> None:
@@ -262,91 +363,137 @@ def generate_metal_madness_extra_locations() -> None:
     append_location(name=f"{Stage.METAL_OVERLORD.stage_name}", team=Team.ANY_TEAM, stage=Stage.METAL_MADNESS, code=-999, act=0, parent_region=f"{Stage.METAL_MADNESS.stage_name}", rule_str=f"", rule=True_[SonicHeroesWorldBase](), loc_type=LocationType.LEVEL, location_groups=[STAGE_LOCATION_GROUP])
 
 
-def generate_hint_ring_sanity_locations() -> None:
-    global loc_id
-    loc_id = LOCATION_START_ID_OFFSET + 0x2400
 
-    stage: Stage = Stage.SEASIDE_HILL
-    team: Team = Team.DARK
+def get_all_parsed_stage_objects_of_type(team: Team, stage: Stage, stage_obj: StageObj) -> Sequence[StageObjBase]:
+    try:
+        match stage_obj:
+            case StageObj.SINGLE_SPRING:
+                return []
+            case StageObj.TRIPLE_SPRING:
+                return get_parsed_data_module_for_team_stage(team=team, stage=stage).triple_springs  # pyright: ignore[reportAny]
+            case StageObj.RINGS:
+                return get_parsed_data_module_for_team_stage(team=team, stage=stage).rings  # pyright: ignore[reportAny]
+            case StageObj.HINT_RING:
+                return get_parsed_data_module_for_team_stage(team=team, stage=stage).hint_rings  # pyright: ignore[reportAny]
+            case StageObj.ITEM_BOX:
+                return get_parsed_data_module_for_team_stage(team=team, stage=stage).item_boxes  # pyright: ignore[reportAny]
+            case StageObj.ITEM_BALLOON:
+                return get_parsed_data_module_for_team_stage(team=team, stage=stage).item_balloons  # pyright: ignore[reportAny]
 
-    for hint_ring_data in get_parsed_data_module_for_team_stage(team=team, stage=stage).hint_rings:  # pyright: ignore[reportAny]
-        # destruction
-        append_sanity_location_with_act(name=f"{hint_ring_data.location_name}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=0, parent_region=f"{hint_ring_data.region_name}", rule_str=f"HintRing", rule=hint_ring_data.rule, loc_type=LocationType.HINT_RING_SANITY, location_groups=[HINT_RING_SANITY_LOCATION_GROUP])  # pyright: ignore[reportAny]
 
-    loc_id = LOCATION_START_ID_OFFSET + 0x2600
+            case StageObj.EGG_FLAPPER:
+                return get_parsed_data_module_for_team_stage(team=team, stage=stage).egg_flappers  # pyright: ignore[reportAny]
+            case StageObj.EGG_PAWN:
+                return get_parsed_data_module_for_team_stage(team=team, stage=stage).egg_pawns  # pyright: ignore[reportAny]
 
-    for hint_ring_data in get_parsed_data_module_for_team_stage(team=team, stage=stage).hint_rings:  # pyright: ignore[reportAny]
-        append_sanity_location_with_act(name=f"{hint_ring_data.location_name}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=1, parent_region=f"{hint_ring_data.region_name}", rule_str=f"HintRing", rule=hint_ring_data.rule, loc_type=LocationType.HINT_RING_SANITY, location_groups=[HINT_RING_SANITY_LOCATION_GROUP])  # pyright: ignore[reportAny]
+    except Exception as e:
+        print(e)
 
-    loc_id = LOCATION_START_ID_OFFSET + 0x2800
+    return []
 
-    for hint_ring_data in get_parsed_data_module_for_team_stage(team=team, stage=stage).hint_rings:  # pyright: ignore[reportAny]
-        append_sanity_location_with_act(name=f"{hint_ring_data.location_name}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=2, parent_region=f"{hint_ring_data.region_name}", rule_str=f"HintRing", rule=hint_ring_data.rule, loc_type=LocationType.HINT_RING_SANITY, location_groups=[HINT_RING_SANITY_LOCATION_GROUP])  # pyright: ignore[reportAny]
+
+
+
+def generate_hint_rings_sanity_locations() -> None:
+    generate_hint_rings_sanity_group_locations()
+    generate_hint_rings_sanity_full_locations()
+
+
+def generate_hint_rings_sanity_group_locations() -> None:
+    for team, stage_list in TEAM_STAGES_TO_GENERATE_SANITIES.items():
+        for stage in stage_list:
+            # Group Locations
+            temp_sequence: Sequence[StageObjBase] = get_all_parsed_stage_objects_of_type(team=team, stage=stage, stage_obj=StageObj.HINT_RING)
+            hint_ring_list: list[HintRingData] = []
+            for stage_obj in temp_sequence:
+                if not isinstance(stage_obj, HintRingData):
+                    raise TypeError(f"Wrong Type of stage object: {stage_obj.__class__.__name__}")
+                if stage_obj.id_offset_group >= 0:
+                    hint_ring_list.append(stage_obj)
+            handle_sanity_locations_from_list(team=team, stage=stage, loc_list=hint_ring_list, id_offset_1_set=HINT_RING_GROUP_NO_ACT_START_ID_OFFSET, id_offset_act_a=HINT_RING_GROUP_ACT_A_START_ID_OFFSET, id_offset_act_b=HINT_RING_GROUP_ACT_B_START_ID_OFFSET, loc_footnote="Group", rule_str=f"HintRing", loc_type=LocationType.HINT_RING_SANITY_GROUP, location_groups=[HINT_RING_SANITY_LOCATION_GROUP_GROUP])
+
+
+def generate_hint_rings_sanity_full_locations() -> None:
+    for team, stage_list in TEAM_STAGES_TO_GENERATE_SANITIES.items():
+        for stage in stage_list:
+            # Full Locations
+            temp_sequence: Sequence[StageObjBase] = get_all_parsed_stage_objects_of_type(team=team, stage=stage, stage_obj=StageObj.HINT_RING)
+            hint_ring_list: list[HintRingData] = []
+            for stage_obj in temp_sequence:
+                if not isinstance(stage_obj, HintRingData):
+                    raise TypeError(f"Wrong Type of stage object: {stage_obj.__class__.__name__}")
+                if stage_obj.id_offset_full >= 0:
+                    hint_ring_list.append(stage_obj)
+            handle_sanity_locations_from_list(team=team, stage=stage, loc_list=hint_ring_list, id_offset_1_set=HINT_RING_FULL_NO_ACT_START_ID_OFFSET, id_offset_act_a=HINT_RING_FULL_ACT_A_START_ID_OFFSET, id_offset_act_b=HINT_RING_FULL_ACT_B_START_ID_OFFSET, loc_footnote="", rule_str=f"HintRing", loc_type=LocationType.HINT_RING_SANITY_FULL, location_groups=[HINT_RING_SANITY_LOCATION_GROUP_FULL])
+
 
 
 def generate_item_boxes_sanity_locations() -> None:
-    global loc_id
-    loc_id = LOCATION_START_ID_OFFSET + 0x3000
+    generate_item_boxes_sanity_group_locations()
+    generate_item_boxes_sanity_full_locations()
 
-    stage: Stage = Stage.SEASIDE_HILL
-    team: Team = Team.DARK
-    rule_str: str = ""
 
-    for item_box_data in get_parsed_data_module_for_team_stage(team=team, stage=stage).item_boxes:  # pyright: ignore[reportAny]
-        rule_str = f"ItemBox"
-        append_sanity_location_with_act(name=f"{item_box_data.location_name}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=0, parent_region=f"{item_box_data.region_name}", rule_str=rule_str, rule=item_box_data.rule, loc_type=LocationType.ITEM_BOX_SANITY, location_groups=[ITEM_BOX_SANITY_LOCATION_GROUP])  # pyright: ignore[reportAny]
+def generate_item_boxes_sanity_group_locations() -> None:
+    for team, stage_list in TEAM_STAGES_TO_GENERATE_SANITIES.items():
+        for stage in stage_list:
+            # Group Locations
+            temp_sequence: Sequence[StageObjBase] = get_all_parsed_stage_objects_of_type(team=team, stage=stage, stage_obj=StageObj.ITEM_BOX)
+            item_box_list: list[ItemBoxData] = []
+            for stage_obj in temp_sequence:
+                if not isinstance(stage_obj, ItemBoxData):
+                    raise TypeError(f"Wrong Type of stage object: {stage_obj.__class__.__name__}")
+                if stage_obj.id_offset_group >= 0:
+                    item_box_list.append(stage_obj)
+            handle_sanity_locations_from_list(team=team, stage=stage, loc_list=item_box_list, id_offset_1_set=ITEM_BOX_GROUP_NO_ACT_START_ID_OFFSET, id_offset_act_a=ITEM_BOX_GROUP_ACT_A_START_ID_OFFSET, id_offset_act_b=ITEM_BOX_GROUP_ACT_B_START_ID_OFFSET, loc_footnote="Group", rule_str=f"ItemBox", loc_type=LocationType.ITEM_BOX_SANITY_GROUP, location_groups=[ITEM_BOX_SANITY_LOCATION_GROUP_GROUP])
 
-    loc_id = LOCATION_START_ID_OFFSET + 0x4000
 
-    stage = Stage.SEASIDE_HILL
-    team = Team.DARK
-
-    for item_box_data in get_parsed_data_module_for_team_stage(team=team, stage=stage).item_boxes:  # pyright: ignore[reportAny]
-        rule_str = f"ItemBox"
-        append_sanity_location_with_act(name=f"{item_box_data.location_name}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=1, parent_region=f"{item_box_data.region_name}", rule_str=rule_str, rule=item_box_data.rule, loc_type=LocationType.ITEM_BOX_SANITY, location_groups=[ITEM_BOX_SANITY_LOCATION_GROUP])  # pyright: ignore[reportAny]
-
-    loc_id = LOCATION_START_ID_OFFSET + 0x5000
-
-    stage = Stage.SEASIDE_HILL
-    team = Team.DARK
-
-    for item_box_data in get_parsed_data_module_for_team_stage(team=team, stage=stage).item_boxes:  # pyright: ignore[reportAny]
-        rule_str = f"ItemBox"
-        append_sanity_location_with_act(name=f"{item_box_data.location_name}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=2, parent_region=f"{item_box_data.region_name}", rule_str=rule_str, rule=item_box_data.rule, loc_type=LocationType.ITEM_BOX_SANITY, location_groups=[ITEM_BOX_SANITY_LOCATION_GROUP])  # pyright: ignore[reportAny]
+def generate_item_boxes_sanity_full_locations() -> None:
+    for team, stage_list in TEAM_STAGES_TO_GENERATE_SANITIES.items():
+        for stage in stage_list:
+            # Full Locations
+            temp_sequence: Sequence[StageObjBase] = get_all_parsed_stage_objects_of_type(team=team, stage=stage, stage_obj=StageObj.ITEM_BOX)
+            item_box_list: list[ItemBoxData] = []
+            for stage_obj in temp_sequence:
+                if not isinstance(stage_obj, ItemBoxData):
+                    raise TypeError(f"Wrong Type of stage object: {stage_obj.__class__.__name__}")
+                if stage_obj.id_offset_full >= 0:
+                    item_box_list.append(stage_obj)
+            handle_sanity_locations_from_list(team=team, stage=stage, loc_list=item_box_list, id_offset_1_set=ITEM_BOX_FULL_NO_ACT_START_ID_OFFSET, id_offset_act_a=ITEM_BOX_FULL_ACT_A_START_ID_OFFSET, id_offset_act_b=ITEM_BOX_FULL_ACT_B_START_ID_OFFSET, loc_footnote="", rule_str=f"ItemBox", loc_type=LocationType.ITEM_BOX_SANITY_FULL, location_groups=[ITEM_BOX_SANITY_LOCATION_GROUP_FULL])
 
 
 
 def generate_item_balloons_sanity_locations() -> None:
-    global loc_id
-    loc_id = LOCATION_START_ID_OFFSET + 0x6000
-
-    stage: Stage = Stage.SEASIDE_HILL
-    team: Team = Team.DARK
-    rule_str: str = ""
-
-    for item_balloon_data in get_parsed_data_module_for_team_stage(team=team, stage=stage).item_balloons:  # pyright: ignore[reportAny]
-        rule_str = f"ItemBalloon"
-        append_sanity_location_with_act(name=f"{item_balloon_data.location_name}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=0, parent_region=f"{item_balloon_data.region_name}", rule_str=rule_str, rule=item_balloon_data.rule, loc_type=LocationType.ITEM_BALLOON_SANITY, location_groups=[ITEM_BALLOON_SANITY_LOCATION_GROUP])  # pyright: ignore[reportAny]
-
-    loc_id = LOCATION_START_ID_OFFSET + 0x7000
-
-    stage = Stage.SEASIDE_HILL
-    team = Team.DARK
-
-    for item_balloon_data in get_parsed_data_module_for_team_stage(team=team, stage=stage).item_balloons:  # pyright: ignore[reportAny]
-        rule_str = f"ItemBalloon"
-        append_sanity_location_with_act(name=f"{item_balloon_data.location_name}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=1, parent_region=f"{item_balloon_data.region_name}", rule_str=rule_str, rule=item_balloon_data.rule, loc_type=LocationType.ITEM_BALLOON_SANITY, location_groups=[ITEM_BALLOON_SANITY_LOCATION_GROUP])  # pyright: ignore[reportAny]
-
-    loc_id = LOCATION_START_ID_OFFSET + 0x8000
-
-    stage = Stage.SEASIDE_HILL
-    team = Team.DARK
-
-    for item_balloon_data in get_parsed_data_module_for_team_stage(team=team, stage=stage).item_balloons:  # pyright: ignore[reportAny]
-        rule_str = f"ItemBalloon"
-        append_sanity_location_with_act(name=f"{item_balloon_data.location_name}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=2, parent_region=f"{item_balloon_data.region_name}", rule_str=rule_str, rule=item_balloon_data.rule, loc_type=LocationType.ITEM_BALLOON_SANITY, location_groups=[ITEM_BALLOON_SANITY_LOCATION_GROUP])  # pyright: ignore[reportAny]
+    generate_item_balloon_sanity_group_locations()
+    generate_item_balloon_sanity_full_locations()
 
 
+
+def generate_item_balloon_sanity_group_locations() -> None:
+    for team, stage_list in TEAM_STAGES_TO_GENERATE_SANITIES.items():
+        for stage in stage_list:
+            # Group Locations
+            temp_sequence: Sequence[StageObjBase] = get_all_parsed_stage_objects_of_type(team=team, stage=stage, stage_obj=StageObj.ITEM_BALLOON)
+            item_balloon_list: list[ItemBalloonData] = []
+            for stage_obj in temp_sequence:
+                if not isinstance(stage_obj, ItemBalloonData):
+                    raise TypeError(f"Wrong Type of stage object: {stage_obj.__class__.__name__}")
+                if stage_obj.id_offset_group >= 0:
+                    item_balloon_list.append(stage_obj)
+            handle_sanity_locations_from_list(team=team, stage=stage, loc_list=item_balloon_list, id_offset_1_set=ITEM_BALLOON_GROUP_NO_ACT_START_ID_OFFSET, id_offset_act_a=ITEM_BALLOON_GROUP_ACT_A_START_ID_OFFSET, id_offset_act_b=ITEM_BALLOON_GROUP_ACT_B_START_ID_OFFSET, loc_footnote="Group", rule_str=f"ItemBalloon", loc_type=LocationType.ITEM_BALLOON_SANITY_GROUP, location_groups=[ITEM_BALLOON_SANITY_LOCATION_GROUP_GROUP])
+
+
+def generate_item_balloon_sanity_full_locations() -> None:
+    for team, stage_list in TEAM_STAGES_TO_GENERATE_SANITIES.items():
+        for stage in stage_list:
+            # Full Locations
+            temp_sequence: Sequence[StageObjBase] = get_all_parsed_stage_objects_of_type(team=team, stage=stage, stage_obj=StageObj.ITEM_BALLOON)
+            item_balloon_list: list[ItemBalloonData] = []
+            for stage_obj in temp_sequence:
+                if not isinstance(stage_obj, ItemBalloonData):
+                    raise TypeError(f"Wrong Type of stage object: {stage_obj.__class__.__name__}")
+                if stage_obj.id_offset_full >= 0:
+                    item_balloon_list.append(stage_obj)
+            handle_sanity_locations_from_list(team=team, stage=stage, loc_list=item_balloon_list, id_offset_1_set=ITEM_BALLOON_FULL_NO_ACT_START_ID_OFFSET, id_offset_act_a=ITEM_BALLOON_FULL_ACT_A_START_ID_OFFSET, id_offset_act_b=ITEM_BALLOON_FULL_ACT_B_START_ID_OFFSET, loc_footnote="", rule_str=f"ItemBalloon", loc_type=LocationType.ITEM_BALLOON_SANITY_FULL, location_groups=[ITEM_BALLOON_SANITY_LOCATION_GROUP_FULL])
 
 
 
@@ -357,129 +504,142 @@ def generate_enemy_sanity_locations() -> None:
     generate_egg_pawn_sanity_locations()
 
 
-
 def generate_egg_flapper_sanity_locations() -> None:
-    global loc_id
-    stage: Stage = Stage.SEASIDE_HILL
-    team: Team = Team.DARK
+    generate_egg_flapper_sanity_group_locations()
+    generate_egg_flapper_sanity_full_locations()
 
-    try:
-        loc_id = LOCATION_START_ID_OFFSET + 0x10000
-        for egg_flapper in get_parsed_data_module_for_team_stage(team=team, stage=stage).egg_flappers:  # pyright: ignore[reportAny]
-            append_sanity_location_with_act(name=f"{egg_flapper.location_name}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=0, parent_region=f"{egg_flapper.region_name}", rule_str=f"{egg_flapper.enemy_type}", rule=egg_flapper.rule, loc_type=LocationType.EGG_FLAPPER_SANITY, location_groups=[EGG_FLAPPER_SANITY_LOCATION_GROUP])  # pyright: ignore[reportAny]
-    except:
-        pass
 
-    try:
-        loc_id = LOCATION_START_ID_OFFSET + 0x11000
-        for egg_flapper in get_parsed_data_module_for_team_stage(team=team, stage=stage).egg_flappers:  # pyright: ignore[reportAny]
-            append_sanity_location_with_act(name=f"{egg_flapper.location_name}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=1, parent_region=f"{egg_flapper.region_name}", rule_str=f"{egg_flapper.enemy_type}", rule=egg_flapper.rule, loc_type=LocationType.EGG_FLAPPER_SANITY, location_groups=[EGG_FLAPPER_SANITY_LOCATION_GROUP])  # pyright: ignore[reportAny]
-    except:
-        pass
+def generate_egg_flapper_sanity_group_locations() -> None:
+    for team, stage_list in TEAM_STAGES_TO_GENERATE_SANITIES.items():
+        for stage in stage_list:
+            # Group Locations
+            temp_sequence: Sequence[StageObjBase] = get_all_parsed_stage_objects_of_type(team=team, stage=stage, stage_obj=StageObj.EGG_FLAPPER)
+            egg_flapper_list: list[EggFlapper] = []
+            for stage_obj in temp_sequence:
+                if not isinstance(stage_obj, EggFlapper):
+                    raise TypeError(f"Wrong Type of stage object: {stage_obj.__class__.__name__}")
+                if stage_obj.id_offset_group >= 0:
+                    egg_flapper_list.append(stage_obj)
+            handle_sanity_locations_from_list(team=team, stage=stage, loc_list=egg_flapper_list, id_offset_1_set=EGG_FLAPPER_GROUP_NO_ACT_START_ID_OFFSET, id_offset_act_a=EGG_FLAPPER_GROUP_ACT_A_START_ID_OFFSET, id_offset_act_b=EGG_FLAPPER_GROUP_ACT_B_START_ID_OFFSET, loc_footnote="Group", rule_str=f"EggFlapper", loc_type=LocationType.EGG_FLAPPER_SANITY_GROUP, location_groups=[EGG_FLAPPER_SANITY_LOCATION_GROUP_GROUP])
 
-    try:
-        loc_id = LOCATION_START_ID_OFFSET + 0x12000
-        for egg_flapper in get_parsed_data_module_for_team_stage(team=team, stage=stage).egg_flappers:  # pyright: ignore[reportAny]
-            append_sanity_location_with_act(name=f"{egg_flapper.location_name}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=2, parent_region=f"{egg_flapper.region_name}", rule_str=f"{egg_flapper.enemy_type}", rule=egg_flapper.rule, loc_type=LocationType.EGG_FLAPPER_SANITY, location_groups=[EGG_FLAPPER_SANITY_LOCATION_GROUP])  # pyright: ignore[reportAny]
-    except:
-        pass
+
+def generate_egg_flapper_sanity_full_locations() -> None:
+    for team, stage_list in TEAM_STAGES_TO_GENERATE_SANITIES.items():
+        for stage in stage_list:
+            # Full Locations
+            temp_sequence: Sequence[StageObjBase] = get_all_parsed_stage_objects_of_type(team=team, stage=stage, stage_obj=StageObj.EGG_FLAPPER)
+            egg_flapper_list: list[EggFlapper] = []
+            for stage_obj in temp_sequence:
+                if not isinstance(stage_obj, EggFlapper):
+                    raise TypeError(f"Wrong Type of stage object: {stage_obj.__class__.__name__}")
+                if stage_obj.id_offset_full >= 0:
+                    egg_flapper_list.append(stage_obj)
+            handle_sanity_locations_from_list(team=team, stage=stage, loc_list=egg_flapper_list, id_offset_1_set=EGG_FLAPPER_FULL_NO_ACT_START_ID_OFFSET, id_offset_act_a=EGG_FLAPPER_FULL_ACT_A_START_ID_OFFSET, id_offset_act_b=EGG_FLAPPER_FULL_ACT_B_START_ID_OFFSET, loc_footnote="", rule_str=f"EggFlapper", loc_type=LocationType.EGG_FLAPPER_SANITY_FULL, location_groups=[EGG_FLAPPER_SANITY_LOCATION_GROUP_FULL])
 
 
 def generate_egg_pawn_sanity_locations() -> None:
-    global loc_id
-    stage = Stage.SEASIDE_HILL
-    team = Team.DARK
-    try:
-        loc_id = LOCATION_START_ID_OFFSET + 0x13000
-        for egg_pawn in get_parsed_data_module_for_team_stage(team=team, stage=stage).egg_pawns:  # pyright: ignore[reportAny]
-            append_sanity_location_with_act(name=f"{egg_pawn.location_name}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=0, parent_region=f"{egg_pawn.region_name}", rule_str=f"{egg_pawn.enemy_type}", rule=egg_pawn.rule, loc_type=LocationType.EGG_PAWN_SANITY, location_groups=[EGG_PAWN_SANITY_LOCATION_GROUP])  # pyright: ignore[reportAny]
-    except:
-        pass
+    generate_egg_pawn_sanity_group_locations()
+    generate_egg_pawn_sanity_full_locations()
 
-    try:
-        loc_id = LOCATION_START_ID_OFFSET + 0x14000
-        for egg_pawn in get_parsed_data_module_for_team_stage(team=team, stage=stage).egg_pawns:  # pyright: ignore[reportAny]
-            append_sanity_location_with_act(name=f"{egg_pawn.location_name}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=1, parent_region=f"{egg_pawn.region_name}", rule_str=f"{egg_pawn.enemy_type}", rule=egg_pawn.rule, loc_type=LocationType.EGG_PAWN_SANITY, location_groups=[EGG_PAWN_SANITY_LOCATION_GROUP])  # pyright: ignore[reportAny]
-    except:
-        pass
 
-    try:
-        loc_id = LOCATION_START_ID_OFFSET + 0x15000
-        for egg_pawn in get_parsed_data_module_for_team_stage(team=team, stage=stage).egg_pawns:  # pyright: ignore[reportAny]
-            append_sanity_location_with_act(name=f"{egg_pawn.location_name}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=2, parent_region=f"{egg_pawn.region_name}", rule_str=f"{egg_pawn.enemy_type}", rule=egg_pawn.rule, loc_type=LocationType.EGG_PAWN_SANITY, location_groups=[EGG_PAWN_SANITY_LOCATION_GROUP])  # pyright: ignore[reportAny]
-    except:
-        pass
+def generate_egg_pawn_sanity_group_locations() -> None:
+    for team, stage_list in TEAM_STAGES_TO_GENERATE_SANITIES.items():
+        for stage in stage_list:
+            # Group Locations
+            temp_sequence: Sequence[StageObjBase] = get_all_parsed_stage_objects_of_type(team=team, stage=stage, stage_obj=StageObj.EGG_PAWN)
+            egg_pawn_list: list[EggPawn] = []
+            for stage_obj in temp_sequence:
+                if not isinstance(stage_obj, EggPawn):
+                    raise TypeError(f"Wrong Type of stage object: {stage_obj.__class__.__name__}")
+                if stage_obj.id_offset_group >= 0:
+                    egg_pawn_list.append(stage_obj)
+            handle_sanity_locations_from_list(team=team, stage=stage, loc_list=egg_pawn_list, id_offset_1_set=EGG_PAWN_GROUP_NO_ACT_START_ID_OFFSET, id_offset_act_a=EGG_PAWN_GROUP_ACT_A_START_ID_OFFSET, id_offset_act_b=EGG_PAWN_GROUP_ACT_B_START_ID_OFFSET, loc_footnote="Group", rule_str=f"EggPawn", loc_type=LocationType.EGG_PAWN_SANITY_GROUP, location_groups=[EGG_PAWN_SANITY_LOCATION_GROUP_GROUP])
 
+
+
+def generate_egg_pawn_sanity_full_locations() -> None:
+    for team, stage_list in TEAM_STAGES_TO_GENERATE_SANITIES.items():
+        for stage in stage_list:
+            # Full Locations
+            temp_sequence: Sequence[StageObjBase] = get_all_parsed_stage_objects_of_type(team=team, stage=stage, stage_obj=StageObj.EGG_PAWN)
+            egg_pawn_list: list[EggPawn] = []
+            for stage_obj in temp_sequence:
+                if not isinstance(stage_obj, EggPawn):
+                    raise TypeError(f"Wrong Type of stage object: {stage_obj.__class__.__name__}")
+                if stage_obj.id_offset_full >= 0:
+                    egg_pawn_list.append(stage_obj)
+            handle_sanity_locations_from_list(team=team, stage=stage, loc_list=egg_pawn_list, id_offset_1_set=EGG_PAWN_FULL_NO_ACT_START_ID_OFFSET, id_offset_act_a=EGG_PAWN_FULL_ACT_A_START_ID_OFFSET, id_offset_act_b=EGG_PAWN_FULL_ACT_B_START_ID_OFFSET, loc_footnote="", rule_str=f"EggPawn", loc_type=LocationType.EGG_PAWN_SANITY_FULL, location_groups=[EGG_PAWN_SANITY_LOCATION_GROUP_FULL])
 
 
 
 
 def generate_ring_sanity_locations() -> None:
     generate_ring_sanity_group_locations()
-    generate_ring_sanity_individual_ring_locations()
+    generate_ring_sanity_full_locations()
+
 
 
 def generate_ring_sanity_group_locations() -> None:
-    global loc_id
-    loc_id = LOCATION_START_ID_OFFSET + 0x30000
+    for team, stage_list in TEAM_STAGES_TO_GENERATE_SANITIES.items():
+        for stage in stage_list:
+            # Group Locations
+            temp_sequence: Sequence[StageObjBase] = get_all_parsed_stage_objects_of_type(team=team, stage=stage, stage_obj=StageObj.RINGS)
+            ring_list: list[RingData] = []
+            for stage_obj in temp_sequence:
+                if not isinstance(stage_obj, RingData):
+                    raise TypeError(f"Wrong Type of stage object: {stage_obj.__class__.__name__}")
+                if stage_obj.id_offset_group >= 0:
+                    ring_list.append(stage_obj)
 
-    stage: Stage = Stage.SEASIDE_HILL
-    team: Team = Team.DARK
+            # have list
+            global loc_id
+            loc_id = LOCATION_START_ID_OFFSET + RING_GROUP_NO_ACT_START_ID_OFFSET
 
-    for ring_data in get_parsed_data_module_for_team_stage(team=team, stage=stage).rings:  # pyright: ignore[reportAny]
-        if ring_data.id_offset > 0:  # pyright: ignore[reportAny]
-            # need to ignore ones with id_offest as those are duplicates
-            continue
-        append_sanity_location_with_act(name=f"{ring_data.location_name} {RING_GROUP}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=0, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY_GROUP, location_groups=[RING_SANITY_LOCATION_GROUP])  # pyright: ignore[reportAny]
+            for ring_data in ring_list:
+                append_sanity_location_with_act(name=f"{ring_data.location_name} {RING_GROUP}", team=team, stage=stage, code=-999, act=0, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY_GROUP, location_groups=[RING_SANITY_LOCATION_GROUP_GROUP])
 
-    loc_id = LOCATION_START_ID_OFFSET + 0x31000
+            loc_id = LOCATION_START_ID_OFFSET + RING_GROUP_ACT_A_START_ID_OFFSET
 
-    for ring_data in get_parsed_data_module_for_team_stage(team=team, stage=stage).rings:  # pyright: ignore[reportAny]
-        if ring_data.id_offset > 0:  # pyright: ignore[reportAny]
-            # need to ignore ones with id_offest as those are duplicates
-            continue
-        append_sanity_location_with_act(name=f"{ring_data.location_name} {RING_GROUP}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=1, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY_GROUP, location_groups=[RING_SANITY_LOCATION_GROUP])  # pyright: ignore[reportAny]
+            for ring_data in ring_list:
+                append_sanity_location_with_act(name=f"{ring_data.location_name} {RING_GROUP}", team=team, stage=stage, code=-999, act=1, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY_GROUP, location_groups=[RING_SANITY_LOCATION_GROUP_GROUP])
 
-    loc_id = LOCATION_START_ID_OFFSET + 0x32000
+            loc_id = LOCATION_START_ID_OFFSET + RING_GROUP_ACT_B_START_ID_OFFSET
 
-    for ring_data in get_parsed_data_module_for_team_stage(team=team, stage=stage).rings:  # pyright: ignore[reportAny]
-        if ring_data.id_offset > 0:  # pyright: ignore[reportAny]
-            # need to ignore ones with id_offest as those are duplicates
-            continue
-        append_sanity_location_with_act(name=f"{ring_data.location_name} {RING_GROUP}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=2, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY_GROUP, location_groups=[RING_SANITY_LOCATION_GROUP])  # pyright: ignore[reportAny]
+            for ring_data in ring_list:
+                append_sanity_location_with_act(name=f"{ring_data.location_name} {RING_GROUP}", team=team, stage=stage, code=-999, act=2, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY_GROUP, location_groups=[RING_SANITY_LOCATION_GROUP_GROUP])
 
 
-def generate_ring_sanity_individual_ring_locations() -> None:
-    global loc_id
-    loc_id = LOCATION_START_ID_OFFSET + 0x40000
+def generate_ring_sanity_full_locations() -> None:
+    for team, stage_list in TEAM_STAGES_TO_GENERATE_SANITIES.items():
+        for stage in stage_list:
+            # Full Locations
+            temp_sequence: Sequence[StageObjBase] = get_all_parsed_stage_objects_of_type(team=team, stage=stage, stage_obj=StageObj.RINGS)
+            ring_list: list[RingData] = []
+            for stage_obj in temp_sequence:
+                if not isinstance(stage_obj, RingData):
+                    raise TypeError(f"Wrong Type of stage object: {stage_obj.__class__.__name__}")
+                if stage_obj.id_offset_full >= 0:
+                    ring_list.append(stage_obj)
 
-    stage: Stage = Stage.SEASIDE_HILL
-    team: Team = Team.DARK
+            # have list
+            global loc_id
+            loc_id = LOCATION_START_ID_OFFSET + RING_FULL_NO_ACT_START_ID_OFFSET
 
-    for ring_data in get_parsed_data_module_for_team_stage(team=team, stage=stage).rings:  # pyright: ignore[reportAny]
-        if ring_data.id_offset > 0:  # pyright: ignore[reportAny]
-            # need to ignore ones with id_offest as those are duplicates
-            continue
-        for x in range(ring_data.num_rings):  # pyright: ignore[reportAny]
-            append_sanity_location_with_act(name=f"{ring_data.location_name} Ring {x + 1}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=0, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY_INDIVIDUAL, location_groups=[RING_SANITY_LOCATION_GROUP])  # pyright: ignore[reportAny]
+            for ring_data in ring_list:
+                for x in range(ring_data.num_rings):
+                    append_sanity_location_with_act(name=f"{ring_data.location_name} Ring {x + 1}", team=team, stage=stage, code=-999, act=0, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY_FULL, location_groups=[RING_SANITY_LOCATION_GROUP_FULL])
 
-    loc_id = LOCATION_START_ID_OFFSET + 0x50000
+            loc_id = LOCATION_START_ID_OFFSET + RING_FULL_ACT_A_START_ID_OFFSET
 
-    for ring_data in get_parsed_data_module_for_team_stage(team=team, stage=stage).rings:  # pyright: ignore[reportAny]
-        if ring_data.id_offset > 0:  # pyright: ignore[reportAny]
-            # need to ignore ones with id_offest as those are duplicates
-            continue
-        for x in range(ring_data.num_rings):  # pyright: ignore[reportAny]
-            append_sanity_location_with_act(name=f"{ring_data.location_name} Ring {x + 1}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=1, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY_INDIVIDUAL, location_groups=[RING_SANITY_LOCATION_GROUP])  # pyright: ignore[reportAny]
+            for ring_data in ring_list:
+                for x in range(ring_data.num_rings):
+                    append_sanity_location_with_act(name=f"{ring_data.location_name} Ring {x + 1}", team=team, stage=stage, code=-999, act=1, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY_FULL, location_groups=[RING_SANITY_LOCATION_GROUP_FULL])
 
-    loc_id = LOCATION_START_ID_OFFSET + 0x60000
+            loc_id = LOCATION_START_ID_OFFSET + RING_FULL_ACT_B_START_ID_OFFSET
 
-    for ring_data in get_parsed_data_module_for_team_stage(team=team, stage=stage).rings:  # pyright: ignore[reportAny]
-        if ring_data.id_offset > 0:  # pyright: ignore[reportAny]
-            # need to ignore ones with id_offest as those are duplicates
-            continue
-        for x in range(ring_data.num_rings):  # pyright: ignore[reportAny]
-            append_sanity_location_with_act(name=f"{ring_data.location_name} Ring {x + 1}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=-999, act=2, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY_INDIVIDUAL, location_groups=[RING_SANITY_LOCATION_GROUP])  # pyright: ignore[reportAny]
+            for ring_data in ring_list:
+                for x in range(ring_data.num_rings):
+                    append_sanity_location_with_act(name=f"{ring_data.location_name} Ring {x + 1}", team=team, stage=stage, code=-999, act=2, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY_FULL, location_groups=[RING_SANITY_LOCATION_GROUP_FULL])
 
 
 def generate_all_event_locations() -> None:
@@ -602,7 +762,7 @@ def generate_all_locations() -> None:
     generate_level_goal_locations_for_super_hard_mode_hard_mode_goals()
     generate_metal_madness_extra_locations()
 
-    generate_hint_ring_sanity_locations()
+    generate_hint_rings_sanity_locations()
     generate_item_boxes_sanity_locations()
     generate_item_balloons_sanity_locations()
 

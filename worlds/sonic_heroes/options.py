@@ -25,6 +25,49 @@ class SonicHeroesDefaultOnToggle(SonicHeroesToggle):
     default: ClassVar[int] = Toggle.option_true
 
 
+class SonicHeroesEnabledActsChoice(Choice):
+    """
+    Placeholder Docstring
+    """
+    display_name: str = "Placeholder"
+    act_a: int = 1
+    act_b: int = 2
+
+    option_disabled: int = 0
+    option_act_a: int = act_a
+    option_act_b: int = act_b
+    option_both_acts: int = option_act_a + option_act_b
+    default: ClassVar[int] = option_disabled
+
+    def is_act_a_enabled(self) -> bool:
+        return self.value & self.act_a == self.act_a
+
+    def is_act_b_enabled(self) -> bool:
+        return self.value & self.act_b == self.act_b
+
+
+class SonicHeroesSanityChoice(Choice):
+    f"""
+    Groups is an easier option with only 1 location per "group of checks"
+    Full is a location for each (this can be excessive with rings)
+    Both is both (lol).
+    """
+    display_name: str = "Placeholder"
+    group: int = 1
+    full: int = 2
+
+    option_disabled: int = 0
+    option_groups: int = group
+    option_full: int = full
+    option_both_groups_and_full: int = group + full
+    default: ClassVar[int] = option_disabled
+
+
+    def is_group_enabled(self) -> bool:
+        return self.value & self.group == self.group
+
+    def is_full_enabled(self) -> bool:
+        return self.value & self.full == self.full
 
 
 
@@ -45,16 +88,80 @@ class ProgressiveAbilityItems(SonicHeroesDefaultOnToggle):
     Power Attack -> Combo Finisher
     """
     display_name: str = "Progressive Ability Items"
+    visibility: Visibility = Visibility.none
 
 
-class RingSanityDark(Choice):
+class BothSanityLocationSets(SonicHeroesToggle):
     """
+    Should Sanity Locations be generated for each enabled Act instead of only 1 set for that team?
+    This will result in 2 sets of sanity locations if Both Acts are enabled for a team.
+    """
+    display_name: str = "Both Sanity Location Sets"
+
+
+
+class EnabledActsDark(SonicHeroesEnabledActsChoice):
+    """
+    Which Team Dark Acts should be enabled?
+    """
+    display_name: str = "Enabled Acts For Team Dark"
+
+
+class StartingCharacterDark(Choice):
+    """
+    Which Character should Team Dark start with?
+    """
+    display_name: str = "Starting Character For Team Dark"
+
+    option_shadow: int = 0
+    option_rouge: int = 1
+    option_omega: int = 2
+    default: ClassVar[str] = "random"
+
+
+
+
+# Team Dark Sanity
+class ObjSanityDark(Toggle):
+    f"""
+    Should Obj Sanity be enabled for Team Dark?
+    This requires Act B to be enabled.
+    """
+    display_name: str = "Obj Sanity Dark"
+
+
+
+class RingSanityDark(SonicHeroesSanityChoice):
+    f"""
     How should Ring Sanity for Dark be handled?
+    {SonicHeroesSanityChoice.__doc__}
     """
     display_name: str = "Ring Sanity Dark"
-    option_disabled: int = 0
-    option_groups: int = 1
-    option_all_rings: int = 2
+
+
+class HintRingSanityDark(SonicHeroesSanityChoice):
+    f"""
+    How should Hint Ring Sanity for Dark be handled?
+    {SonicHeroesSanityChoice.__doc__}
+    """
+    display_name: str = "Hint Ring Sanity Dark"
+
+
+class ItemBoxBalloonSanityDark(SonicHeroesSanityChoice):
+    f"""
+    How should Item Box and Balloon Sanity for Dark be handled?
+    {SonicHeroesSanityChoice.__doc__}
+    """
+    display_name: str = "Item Box and Balloon Sanity Dark"
+
+
+class EnemySanityDark(SonicHeroesSanityChoice):
+    f"""
+    How should Enemy Sanity for Dark be handled?
+    {SonicHeroesSanityChoice.__doc__}
+    """
+    display_name: str = "Enemy Sanity Dark"
+
 
 
 class Difficulty(Choice):
@@ -142,8 +249,6 @@ class FlyDepleteBoost(SonicHeroesToggle):
 
 
 
-
-
 class FlyGroundBounce(Choice):
     """
     Should the FlyGroundBounce trick be enabled logically?
@@ -179,8 +284,28 @@ sonic_heroes_option_groups: list[OptionGroup] = \
                 options = \
                 [
                     ProgressiveAbilityItems,
-                    RingSanityDark,
+                    BothSanityLocationSets,
                 ]),
+
+    OptionGroup(name="Team Dark",
+                options = \
+                [
+                    EnabledActsDark,
+                    StartingCharacterDark
+                ]),
+
+    OptionGroup(name="Dark Sanity",
+                options = \
+                [
+                    ObjSanityDark,
+                    RingSanityDark,
+                    HintRingSanityDark,
+                    ItemBoxBalloonSanityDark,
+                    EnemySanityDark,
+                ]),
+
+
+
     OptionGroup(name="Tricks",
                 options = \
                 [
@@ -202,10 +327,20 @@ sonic_heroes_option_groups: list[OptionGroup] = \
 @dataclasses.dataclass
 class SonicHeroesOptions(PerGameCommonOptions):
     make_puml: MakePuml
-
     progressive_ability_items: ProgressiveAbilityItems
 
+
+    both_sanity_location_sets: BothSanityLocationSets
+
+    enabled_acts_dark: EnabledActsDark
+    starting_character_dark: StartingCharacterDark
+
+    obj_sanity_dark: ObjSanityDark
     ring_sanity_dark: RingSanityDark
+    hint_ring_sanity_dark: HintRingSanityDark
+    item_box_balloon_sanity_dark: ItemBoxBalloonSanityDark
+    enemy_sanity_dark: EnemySanityDark
+
 
     difficulty: Difficulty
     badnik_bounce: BadnikBounce

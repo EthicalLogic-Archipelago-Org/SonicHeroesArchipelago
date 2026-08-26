@@ -1,7 +1,9 @@
 """
 Helper Functions used by APWorld
 """
+from __future__ import annotations
 from types import ModuleType
+from typing import TYPE_CHECKING
 from unittest import case
 
 from rule_builder.rules import Rule, True_
@@ -10,8 +12,11 @@ from .constants.apworld import RULE_CACHING_ENABLED_ATTR
 from .constants.items_events import OBJ_SANITY_EVENT_ITEM, PLAYABLE, SPAWN_POSITION
 from .constants.char_ability import Ability, Character, Team
 from .constants.stage import EnabledTeamActs, Stage, Act
-from .constants.stage_objs import StageObj
+
 from .world_base import SonicHeroesWorldBase
+
+if TYPE_CHECKING:
+    from .constants.stage_objs import StageObj
 
 
 def get_correct_ability_item_name(world: SonicHeroesWorldBase, team: Team, ability: Ability) -> str:

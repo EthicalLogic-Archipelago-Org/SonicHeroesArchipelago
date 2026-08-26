@@ -940,59 +940,41 @@ class Stage(enum.Enum):
         }
 
 
-# STAGE_TO_BONUS_STAGE: dict[Stage, Stage] = \
-# {
-#     Stage.SEASIDE_HILL: Stage.SEASIDE_HILL_BONUS_STAGE,
-#     Stage.OCEAN_PALACE: Stage.OCEAN_PALACE_EMERALD_STAGE,
-#     Stage.GRAND_METROPOLIS: Stage.GRAND_METROPOLIS_BONUS_STAGE,
-#     Stage.POWER_PLANT: Stage.POWER_PLANT_EMERALD_STAGE,
-#     Stage.CASINO_PARK: Stage.CASINO_PARK_BONUS_STAGE,
-#     Stage.BINGO_HIGHWAY: Stage.BINGO_HIGHWAY_EMERALD_STAGE,
-#     Stage.RAIL_CANYON: Stage.RAIL_CANYON_BONUS_STAGE,
-#     Stage.BULLET_STATION: Stage.BULLET_STATION_EMERALD_STAGE,
-#     Stage.FROG_FOREST: Stage.FROG_FOREST_BONUS_STAGE,
-#     Stage.LOST_JUNGLE: Stage.LOST_JUNGLE_EMERALD_STAGE,
-#     Stage.HANG_CASTLE: Stage.HANG_CASTLE_BONUS_STAGE,
-#     Stage.MYSTIC_MANSION: Stage.MYSTIC_MANSION_EMERALD_STAGE,
-#     Stage.EGG_FLEET: Stage.EGG_FLEET_BONUS_STAGE,
-#     Stage.FINAL_FORTRESS: Stage.FINAL_FORTRESS_EMERALD_STAGE,
-# }
-
-
-@dataclasses.dataclass(kw_only=True)
-class StageData:
-    regions: list[SonicHeroesRegionData] = dataclasses.field(default_factory=list)
-    connections: list[SonicHeroesConnectionData] = dataclasses.field(default_factory=list)
-
-    def get_specific_region_data(self, name: str) -> SonicHeroesRegionData | None:
-        for region in self.regions:
-            if region.region_name == name:
-                return region
-        return None
-
-    def get_specific_connection_data(self, name: str) -> SonicHeroesConnectionData | None:
-        for connection in self.connections:
-            if connection.name == name:
-                return connection
-        return None
-
-
-@dataclasses.dataclass(init=False, kw_only=True)
-class AllStageData:
-    team_stage_data: dict[Team, dict[Stage, StageData]]# = dataclasses.field(default_factory=dict)
-
-    def __init__(self) -> None:
-        self.team_stage_data = \
-        {team: {stage: StageData() for stage in Stage} for team in Team}
-
-
-    def map_data_for_team_and_stage(self, team: Team, stage: Stage) -> None:
-        # TODO get data here and add it to the map
-        pass
-
-    def get_specific_region_data_for_team_and_stage(self, team: Team, stage: Stage, name: str) -> SonicHeroesRegionData | None:
-        return self.team_stage_data[team][stage].get_specific_region_data(name)
-
-    def get_specific_connection_data_for_team_and_stage(self, team: Team, stage: Stage, name: str) -> SonicHeroesConnectionData | None:
-        return self.team_stage_data[team][stage].get_specific_connection_data(name)
+#
+# @dataclasses.dataclass(kw_only=True)
+# class StageData:
+#     regions: list[SonicHeroesRegionData] = dataclasses.field(default_factory=list)
+#     connections: list[SonicHeroesConnectionData] = dataclasses.field(default_factory=list)
+#
+#     def get_specific_region_data(self, name: str) -> SonicHeroesRegionData | None:
+#         for region in self.regions:
+#             if region.region_name == name:
+#                 return region
+#         return None
+#
+#     def get_specific_connection_data(self, name: str) -> SonicHeroesConnectionData | None:
+#         for connection in self.connections:
+#             if connection.name == name:
+#                 return connection
+#         return None
+#
+#
+# @dataclasses.dataclass(init=False, kw_only=True)
+# class AllStageData:
+#     team_stage_data: dict[Team, dict[Stage, StageData]]# = dataclasses.field(default_factory=dict)
+#
+#     def __init__(self) -> None:
+#         self.team_stage_data = \
+#         {team: {stage: StageData() for stage in Stage} for team in Team}
+#
+#
+#     def map_data_for_team_and_stage(self, team: Team, stage: Stage) -> None:
+#         # TODO get data here and add it to the map
+#         pass
+#
+#     def get_specific_region_data_for_team_and_stage(self, team: Team, stage: Stage, name: str) -> SonicHeroesRegionData | None:
+#         return self.team_stage_data[team][stage].get_specific_region_data(name)
+#
+#     def get_specific_connection_data_for_team_and_stage(self, team: Team, stage: Stage, name: str) -> SonicHeroesConnectionData | None:
+#         return self.team_stage_data[team][stage].get_specific_connection_data(name)
 
