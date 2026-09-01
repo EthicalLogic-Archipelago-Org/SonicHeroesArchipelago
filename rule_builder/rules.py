@@ -594,7 +594,7 @@ class And(NestedRule[TWorld], game="Archipelago"):
                 clauses.append(child)
 
         if not clauses and not items:
-            return true_rule or False_().resolve(world)
+            return true_rule or True_().resolve(world)
 
         if len(items) == 1:
             item, count = next(iter(items.items()))
@@ -844,9 +844,12 @@ class Has(Rule[TWorld], game="Archipelago"):
 
     @override
     def _instantiate(self, world: TWorld) -> Rule.Resolved:
+        count = resolve_field(self.count, world, int)
+        if count <= 0:
+            return True_().resolve(world)
         return self.Resolved(
             resolve_field(self.item_name, world, str),
-            count=resolve_field(self.count, world, int),
+            count=count,
             player=world.player,
             caching_enabled=getattr(world, "rule_caching_enabled", False),
         )
@@ -1404,14 +1407,16 @@ class HasFromList(Rule[TWorld], game="Archipelago"):
 
     @override
     def _instantiate(self, world: TWorld) -> Rule.Resolved:
+        count = resolve_field(self.count, world, int)
+        if count <= 0:
+            return True_().resolve(world)
         if len(self.item_names) == 0:
-            # match state.has_from_list
             return False_().resolve(world)
         if len(self.item_names) == 1:
             return Has(self.item_names[0], self.count).resolve(world)
         return self.Resolved(
             self.item_names,
-            count=resolve_field(self.count, world, int),
+            count=count,
             player=world.player,
             caching_enabled=getattr(world, "rule_caching_enabled", False),
         )
@@ -1539,8 +1544,9 @@ class HasFromListUnique(Rule[TWorld], game="Archipelago"):
     @override
     def _instantiate(self, world: TWorld) -> Rule.Resolved:
         count = resolve_field(self.count, world, int)
-        if len(self.item_names) == 0 or len(self.item_names) < count:
-            # match state.has_from_list_unique
+        if count <= 0:
+            return True_().resolve(world)
+        if len(self.item_names) < count:
             return False_().resolve(world)
         if len(self.item_names) == 1:
             return Has(self.item_names[0]).resolve(world)
@@ -1658,11 +1664,14 @@ class HasGroup(Rule[TWorld], game="Archipelago"):
 
     @override
     def _instantiate(self, world: TWorld) -> Rule.Resolved:
+        count = resolve_field(self.count, world, int)
+        if count <= 0:
+            return True_().resolve(world)
         item_names = tuple(sorted(world.item_name_groups[self.item_name_group]))
         return self.Resolved(
             self.item_name_group,
             item_names,
-            count=resolve_field(self.count, world, int),
+            count=count,
             player=world.player,
             caching_enabled=getattr(world, "rule_caching_enabled", False),
         )
@@ -1732,11 +1741,16 @@ class HasGroupUnique(Rule[TWorld], game="Archipelago"):
 
     @override
     def _instantiate(self, world: TWorld) -> Rule.Resolved:
+        count = resolve_field(self.count, world, int)
+        if count <= 0:
+            return True_().resolve(world)
         item_names = tuple(sorted(world.item_name_groups[self.item_name_group]))
+        if len(item_names) < count:
+            return False_().resolve(world)
         return self.Resolved(
             self.item_name_group,
             item_names,
-            count=resolve_field(self.count, world, int),
+            count=count,
             player=world.player,
             caching_enabled=getattr(world, "rule_caching_enabled", False),
         )
