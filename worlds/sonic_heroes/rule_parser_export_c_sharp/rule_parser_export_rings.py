@@ -8,13 +8,11 @@ from ..constants.stage import Stage, StageType
 from ..constants.rings import *
 
 
-start_id_offset: int = 0
 
 
 def get_rings_export_string_for_team(team: Team, parsed_data: dict[Stage, list[RingData]]) -> str:
-    global start_id_offset
     _result: str = ""
-    class_str: str = "RingsData"
+    class_str: str = "RingData"
     list_name: str = "Rings"
     tab_char: str = "    "
 
@@ -35,7 +33,9 @@ def get_rings_export_string_for_team(team: Team, parsed_data: dict[Stage, list[R
                     "ring_type": f"RingType.{parsed_entry.layout.value}",
                     "length": f"{parsed_entry.length}f",
                     "radius": f"{parsed_entry.radius}f",
-                    "start_id_offset": f"{start_id_offset}",
+                    "group": f"{parsed_entry.group}",
+                    "id_offset_group": f"{parsed_entry.id_offset_group}",
+                    "id_offset_full": f"{parsed_entry.id_offset_full}",
                     "linkid": f"{parsed_entry.link_id}",
                     "x": f"{parsed_entry.x}f",
                     "y": f"{parsed_entry.y}f",

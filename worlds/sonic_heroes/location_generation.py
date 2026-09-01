@@ -13,7 +13,7 @@ from .constants.hint_rings import *
 from .constants.item_balloon_box import ItemBoxData, ItemBalloonData
 from .constants.rings import RING_GROUP, RingData
 from .constants.stage import Stage, StageType, Act
-from .constants.stage_objs import StageObj
+from .constants.stage_objs import StageObj, STAGE_OBJ_INVALID_ID_OFFSET
 
 from .rule_builder.custom_rules import CanGetEmerald, CanGoalStage
 from .rule_builder.functions_stage_obj import has_stage_obj_rule, can_break_key_cage
@@ -633,6 +633,7 @@ def generate_ring_sanity_full_locations() -> None:
 
             for ring_data in ring_list:
                 for x in range(ring_data.num_rings):
+                    # print(f"{ring_data.location_name} Ring {x + 1} ::: 0x{loc_id:X}")
                     append_sanity_location_with_act(name=f"{ring_data.location_name} Ring {x + 1}", team=team, stage=stage, code=-999, act=1, parent_region=f"{ring_data.region_name}", rule_str=f"Ring", rule=ring_data.rule, loc_type=LocationType.RING_SANITY_FULL, location_groups=[RING_SANITY_LOCATION_GROUP_FULL])
 
             loc_id = LOCATION_START_ID_OFFSET + RING_FULL_ACT_B_START_ID_OFFSET
@@ -692,18 +693,20 @@ def generate_bonus_key_events() -> None:
 
 def generate_dark_obj_sanity_events() -> None:
     team: Team = Team.DARK
-    stage: Stage = Stage.SEASIDE_HILL
-
-    try:
-        for egg_flapper in get_parsed_data_module_for_team_stage(team=team, stage=stage).egg_flappers:  # pyright: ignore[reportAny]
-            append_location(name=f"{stage.stage_name} {team.value} {egg_flapper.location_name} {OBJ_SANITY} {EVENT_LOCATION}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=EVENT_LOCATION_ID, act=2, parent_region=f"{egg_flapper.region_name}", rule_str=f"{egg_flapper.enemy_type} {EVENT_LOCATION}", rule=egg_flapper.rule, loc_type=LocationType.EVENT, location_groups=[], locked_item=get_obj_sanity_event_item_name(team=Team.DARK, stage=stage, act=Act.ACT_B))  # pyright: ignore[reportAny]
-    except:
-        pass
-    try:
-        for egg_pawn in get_parsed_data_module_for_team_stage(team=team, stage=stage).egg_pawns:  # pyright: ignore[reportAny]
-            append_location(name=f"{stage.stage_name} {team.value} {egg_pawn.location_name} {OBJ_SANITY} {EVENT_LOCATION}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=EVENT_LOCATION_ID, act=2, parent_region=f"{egg_pawn.region_name}", rule_str=f"{egg_pawn.enemy_type} {EVENT_LOCATION}", rule=egg_pawn.rule, loc_type=LocationType.EVENT, location_groups=[], locked_item=get_obj_sanity_event_item_name(team=Team.DARK, stage=stage, act=Act.ACT_B))  # pyright: ignore[reportAny]
-    except:
-        pass
+    for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
+        try:
+            for egg_flapper in get_parsed_data_module_for_team_stage(team=team, stage=reg_lvl).egg_flappers:  # pyright: ignore[reportAny]
+                if egg_flapper.id_offset_full != STAGE_OBJ_INVALID_ID_OFFSET:  # pyright: ignore[reportAny]
+                    append_location(name=f"{reg_lvl.stage_name} {team.value} {egg_flapper.location_name} {OBJ_SANITY} {EVENT_LOCATION}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=EVENT_LOCATION_ID, act=2, parent_region=f"{egg_flapper.region_name}", rule_str=f"{egg_flapper.enemy_type} {EVENT_LOCATION}", rule=egg_flapper.rule, loc_type=LocationType.EVENT, location_groups=[], locked_item=get_obj_sanity_event_item_name(team=Team.DARK, stage=reg_lvl, act=Act.ACT_B))  # pyright: ignore[reportAny]
+        except:
+            pass
+    for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
+        try:
+            for egg_pawn in get_parsed_data_module_for_team_stage(team=team, stage=reg_lvl).egg_pawns:  # pyright: ignore[reportAny]
+                if egg_pawn.id_offset_full != STAGE_OBJ_INVALID_ID_OFFSET:  # pyright: ignore[reportAny]
+                    append_location(name=f"{reg_lvl.stage_name} {team.value} {egg_pawn.location_name} {OBJ_SANITY} {EVENT_LOCATION}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=EVENT_LOCATION_ID, act=2, parent_region=f"{egg_pawn.region_name}", rule_str=f"{egg_pawn.enemy_type} {EVENT_LOCATION}", rule=egg_pawn.rule, loc_type=LocationType.EVENT, location_groups=[], locked_item=get_obj_sanity_event_item_name(team=Team.DARK, stage=reg_lvl, act=Act.ACT_B))  # pyright: ignore[reportAny]
+        except:
+            pass
 
 
 

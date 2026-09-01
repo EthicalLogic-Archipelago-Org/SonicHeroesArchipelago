@@ -1,6 +1,7 @@
 """
 Constants related to Enemies
 """
+from __future__ import annotations
 import dataclasses
 import enum
 from typing import Self
@@ -31,8 +32,33 @@ class EnemyHeight(enum.Enum):
         self.description: str = description
         self.relative_value: int = relative_value
 
+    @property
+    def next_higher(self) -> EnemyHeight:
+        match self:
+            case EnemyHeight.JUMP_FLIGHT_THUNDERSHOOT:
+                return EnemyHeight.JUMP_FLIGHT_THUNDERSHOOT
+                # raise ValueError(f"{self.description} is the highest Height")
+            case EnemyHeight.FLIGHT_THUNDERSHOOT:
+                return EnemyHeight.JUMP_FLIGHT_THUNDERSHOOT
+            case EnemyHeight.JUMP_THUNDERSHOOT:
+                return EnemyHeight.FLIGHT_THUNDERSHOOT
+            case EnemyHeight.THUNDERSHOOT:
+                return EnemyHeight.JUMP_THUNDERSHOOT
+            case EnemyHeight.FULL_FLY_STACK_TALL_CHAR_JUMP:
+                return EnemyHeight.THUNDERSHOOT
+            case EnemyHeight.FULL_FLY_STACK_JUMP:
+                return EnemyHeight.FULL_FLY_STACK_TALL_CHAR_JUMP
+            case EnemyHeight.TALL_CHAR_JUMP:
+                return EnemyHeight.FULL_FLY_STACK_JUMP
+            case EnemyHeight.JUMP:
+                return EnemyHeight.TALL_CHAR_JUMP
+            case EnemyHeight.HALF_JUMP:
+                return EnemyHeight.JUMP
+            case EnemyHeight.GROUND:
+                return EnemyHeight.HALF_JUMP
+
     @classmethod
-    def match(cls, input_str: str):
+    def match(cls, input_str: str) -> EnemyHeight:
         if input_str == "Ground":
             return cls.GROUND
         if input_str == "HalfJump":
@@ -227,6 +253,31 @@ class EggFlapper(SonicHeroesEnemyBase):
     obj_id: StageObj = dataclasses.field(init=False, default=StageObj.EGG_FLAPPER)
     enemy_type: EnemyType = dataclasses.field(init=False, default=EnemyType.EGG_FLAPPER)
 
+    def get_enemy_str(self) -> str:
+        enemy_str: str = ""
+
+        match self.armor:
+            case EggFlapperArmor.NO_ARMOR:
+                match self.weapon:
+                    case EggFlapperWeapon.NO_WEAPON:
+                        enemy_str += "Red"
+                    case EggFlapperWeapon.NEEDLE:
+                        enemy_str += "Gray"
+                    case EggFlapperWeapon.BAZOOKA | EggFlapperWeapon.LIGHTNING:
+                        enemy_str += "Green"
+                    case EggFlapperWeapon.MACHINE_GUN:
+                        enemy_str += "Blue"
+                    case EggFlapperWeapon.BOMB:
+                        enemy_str += "Pink"
+                    case EggFlapperWeapon.SEARCHLIGHT:
+                        enemy_str += "Yellow"
+
+            case EggFlapperArmor.SILVER_ARMOR:
+                enemy_str += "Silver Armor"
+
+        enemy_str += f" {self.enemy_type} with {self.weapon} at {self.height} Height"
+        return enemy_str
+
 
 @dataclasses.dataclass(kw_only=True)
 class EggPawn(SonicHeroesEnemyBase):
@@ -236,6 +287,15 @@ class EggPawn(SonicHeroesEnemyBase):
 
     obj_id: StageObj = dataclasses.field(init=False, default=StageObj.EGG_PAWN)
     enemy_type: EnemyType = dataclasses.field(init=False, default=EnemyType.EGG_PAWN)
+
+    def get_enemy_str(self) -> str:
+        enemy_str: str = ""
+        if self.special_type is EggPawnType.KING_PAWN:
+            enemy_str += "King "
+        if self.special_type is EggPawnType.CASINO_PAWN_1 or self.special_type is EggPawnType.CASINO_PAWN_2:
+            enemy_str += "Casino "
+        enemy_str += f"{self.enemy_type} with {self.shield} and {self.weapon} at {self.height} Height"
+        return enemy_str
 
 
 @dataclasses.dataclass(kw_only=True)

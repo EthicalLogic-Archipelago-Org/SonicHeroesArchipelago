@@ -66,6 +66,7 @@ POWER_LEVEL_UP: str = "Power Level Up"
 FLYING_LEVEL_UP: str = "Flying Level Up"
 TEAM_LEVEL_UP: str = "Team Level Up"
 TEAM_BLAST_REFILL: str = "Team Blast Refill"
+RING_MAGNET: str = "Ring Magnet"
 
 TRAP: str = "Trap"
 STEALTHTRAP: str = f"Stealth {TRAP}"

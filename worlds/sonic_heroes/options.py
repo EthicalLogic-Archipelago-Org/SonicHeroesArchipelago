@@ -50,7 +50,7 @@ class SonicHeroesSanityChoice(Choice):
     f"""
     Groups is an easier option with only 1 location per "group of checks"
     Full is a location for each (this can be excessive with rings)
-    Both is both (lol).
+    Both is both
     """
     display_name: str = "Placeholder"
     group: int = 1
@@ -127,7 +127,7 @@ class ObjSanityDark(Toggle):
     Should Obj Sanity be enabled for Team Dark?
     This requires Act B to be enabled.
     """
-    display_name: str = "Obj Sanity Dark"
+    display_name: str = "Team Dark Obj Sanity"
 
 
 
@@ -294,7 +294,7 @@ sonic_heroes_option_groups: list[OptionGroup] = \
                     StartingCharacterDark
                 ]),
 
-    OptionGroup(name="Dark Sanity",
+    OptionGroup(name="Team Dark Sanity",
                 options = \
                 [
                     ObjSanityDark,
@@ -349,6 +349,33 @@ class SonicHeroesOptions(PerGameCommonOptions):
     parkour: Parkour
     fly_deplete_boost: FlyDepleteBoost
     fly_ground_bounce: FlyGroundBounce
+
+
+OPTION_ATTR_NAMES: list[str] = \
+[
+    "progressive_ability_items",
+
+
+    "both_sanity_location_sets",
+
+    "enabled_acts_dark",
+    "starting_character_dark",
+
+    "obj_sanity_dark",
+    "ring_sanity_dark",
+    "hint_ring_sanity_dark",
+    "item_box_balloon_sanity_dark",
+    "enemy_sanity_dark",
+
+    "difficulty",
+    "badnik_bounce",
+    "collis_abuse",
+    "hover_frame",
+    "parkour",
+    "fly_deplete_boost",
+    "fly_ground_bounce",
+]
+
 
 
 def check_options(options: SonicHeroesOptions) -> None:

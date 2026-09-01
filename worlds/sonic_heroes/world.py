@@ -50,7 +50,7 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
 
     @override
     def get_filler_item_name(self) -> str:
-        filler_items: list[SonicHeroesItemData] = [item_data for item_data in FULL_ITEM_LIST if item_data.classification is ItemClassification.filler] # or ItemClassification.trap in item_data.classification]
+        filler_items: list[SonicHeroesItemData] = [item_data for item_data in FULL_ITEM_LIST if item_data.classification is ItemClassification.filler and item_data.fillerweight > 0] # or ItemClassification.trap in item_data.classification]
         return self.random.choice(seq=filler_items).item_name
 
 
@@ -145,7 +145,7 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
         self.make_puml()
         return \
         {
-            "options": self.options.as_dict("progressive_ability_items", "ring_sanity_dark", "difficulty", "badnik_bounce", "collis_abuse", "hover_frame", "parkour", "fly_deplete_boost", "fly_ground_bounce"),
+            "options": self.options.as_dict(*OPTION_ATTR_NAMES),
 
             "APWorldVersion": self.apworld_version,
             "UnlockType": 0,

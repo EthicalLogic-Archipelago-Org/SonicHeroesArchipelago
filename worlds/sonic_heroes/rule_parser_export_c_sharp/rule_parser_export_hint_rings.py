@@ -10,7 +10,7 @@ from ..constants.hint_rings import *
 
 def get_hint_rings_export_string_for_team(team: Team, parsed_data: dict[Stage, list[HintRingData]]) -> str:
     _result: str = ""
-    class_str: str = "HintRingsData"
+    class_str: str = "HintRingData"
     list_name: str = "HintRings"
     tab_char: str = "    "
 
@@ -27,6 +27,9 @@ def get_hint_rings_export_string_for_team(team: Team, parsed_data: dict[Stage, l
                 "levelid": f"LevelId.{parsed_entry.stage.stage_name.replace(" ", "")}",
                 "region": f"\"{parsed_entry.region_name.replace(f"{parsed_entry.stage.stage_name} {parsed_entry.team.value} ", "")}\"",
                 "voicelineid": f"{parsed_entry.voice_line}",
+                "group": f"{parsed_entry.group}",
+                "id_offset_group": f"{parsed_entry.id_offset_group}",
+                "id_offset_full": f"{parsed_entry.id_offset_full}",
                 "linkid": f"{parsed_entry.link_id}",
                 "x": f"{parsed_entry.x}f",
                 "y": f"{parsed_entry.y}f",

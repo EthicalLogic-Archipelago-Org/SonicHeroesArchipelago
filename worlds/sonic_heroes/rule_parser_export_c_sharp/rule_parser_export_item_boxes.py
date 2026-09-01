@@ -10,7 +10,7 @@ from ..constants.item_balloon_box import *
 
 def get_item_boxes_export_string_for_team(team: Team, parsed_data: dict[Stage, list[ItemBoxData]]) -> str:
     _result: str = ""
-    class_str: str = "ItemBoxesData"
+    class_str: str = "ItemBoxData"
     list_name: str = "ItemBoxes"
     tab_char: str = "    "
 
@@ -29,6 +29,9 @@ def get_item_boxes_export_string_for_team(team: Team, parsed_data: dict[Stage, l
                 "loc_name": f"\"{parsed_entry.location_name.replace(f"{parsed_entry.region_name.replace(f"{parsed_entry.stage.stage_name} {parsed_entry.team.value} ", "")} ", "")}\"",
                 "item_reward": f"ItemReward.{parsed_entry.item.name}",
                 "stage_obj_type": f"StageObjTypes.{parsed_entry.obj_id.value.replace(" ", "")}",
+                "group": f"{parsed_entry.group}",
+                "id_offset_group": f"{parsed_entry.id_offset_group}",
+                "id_offset_full": f"{parsed_entry.id_offset_full}",
                 "linkid": f"{parsed_entry.link_id}",
                 "x": f"{parsed_entry.x}f",
                 "y": f"{parsed_entry.y}f",

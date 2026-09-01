@@ -33,6 +33,9 @@ class SonicHeroesUTWorld(SonicHeroesWorldBase):
         self.enabled_sanity_acts: dict[Team, dict[LocationType, Act]] = {team: {loc_type: Act.NONE for loc_type in LocationType.get_sanity_types()} for team in Team}
         """Dict of Team to Sanity Type to Act Flag"""
 
+        # Obj Sanity cares about Act
+        # every other sanity cares about group vs full
+
 
     @staticmethod
     def interpret_slot_data(slot_data: dict[str, Any]) -> dict[str, Any]:  # pyright: ignore[reportExplicitAny]
@@ -209,7 +212,8 @@ class SonicHeroesUTWorld(SonicHeroesWorldBase):
             return
         self.is_ut_gen = True
         slot_data: dict[str, Any] = re_gen_passthrough[self.game]  # pyright: ignore[reportExplicitAny]
-        #TODO pull YAML and rando stuff here
+
+        self.enabled_team_acts_flag = EnabledTeamActs(value=slot_data["ActsAndSanities"]["EnabledActs"])
 
         for key, value in slot_data.get("options", {}).items():  # pyright: ignore[reportAny]
             opt: Option[SonicHeroesWorldBase] | None = getattr(self.options, key, None)  # pyright: ignore[reportAny]

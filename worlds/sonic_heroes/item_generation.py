@@ -141,12 +141,13 @@ def generate_filler_items() -> None:
     append_item(name=RINGS_10, classification=ItemClassification.filler, item_groups=[FILLER_ITEM_GROUP])
     append_item(name=RINGS_20, classification=ItemClassification.filler, item_groups=[FILLER_ITEM_GROUP])
     append_item(name=SHIELD, classification=ItemClassification.filler, item_groups=[FILLER_ITEM_GROUP])
-    # append_item(name=INVINCIBILITY, classification=ItemClassification.filler, item_groups=[FILLER_ITEM_GROUP], fillerweight=0)
-    # append_item(name=SPEED_LEVEL_UP, classification=ItemClassification.filler, item_groups=[FILLER_ITEM_GROUP], fillerweight=0)
-    # append_item(name=POWER_LEVEL_UP, classification=ItemClassification.filler, item_groups=[FILLER_ITEM_GROUP], fillerweight=0)
-    # append_item(name=FLYING_LEVEL_UP, classification=ItemClassification.filler, item_groups=[FILLER_ITEM_GROUP], fillerweight=0)
-    # append_item(name=TEAM_LEVEL_UP, classification=ItemClassification.filler, item_groups=[FILLER_ITEM_GROUP], fillerweight=0)
+    append_item(name=INVINCIBILITY, classification=ItemClassification.filler, item_groups=[FILLER_ITEM_GROUP], fillerweight=0)
+    append_item(name=SPEED_LEVEL_UP, classification=ItemClassification.filler, item_groups=[FILLER_ITEM_GROUP], fillerweight=0)
+    append_item(name=POWER_LEVEL_UP, classification=ItemClassification.filler, item_groups=[FILLER_ITEM_GROUP], fillerweight=0)
+    append_item(name=FLYING_LEVEL_UP, classification=ItemClassification.filler, item_groups=[FILLER_ITEM_GROUP], fillerweight=0)
+    append_item(name=TEAM_LEVEL_UP, classification=ItemClassification.filler, item_groups=[FILLER_ITEM_GROUP], fillerweight=0)
     append_item(name=TEAM_BLAST_REFILL, classification=ItemClassification.filler, item_groups=[FILLER_ITEM_GROUP])
+    append_item(name=RING_MAGNET, classification=ItemClassification.filler, item_groups=[FILLER_ITEM_GROUP], fillerweight=0)
 
 
 def generate_trap_items() -> None:

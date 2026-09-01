@@ -10,7 +10,7 @@ from ..constants.triple_spring import *
 
 def get_triple_springs_export_string_for_team(team: Team, parsed_data: dict[Stage, list[TripleSpringData]]) -> str:
     _result: str = ""
-    class_str: str = "TripleSpringsData"
+    class_str: str = "TripleSpringData"
     list_name: str = "TripleSprings"
     tab_char: str = "    "
 
@@ -32,6 +32,9 @@ def get_triple_springs_export_string_for_team(team: Team, parsed_data: dict[Stag
                 "item_reward": f"ItemReward.{parsed_entry.item.name}",
                 "scale": f"{parsed_entry.scale}f",
                 "stage_obj_type": f"StageObjTypes.{parsed_entry.obj_id.value.replace(" ", "")}",
+                "group": f"{parsed_entry.group}",
+                "id_offset_group": f"{parsed_entry.id_offset_group}",
+                "id_offset_full": f"{parsed_entry.id_offset_full}",
                 "linkid": f"{parsed_entry.link_id}",
                 "x": f"{parsed_entry.x}f",
                 "y": f"{parsed_entry.y}f",
