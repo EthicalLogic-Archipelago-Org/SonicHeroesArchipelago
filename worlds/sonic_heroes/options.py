@@ -163,7 +163,6 @@ class EnemySanityDark(SonicHeroesSanityChoice):
     display_name: str = "Enemy Sanity Dark"
 
 
-
 class Difficulty(Choice):
     """
     Should various tricks be enabled based on difficulty?
