@@ -248,6 +248,9 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
         # enabled acts
         self.enabled_team_acts_flag: EnabledTeamActs = EnabledTeamActs.NONE
 
+        if self.options.both_sanity_location_sets:
+            self.options.enabled_acts_dark.value = EnabledActsDark.option_both_acts
+
         if self.options.enabled_acts_dark.is_act_a_enabled():
             self.enabled_team_acts_flag |= EnabledTeamActs.DARK_ACT_A
         if self.options.enabled_acts_dark.is_act_b_enabled():
