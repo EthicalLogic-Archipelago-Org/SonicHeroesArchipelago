@@ -23,8 +23,9 @@ jobs:
           python -m pip install regex
 
       - name: Run Parser
+        env:
+          PYTHONPATH: ${{ github.workspace }}
         run: |
-          PYTHONPATH=.
           python worlds/sonic_heroes/rule_parser/rule_parser.py
 
       - uses: Eijebong/ap-actions/ap-tests@main
