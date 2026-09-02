@@ -142,7 +142,7 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
 
     @override
     def fill_slot_data(self) -> dict[str, Any]:  # pyright: ignore[reportExplicitAny]
-        self.make_puml()
+        # self.make_puml()
         return \
         {
             "options": self.options.as_dict(*OPTION_ATTR_NAMES),
