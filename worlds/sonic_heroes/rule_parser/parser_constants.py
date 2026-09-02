@@ -1,14 +1,6 @@
 """
 Constants used by the parser
 """
-import regex
-
-
-AND_CONDITION_PATTERN: regex.Pattern[str] = regex.compile(pattern=r"(AND)")
-OR_CONDITION_PATTERN: regex.Pattern[str] = regex.compile(pattern=r"(OR)")
-OUTER_PARENS_PATTERN: regex.Pattern[str] = regex.compile(pattern=r"\((?>[^()]|(?R))*\)")
-
-
 SOURCE_HEADER: str = "Source"
 TARGET_HEADER: str = "Target"
 

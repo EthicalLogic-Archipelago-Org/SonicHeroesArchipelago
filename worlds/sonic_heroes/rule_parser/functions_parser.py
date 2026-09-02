@@ -204,6 +204,15 @@ def do_start_and_end_parens_match(rule_str: str) -> bool:
 
 
 def handle_rule_str(rule_str: str, team: Team, stage: Stage, print_steps: bool = False) -> None:
+    # I really hate this but it's needed
+    import regex
+
+    AND_CONDITION_PATTERN: regex.Pattern[str] = regex.compile(pattern=r"(AND)")
+    OR_CONDITION_PATTERN: regex.Pattern[str] = regex.compile(pattern=r"(OR)")
+    OUTER_PARENS_PATTERN: regex.Pattern[str] = regex.compile(pattern=r"\((?>[^()]|(?R))*\)")
+
+
+
     global result_str_list, parens_mapping_list
     if rule_str == '':
         return
