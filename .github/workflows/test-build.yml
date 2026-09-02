@@ -24,7 +24,7 @@ jobs:
 
       - name: Run Parser
         run: |
-          python -m worlds/sonic_heroes/rule_parser/rule_parser.py
+          python -m worlds/sonic_heroes/rule_parser/rule_parser
 
       - uses: Eijebong/ap-actions/ap-tests@main
         with:
