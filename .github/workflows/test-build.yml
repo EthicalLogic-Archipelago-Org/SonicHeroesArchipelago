@@ -31,7 +31,7 @@ jobs:
       - uses: Eijebong/ap-actions/ap-tests@main
         with:
           apworld-path: worlds/sonic_heroes
-          ap-version: '0.6.8'
+          ap-version: '0.6.7'
           python-version: '3.13'
 
       - name: Build APWorld
@@ -42,11 +42,10 @@ jobs:
         run: |
           python Launcher.py "Generate Template Options"
 
-#      - name: Fix template AP version
-#        this changes template YAML required version to 0.6.8
-#        run: |
-#          sed -i '0,/version: 0\.6\.8/s//version: 0.6.8/' \
-#            "Players/Templates/Sonic Heroes.yaml"
+      - name: Fix template AP version
+        run: |
+          sed -i '0,/version: 0\.6\.8/s//version: 0.6.7/' \
+            "Players/Templates/Sonic Heroes.yaml"
 
       - name: Upload APWorld
         uses: actions/upload-artifact@v4
