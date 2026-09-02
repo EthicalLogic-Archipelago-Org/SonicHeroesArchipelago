@@ -25,7 +25,7 @@ jobs:
       - name: Run Parser
         run: |
           cd ./worlds/sonic_heroes/rule_parser
-          python ./rule_parser.py
+          python rule_parser.py
 
       - uses: Eijebong/ap-actions/ap-tests@main
         with:
@@ -35,7 +35,6 @@ jobs:
 
       - name: Build APWorld
         run: |
-#          python -m pip install typing_extensions==4.15.0
           python Launcher.py "Build APWorlds"
 
       - name: Generate Template
