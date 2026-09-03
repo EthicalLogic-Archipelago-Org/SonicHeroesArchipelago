@@ -47,7 +47,7 @@ class SonicHeroesEnabledActsChoice(Choice):
 
 
 class SonicHeroesSanityChoice(Choice):
-    f"""
+    """
     Groups is an easier option with only 1 location per "group of checks"
     Full is a location for each (this can be excessive with rings)
     Both is both
@@ -123,7 +123,7 @@ class StartingCharacterDark(Choice):
 
 # Team Dark Sanity
 class ObjSanityDark(Toggle):
-    f"""
+    """
     Should Obj Sanity be enabled for Team Dark?
     This requires Act B to be enabled.
     """
@@ -132,33 +132,41 @@ class ObjSanityDark(Toggle):
 
 
 class RingSanityDark(SonicHeroesSanityChoice):
-    f"""
+    """
     How should Ring Sanity for Dark be handled?
-    {SonicHeroesSanityChoice.__doc__}
+    Groups is an easier option with only 1 location per "group of checks"
+    Full is a location for each (this can be excessive with rings)
+    Both is both
     """
     display_name: str = "Ring Sanity Dark"
 
 
 class HintRingSanityDark(SonicHeroesSanityChoice):
-    f"""
+    """
     How should Hint Ring Sanity for Dark be handled?
-    {SonicHeroesSanityChoice.__doc__}
+    Groups is an easier option with only 1 location per "group of checks"
+    Full is a location for each (this can be excessive with rings)
+    Both is both
     """
     display_name: str = "Hint Ring Sanity Dark"
 
 
 class ItemBoxBalloonSanityDark(SonicHeroesSanityChoice):
-    f"""
+    """
     How should Item Box and Balloon Sanity for Dark be handled?
-    {SonicHeroesSanityChoice.__doc__}
+    Groups is an easier option with only 1 location per "group of checks"
+    Full is a location for each (this can be excessive with rings)
+    Both is both
     """
     display_name: str = "Item Box and Balloon Sanity Dark"
 
 
 class EnemySanityDark(SonicHeroesSanityChoice):
-    f"""
+    """
     How should Enemy Sanity for Dark be handled?
-    {SonicHeroesSanityChoice.__doc__}
+    Groups is an easier option with only 1 location per "group of checks"
+    Full is a location for each (this can be excessive with rings)
+    Both is both
     """
     display_name: str = "Enemy Sanity Dark"
 

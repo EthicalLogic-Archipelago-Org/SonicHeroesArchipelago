@@ -157,7 +157,10 @@ def append_location(name: str, team: Team, stage: Stage, code: int, act: int, pa
 
 
 def add_location_to_dict(name: str, team: Team, stage: Stage, code: int, act: int, parent_region: str, rule_str: str, rule: Rule[SonicHeroesWorldBase], loc_type: LocationType, locked_item: str = "") -> None:
-    FULL_LOCATION_DICT[stage][team].append(SonicHeroesLocationData(name=name, team=team, stage=stage, code=code, act=act, parent_region=parent_region, rule_str=rule_str, rule=rule, loc_type=loc_type, locked_item=locked_item))
+    if code == EVENT_LOCATION_ID:
+        FULL_LOCATION_DICT[stage][team].append(SonicHeroesLocationData(name=name, team=team, stage=stage, code=None, act=act, parent_region=parent_region, rule_str=rule_str, rule=rule, loc_type=loc_type, locked_item=locked_item))
+    else:
+        FULL_LOCATION_DICT[stage][team].append(SonicHeroesLocationData(name=name, team=team, stage=stage, code=code, act=act, parent_region=parent_region, rule_str=rule_str, rule=rule, loc_type=loc_type, locked_item=locked_item))
 
 
 def append_sanity_location_with_act(name: str, team: Team, stage: Stage, code: int, act: int, parent_region: str, rule_str: str, rule: Rule[SonicHeroesWorldBase], loc_type: LocationType, location_groups: list[str], locked_item: str = "", num_to_increment_id: int = 1) -> None:
@@ -700,6 +703,7 @@ def generate_dark_obj_sanity_events() -> None:
                     append_location(name=f"{reg_lvl.stage_name} {team.value} {egg_flapper.location_name} {OBJ_SANITY} {EVENT_LOCATION}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=EVENT_LOCATION_ID, act=2, parent_region=f"{egg_flapper.region_name}", rule_str=f"{egg_flapper.enemy_type} {EVENT_LOCATION}", rule=egg_flapper.rule, loc_type=LocationType.EVENT, location_groups=[], locked_item=get_obj_sanity_event_item_name(team=Team.DARK, stage=reg_lvl, act=Act.ACT_B))  # pyright: ignore[reportAny]
         except:
             pass
+
     for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
         try:
             for egg_pawn in get_parsed_data_module_for_team_stage(team=team, stage=reg_lvl).egg_pawns:  # pyright: ignore[reportAny]
@@ -775,9 +779,6 @@ def generate_all_locations() -> None:
 
     #events
     generate_all_event_locations()
-
-
-
     pass
 
 

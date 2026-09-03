@@ -149,13 +149,19 @@ class LocationType(enum.Enum):
         ]
 
 
+def handle_hex_num(value: int | None) -> str:
+    if value is None:
+        return "None"
+    return f"0x{value:X}"
+
+
 
 @dataclasses.dataclass(kw_only=True)
 class SonicHeroesLocationData:
     name: str
     team: Team
     stage: Stage
-    code: int = dataclasses.field(metadata={'hex_num': lambda value: f"0x{value:X}"})  # pyright: ignore[reportUnknownLambdaType]
+    code: int | None = dataclasses.field(metadata={'hex_num': lambda value: handle_hex_num(value)})  # pyright: ignore[reportUnknownLambdaType, reportUnknownArgumentType]
     act: int
     parent_region: str
     rule_str: str
@@ -199,6 +205,7 @@ class SonicHeroesLocationData:
                 # TODO handle check size here
                 return world.enabled_sanity_acts[self.team][self.loc_type] is not Act.NONE  # pyright: ignore[reportAny]
             case LocationType.EVENT:
+                # TODO think about this
                 return True
 
 

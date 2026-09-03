@@ -31,9 +31,9 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
     """
     game: ClassVar[str] = SONIC_HEROES
     item_name_groups: ClassVar[dict[str, set[str]]] = FULL_ITEM_GROUPS
-    location_name_groups: ClassVar[dict[str, set[str]]] = FULL_LOCATION_GROUPS
+    location_name_groups: ClassVar[dict[str, set[str]]] = {loc_group: locations for loc_group, locations in FULL_LOCATION_GROUPS.items() if len(locations) > 0}
     item_name_to_id: ClassVar[dict[str, int]] = {item_data.item_name: item_data.code for item_data in FULL_ITEM_LIST}
-    location_name_to_id: ClassVar[dict[str, int]] = {location_data.name: location_data.code for stage, team_location_dict in FULL_LOCATION_DICT.items() for team, location_list in team_location_dict.items() for location_data in location_list}
+    location_name_to_id: ClassVar[dict[str, int]] = {location_data.name: location_data.code for stage, team_location_dict in FULL_LOCATION_DICT.items() for team, location_list in team_location_dict.items() for location_data in location_list if isinstance(location_data.code, int)}
 
     def __init__(self, multiworld: MultiWorld, player: int) -> None:
         super().__init__(multiworld=multiworld, player=player)

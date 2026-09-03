@@ -40,12 +40,12 @@ SPAWN_POSITION: str = "Spawn Position"
 
 FILLER_ITEM_GROUP: str = "Filler"
 TRAP_ITEM_GROUP: str = "Trap"
-EMBLEM_ITEM_GROUP: str = "Emblem"
+EMBLEM_ITEM_GROUP: str = "Emblems"
 EMERALD_ITEM_GROUP: str = "Emerald"
 CHARACTER_ITEM_GROUP: str = "Character"
 ABILITY_ITEM_GROUP: str = "Ability"
 STAGE_OBJECT_ITEM_GROUP: str = "Stage Object"
-BOBSLED_ITEM_GROUP: str = "Bobsled"
+BOBSLED_ITEM_GROUP: str = "Bobsleighs"
 SPAWN_POSITION_ITEM_GROUP: str = f"{SPAWN_POSITION}"
 
 

@@ -29,8 +29,15 @@ def get_locations_for_region(world: SonicHeroesWorldBase, team: Team, stage: Sta
 
 
 def append_locations_to_region(world: SonicHeroesWorldBase, team: Team, stage: Stage, region: Region) -> None:
-    for loc_data in get_locations_for_region(world=world, team=team, stage=stage, region_name=region.name):
-        loc_id: int | None = None if loc_data.code < 1 else loc_data.code
+    loc_data_list: list[SonicHeroesLocationData] = get_locations_for_region(world=world, team=team, stage=stage, region_name=region.name)
+    # loc_name_list: list[str] = []
+    for loc_data in loc_data_list:
+        # if loc_data.code is None:
+        #     print()
+        loc_id: int | None = None if loc_data.code is None or loc_data.code < 1 else loc_data.code
+        # if loc_data.name in loc_name_list:
+        #     print(f"")
+        # loc_name_list.append(loc_data.name)
         location: Location = Location(name=loc_data.name, address=loc_id, parent=region, player=world.player)
         if loc_data.locked_item != "":
             location.place_locked_item(item=world.create_item(name=loc_data.locked_item))
