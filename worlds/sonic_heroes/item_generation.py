@@ -128,7 +128,45 @@ def generate_spawn_position_items() -> None:
             round_item_id_to_nearest_value_multiple(value=0x10)
             for checkpoint in range(reg_level.checkpoints[team] + 1):
                 append_item(name=get_spawn_position_item_name(team=team, stage=reg_level, checkpoint=checkpoint), classification=ItemClassification.progression, item_groups=[SPAWN_POSITION_ITEM_GROUP])
-        # TODO add force unlock/lock spawn positions item
+
+
+        # force lock all spawn positions
+    item_id = ITEM_START_ID_OFFSET + 0x7500
+    max_checkpoints: int = 6
+
+
+    # f"{stage.stage_name} {team.value} Checkpoint {checkpoint} {SPAWN_POSITION}" if checkpoint > 0 else f"{stage.stage_name} {team.value} Start of Level {SPAWN_POSITION}"
+
+    append_item(name=f"{ALL_SPAWN_POSITIONS}", classification=ItemClassification.progression, item_groups=[SPAWN_POSITION_ITEM_GROUP])
+    append_item(name=f"{FORCE_UNLOCK} {ALL_SPAWN_POSITIONS}", classification=ItemClassification.progression, item_groups=[SPAWN_POSITION_ITEM_GROUP])
+    append_item(name=f"{FORCE_LOCK} {ALL_SPAWN_POSITIONS}", classification=ItemClassification.progression, item_groups=[SPAWN_POSITION_ITEM_GROUP])
+
+    round_item_id_to_nearest_value_multiple(value=0x10)
+
+    for team in Team:
+        if team is Team.ANY_TEAM:
+            continue
+        append_item(name=f"{team.value} {ALL_SPAWN_POSITIONS}", classification=ItemClassification.progression, item_groups=[SPAWN_POSITION_ITEM_GROUP])
+        append_item(name=f"{team.value} {FORCE_UNLOCK} {ALL_SPAWN_POSITIONS}", classification=ItemClassification.progression, item_groups=[SPAWN_POSITION_ITEM_GROUP])
+        append_item(name=f"{team.value} {FORCE_LOCK} {ALL_SPAWN_POSITIONS}", classification=ItemClassification.progression, item_groups=[SPAWN_POSITION_ITEM_GROUP])
+
+    round_item_id_to_nearest_value_multiple(value=0x10)
+
+    for reg_level in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
+        append_item(name=f"{reg_level.stage_name} {ALL_SPAWN_POSITIONS}", classification=ItemClassification.progression, item_groups=[SPAWN_POSITION_ITEM_GROUP])
+        append_item(name=f"{reg_level.stage_name} {FORCE_UNLOCK} {ALL_SPAWN_POSITIONS}", classification=ItemClassification.progression, item_groups=[SPAWN_POSITION_ITEM_GROUP])
+        append_item(name=f"{reg_level.stage_name} {FORCE_LOCK} {ALL_SPAWN_POSITIONS}", classification=ItemClassification.progression, item_groups=[SPAWN_POSITION_ITEM_GROUP])
+
+    round_item_id_to_nearest_value_multiple(value=0x10)
+
+
+    for team in Team:
+        if team is Team.ANY_TEAM:
+            continue
+        for reg_level in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
+            append_item(name=f"{reg_level.stage_name} {team.value} {ALL_SPAWN_POSITIONS}", classification=ItemClassification.progression, item_groups=[SPAWN_POSITION_ITEM_GROUP])
+            append_item(name=f"{reg_level.stage_name} {team.value} {FORCE_UNLOCK} {ALL_SPAWN_POSITIONS}", classification=ItemClassification.progression, item_groups=[SPAWN_POSITION_ITEM_GROUP])
+            append_item(name=f"{reg_level.stage_name} {team.value} {FORCE_LOCK} {ALL_SPAWN_POSITIONS}", classification=ItemClassification.progression, item_groups=[SPAWN_POSITION_ITEM_GROUP])
 
 
 

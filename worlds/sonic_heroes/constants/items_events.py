@@ -36,7 +36,9 @@ DARK_OBJ_SANITY_AMOUNT: int = 100
 ROSE_OBJ_SANITY_AMOUNT: int = 200
 
 
+START_OF_LEVEL: str = "Start Of Level"
 SPAWN_POSITION: str = "Spawn Position"
+ALL_SPAWN_POSITIONS: str = "All Spawn Positions"
 
 FILLER_ITEM_GROUP: str = "Filler"
 TRAP_ITEM_GROUP: str = "Trap"

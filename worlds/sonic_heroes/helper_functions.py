@@ -9,7 +9,7 @@ from unittest import case
 from rule_builder.rules import Rule, True_
 
 from .constants.apworld import RULE_CACHING_ENABLED_ATTR
-from .constants.items_events import OBJ_SANITY_EVENT_ITEM, PLAYABLE, SPAWN_POSITION
+from .constants.items_events import OBJ_SANITY_EVENT_ITEM, PLAYABLE, SPAWN_POSITION, START_OF_LEVEL
 from .constants.char_ability import Ability, Character, Team
 from .constants.stage import EnabledTeamActs, Stage, Act
 
@@ -33,7 +33,7 @@ def get_playable_char_item_name(character: Character) -> str:  # (world: SonicHe
     return f"{PLAYABLE} {character.char_name}"
 
 def get_spawn_position_item_name(team: Team, stage: Stage, checkpoint: int) -> str:
-    return f"{stage.stage_name} {team.value} Checkpoint {checkpoint} {SPAWN_POSITION}" if checkpoint > 0 else f"{stage.stage_name} {team.value} Start of Level {SPAWN_POSITION}"
+    return f"{stage.stage_name} {team.value} Checkpoint {checkpoint} {SPAWN_POSITION}" if checkpoint > 0 else f"{stage.stage_name} {team.value} {START_OF_LEVEL} {SPAWN_POSITION}"
 
 def get_all_characters_for_team(world: SonicHeroesWorldBase, team: Team) -> list[Character]:
     """Gets all characters for the Team"""
