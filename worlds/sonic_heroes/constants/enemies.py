@@ -275,7 +275,7 @@ class EggFlapper(SonicHeroesEnemyBase):
             case EggFlapperArmor.SILVER_ARMOR:
                 enemy_str += "Silver Armor"
 
-        enemy_str += f" {self.enemy_type} with {self.weapon} at {self.height} Height"
+        enemy_str += f" {self.enemy_type} with {self.weapon} at {self.height.description} Height"
         return enemy_str
 
 
@@ -294,7 +294,7 @@ class EggPawn(SonicHeroesEnemyBase):
             enemy_str += "King "
         if self.special_type is EggPawnType.CASINO_PAWN_1 or self.special_type is EggPawnType.CASINO_PAWN_2:
             enemy_str += "Casino "
-        enemy_str += f"{self.enemy_type} with {self.shield} and {self.weapon} at {self.height} Height"
+        enemy_str += f"{self.enemy_type} with {self.shield} and {self.weapon} at {self.height.description} Height"
         return enemy_str
 
 

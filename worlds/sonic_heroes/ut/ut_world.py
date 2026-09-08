@@ -90,10 +90,10 @@ class SonicHeroesUTWorld(SonicHeroesWorldBase):
         ring_group_pattern: re.Pattern[str] = re.compile(r"(Ring Group)$")
 
         if re.match(ring_individual_pattern, temp_location_label) is not None:
-            temp_location_label = re.sub(ring_individual_pattern, location_label)  # pyright: ignore[reportCallIssue]
+            temp_location_label = re.sub(ring_individual_pattern, location_label)  # pyright: ignore[reportCallIssue, reportUnknownVariableType]
 
         elif re.match(ring_group_pattern, temp_location_label) is not None:
-            temp_location_label = re.sub(ring_group_pattern, location_label)  # pyright: ignore[reportCallIssue]
+            temp_location_label = re.sub(ring_group_pattern, location_label)  # pyright: ignore[reportCallIssue, reportUnknownVariableType]
 
         else:
             temp_location_label = location_label
@@ -161,15 +161,19 @@ class SonicHeroesUTWorld(SonicHeroesWorldBase):
         if not dest_name:
             _result: list[JSONMessagePart] = [{"type": "text", "text": "Enter a macro, location, or region to get an explanation"}]
             return _result
-        result, usable, confidence = self._explain_macro(macro_name=dest_name, state=state)
-        if usable:
-            return result
 
-        #need to do thing here
-
-
-
-        return None #Do Normal UT Thing
+        macro_result, macro_usable, macro_confidence = self._explain_macro(macro_name=dest_name, state=state)
+        if macro_usable:
+            return macro_result
+        if self._explain_location(loc_name=dest_name, state=state) > macro_confidence:
+            return None
+        if self._explain_region(region_name=dest_name, state=state) > macro_confidence:
+            return None
+        if self._explain_entrance(entrance_name=dest_name, state=state) > macro_confidence:
+            return None
+        if self._explain_item(item_name=dest_name, state=state) > macro_confidence:
+            return None
+        return macro_result
 
 
     def _explain_macro(self, macro_name: str, state: CollectionState) -> tuple[list[JSONMessagePart], bool, int]:
@@ -198,6 +202,44 @@ class SonicHeroesUTWorld(SonicHeroesWorldBase):
         return messages, True, 100
 
 
+    def _explain_location(self, loc_name: str, state: CollectionState) -> int:
+        all_location_names: set[str] = set(self.multiworld.regions.location_cache[self.player])
+        guess, usable, response = get_intended_text(input_text=loc_name, possible_answers=all_location_names)
+        if not usable:
+            picks: list[tuple[str, int]] = get_fuzzy_results(input_word=loc_name, word_list=all_location_names, limit=1)
+            confidence: int = picks[0][1]
+            return confidence
+        return 100
+
+    def _explain_region(self, region_name: str, state: CollectionState) -> int:
+        all_region_names: set[str] = set(self.multiworld.regions.region_cache[self.player])
+        guess, usable, response = get_intended_text(input_text=region_name, possible_answers=all_region_names)
+        if not usable:
+            picks: list[tuple[str, int]] = get_fuzzy_results(input_word=region_name, word_list=all_region_names, limit=1)
+            confidence: int = picks[0][1]
+            return confidence
+        return 100
+
+    def _explain_entrance(self, entrance_name: str, state: CollectionState) -> int:
+        all_entrance_names: set[str] = set(self.multiworld.regions.entrance_cache[self.player])
+        guess, usable, response = get_intended_text(input_text=entrance_name, possible_answers=all_entrance_names)
+        if not usable:
+            picks: list[tuple[str, int]] = get_fuzzy_results(input_word=entrance_name, word_list=all_entrance_names, limit=1)
+            confidence: int = picks[0][1]
+            return confidence
+        return 100
+
+    def _explain_item(self, item_name: str, state: CollectionState) -> int:
+        all_item_names: set[str] = set(self.item_name_to_id.keys())
+        guess, usable, response = get_intended_text(input_text=item_name, possible_answers=all_item_names)
+        if not usable:
+            picks: list[tuple[str, int]] = get_fuzzy_results(input_word=item_name, word_list=all_item_names, limit=1)
+            confidence: int = picks[0][1]
+            return confidence
+        return 100
+
+
+
 
     # def explain_more(self, target_name: str, state: CollectionState) -> list[JSONMessagePart] | None:
     #     if target_name == "Do Normal UT thing":
@@ -219,68 +261,3 @@ class SonicHeroesUTWorld(SonicHeroesWorldBase):
             opt: Option[SonicHeroesWorldBase] | None = getattr(self.options, key, None)  # pyright: ignore[reportAny]
             if opt is not None:
                 setattr(self.options, key, opt.from_any(data=value))  # pyright: ignore[reportAny]
-
-
-    #
-    # def explain_rule(self, dest_name: str, state: CollectionState, *_: Any, **__: Any) -> list[JSONMessagePart]:
-    #     if not dest_name:
-    #         return [{"type": "text", "text": "Enter a macro, location, region, item, or acronym to get an explanation"}]
-    #     if description := ACRONYMS.get(dest_name.lower()):
-    #         return [{"type": "text", "text": description}]
-    #
-    #     types_to_try = {
-    #         "macro": self._explain_macro,
-    #         "location": self._explain_location,
-    #         "region": self._explain_region,
-    #         "item": self._explain_item,
-    #     }
-    #     attempts = list(types_to_try.keys())
-    #     parts = dest_name.split(maxsplit=1)
-    #     if len(parts) == 2:
-    #         first_word = parts[0].lower()
-    #         for label in types_to_try.keys():
-    #             if first_word == label:
-    #                 attempts = [label]
-    #                 break
-    #
-    #     result = []
-    #     usable = False
-    #     best_guess = []
-    #     max_confidence = 0
-    #     confidence = 0
-    #     for classification in attempts:
-    #         result, usable, confidence = types_to_try[classification](dest_name, state)
-    #         if usable:
-    #             return result
-    #         if confidence > max_confidence:
-    #             best_guess = result
-    #             max_confidence = confidence
-    #
-    #     return best_guess
-
-
-    # def _explain_macro(self, macro_name: str, state: CollectionState) -> tuple[list[JSONMessagePart], bool, int]:
-    #     all_macro_names = set(self.rule_macros.keys())
-    #     guess, usable, response = get_intended_text(macro_name, all_macro_names)
-    #     if not usable:
-    #         picks = get_fuzzy_results(macro_name, all_macro_names, limit=1)
-    #         confidence = picks[0][1]
-    #         return [{"type": "text", "text": response}], False, confidence
-    #
-    #     macro_name = guess
-    #     macro = self.rule_macros[macro_name]
-    #     assert isinstance(macro, Macro.Resolved)
-    #     messages: list[JSONMessagePart] = [
-    #         {"type": "text", "text": "Macro "},
-    #         {"type": "color", "color": "green" if macro(state) else "salmon", "text": macro.name},
-    #     ]
-    #     if macro.description:
-    #         messages.append({"type": "text", "text": f"\n{macro.description}"})
-    #     messages.extend(
-    #         [
-    #             {"type": "text", "text": "\nLogic: "},
-    #             *macro.child.explain_json(state),
-    #         ]
-    #     )
-    #     return messages, True, 100
-

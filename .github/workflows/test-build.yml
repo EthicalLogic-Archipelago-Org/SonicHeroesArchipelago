@@ -50,11 +50,13 @@ jobs:
       - name: Upload APWorld
         uses: actions/upload-artifact@v4
         with:
-          name: sonic-heroes-apworld
+          name: sonic_heroes.apworld
           path: build/apworlds/sonic_heroes.apworld
+          archive: false
 
       - name: Upload Template
         uses: actions/upload-artifact@v4
         with:
-          name: sonic-heroes-template
+          name: sonic_heroes.yaml
           path: Players/Templates/Sonic Heroes.yaml
+          archive: false
