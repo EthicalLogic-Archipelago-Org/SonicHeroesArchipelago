@@ -79,6 +79,27 @@ class MakePuml(SonicHeroesToggle):
     visibility: Visibility = Visibility.none
 
 
+class JumpRando(SonicHeroesToggle):
+    """
+    Should the ability to Jump be an item?
+    This is per team.
+    """
+    display_name: str = "Jump Rando"
+
+
+class StageObjRando(Choice):
+    """
+    Should Stage Objects (like Springs, Cannons, and Dash Ramps) be items?
+    """
+    display_name: str = "Stage Object Rando"
+
+    option_disabled: int = 0
+    option_: int = 1
+    option_full: int = 2
+    default: ClassVar[int] = option_disabled
+
+
+
 class ProgressiveAbilityItems(SonicHeroesDefaultOnToggle):
     """
     Replace some (but not all) ability items with a progressive ability item
@@ -334,6 +355,7 @@ sonic_heroes_option_groups: list[OptionGroup] = \
 @dataclasses.dataclass
 class SonicHeroesOptions(PerGameCommonOptions):
     make_puml: MakePuml
+    jump_rando: JumpRando
     progressive_ability_items: ProgressiveAbilityItems
 
 
@@ -360,6 +382,7 @@ class SonicHeroesOptions(PerGameCommonOptions):
 
 OPTION_ATTR_NAMES: list[str] = \
 [
+    "jump_rando",
     "progressive_ability_items",
 
 

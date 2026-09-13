@@ -23,7 +23,7 @@ from ..helper_functions import get_abilities_for_char, get_abilities_for_team, g
     get_correct_ability_item_name, get_playable_char_item_name, is_rule_caching_enabled, \
     get_characters_in_team_with_ability, is_this_act_enabled, get_stage_obj_item_name, is_this_specific_act_enabled, \
     get_obj_sanity_event_item_name
-from ..rule_builder.functions_stage_obj import has_stage_obj_rule
+# from ..rule_builder.functions_stage_obj import has_stage_obj_rule
 
 from ..world_base import SonicHeroesWorldBase
 
@@ -86,6 +86,75 @@ class SonicHeroesMacroRule(WrapperRule[SonicHeroesWorldBase], game=SONIC_HEROES)
         @override
         def __str__(self) -> str:
             return self.name
+
+
+@dataclasses.dataclass(kw_only=True)
+class HasStageObj(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
+    """Do you have the stage obj spawned into the level?"""
+    team: Team
+    stage: Stage
+    stage_obj: StageObj
+
+    @override
+    def _instantiate(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
+        rule: Rule[SonicHeroesWorldBase] = Has(item_name=get_stage_obj_item_name(team=self.team, stage_obj=self.stage_obj))
+        if self.team is not Team.ANY_TEAM:
+            rule |= Has(item_name=get_stage_obj_item_name(team=Team.ANY_TEAM, stage_obj=self.stage_obj))
+        else:
+            for team in Team:
+                if team is Team.ANY_TEAM:
+                    continue
+                rule |= Has(item_name=get_stage_obj_item_name(team=team, stage_obj=self.stage_obj))
+        return rule.resolve(world=world)
+
+
+@dataclasses.dataclass(kw_only=True)
+class HasEnemyItem(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
+    """Do you have the enemy spawned into the level?"""
+    team: Team
+    stage: Stage
+    enemy: SonicHeroesEnemyBase
+
+    @override
+    def _instantiate(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
+        if isinstance(self.enemy, EggFlapper):
+            return self._has_egg_flapper_spawned(world=world)
+        if isinstance(self.enemy, EggPawn):
+            return self._has_egg_pawn_spawned(world=world)
+        if isinstance(self.enemy, Klagen):
+            return self._has_klagen_spawned(world=world)
+        if isinstance(self.enemy, Falco):
+            return self._has_falco_spawned(world=world)
+        if isinstance(self.enemy, EggHammer):
+            return self._has_egg_hammer_spawned(world=world)
+        if isinstance(self.enemy, Cameron):
+            return self._has_cameron_spawned(world=world)
+        if isinstance(self.enemy, Rhino):
+            return self._has_rhino_spawned(world=world)
+        if isinstance(self.enemy, E2000):
+            return self._has_e2000_spawned(world=world)
+
+        print(f"BIG ISSUE HERE with HasEnemyItem. Type is: {self.enemy.__class__.__name__}")
+        return HasStageObj(team=self.team, stage=self.stage, stage_obj=self.enemy.obj_id).resolve(world=world)
+
+    def _has_egg_flapper_spawned(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
+        return HasStageObj(team=self.team, stage=self.stage, stage_obj=self.enemy.obj_id).resolve(world=world)
+    def _has_egg_pawn_spawned(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
+        return HasStageObj(team=self.team, stage=self.stage, stage_obj=self.enemy.obj_id).resolve(world=world)
+    def _has_klagen_spawned(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
+        return HasStageObj(team=self.team, stage=self.stage, stage_obj=self.enemy.obj_id).resolve(world=world)
+    def _has_falco_spawned(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
+        return HasStageObj(team=self.team, stage=self.stage, stage_obj=self.enemy.obj_id).resolve(world=world)
+    def _has_egg_hammer_spawned(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
+        return HasStageObj(team=self.team, stage=self.stage, stage_obj=self.enemy.obj_id).resolve(world=world)
+    def _has_cameron_spawned(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
+        return HasStageObj(team=self.team, stage=self.stage, stage_obj=self.enemy.obj_id).resolve(world=world)
+    def _has_rhino_spawned(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
+        return HasStageObj(team=self.team, stage=self.stage, stage_obj=self.enemy.obj_id).resolve(world=world)
+    def _has_egg_bishop_spawned(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
+        return HasStageObj(team=self.team, stage=self.stage, stage_obj=self.enemy.obj_id).resolve(world=world)
+    def _has_e2000_spawned(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
+        return HasStageObj(team=self.team, stage=self.stage, stage_obj=self.enemy.obj_id).resolve(world=world)
 
 
 @dataclasses.dataclass(kw_only=True)
@@ -413,7 +482,7 @@ class CanGoalStage(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
 
 
     def _can_reach_goal_vanilla(self, world: SonicHeroesWorldBase) -> Rule[SonicHeroesWorldBase]:
-        return CanReachRegion(region_name=f"{self.stage.stage_name} {self.team} Goal") & has_stage_obj_rule(team=self.team, stage_obj=StageObj.GOAL_RING)
+        return CanReachRegion(region_name=f"{self.stage.stage_name} {self.team} Goal") & HasStageObj(team=self.team, stage=self.stage, stage_obj=StageObj.GOAL_RING)
 
     def _can_goal_sonic_stage(self, world: SonicHeroesWorldBase) -> Rule[SonicHeroesWorldBase]:
         if self.stage is Stage.EGG_FLEET:
@@ -457,7 +526,7 @@ class CanGetEmerald(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
         for team in world.enabled_teams:  # pyright: ignore[reportAny]
             has_speed_char |= HasFormationCharForTeam(team=team, formation=Formation.SPEED)  # pyright: ignore[reportAny]
         # TODO decide on team handling for Special Stage Stage objs
-        return SonicHeroesMacroRule(child=has_stage_obj_rule(team=Team.ANY_TEAM, stage_obj=StageObj.SPECIAL_STAGE_ORBS) & has_speed_char, name=f"Get Chaos Emerald in {self.stage.stage_name}").resolve(world=world)
+        return SonicHeroesMacroRule(child=HasStageObj(team=Team.ANY_TEAM, stage=self.stage, stage_obj=StageObj.SPECIAL_STAGE_ORBS) & has_speed_char, name=f"Get Chaos Emerald in {self.stage.stage_name}").resolve(world=world)
 
 
 @dataclasses.dataclass(kw_only=True)
@@ -531,50 +600,4 @@ class TrickRule(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
         # TODO handle caching here
 
 
-@dataclasses.dataclass(kw_only=True)
-class HasEnemyItem(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
-    """Do you have the enemy spawned into the level?"""
-    team: Team
-    stage: Stage
-    enemy: SonicHeroesEnemyBase
 
-    @override
-    def _instantiate(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
-        if isinstance(self.enemy, EggFlapper):
-            return self._has_egg_flapper_spawned(world=world)
-        if isinstance(self.enemy, EggPawn):
-            return self._has_egg_pawn_spawned(world=world)
-        if isinstance(self.enemy, Klagen):
-            return self._has_klagen_spawned(world=world)
-        if isinstance(self.enemy, Falco):
-            return self._has_falco_spawned(world=world)
-        if isinstance(self.enemy, EggHammer):
-            return self._has_egg_hammer_spawned(world=world)
-        if isinstance(self.enemy, Cameron):
-            return self._has_cameron_spawned(world=world)
-        if isinstance(self.enemy, Rhino):
-            return self._has_rhino_spawned(world=world)
-        if isinstance(self.enemy, E2000):
-            return self._has_e2000_spawned(world=world)
-
-        print(f"BIG ISSUE HERE with HasEnemyItem")
-        return Has(item_name=get_stage_obj_item_name(team=self.team, stage_obj=self.enemy.obj_id)).resolve(world=world)
-
-    def _has_egg_flapper_spawned(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
-        return Has(item_name=get_stage_obj_item_name(team=self.team, stage_obj=self.enemy.obj_id)).resolve(world=world)
-    def _has_egg_pawn_spawned(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
-        return Has(item_name=get_stage_obj_item_name(team=self.team, stage_obj=self.enemy.obj_id)).resolve(world=world)
-    def _has_klagen_spawned(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
-        return Has(item_name=get_stage_obj_item_name(team=self.team, stage_obj=self.enemy.obj_id)).resolve(world=world)
-    def _has_falco_spawned(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
-        return Has(item_name=get_stage_obj_item_name(team=self.team, stage_obj=self.enemy.obj_id)).resolve(world=world)
-    def _has_egg_hammer_spawned(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
-        return Has(item_name=get_stage_obj_item_name(team=self.team, stage_obj=self.enemy.obj_id)).resolve(world=world)
-    def _has_cameron_spawned(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
-        return Has(item_name=get_stage_obj_item_name(team=self.team, stage_obj=self.enemy.obj_id)).resolve(world=world)
-    def _has_rhino_spawned(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
-        return Has(item_name=get_stage_obj_item_name(team=self.team, stage_obj=self.enemy.obj_id)).resolve(world=world)
-    def _has_egg_bishop_spawned(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
-        return Has(item_name=get_stage_obj_item_name(team=self.team, stage_obj=self.enemy.obj_id)).resolve(world=world)
-    def _has_e2000_spawned(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
-        return Has(item_name=get_stage_obj_item_name(team=self.team, stage_obj=self.enemy.obj_id)).resolve(world=world)

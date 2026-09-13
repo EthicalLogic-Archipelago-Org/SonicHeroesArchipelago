@@ -21,7 +21,7 @@ if TYPE_CHECKING:
 
 def get_correct_ability_item_name(world: SonicHeroesWorldBase, team: Team, ability: Ability) -> str:
     """Gets the correct ability item name from the Character"""
-    return f"{team} {ability.ability_name}"
+    return f"{team.value} {ability.ability_name}" if team is not Team.ANY_TEAM else ability.ability_name
 
 def get_stage_obj_item_name(team: Team, stage_obj: StageObj) -> str:
     """Gets the correct stage item name from the Stage Object"""
