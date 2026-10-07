@@ -17,6 +17,8 @@ PARSER_FORMATION_CHARACTER_MAPPING: dict[str, Callable[[Team, Stage], str]] = \
 
     "TallChar": lambda team, stage: get_func_str(func_name="has_tall_character", params={"team": team}),
 
+    "FullFlyingStack": lambda team, stage: get_func_str(func_name="has_all_3_chars_rule", params={"team": team}),
+
     "FullFlyingStackwithTallChar": lambda team, stage: get_func_str(func_name="has_full_flying_stack_with_tall_char", params={"team": team}),
 }
 
@@ -49,6 +51,8 @@ PARSER_ABILITY_MAPPING: dict[str, Callable[[Team, Stage], str]] = \
     "AccelFull": lambda team, stage: get_func_str(func_name="can_rocket_accel_rule", params={"team": team, "stage": stage, "num_other_chars": 2}),
     # Light Dash
     # Triangle Jump
+    "TriangleJump": lambda team, stage: get_func_str(func_name="can_triangle_jump_rule", params={"team": team, "stage": stage}),
+
     # Light Attack
     # Invis
     # Shuriken
@@ -62,6 +66,8 @@ PARSER_ABILITY_MAPPING: dict[str, Callable[[Team, Stage], str]] = \
 
     # Thunder
     "Thundershoot0": lambda team, stage: get_func_str(func_name="can_thundershoot_rule", params={"team": team, "stage": stage, "level": 0}),
+
+    "Thundershoot1": lambda team, stage: get_func_str(func_name="can_thundershoot_rule", params={"team": team, "stage": stage, "level": 1}),
 
     "Thundershoot2": lambda team, stage: get_func_str(func_name="can_thundershoot_rule", params={"team": team, "stage": stage, "level": 2}),
 

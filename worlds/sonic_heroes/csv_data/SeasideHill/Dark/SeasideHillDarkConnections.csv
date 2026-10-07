@@ -19,7 +19,7 @@ Dark,Seaside Hill,Hermit Crab Cliff Below Eggmans Robots Before Checkpoint 1,Egg
 Dark,Seaside Hill,Eggmans Robots Bottom Before Checkpoint 1,Eggmans Robots Middle Before Checkpoint 1,FlyOneCharOR(FlyAnyANDJump)ORTripleSpringOR(BadnikBounceANDJump),
 Dark,Seaside Hill,Eggmans Robots Middle Before Checkpoint 1,Eggmans Robots Bottom Before Checkpoint 1,,
 Dark,Seaside Hill,Eggmans Robots Bottom Before Checkpoint 1,Eggmans Robots Top Before Checkpoint 1,(DashRingANDTripleSpring)ORDashRingANDFlyAnyANDJumpORDashRingANDJumpANDTornado0HoverORTripleSpringANDHoming0ANDTornado0Hover,
-Dark,Seaside Hill,Eggmans Robots Bottom Before Checkpoint 1,Staircase Before Corner Cave Middle After Checkpoint 1 Egg Flappers,Thundershoot2OR(Thundershoot1AND(FullFlyingStackORMedium))),is possible with Thundershoot 1 (annoying)
+Dark,Seaside Hill,Eggmans Robots Bottom Before Checkpoint 1,Staircase Before Corner Cave Middle After Checkpoint 1 Egg Flappers,Thundershoot2OR(Thundershoot1AND(FullFlyingStackORMedium)),is possible with Thundershoot 1 (annoying)
 Dark,Seaside Hill,Eggmans Robots Middle Before Checkpoint 1,Staircase Before Corner Cave Middle After Checkpoint 1 Egg Flappers,,
 Dark,Seaside Hill,Eggmans Robots Middle Before Checkpoint 1,Eggmans Robots Top Before Checkpoint 1,(FlyAnyANDJump)OR(FlyOneChar)ORDashRingOR(SingleSpringAND(FlyOneCharORJump)),
 Dark,Seaside Hill,Eggmans Robots Top Before Checkpoint 1,Eggmans Robots Middle Before Checkpoint 1,,
@@ -178,9 +178,9 @@ Dark,Seaside Hill,Path After Big Special Ruin Before Volcano Loop After Checkpoi
 Dark,Seaside Hill,Cave Before Volcano Entrance After Checkpoint 3,Path After Big Special Ruin Before Volcano Loop After Checkpoint 3,BreakThingsOR(FlyAnyANDThundershoot0)ORJump,
 Dark,Seaside Hill,Cave Before Volcano Entrance After Checkpoint 3,Cave Before Volcano After First Block After Checkpoint 3,BreakThingsOR(FlyAnyANDThundershoot0)ORJump,
 Dark,Seaside Hill,Cave Before Volcano After First Block After Checkpoint 3,Cave Before Volcano Entrance After Checkpoint 3,BreakThingsOR(FlyAnyANDThundershoot0)ORJump,
-Dark,Seaside Hill,Cave Before Volcano After First Block After Checkpoint 3,Cave Before Volcano After Second Block After Checkpoint 3,BreakThingsOR(FlyAnyAND(Thundershoot0ORJump))OR(JumpANDTriangleJumpAND(KillEggPawnLanceANDTornado0Hover)OR(EggPawnLanceAND(BadnikBounceORHoming0Hover)),
-Dark,Seaside Hill,Cave Before Volcano After Second Block After Checkpoint 3,Cave Before Volcano After First Block After Checkpoint 3,BreakThingsOR(FlyAnyAND(Thundershoot0ORJump))OR(JumpANDTriangleJumpAND(KillEggPawnLanceANDTornado0Hover)OR(EggPawnLanceAND(BadnikBounceORHoming0Hover)),
-Dark,Seaside Hill,Cave Before Volcano After Second Block After Checkpoint 3,Volcano Cannon Room After Checkpoint 3,BreakThingsOR(FlyAnyAND(Thundershoot0ORJump))OR(JumpANDTriangleJumpAND(KillEggPawnLanceANDTornado0Hover)OR(EggPawnLanceAND(BadnikBounceORHoming0Hover)),
+Dark,Seaside Hill,Cave Before Volcano After First Block After Checkpoint 3,Cave Before Volcano After Second Block After Checkpoint 3,BreakThingsOR(FlyAnyAND(Thundershoot0ORJump))OR(JumpANDTriangleJumpANDKillEggPawnLanceANDTornado0Hover)OR(EggPawnLanceAND(BadnikBounceORHoming0Hover)),
+Dark,Seaside Hill,Cave Before Volcano After Second Block After Checkpoint 3,Cave Before Volcano After First Block After Checkpoint 3,BreakThingsOR(FlyAnyAND(Thundershoot0ORJump))OR(JumpANDTriangleJumpANDKillEggPawnLanceANDTornado0Hover)OR(EggPawnLanceAND(BadnikBounceORHoming0Hover)),
+Dark,Seaside Hill,Cave Before Volcano After Second Block After Checkpoint 3,Volcano Cannon Room After Checkpoint 3,BreakThingsOR(FlyAnyAND(Thundershoot0ORJump))OR(JumpANDTriangleJumpANDKillEggPawnLanceANDTornado0Hover)OR(EggPawnLanceAND(BadnikBounceORHoming0Hover)),
 Dark,Seaside Hill,Volcano Cannon Room After Checkpoint 3,Cave Before Volcano After Second Block After Checkpoint 3,BreakThingsOR(FlyAnyAND(Thundershoot0ORJump)),
 Dark,Seaside Hill,Volcano Cannon Room After Checkpoint 3,Volcano Cannon Room Alcove After Checkpoint 3,BreakThings,
 Dark,Seaside Hill,Volcano Cannon Room Alcove After Checkpoint 3,Volcano Cannon Room After Checkpoint 3,BreakThings,

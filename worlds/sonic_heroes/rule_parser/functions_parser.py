@@ -285,25 +285,36 @@ def handle_full_rule_string(rule_str: str, team: Team, stage: Stage, print_steps
     result_str: str = ""
     handle_rule_str(rule_str=rule_str, team=team, stage=stage, print_steps=print_steps)
 
-    #now handle output
-    for index, rule_piece in enumerate(result_str_list):
-        if rule_piece != ")" and result_str[-1:] != " " and result_str[-1:] != "(" and index != 0:
-            result_str += " "
+    try:
+        #now handle output
+        for index, rule_piece in enumerate(result_str_list):
+            if rule_piece != ")" and result_str[-1:] != " " and result_str[-1:] != "(" and index != 0:
+                result_str += " "
 
-        if rule_piece == "(":
-            result_str += f"{rule_piece}"
-            continue
-        if rule_piece == ")":
-            result_str += f"{rule_piece}"
-            continue
-        if rule_piece == "AND":
-            result_str += f"&"
-            continue
-        if rule_piece == "OR":
-            result_str += f"|"
-            continue
-        result_str += f"{PARSER_ALL_MATCHES[rule_piece](team, stage)}"
-    return result_str
+            if rule_piece == "(":
+                result_str += f"{rule_piece}"
+                continue
+            if rule_piece == ")":
+                result_str += f"{rule_piece}"
+                continue
+            if rule_piece == "AND":
+                result_str += f"&"
+                continue
+            if rule_piece == "OR":
+                result_str += f"|"
+                continue
+
+
+            try:
+
+                result_str += f"{PARSER_ALL_MATCHES[rule_piece](team, stage)}"
+            except:
+                print(f"Rule Piece failed!!!: {rule_piece}")
+                raise ValueError(f"Rule Piece failed!!!: {rule_piece}")
+        return result_str
+
+    except:
+        raise ValueError(f"Rule String failed!!!: {rule_str}")
 
 
 
