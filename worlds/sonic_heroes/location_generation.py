@@ -13,7 +13,7 @@ from .constants.hint_rings import *
 from .constants.item_balloon_box import ItemBoxData, ItemBalloonData
 from .constants.rings import RING_GROUP, RingData
 from .constants.stage import Stage, StageType, Act
-from .constants.stage_objs import StageObj, STAGE_OBJ_INVALID_ID_OFFSET
+from .constants.stage_objs import ENEMY_STAGE_OBJS, StageObj, STAGE_OBJ_INVALID_ID_OFFSET
 
 from .rule_builder.custom_rules import CanGetEmerald, CanGoalStage
 from .rule_builder.functions_stage_obj import has_stage_obj_rule, can_break_key_cage
@@ -251,10 +251,19 @@ def generate_dark_obj_sanity() -> None:
     global loc_id
     loc_id = LOCATION_START_ID_OFFSET + 0x150
 
+    # for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
+    #     for x in range(100):
+    #         append_location(name=f"{reg_lvl.stage_name} {Team.DARK} {Act.ACT_B.get_act_str()} Enemies Killed: {x + 1}", team=Team.DARK, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl.stage_name} {Team.DARK} {OBJ_SANITY}", rule_str="", rule=Has(item_name=get_obj_sanity_event_item_name(team=Team.DARK, stage=reg_lvl, act=Act.ACT_B), count=x + 1), loc_type=LocationType.OBJ_SANITY, location_groups=[OBJ_SANITY_LOCATION_GROUP])
+
     for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
-        for x in range(100):
-            append_location(name=f"{reg_lvl.stage_name} {Team.DARK} {Act.ACT_B.get_act_str()} Enemies Killed: {x + 1}", team=Team.DARK, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl.stage_name} {Team.DARK} {OBJ_SANITY}", rule_str="", rule=Has(item_name=get_obj_sanity_event_item_name(team=Team.DARK, stage=reg_lvl, act=Act.ACT_B), count=x + 1), loc_type=LocationType.OBJ_SANITY, location_groups=[OBJ_SANITY_LOCATION_GROUP])
-    pass
+        enemy_count: int = 0
+        for enemy_stage_obj in ENEMY_STAGE_OBJS:
+            for enemy_data in get_all_parsed_stage_objects_of_type(team=Team.DARK, stage=reg_lvl, stage_obj=enemy_stage_obj):
+                if enemy_data.id_offset_full >= 0:
+                    append_location(name=f"{reg_lvl.stage_name} {Team.DARK} {Act.ACT_B.get_act_str()} Enemies Killed: {enemy_count + 1}", team=Team.DARK, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl.stage_name} {Team.DARK} {OBJ_SANITY}", rule_str="", rule=Has(item_name=get_obj_sanity_event_item_name(team=Team.DARK, stage=reg_lvl, act=Act.ACT_B), count=enemy_count + 1), loc_type=LocationType.OBJ_SANITY, location_groups=[OBJ_SANITY_LOCATION_GROUP])
+                    enemy_count += 1
+        print(f"Dark ObjSanity Stage: {reg_lvl.stage_name} has {enemy_count} enemy checks")
+
 
 
 def generate_rose_obj_sanity() -> None:

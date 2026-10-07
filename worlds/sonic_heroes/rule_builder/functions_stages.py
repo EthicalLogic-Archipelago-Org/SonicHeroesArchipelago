@@ -16,4 +16,4 @@ from ..world_base import SonicHeroesWorldBase
 
 
 def can_goal_rule() -> Rule[SonicHeroesWorldBase]:
-    return CanTeamBlast(team=Team.DARK) & HasFromListUnique(*[emerald.value for emerald in ChaosEmerald], count=7) & has_stage_obj_rule(team=Team.DARK, stage=Stage.SEASIDE_HILL, stage_obj=StageObj.SINGLE_SPRING) & has_stage_obj_rule(team=Team.DARK, stage=Stage.SEASIDE_HILL, stage_obj=StageObj.TRIPLE_SPRING) & has_stage_obj_rule(team=Team.DARK, stage=Stage.SEASIDE_HILL, stage_obj=StageObj.GOAL_RING) & has_stage_obj_rule(team=Team.DARK, stage=Stage.SEASIDE_HILL, stage_obj=StageObj.MOVING_RUIN_PLATFORM)
+    return CanTeamBlast(team=Team.DARK) & HasFromListUnique(*[emerald.value for emerald in ChaosEmerald], count=7) & has_stage_obj_rule(team=Team.DARK, stage=Stage.SEASIDE_HILL, stage_obj=StageObj.SINGLE_SPRING) # & has_stage_obj_rule(team=Team.DARK, stage=Stage.SEASIDE_HILL, stage_obj=StageObj.TRIPLE_SPRING) & has_stage_obj_rule(team=Team.DARK, stage=Stage.SEASIDE_HILL, stage_obj=StageObj.GOAL_RING) & has_stage_obj_rule(team=Team.DARK, stage=Stage.SEASIDE_HILL, stage_obj=StageObj.MOVING_RUIN_PLATFORM)

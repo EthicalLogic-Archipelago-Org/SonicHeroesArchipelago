@@ -53,14 +53,17 @@ class SonicHeroesSanityChoice(Choice):
     Both is both
     """
     display_name: str = "Placeholder"
+    disabled: int = 0
     group: int = 1
     full: int = 2
 
-    option_disabled: int = 0
-    option_groups: int = group
-    option_full: int = full
-    option_both_groups_and_full: int = group + full
-    default: ClassVar[int] = option_disabled
+    # Options are defined per child class to allow for differences in which options are allowed
+
+    # option_disabled: int = 0
+    # option_groups: int = group
+    # option_full: int = full
+    # option_both_groups_and_full: int = group + full
+    # default: ClassVar[int] = option_disabled
 
 
     def is_group_enabled(self) -> bool:
@@ -114,7 +117,8 @@ class ProgressiveAbilityItems(SonicHeroesDefaultOnToggle):
 
 class BothSanityLocationSets(SonicHeroesToggle):
     """
-    Should Sanity Locations be generated for each enabled Act instead of only 1 set for that team?
+    Should Sanity Locations be generated for each Act instead of only 1 set for that team?
+    THIS WILL FORCE BOTH ACTS TO BE ENABLED FOR ALL ENABLED TEAMS.
     This will result in 2 sets of sanity locations if Both Acts are enabled for a team.
     """
     display_name: str = "Both Sanity Location Sets"
@@ -160,16 +164,24 @@ class RingSanityDark(SonicHeroesSanityChoice):
     Both is both
     """
     display_name: str = "Ring Sanity Dark"
+    # option_disabled: int = SonicHeroesSanityChoice.disabled
+    option_groups: int = SonicHeroesSanityChoice.group
+    option_full: int = SonicHeroesSanityChoice.full
+    option_both_groups_and_full: int = option_groups + option_full
+    default: ClassVar[int] = option_groups
 
 
 class HintRingSanityDark(SonicHeroesSanityChoice):
     """
     How should Hint Ring Sanity for Dark be handled?
-    Groups is an easier option with only 1 location per "group of checks"
-    Full is a location for each (this can be excessive with rings)
-    Both is both
     """
     display_name: str = "Hint Ring Sanity Dark"
+
+    # option_disabled: int = SonicHeroesSanityChoice.disabled
+    # option_groups: int = SonicHeroesSanityChoice.group
+    option_full: int = SonicHeroesSanityChoice.full
+    # option_both_groups_and_full: int = option_groups + option_full
+    default: ClassVar[int] = option_full
 
 
 class ItemBoxBalloonSanityDark(SonicHeroesSanityChoice):
@@ -180,6 +192,11 @@ class ItemBoxBalloonSanityDark(SonicHeroesSanityChoice):
     Both is both
     """
     display_name: str = "Item Box and Balloon Sanity Dark"
+    # option_disabled: int = SonicHeroesSanityChoice.disabled
+    option_groups: int = SonicHeroesSanityChoice.group
+    option_full: int = SonicHeroesSanityChoice.full
+    option_both_groups_and_full: int = option_groups + option_full
+    default: ClassVar[int] = option_groups
 
 
 class EnemySanityDark(SonicHeroesSanityChoice):
@@ -190,6 +207,11 @@ class EnemySanityDark(SonicHeroesSanityChoice):
     Both is both
     """
     display_name: str = "Enemy Sanity Dark"
+    # option_disabled: int = SonicHeroesSanityChoice.disabled
+    option_groups: int = SonicHeroesSanityChoice.group
+    option_full: int = SonicHeroesSanityChoice.full
+    option_both_groups_and_full: int = option_groups + option_full
+    default: ClassVar[int] = option_groups
 
 
 class Difficulty(Choice):
@@ -203,7 +225,7 @@ class Difficulty(Choice):
     default: ClassVar[int] = option_none
 
     @classmethod
-    def handle_logic_trick_explain(cls, expected_value: int)-> str:
+    def handle_logic_trick_explain(cls, expected_value: int) -> str:
         match expected_value:
             case cls.option_none:
                 return f"Base Difficulty"
@@ -220,7 +242,7 @@ class BadnikBounce(SonicHeroesToggle):
     """
     Should Badnik Bounce trick be enabled logically?
     This involves jumping into enemies in order to gain extra height
-    This requires jump hover frames as well
+    THIS WILL FORCE ENABLE HOVER FRAME (jump level) IF DISABLED
     """
     display_name: str = "Badnik Bounce"
 
@@ -311,6 +333,7 @@ sonic_heroes_option_groups: list[OptionGroup] = \
     OptionGroup(name="Meta",
                 options = \
                 [
+                    JumpRando,
                     ProgressiveAbilityItems,
                     BothSanityLocationSets,
                 ]),

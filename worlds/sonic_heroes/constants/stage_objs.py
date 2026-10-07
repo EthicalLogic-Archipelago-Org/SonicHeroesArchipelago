@@ -446,17 +446,30 @@ SEASIDE_HILL_DARK_STAGE_OBJS: list[StageObj] = \
     StageObj.ITEM_BOX,
     StageObj.ITEM_BALLOON,
     StageObj.GOAL_RING,
-    StageObj.PULLEY,
-    StageObj.PROPELLER,
-    StageObj.POLE,
-    StageObj.GONG,
-    StageObj.FAN,
-    StageObj.WARP_FLOWER,
+    # StageObj.PULLEY,
+    # StageObj.PROPELLER,
+    # StageObj.POLE,
+    # StageObj.GONG,
+    # StageObj.FAN,
+    # StageObj.WARP_FLOWER,
     StageObj.BONUS_KEY,
     StageObj.MOVING_RUIN_PLATFORM,
     StageObj.TRIGGER_RUINS,
     StageObj.EGG_FLAPPER,
     StageObj.EGG_PAWN,
+]
+
+ENEMY_STAGE_OBJS: list[StageObj] = \
+[
+    StageObj.EGG_FLAPPER,
+    StageObj.EGG_PAWN,
+    StageObj.KLAGEN,
+    StageObj.FALCO,
+    StageObj.EGG_HAMMER,
+    StageObj.CAMERON,
+    StageObj.RHINO_LINER,
+    StageObj.EGG_BISHOP,
+    StageObj.E2000,
 ]
 
 ALL_STAGE_OBJECTS: str = "All Stage Objects"

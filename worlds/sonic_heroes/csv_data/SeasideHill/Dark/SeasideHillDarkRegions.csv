@@ -17,7 +17,8 @@ Dark,Seaside Hill,Bottom Cliff Route Before Checkpoint 1,0,0,,0,,0,,,
 Dark,Seaside Hill,Staircase Before Corner Cave Bottom At Checkpoint 1,0,4,1x4,0,,0,,HintRing,
 Dark,Seaside Hill,Checkpoint 1,0,0,,0,,0,,,
 Dark,Seaside Hill,Staircase Before Corner Cave Bottom At Checkpoint 1 Item Balloon,0,0,,0,,1,Fly Lvl Balloon,,
-Dark,Seaside Hill,Staircase Before Corner Cave Middle After Checkpoint 1,2,0,,2,2xred flapper,0,,,
+Dark,Seaside Hill,Staircase Before Corner Cave Middle After Checkpoint 1,0,0,,0,,0,,,
+Dark,Seaside Hill,Staircase Before Corner Cave Middle After Checkpoint 1 Egg Flappers,2,0,,2,2xred flapper,0,,,
 Dark,Seaside Hill,Staircase Before Corner Cave Top After Checkpoint 1,3,0,,3,2xred flapper GreenShot,0,,,
 Dark,Seaside Hill,Ruin Before Corner Cave After Checkpoint 1,0,0,,0,,1,1 speed shoes,HintRing,balloon needs FlyAnyORJumpORFullFlyingStackwithTallChar (not knuckles)
 Dark,Seaside Hill,Corner Cave After Checkpoint 1,0,34,1x7 1x10 1x1 1x4 2x6,0,,1,5Rings Box Middle Path Loop,,
@@ -29,7 +30,8 @@ Dark,Seaside Hill,First Island Top Pillar Right After Checkpoint 1,0,0,,0,,1,Fly
 Dark,Seaside Hill,First Island Top Pillar Left After Checkpoint 1,0,0,,0,,0,,,
 Dark,Seaside Hill,First Ruin Between First and Second Island After Checkpoint 1,0,0,,0,,3,2x5Rings Power Lvl Balloons,TripleSpring,balloons need BreakThingsOR(CannonAND(ComboHeightORJump)ANDPowerChar)
 Dark,Seaside Hill,Second Ruin Between First and Second Island After Checkpoint 1,0,9,3x3,0,,0,,,
-Dark,Seaside Hill,Third Ruin Between First and Second Island After Checkpoint 1,3,0,,3,2xred flapper GreenShot,0,,,red flappers low to ground
+Dark,Seaside Hill,Third Ruin Between First and Second Island After Checkpoint 1,0,0,,0,,0,,,
+Dark,Seaside Hill,Third Ruin Between First and Second Island After Checkpoint 1 Egg Flappers,3,0,,3,2xred flapper GreenShot,0,,,red flappers low to ground
 Dark,Seaside Hill,Second Island After Checkpoint 1,2,0,,2,bazooka lance,1,10Rings Balloon,,balloon needs FlyAnyORJumpORTripleSpring
 Dark,Seaside Hill,Second Island After Checkpoint 1 High Item Balloon,0,0,,0,,1,Fly Lvl Balloon,,
 Dark,Seaside Hill,Ruin After Second Island After Checkpoint 1,1,0,,1,GreenShot,0,,,GreenShot over void but can be reached with jump

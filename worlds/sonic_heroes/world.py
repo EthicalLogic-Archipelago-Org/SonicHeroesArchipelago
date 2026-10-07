@@ -8,7 +8,7 @@ from rule_builder.rules import Has
 
 
 from .helper_functions import get_playable_char_item_name, get_stage_obj_item_name, \
-    get_spawn_position_item_name
+    get_spawn_position_item_name, get_correct_ability_item_name
 from .items import create_items, create_precollected_items
 from .options import *
 from .regions import create_regions, create_entrances
@@ -17,7 +17,7 @@ from .item_generation import FULL_ITEM_GROUPS, FULL_ITEM_LIST
 from .location_generation import FULL_LOCATION_DICT, FULL_LOCATION_GROUPS
 
 from .constants.apworld import SONIC_HEROES, VICTORY_ITEM
-from .constants.char_ability import Team, Character
+from .constants.char_ability import Team, Character, Ability
 from .constants.items_events import SonicHeroesItemData
 from .constants.loc_region import MENU_REGION_NAME, LocationType, SonicHeroesLocationData
 from .constants.stage import Act, EnabledTeamActs, Stage
@@ -221,17 +221,17 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
         if not self.options.enabled_acts_dark.is_act_a_enabled() and not self.options.enabled_acts_dark.is_act_b_enabled():
             self.options.enabled_acts_dark.value = EnabledActsDark.option_act_a
 
-        if self.options.ring_sanity_dark == RingSanityDark.option_disabled:
-            self.options.ring_sanity_dark.value = RingSanityDark.option_groups
-
-        if self.options.hint_ring_sanity_dark == HintRingSanityDark.option_disabled:
-            self.options.hint_ring_sanity_dark.value = HintRingSanityDark.option_groups
-
-        if self.options.item_box_balloon_sanity_dark == ItemBoxBalloonSanityDark.option_disabled:
-            self.options.item_box_balloon_sanity_dark.value = ItemBoxBalloonSanityDark.option_groups
-
-        if self.options.enemy_sanity_dark == EnemySanityDark.option_disabled:
-            self.options.enemy_sanity_dark.value = EnemySanityDark.option_groups
+        # if self.options.ring_sanity_dark == RingSanityDark.option_disabled:
+        #     self.options.ring_sanity_dark.value = RingSanityDark.option_groups
+        #
+        # if self.options.hint_ring_sanity_dark == HintRingSanityDark.option_disabled:
+        #     self.options.hint_ring_sanity_dark.value = HintRingSanityDark.option_groups
+        #
+        # if self.options.item_box_balloon_sanity_dark == ItemBoxBalloonSanityDark.option_disabled:
+        #     self.options.item_box_balloon_sanity_dark.value = ItemBoxBalloonSanityDark.option_groups
+        #
+        # if self.options.enemy_sanity_dark == EnemySanityDark.option_disabled:
+        #     self.options.enemy_sanity_dark.value = EnemySanityDark.option_groups
 
 
     def handle_individual_sanity_option_for_team_at_gen_early(self, team: Team, loc_type: LocationType) -> None:
@@ -244,6 +244,11 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
 
     def handle_options_at_gen_early(self) -> None:
         self.force_enable_required_acts_and_sanities()
+
+        # Jump Rando
+        if not self.options.jump_rando:
+            self.starting_inventory_amounts[get_correct_ability_item_name(world=self, team=Team.DARK, ability=Ability.JUMP)] = 1
+
 
         # enabled acts
         self.enabled_team_acts_flag: EnabledTeamActs = EnabledTeamActs.NONE
