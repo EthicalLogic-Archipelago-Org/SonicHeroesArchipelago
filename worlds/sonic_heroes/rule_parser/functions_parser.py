@@ -306,7 +306,6 @@ def handle_full_rule_string(rule_str: str, team: Team, stage: Stage, print_steps
 
 
             try:
-
                 result_str += f"{PARSER_ALL_MATCHES[rule_piece](team, stage)}"
             except:
                 print(f"Rule Piece failed!!!: {rule_piece}")
