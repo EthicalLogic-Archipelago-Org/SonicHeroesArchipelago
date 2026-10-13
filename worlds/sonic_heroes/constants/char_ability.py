@@ -3,6 +3,8 @@ Constants related to Characters, Abilities, and Teams
 """
 import enum
 
+from BaseClasses import ItemClassification
+
 from .items_events import PLAYABLE
 from ..world_base import SonicHeroesWorldBase
 
@@ -36,32 +38,33 @@ class AbilityQualities(enum.IntFlag):
 
 
 class Ability(enum.Enum):
-    JUMP = ("Jump", AbilityQualities.NONE, [Formation.SPEED, Formation.FLYING, Formation.POWER])
-    AMY_HAMMER_HOVER = ("Amy Hammer Hover", AbilityQualities.NONE, [Formation.SPEED])
-    HOMING_ATTACK = ("Homing Attack", AbilityQualities.LEADER_FORMATION | AbilityQualities.LEADER_LEVEL, [Formation.SPEED])
-    TORNADO = ("Tornado", AbilityQualities.LEADER_FORMATION | AbilityQualities.LEADER_LEVEL, [Formation.SPEED])
-    ROCKET_ACCEL = ("Rocket Accel", AbilityQualities.LEADER_FORMATION | AbilityQualities.LEADER_LEVEL | AbilityQualities.NUM_OTHER_CHARS, [Formation.SPEED])
-    LIGHT_DASH = ("Light Dash", AbilityQualities.LEADER_FORMATION, [Formation.SPEED])
-    TRIANGLE_JUMP = ("Triangle Jump", AbilityQualities.LEADER_FORMATION, [Formation.SPEED])
-    LIGHT_ATTACK = ("Light Attack", AbilityQualities.LEADER_FORMATION, [Formation.SPEED])
-    INVISIBILITY = ("Invisibility", AbilityQualities.LEADER_FORMATION, [Formation.SPEED])
-    SHURIKEN = ("Shuriken", AbilityQualities.LEADER_FORMATION, [Formation.SPEED])
-    DUMMY_RINGS = ("Dummy Rings", AbilityQualities.LEADER_FORMATION, [Formation.FLYING])
-    CHEESE_CANNON = ("Cheese Cannon", AbilityQualities.LEADER_FORMATION, [Formation.FLYING])
-    FLOWER_STING = ("Flower Sting", AbilityQualities.LEADER_FORMATION, [Formation.FLYING])
-    THUNDER_SHOOT = ("Thunder Shoot", AbilityQualities.LEADER_FORMATION | AbilityQualities.LEADER_LEVEL | AbilityQualities.NUM_OTHER_CHARS, [Formation.FLYING])
-    FLIGHT = ("Flight", AbilityQualities.LEADER_FORMATION, [Formation.FLYING])
-    POWER_ATTACK = ("Power Attack", AbilityQualities.LEADER_FORMATION | AbilityQualities.LEADER_LEVEL, [Formation.POWER])
-    BELLY_FLOP = ("Belly Flop", AbilityQualities.LEADER_FORMATION | AbilityQualities.LEADER_LEVEL, [Formation.POWER])
-    FIRE_DUNK = ("Fire Dunk", AbilityQualities.LEADER_FORMATION | AbilityQualities.LEADER_LEVEL | AbilityQualities.NUM_OTHER_CHARS, [Formation.POWER])
-    ULTIMATE_FIRE_DUNK = ("Ultimate Fire Dunk", AbilityQualities.LEADER_FORMATION | AbilityQualities.LEADER_LEVEL | AbilityQualities.NUM_OTHER_CHARS, [Formation.POWER])
-    GLIDE = ("Glide", AbilityQualities.LEADER_FORMATION, [Formation.POWER])
-    COMBO_FINISHER = ("Combo Finisher", AbilityQualities.LEADER_FORMATION | AbilityQualities.LEADER_LEVEL, [Formation.POWER])
+    JUMP = ("Jump", AbilityQualities.NONE, [Formation.SPEED, Formation.FLYING, Formation.POWER], ItemClassification.progression | ItemClassification.useful)
+    AMY_HAMMER_HOVER = ("Amy Hammer Hover", AbilityQualities.NONE, [Formation.SPEED], ItemClassification.progression | ItemClassification.useful)
+    HOMING_ATTACK = ("Homing Attack", AbilityQualities.LEADER_FORMATION | AbilityQualities.LEADER_LEVEL, [Formation.SPEED], ItemClassification.progression | ItemClassification.useful)
+    TORNADO = ("Tornado", AbilityQualities.LEADER_FORMATION | AbilityQualities.LEADER_LEVEL, [Formation.SPEED], ItemClassification.progression | ItemClassification.useful)
+    ROCKET_ACCEL = ("Rocket Accel", AbilityQualities.LEADER_FORMATION | AbilityQualities.LEADER_LEVEL | AbilityQualities.NUM_OTHER_CHARS, [Formation.SPEED], ItemClassification.progression | ItemClassification.useful)
+    LIGHT_DASH = ("Light Dash", AbilityQualities.LEADER_FORMATION, [Formation.SPEED], ItemClassification.progression | ItemClassification.useful)
+    TRIANGLE_JUMP = ("Triangle Jump", AbilityQualities.LEADER_FORMATION, [Formation.SPEED], ItemClassification.progression | ItemClassification.useful)
+    LIGHT_ATTACK = ("Light Attack", AbilityQualities.LEADER_FORMATION, [Formation.SPEED], ItemClassification.progression | ItemClassification.useful)
+    INVISIBILITY = ("Invisibility", AbilityQualities.LEADER_FORMATION, [Formation.SPEED], ItemClassification.progression | ItemClassification.useful)
+    SHURIKEN = ("Shuriken", AbilityQualities.LEADER_FORMATION, [Formation.SPEED], ItemClassification.progression | ItemClassification.useful)
+    DUMMY_RINGS = ("Dummy Rings", AbilityQualities.LEADER_FORMATION, [Formation.FLYING], ItemClassification.progression | ItemClassification.useful)
+    CHEESE_CANNON = ("Cheese Cannon", AbilityQualities.LEADER_FORMATION, [Formation.FLYING], ItemClassification.progression | ItemClassification.useful)
+    FLOWER_STING = ("Flower Sting", AbilityQualities.LEADER_FORMATION, [Formation.FLYING], ItemClassification.progression | ItemClassification.useful)
+    THUNDER_SHOOT = ("Thunder Shoot", AbilityQualities.LEADER_FORMATION | AbilityQualities.LEADER_LEVEL | AbilityQualities.NUM_OTHER_CHARS, [Formation.FLYING], ItemClassification.progression | ItemClassification.useful)
+    FLIGHT = ("Flight", AbilityQualities.LEADER_FORMATION, [Formation.FLYING], ItemClassification.progression | ItemClassification.useful)
+    POWER_ATTACK = ("Power Attack", AbilityQualities.LEADER_FORMATION | AbilityQualities.LEADER_LEVEL, [Formation.POWER], ItemClassification.progression | ItemClassification.useful)
+    BELLY_FLOP = ("Belly Flop", AbilityQualities.LEADER_FORMATION | AbilityQualities.LEADER_LEVEL, [Formation.POWER], ItemClassification.progression | ItemClassification.useful)
+    FIRE_DUNK = ("Fire Dunk", AbilityQualities.LEADER_FORMATION | AbilityQualities.LEADER_LEVEL | AbilityQualities.NUM_OTHER_CHARS, [Formation.POWER], ItemClassification.progression | ItemClassification.useful)
+    ULTIMATE_FIRE_DUNK = ("Ultimate Fire Dunk", AbilityQualities.LEADER_FORMATION | AbilityQualities.LEADER_LEVEL | AbilityQualities.NUM_OTHER_CHARS, [Formation.POWER], ItemClassification.progression | ItemClassification.useful)
+    GLIDE = ("Glide", AbilityQualities.LEADER_FORMATION, [Formation.POWER], ItemClassification.progression | ItemClassification.useful)
+    COMBO_FINISHER = ("Combo Finisher", AbilityQualities.LEADER_FORMATION | AbilityQualities.LEADER_LEVEL, [Formation.POWER], ItemClassification.progression | ItemClassification.useful)
 
-    def __init__(self, ability_name: str, ability_qual: AbilityQualities, valid_formations: list[Formation]) -> None:
+    def __init__(self, ability_name: str, ability_qual: AbilityQualities, valid_formations: list[Formation], classification: ItemClassification) -> None:
         self.ability_name: str = ability_name
         self.ability_qual: AbilityQualities = ability_qual
         self.valid_formations: list[Formation] = valid_formations
+        self.classification: ItemClassification = classification
 
 
 
