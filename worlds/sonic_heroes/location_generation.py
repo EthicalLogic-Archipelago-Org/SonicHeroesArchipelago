@@ -259,7 +259,7 @@ def generate_dark_obj_sanity() -> None:
         enemy_count: int = 0
         for enemy_stage_obj in ENEMY_STAGE_OBJS:
             for enemy_data in get_all_parsed_stage_objects_of_type(team=Team.DARK, stage=reg_lvl, stage_obj=enemy_stage_obj):
-                if enemy_data.id_offset_full >= 0:
+                if enemy_data.id_offset_full != STAGE_OBJ_INVALID_ID_OFFSET:
                     append_location(name=f"{reg_lvl.stage_name} {Team.DARK} {Act.ACT_B.get_act_str()} Enemies Killed: {enemy_count + 1}", team=Team.DARK, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl.stage_name} {Team.DARK} {OBJ_SANITY}", rule_str="", rule=Has(item_name=get_obj_sanity_event_item_name(team=Team.DARK, stage=reg_lvl, act=Act.ACT_B), count=enemy_count + 1), loc_type=LocationType.OBJ_SANITY, location_groups=[OBJ_SANITY_LOCATION_GROUP])
                     enemy_count += 1
         print(f"Dark ObjSanity Stage: {reg_lvl.stage_name} has {enemy_count} enemy checks")
@@ -706,19 +706,27 @@ def generate_bonus_key_events() -> None:
 def generate_dark_obj_sanity_events() -> None:
     team: Team = Team.DARK
     for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
+        events_created: int = 0
         try:
             for egg_flapper in get_parsed_data_module_for_team_stage(team=team, stage=reg_lvl).egg_flappers:  # pyright: ignore[reportAny]
                 if egg_flapper.id_offset_full != STAGE_OBJ_INVALID_ID_OFFSET:  # pyright: ignore[reportAny]
                     append_location(name=f"{reg_lvl.stage_name} {team.value} {egg_flapper.location_name} {OBJ_SANITY} {EVENT_LOCATION}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=EVENT_LOCATION_ID, act=2, parent_region=f"{egg_flapper.region_name}", rule_str=f"{egg_flapper.enemy_type} {EVENT_LOCATION}", rule=egg_flapper.rule, loc_type=LocationType.EVENT, location_groups=[], locked_item=get_obj_sanity_event_item_name(team=Team.DARK, stage=reg_lvl, act=Act.ACT_B))  # pyright: ignore[reportAny]
+            #         events_created += 1
+            # print(f"Created {events_created} Egg Flapper events for {team.value} {reg_lvl.stage_name}")
         except:
+            # print(f"Except clause here Egg Flapper ObjSanity Events")
             pass
 
     for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
+#         events_created = 0
         try:
             for egg_pawn in get_parsed_data_module_for_team_stage(team=team, stage=reg_lvl).egg_pawns:  # pyright: ignore[reportAny]
                 if egg_pawn.id_offset_full != STAGE_OBJ_INVALID_ID_OFFSET:  # pyright: ignore[reportAny]
                     append_location(name=f"{reg_lvl.stage_name} {team.value} {egg_pawn.location_name} {OBJ_SANITY} {EVENT_LOCATION}", team=Team.DARK, stage=Stage.SEASIDE_HILL, code=EVENT_LOCATION_ID, act=2, parent_region=f"{egg_pawn.region_name}", rule_str=f"{egg_pawn.enemy_type} {EVENT_LOCATION}", rule=egg_pawn.rule, loc_type=LocationType.EVENT, location_groups=[], locked_item=get_obj_sanity_event_item_name(team=Team.DARK, stage=reg_lvl, act=Act.ACT_B))  # pyright: ignore[reportAny]
+#                     events_created += 1
+#             print(f"Created {events_created} Egg Pawn events for {team.value} {reg_lvl.stage_name}")
         except:
+            # print(f"Except clause here Egg Pawn ObjSanity Events")
             pass
 
 
