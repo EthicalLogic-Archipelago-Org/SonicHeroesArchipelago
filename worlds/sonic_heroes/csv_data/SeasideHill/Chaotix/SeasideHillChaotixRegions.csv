@@ -38,18 +38,22 @@ Chaotix,Seaside Hill,Second Island After Checkpoint 1 Left High Item Balloon,0,0
 Chaotix,Seaside Hill,Second Island After Checkpoint 1 Center High Item Balloon,0,0,,0,,1,,Power Lvl Balloon,
 Chaotix,Seaside Hill,Second Island After Checkpoint 1 Right High Item Balloon,0,0,,0,,1,,Speed Lvl Balloon,
 Chaotix,Seaside Hill,First Ruins After Second Island After Checkpoint 1,0,0,,0,,0,,HintRing,Moving Ruins
-Chaotix,Seaside Hill,Remaining Ruins After Second Island After Checkpoint 1,0,0,,3,,1,5 rings,,
+Chaotix,Seaside Hill,Middle Ruins After Second Island After Checkpoint 1,0,0,,3,,1,5 rings,,
+Chaotix,Seaside Hill,Last Ruins After Second Island After Checkpoint 1,0,0,,0,,0,,,
 Chaotix,Seaside Hill,Before First Bobsled After Checkpoint 1,1,0,,0,,0,,,Eleventh Hermit Crab
-Chaotix,Seaside Hill,Above First Bobsled After Checkpoint 2,1,4,1x4,2,,0,,,Twelfth Hermit Crab
+Chaotix,Seaside Hill,Above First Bobsled After Checkpoint 2,0,4,1x4,2,,0,,,
+Chaotix,Seaside Hill,Hermit Crab in Box Above First Bobsled After Checkpoint 2,1,0,,0,,0,,,Twelfth Hermit Crab
 Chaotix,Seaside Hill,First Bobsled After Checkpoint 2,0,6,1x6,0,,0,,,
 Chaotix,Seaside Hill,Checkpoint 2,0,0,,0,,0,,,
 Chaotix,Seaside Hill,First Bobsled After Block After Checkpoint 2,0,14,1x5 1x9,3,,0,,,
 Chaotix,Seaside Hill,First Bobsled First Island After Checkpoint 2,0,0,,2,,0,,,
 Chaotix,Seaside Hill,First Bobsled Side Island After Checkpoint 2,1,0,,0,,0,,TripleSpring,Thirteenth Hermit Crab
+Chaotix,Seaside Hill,First Bobsled First Island Cannon Platform After Checkpoint 2,0,0,,0,,0,,,
 Chaotix,Seaside Hill,First Bobsled First Island Cannon Power After Checkpoint 2,0,0,,0,,0,,,
-Chaotix,Seaside Hill,First Bobsled First Island Cannon Flight After Checkpoint 2,0,0,,0,,1,1 speed shoes,,
+Chaotix,Seaside Hill,First Bobsled First Island Cannon Flight After Checkpoint 2,0,0,,0,,0,,,
 Chaotix,Seaside Hill,First Bobsled First Island Cannon Speed After Checkpoint 2,0,0,,0,,0,,,
 Chaotix,Seaside Hill,First Bobsled Path After Cannon After Checkpoint 2,0,22,1x4 2x5 1x4 1x4,0,,0,,TripleSpring,
+Chaotix,Seaside Hill,Item Balloon After Cannon on First Bobsled After Checkpoint 2,0,0,,0,,1,1 speed shoes,,
 Chaotix,Seaside Hill,First Bobsled Path First Ruin After Checkpoint 2,0,0,,1,,0,,,
 Chaotix,Seaside Hill,First Bobsled Path Ruin Path After Checkpoint 2,0,5,1x5,2,,0,,,
 Chaotix,Seaside Hill,First Bobsled Last Ruin After Checkpoint 2,0,0,,1,,0,,,
