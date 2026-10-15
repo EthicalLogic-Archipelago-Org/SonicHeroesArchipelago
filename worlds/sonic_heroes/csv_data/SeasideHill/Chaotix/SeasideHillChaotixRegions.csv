@@ -69,13 +69,16 @@ Chaotix,Seaside Hill,Item Balloon C After Large Ruin At Big Ruin Beach After Che
 Chaotix,Seaside Hill,Big Ruin Beach Island 1 After Checkpoint 3,0,0,,3,,0,,,
 Chaotix,Seaside Hill,Big Ruins Beach Island 1 First Sliding Block After Checkpoint 3,1,0,,0,,0,,,Fifteenth Hermit Crab
 Chaotix,Seaside Hill,Big Ruins Beach Island 1 Second Sliding Block After Checkpoint 3,1,0,,0,,0,,,Sixteenth Hermit Crab
+Chaotix,Seaside Hill,Big Ruins Beach Cannon Platform After Checkpoint 3,0,0,,0,,0,,,
 Chaotix,Seaside Hill,Path At Big Ruin Beach After Checkpoint 3 Cannon Speed,0,0,,0,,0,,,
 Chaotix,Seaside Hill,Path At Big Ruin Beach After Checkpoint 3 Cannon Power,0,0,,0,,0,,,launch to bonus key 2
 Chaotix,Seaside Hill,Path At Big Ruin Beach After Checkpoint 3 Cannon Flying,0,0,,0,,0,,,
 Chaotix,Seaside Hill,Big Ruin Beach Top Path 1 After Checkpoint 3,0,4,1x4,0,,0,,,
 Chaotix,Seaside Hill,Big Ruin Beach Top Path Ruins With Item Box,0,0,,0,,1,1 invinc box,,
+Chaotix,Seaside Hill,Big Ruins Beach Top Path 1 On Block After Checkpoint 3,0,0,,0,,0,,,
 Chaotix,Seaside Hill,Big Ruin Beach Top Path 1 After Block After Checkpoint 3,0,9,1x5 1x4,0,,0,,,
-Chaotix,Seaside Hill,Big Ruin Beach Top Path 2 After Checkpoint 3,1,8,1x8,4,,0,,,Seventeenth Hermit Crab
+Chaotix,Seaside Hill,Big Ruin Beach Top Path 2 After Checkpoint 3,0,8,1x8,4,,0,,,
+Chaotix,Seaside Hill,Big Ruin Beach Top Path 2 Sliding Ruin After Checkpoint 3,1,0,,0,,0,,,Seventeenth Hermit Crab
 Chaotix,Seaside Hill,Big Ruin Beach Island 2 After Checkpoint 3,1,15,1x10 1x5,4,,0,,,Eighteenth Hermit Crab
 Chaotix,Seaside Hill,Big Ruin Beach Island 2 Bonus Key 2 After Checkpoint 3,0,0,,0,,0,,,
 Chaotix,Seaside Hill,Bonus Key 2,0,0,,0,,0,,,
@@ -83,7 +86,7 @@ Chaotix,Seaside Hill,Big Ruin Beach Island 2 Bonus Key 3 After Checkpoint 3,0,0,
 Chaotix,Seaside Hill,Bonus Key 3,0,0,,0,,0,0,,
 Chaotix,Seaside Hill,Big Ruin Beach Island 2 Item Balloon After Checkpoint 3,0,0,,0,,1,20 rings,,
 Chaotix,Seaside Hill,Big Ruin Beach Island 2 Egg Pawn After Checkpoint 3,0,0,,1,,0,,,
-Chaotix,Seaside Hill,Big Ruin Beach Island 2 Hermit Crab After Checkpoint 3,1,0,,0,,0,,,Nineteenth Hermit Crab
+Chaotix,Seaside Hill,Big Ruin Beach Island 2 Top of Ruins After Checkpoint 3,1,0,,0,,0,,,Nineteenth Hermit Crab
 Chaotix,Seaside Hill,Big Ruin Beach End of Big Ruin Beach Cannon Speed,0,6,2x3,0,,0,,,
 Chaotix,Seaside Hill,Big Ruin Beach End of Big Ruin Beach Cannon Power,0,0,,0,,0,,,
 Chaotix,Seaside Hill,Big Ruin Beach End of Big Ruin Beach Cannon Flying,0,0,,0,,0,,,
