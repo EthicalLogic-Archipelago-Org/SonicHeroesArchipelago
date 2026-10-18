@@ -5,9 +5,11 @@ Helper Functions for custom rule builder rules related to Abilities and Characte
 
 from rule_builder.rules import Rule
 
+
 from ..constants.char_ability import Ability, Formation, Team
 from ..constants.stage import Stage
 from .custom_rules import *
+from .functions_stage_obj import has_stage_obj_rule
 from ..world_base import SonicHeroesWorldBase
 
 
@@ -44,7 +46,7 @@ def can_break_things_rule(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase
 def can_break_wood_container_rule(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
     if team == Team.SONIC:
         return SonicHeroesMacroRule(child=can_kick_rule(team=team, stage=stage) | can_rocket_accel_rule(team=team, stage=stage, num_other_chars=1) | can_power_attack_rule(team=team, stage=stage, level=0) | can_belly_flop_rule(team=team, stage=stage, level=0) | can_fire_dunk_rule(team=team, stage=stage, level=0) | can_combo_finisher_rule(team=team, stage=stage, level=1) | can_team_blast_rule(team=team, stage=stage), name=f"Break Wood Container as Team {team} in {stage.stage_name}")
-    return SonicHeroesMacroRule(child=can_power_attack_rule(team=team, stage=stage, level=0) | can_belly_flop_rule(team=team, stage=stage, level=0) | can_fire_dunk_rule(team=team, stage=stage, level=0) | can_combo_finisher_rule(team=team, stage=stage, level=1), name=f"Break Wood Container as Team {team} in {stage.stage_name}")
+    return SonicHeroesMacroRule(child=can_kick_rule(team=team, stage=stage) | can_rocket_accel_rule(team=team, stage=stage, num_other_chars=1) | can_power_attack_rule(team=team, stage=stage, level=0) | can_belly_flop_rule(team=team, stage=stage, level=0) | can_fire_dunk_rule(team=team, stage=stage, level=0) | can_combo_finisher_rule(team=team, stage=stage, level=1), name=f"Break Wood Container as Team {team} in {stage.stage_name}")
 
 
 
@@ -75,7 +77,7 @@ def can_tornado_rule(team: Team, stage: Stage, level: int) -> Rule[SonicHeroesWo
 
 
 def can_kick_rule(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
-    return SonicHeroesMacroRule(child=HasFormationCharForTeam(team=team, formation=Formation.SPEED), name=F"Kick as Team {team} in {stage.stage_name}")
+    return SonicHeroesMacroRule(child=HasFormationCharForTeam(team=team, formation=Formation.SPEED), name=f"Kick as Team {team} in {stage.stage_name}")
 
 
 def can_rocket_accel_rule(team: Team, stage: Stage, num_other_chars: int) -> Rule[SonicHeroesWorldBase]:
@@ -85,7 +87,7 @@ def can_rocket_accel_rule(team: Team, stage: Stage, num_other_chars: int) -> Rul
 
 def can_light_dash_rule(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
     ability: Ability = Ability.LIGHT_DASH
-    return SonicHeroesMacroRule(child=HasAbilityForTeam(team=team, ability=ability), name=f"{ability.ability_name} as Team {team} in {stage.stage_name}")
+    return SonicHeroesMacroRule(child=HasAbilityForTeam(team=team, ability=ability) & has_stage_obj_rule(team=team, stage=stage, stage_obj=StageObj.RINGS), name=f"{ability.ability_name} as Team {team} in {stage.stage_name}")
 
 
 def can_triangle_jump_rule(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:

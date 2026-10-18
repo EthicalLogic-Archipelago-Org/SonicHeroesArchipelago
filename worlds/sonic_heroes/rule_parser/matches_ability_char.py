@@ -34,8 +34,15 @@ PARSER_ABILITY_MAPPING: dict[str, Callable[[Team, Stage], str]] = \
     "ComboHeight": lambda team, stage: get_func_str(func_name="can_combo_height_rule", params={"team": team, "stage": stage}),
     "Jump": lambda team, stage: get_func_str(func_name="can_jump_rule", params={"team": team, "stage": stage}),
 
+    "TeamBlast": lambda team, stage: get_func_str(func_name="can_team_blast_rule", params={"team": team, "stage": stage}),
+
     # Speed
+    # Kick
+    "Kick": lambda team, stage: get_func_str(func_name="can_kick_rule", params={"team": team, "stage": stage}),
+
     # AmyHammerHover
+    "HammerHover": lambda team, stage: get_func_str(func_name="can_amy_hammer_hover_rule", params={"team": team, "stage": stage}),
+
     # Homing
     "Homing0": lambda team, stage: get_func_str(func_name="can_homing_attack_rule", params={"team": team, "stage": stage, "level": 0}),
     "Homing1": lambda team, stage: get_func_str(func_name="can_homing_attack_rule", params={"team": team, "stage": stage, "level": 1}),
@@ -50,12 +57,16 @@ PARSER_ABILITY_MAPPING: dict[str, Callable[[Team, Stage], str]] = \
     "AccelHalf": lambda team, stage: get_func_str(func_name="can_rocket_accel_rule", params={"team": team, "stage": stage, "num_other_chars": 1}),
     "AccelFull": lambda team, stage: get_func_str(func_name="can_rocket_accel_rule", params={"team": team, "stage": stage, "num_other_chars": 2}),
     # Light Dash
+    "LightDash": lambda team, stage: get_func_str(func_name="can_light_dash_rule", params={"team": team, "stage": stage}),
     # Triangle Jump
     "TriangleJump": lambda team, stage: get_func_str(func_name="can_triangle_jump_rule", params={"team": team, "stage": stage}),
 
     # Light Attack
+    "LightAttack": lambda team, stage: get_func_str(func_name="can_light_attack_rule", params={"team": team, "stage": stage}),
     # Invis
+    "Invis": lambda team, stage: get_func_str(func_name="can_invisibility_rule", params={"team": team, "stage": stage}),
     # Shuriken
+    "Shuriken": lambda team, stage: get_func_str(func_name="can_shuriken_rule", params={"team": team, "stage": stage}),
 
     # Flying
     # Dummy
@@ -78,13 +89,17 @@ PARSER_ABILITY_MAPPING: dict[str, Callable[[Team, Stage], str]] = \
 
     # Power
     # Power Attack
-    "PowerAttack": lambda team, stage: get_func_str(func_name="can_power_attack_rule", params={"team": team, "stage": stage, "level": 0}),
+    "PowerAttack0": lambda team, stage: get_func_str(func_name="can_power_attack_rule", params={"team": team, "stage": stage, "level": 0}),
     # Belly Flop
+    "BellyFlop0": lambda team, stage: get_func_str(func_name="can_belly_flop_rule", params={"team": team, "stage": stage, "level": 0}),
+
     # Fire Dunk
+    "FireDunk0": lambda team, stage: get_func_str(func_name="can_fire_dunk_rule", params={"team": team, "stage": stage, "level": 0}),
     # Ultimate Fire Dunk
     # Glide
     "Glide": lambda team, stage: get_func_str(func_name="can_glide_rule", params={"team": team, "stage": stage}),
     # Combo Finisher
+    "Combo1": lambda team, stage: get_func_str(func_name="can_combo_finisher_rule", params={"team": team, "stage": stage, "level": 1}),
 }
 
 

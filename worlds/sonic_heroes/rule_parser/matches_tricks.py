@@ -20,6 +20,10 @@ PARSER_TRICK_MAPPING: dict[str, Callable[[Team, Stage], str]] = \
     "Tornado0Hover": lambda team, stage: get_func_str(func_name="can_tornado_hover_rule", params={"team": team, "stage": stage, "level": 0}),
     "Parkour": lambda team, stage: get_func_str(func_name="can_parkour_rule", params={}),
     "FlyDepleteBoost": lambda team, stage: get_func_str(func_name="can_fly_deplete_boost_rule", params={"team": team, "stage": stage}),
-    "FlyGroundBounce": lambda team, stage: get_func_str(func_name="can_fly_ground_bounce_rule", params={"team": team, "stage": stage, "needs_jump": True}),
-    "FlyGroundBounceNoJump": lambda team, stage: get_func_str(func_name="can_fly_ground_bounce_rule", params={"team": team, "stage": stage, "needs_jump": False}),
+    "FlyGroundBounce": lambda team, stage: get_func_str(func_name="can_fly_ground_bounce_rule", params={"team": team, "stage": stage, "needs_jump": False}),
+    "FlyGroundBounceThundershoot": lambda team, stage: get_func_str(func_name="can_fly_ground_bounce_with_thundershoot_rule", params={"team": team, "stage": stage}),
+
+
+
+    # "FlyGroundBounceNoJump": lambda team, stage: get_func_str(func_name="can_fly_ground_bounce_rule", params={"team": team, "stage": stage, "needs_jump": False}),
 }
