@@ -31,7 +31,7 @@ jobs:
       - uses: Eijebong/ap-actions/ap-tests@main
         with:
           apworld-path: worlds/sonic_heroes
-          ap-version: '0.6.7'
+          ap-version: '0.6.8'
           python-version: '3.13'
 
       - name: Build APWorld
