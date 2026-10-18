@@ -22,8 +22,7 @@ PARSER_TRICK_MAPPING: dict[str, Callable[[Team, Stage], str]] = \
     "FlyDepleteBoost": lambda team, stage: get_func_str(func_name="can_fly_deplete_boost_rule", params={"team": team, "stage": stage}),
     "FlyGroundBounce": lambda team, stage: get_func_str(func_name="can_fly_ground_bounce_rule", params={"team": team, "stage": stage, "needs_jump": False}),
     "FlyGroundBounceThundershoot": lambda team, stage: get_func_str(func_name="can_fly_ground_bounce_with_thundershoot_rule", params={"team": team, "stage": stage}),
+    "HammerHoverReset": lambda team, stage: get_func_str(func_name="can_hammer_hover_reset_rule", params={"team": team, "stage": stage}),
+    "BellyFlopChain": lambda team, stage: get_func_str(func_name="can_belly_flop_chain_rule", params={"team": team, "stage": stage}),
 
-
-
-    # "FlyGroundBounceNoJump": lambda team, stage: get_func_str(func_name="can_fly_ground_bounce_rule", params={"team": team, "stage": stage, "needs_jump": False}),
 }

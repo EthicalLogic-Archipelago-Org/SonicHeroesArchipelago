@@ -325,6 +325,23 @@ class FlyGroundBounce(Choice):
 
 
 
+class HammerHoverReset(SonicHeroesToggle):
+    """
+    Should the Hammer Hover trick be enabled logically?
+    Amy's Hammer Hover can be done twice by Tornado'ing while holding the Jump button.
+    """
+    display_name: str = "Hammer Hover Reset"
+
+
+class BellyFlopChain(SonicHeroesToggle):
+    """
+    Should the Belly Flop Chain trick be enabled logically?
+    Belly Flop Chaining allows you to preserve Belly Flops when you dont have Jump.
+    """
+    display_name: str = "Belly Flop Chain"
+
+
+
 
 
 
@@ -367,6 +384,8 @@ sonic_heroes_option_groups: list[OptionGroup] = \
                     Parkour,
                     FlyDepleteBoost,
                     FlyGroundBounce,
+                    HammerHoverReset,
+                    BellyFlopChain,
                 ]),
     OptionGroup(name="Hidden",
                 options = \
@@ -401,6 +420,8 @@ class SonicHeroesOptions(PerGameCommonOptions):
     parkour: Parkour
     fly_deplete_boost: FlyDepleteBoost
     fly_ground_bounce: FlyGroundBounce
+    hammer_hover_reset: HammerHoverReset
+    belly_flop_chain: BellyFlopChain
 
 
 OPTION_ATTR_NAMES: list[str] = \
@@ -427,6 +448,8 @@ OPTION_ATTR_NAMES: list[str] = \
     "parkour",
     "fly_deplete_boost",
     "fly_ground_bounce",
+    "hammer_hover_reset",
+    "belly_flop_chain",
 ]
 
 

@@ -419,3 +419,11 @@ Note that enemies have their own rules both for existing and for being able to b
 - This has ```FlyAny``` as a requirement. (```Jump``` is a requirement for the easier handling and ```Thundershoot0``` is a requirement for the harder handling so it is not needed to be included)
 
 
+#### HammerHoverReset
+- Using a Tornado will allow for a second use of Amy's Hammer Hover as long as the Jump button is held.
+- This has ```HammerHover``` as a requirement.
+
+
+#### BellyFlopChain
+- This is intended for when the player is expected to continue bellyflopping over some distance to preserve the state (as Jump is not acquired yet)
+- This has ```BellyFlop``` as a requirement.

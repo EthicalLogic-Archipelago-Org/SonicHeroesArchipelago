@@ -10,7 +10,7 @@ from ..constants.stage import Stage
 from ..options import *
 from ..rule_builder.custom_rules import TrickRule, SonicHeroesMacroRule
 from ..world_base import SonicHeroesWorldBase
-from .functions_ability_char import can_homing_attack_rule, can_jump_rule, can_thundershoot_rule, can_tornado_rule, can_flight_rule
+from .functions_ability_char import can_amy_hammer_hover_rule, can_belly_flop_rule, can_homing_attack_rule, can_jump_rule, can_thundershoot_rule, can_tornado_rule, can_flight_rule
 
 
 def can_medium_diff_rule() -> Rule[SonicHeroesWorldBase]:
@@ -67,5 +67,10 @@ def can_fly_ground_bounce_with_thundershoot_rule(team: Team, stage: Stage) -> Ru
 
 
 
+def can_hammer_hover_reset_rule(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
+    return can_amy_hammer_hover_rule(team=team, stage=stage) & TrickRule(option_filter=OptionFilter(option=HammerHoverReset, value=HammerHoverReset.option_true))
 
+
+def can_belly_flop_chain_rule(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
+    return can_belly_flop_rule(team=team, stage=stage, level=0) & TrickRule(option_filter=OptionFilter(option=BellyFlopChain, value=BellyFlopChain.option_true))
 
