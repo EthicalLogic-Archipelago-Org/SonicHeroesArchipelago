@@ -427,3 +427,17 @@ Note that enemies have their own rules both for existing and for being able to b
 #### BellyFlopChain
 - This is intended for when the player is expected to continue bellyflopping over some distance to preserve the state (as Jump is not acquired yet)
 - This has ```BellyFlop``` as a requirement.
+
+
+
+#### BellyFlopFly
+- Swapping to Flight Character while in the belly flop animation will allow you to start a fly from the height on the belly flop.
+  - This gives more height that a regular jump.
+- This has ```BellyFlopANDFlyAny``` as a requirement.
+
+
+
+
+
+
+

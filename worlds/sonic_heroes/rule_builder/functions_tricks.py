@@ -74,3 +74,8 @@ def can_hammer_hover_reset_rule(team: Team, stage: Stage) -> Rule[SonicHeroesWor
 def can_belly_flop_chain_rule(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
     return can_belly_flop_rule(team=team, stage=stage, level=0) & TrickRule(option_filter=OptionFilter(option=BellyFlopChain, value=BellyFlopChain.option_true))
 
+
+def can_belly_flop_fly_rule(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
+    return can_belly_flop_rule(team=team, stage=stage, level=0) & can_flight_rule(team=team, stage=stage, num_other_chars=0)
+
+    # TODO decide if this should be a trick or not
