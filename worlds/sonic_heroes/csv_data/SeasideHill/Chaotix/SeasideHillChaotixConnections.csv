@@ -213,10 +213,10 @@ Chaotix,Seaside Hill,Big Ruin Beach End Path Before Checkpoint 4,Path Before Vol
 Chaotix,Seaside Hill,Path Before Volcano Start At Checkpoint 4,Big Ruin Beach End Path Before Checkpoint 4,,
 Chaotix,Seaside Hill,Path Before Volcano Start At Checkpoint 4,Checkpoint 4,,
 Chaotix,Seaside Hill,Checkpoint 4,Path Before Volcano Start At Checkpoint 4,,
-Chaotix,Seaside Hill,Path Before Volcano Start At Checkpoint 4,Big Special Ruin Before Volcano After Checkpoint 4,DashRampOR(RocketAccelANDJumpANDFlyAnyANDMedium),
-Chaotix,Seaside Hill,Big Special Ruin Before Volcano After Checkpoint 4,Path Before Volcano Start At Checkpoint 4,,
-Chaotix,Seaside Hill,Path Before Volcano Start At Checkpoint 4,First Loop at Start of Level,FlowerStingANDWarpFlowerAND((Jump)OR(FlyAny)),
-Chaotix,Seaside Hill,First Loop at Start of Level,Path Before Volcano Start At Checkpoint 4,FlowerStingANDWarpFlowerANDJump,
-Chaotix,Seaside Hill,Path Before Volcano Start At Checkpoint 4,Path After Big Special Ruin Before Volcano Loop After Checkpoint 3,MediumANDFlyFullANDThundershoot2ANDJumpANDRuinsTrigger,After expected play area for chaotix
-Chaotix,Seaside Hill,Path After Big Special Ruin Before Volcano Loop After Checkpoint 3,Path Before Volcano Start At Checkpoint 4,MediumANDFlyFullANDThundershoot2ANDJumpANDRuinsTrigger,
+Chaotix,Seaside Hill,Path Before Volcano Start At Checkpoint 4,Big Special Ruin Before Volcano After Checkpoint 4,RuinsTriggerAND(DashRampOR(RocketAccelANDJumpANDFlyAnyANDMedium)),
+Chaotix,Seaside Hill,Big Special Ruin Before Volcano After Checkpoint 4,Path Before Volcano Start At Checkpoint 4,NOTPOSSIBLE,
+Chaotix,Seaside Hill,Big Special Ruin Before Volcano After Checkpoint 4,First Loop at Start of Level,FlowerStingANDWarpFlowerAND((Jump)OR(FlyAny)),
+Chaotix,Seaside Hill,First Loop at Start of Level,Big Special Ruin Before Volcano After Checkpoint 4,FlowerStingANDWarpFlowerANDJump,
+Chaotix,Seaside Hill,Big Special Ruin Before Volcano After Checkpoint 4,Path After Big Special Ruin Before Volcano Loop After Checkpoint 3,MediumANDFlyFullANDThundershoot2ANDJumpANDRuinsTrigger,After expected play area for chaotix
+Chaotix,Seaside Hill,Path After Big Special Ruin Before Volcano Loop After Checkpoint 3,Big Special Ruin Before Volcano After Checkpoint 4,MediumANDFlyFullANDThundershoot2ANDJumpANDRuinsTrigger,
 Chaotix,Seaside Hill,Start,Goal,,
