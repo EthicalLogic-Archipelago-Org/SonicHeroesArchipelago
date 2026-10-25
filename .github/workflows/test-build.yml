@@ -31,7 +31,7 @@ jobs:
       - uses: Eijebong/ap-actions/ap-tests@main
         with:
           apworld-path: worlds/sonic_heroes
-          ap-version: '0.6.7'
+          ap-version: '0.6.8'
           python-version: '3.13'
 
       - name: Build APWorld
@@ -44,7 +44,7 @@ jobs:
 
       - name: Fix template AP version
         run: |
-          sed -i '0,/version: 0\.6\.8/s//version: 0.6.7/' \
+          sed -i '0,/version: 0\.6\.9/s//version: 0.6.8/' \
             "Players/Templates/Sonic Heroes.yaml"
 
       - name: Upload APWorld
