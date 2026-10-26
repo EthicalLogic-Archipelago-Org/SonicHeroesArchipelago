@@ -1,8 +1,8 @@
 Team,Level,Name,ObjChecks,Rings,Rings Cont.,Enemies,Enemies Cont.,Items,Items Cont.,Other Stuff,Notes
 Chaotix,Seaside Hill,Start,0,,,,,,,,
 Chaotix,Seaside Hill,ObjSanity,0,,,,,,,,
-Chaotix,Seaside Hill,Warp Flower Above First Loop at Start of Level,0,0,,0,,0,,,
-Chaotix,Seaside Hill,First Loop at Start of Level,0,6,2x3,0,,3,,,
+Chaotix,Seaside Hill,Warp Flower Before First Loop at Start of Level,0,0,,0,,0,,,
+Chaotix,Seaside Hill,First Loop at Start of Level,0,0,0,0,,3,3x5Rings Box,,
 Chaotix,Seaside Hill,Hermit Crab Cliff Below Eggmans Robots Before Checkpoint 1,1,0,,0,,1,,SingleSpring,
 Chaotix,Seaside Hill,Eggmans Robots Bottom Before Checkpoint 1,0,19,3x5 1x4,1,,0,,"2x HintRing, WarpFlower",Hermit Crab to right of ramp
 Chaotix,Seaside Hill,Second Hermit Crab Pedestal,1,0,,0,,0,,,Just the second hermit crab
@@ -95,4 +95,5 @@ Chaotix,Seaside Hill,Big Ruin Beach End Path Before Checkpoint 4,0,6,2x3,0,,0,,,
 Chaotix,Seaside Hill,Path Before Volcano Start At Checkpoint 4,0,6,1x6,0,,0,,,
 Chaotix,Seaside Hill,Checkpoint 4,0,0,,0,,0,,,
 Chaotix,Seaside Hill,Big Special Ruin Before Volcano After Checkpoint 4,1,0,,3,,0,,WarpFlower,Twentieth Hermit Crab
+Chaotix,Seaside Hill,Path After Big Special Ruin Before Volcano Loop After Checkpoint 4,0,1,,0,,0,,,Out of Bounds
 Chaotix,Seaside Hill,Goal,0,,,,,,,,
