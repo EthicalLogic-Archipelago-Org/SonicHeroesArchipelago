@@ -1,10 +1,10 @@
 Team,Level,Name,ObjChecks,Rings,Rings Cont.,Enemies,Enemies Cont.,Items,Items Cont.,Other Stuff,Notes
 Chaotix,Seaside Hill,Start,0,,,,,,,,
 Chaotix,Seaside Hill,ObjSanity,0,,,,,,,,
-Chaotix,Seaside Hill,Warp Flower Before First Loop at Start of Level,0,0,,0,,0,,,
+Chaotix,Seaside Hill,Warp Flower Before First Loop at Start of Level,0,0,,0,,0,,WarpFlower,
 Chaotix,Seaside Hill,First Loop at Start of Level,0,0,0,0,,3,3x5Rings Box,,
-Chaotix,Seaside Hill,Hermit Crab Cliff Below Eggmans Robots Before Checkpoint 1,1,0,,0,,1,,SingleSpring,
-Chaotix,Seaside Hill,Eggmans Robots Bottom Before Checkpoint 1,0,19,3x5 1x4,1,,0,,"2x HintRing, WarpFlower",Hermit Crab to right of ramp
+Chaotix,Seaside Hill,Hermit Crab Cliff Below Eggmans Robots Before Checkpoint 1,1,0,,0,,1,,SingleSpring,Hermit Crab to right of ramp
+Chaotix,Seaside Hill,Eggmans Robots Bottom Before Checkpoint 1,0,19,3x5 1x4,1,,0,,"2x HintRing, WarpFlower",
 Chaotix,Seaside Hill,Second Hermit Crab Pedestal,1,0,,0,,0,,,Just the second hermit crab
 Chaotix,Seaside Hill,Eggmans Robots Middle Before Checkpoint 1,0,0,,0,,0,,"WarpFlower, TripleSpring",
 Chaotix,Seaside Hill,Eggmans Robots Top Before Checkpoint 1,1,0,0,1,,0,,,Third Hermit Crab
@@ -79,6 +79,7 @@ Chaotix,Seaside Hill,Big Ruins Beach Top Path 1 On Block After Checkpoint 3,0,0,
 Chaotix,Seaside Hill,Big Ruin Beach Top Path 1 After Block After Checkpoint 3,0,9,1x5 1x4,0,,0,,,
 Chaotix,Seaside Hill,Big Ruin Beach Top Path 2 After Checkpoint 3,0,8,1x8,4,,0,,,
 Chaotix,Seaside Hill,Big Ruin Beach Top Path 2 Sliding Ruin After Checkpoint 3,1,0,,0,,0,,,Seventeenth Hermit Crab
+Chaotix,Seaside Hill,Big Ruin Beach Speed Path Ruins After Checkpoint 3,1,0,,1,,1,Extra Life Box,,
 Chaotix,Seaside Hill,Big Ruin Beach Island 2 After Checkpoint 3,1,15,1x10 1x5,4,,0,,,Eighteenth Hermit Crab
 Chaotix,Seaside Hill,Big Ruin Beach Island 2 Bonus Key 2 After Checkpoint 3,0,0,,0,,0,,,
 Chaotix,Seaside Hill,Bonus Key 2,0,0,,0,,0,,,

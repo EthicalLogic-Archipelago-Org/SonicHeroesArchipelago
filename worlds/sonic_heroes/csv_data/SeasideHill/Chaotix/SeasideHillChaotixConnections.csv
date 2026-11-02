@@ -201,6 +201,8 @@ Chaotix,Seaside Hill,Path At Big Ruin Beach After Checkpoint 3 Cannon Speed,Big 
 Chaotix,Seaside Hill,Big Ruin Beach Top Path 2 After Checkpoint 3,Big Ruin Beach End of Big Ruin Beach Cannon Speed,CannonANDSpeedChar,
 Chaotix,Seaside Hill,Big Ruin Beach Top Path 2 After Checkpoint 3,Big Ruin Beach End of Big Ruin Beach Cannon Power,CannonANDPowerChar,
 Chaotix,Seaside Hill,Big Ruin Beach Top Path 2 After Checkpoint 3,Big Ruin Beach End of Big Ruin Beach Cannon Flying,CannonANDFlyingChar,
+Chaotix,Seaside Hill,Big Ruin Beach Island 2 After Checkpoint 3,Big Ruin Beach Speed Path Ruins After Checkpoint 3,JumpANDFlyAnyANDThundershoot0ANDRuinsNoTrigger,
+Chaotix,Seaside Hill,Big Ruin Beach Speed Path Ruins After Checkpoint 3,Big Ruin Beach Island 2 After Checkpoint 3,,
 Chaotix,Seaside Hill,Big Ruin Beach Island 2 After Checkpoint 3,Big Ruin Beach Top Path 2 Sliding Ruin After Checkpoint 3,JumpORThundershoot0,
 Chaotix,Seaside Hill,Big Ruin Beach End of Big Ruin Beach Cannon Speed,Big Ruin Beach End Path Before Checkpoint 4 Item Balloon,SingleSpringANDDashRing,
 Chaotix,Seaside Hill,Big Ruin Beach End of Big Ruin Beach Cannon Flying,Big Ruin Beach End Path Before Checkpoint 4,,
