@@ -33,6 +33,7 @@ Dark,Seaside Hill,Eggmans Robots Top Before Checkpoint 1,Bottom Cliff Route Befo
 Dark,Seaside Hill,Bottom Cliff Route Before Checkpoint 1,Eggmans Robots Top Before Checkpoint 1,,
 Dark,Seaside Hill,Bottom Cliff Route Before Checkpoint 1,Staircase Before Corner Cave Bottom At Checkpoint 1,SingleSpring,
 Dark,Seaside Hill,Staircase Before Corner Cave Bottom At Checkpoint 1,Bottom Cliff Route Before Checkpoint 1,,
+Dark,Seaside Hill,Staircase Before Corner Cave Bottom At Checkpoint 1,Top Cliff Route With Hermit Crab Before Checkpoint 1,FlyFullANDJump,
 Dark,Seaside Hill,Staircase Before Corner Cave Bottom At Checkpoint 1,Checkpoint 1,,
 Dark,Seaside Hill,Checkpoint 1,Staircase Before Corner Cave Bottom At Checkpoint 1,,
 Dark,Seaside Hill,Top Cliff Route With Hermit Crab Before Checkpoint 1,Staircase Before Corner Cave Bottom At Checkpoint 1,FlyAnyORJump,RocketAccel Possible
@@ -69,7 +70,7 @@ Dark,Seaside Hill,First Island Top Pillar Right After Checkpoint 1,Second Island
 Dark,Seaside Hill,First Island Top Pillar Right After Checkpoint 1,Second Island After Checkpoint 1 High Item Balloon,DashRampANDDashRingANDFlyAny,
 Dark,Seaside Hill,First Island After Checkpoint 1,First Ruin Between First and Second Island After Checkpoint 1,FlyAnyAND(JumpORThundershoot0)ANDRuinsNoTrigger,
 Dark,Seaside Hill,First Ruin Between First and Second Island After Checkpoint 1,First Island After Checkpoint 1,,
-Dark,Seaside Hill,First Ruin Between First and Second Island After Checkpoint 1,First Island Top Pillar Left After Checkpoint 1,((CollisAbuseAND((FlyOneCharANDFlyDepleteBoost)ORFlyFull)OR(FlyAnyANDFlyGroundBounce))ANDJump)OR(FlyAnyANDFlyGroundBounceNoJump),need to start on Block
+Dark,Seaside Hill,First Ruin Between First and Second Island After Checkpoint 1,First Island Top Pillar Left After Checkpoint 1,(CollisAbuseANDJumpAND(FlyFullOR(FlyOneCharANDFlyDepleteBoost)))OR(FlyAnyANDTripleSpring)ORFlyGroundBounce,need to start on Block
 Dark,Seaside Hill,First Ruin Between First and Second Island After Checkpoint 1,Second Ruin Between First and Second Island After Checkpoint 1,RuinsTriggerAND(FlyAnyORJumpORTripleSpring),
 Dark,Seaside Hill,Second Ruin Between First and Second Island After Checkpoint 1,First Ruin Between First and Second Island After Checkpoint 1,RuinsNoTriggerAND(FlyAnyORJump),
 Dark,Seaside Hill,First Ruin Between First and Second Island After Checkpoint 1,Third Ruin Between First and Second Island After Checkpoint 1,((TripleSpringAND(FlyAnyORGlideORHoming0))OR(FlyAnyANDJump))ANDRuinsNoTrigger,
@@ -79,7 +80,7 @@ Dark,Seaside Hill,Third Ruin Between First and Second Island After Checkpoint 1,
 Dark,Seaside Hill,Third Ruin Between First and Second Island After Checkpoint 1,Second Island After Checkpoint 1,,
 Dark,Seaside Hill,Third Ruin Between First and Second Island After Checkpoint 1,Third Ruin Between First and Second Island After Checkpoint 1 Egg Flappers,,
 Dark,Seaside Hill,Second Island After Checkpoint 1,Third Ruin Between First and Second Island After Checkpoint 1 Egg Flappers,(Thundershoot2OR(Thundershoot1ANDMedium))AND(FlyAnyORJumpORTripleSpring)ANDRuinsNoTrigger,
-Dark,Seaside Hill,Second Island After Checkpoint 1,Third Ruin Between First and Second Island After Checkpoint 1,RuinsNoTriggerAND(FlyAnyAND(JumpOR(Thundershoot0ANDFlyGroundBounceNoJump))),
+Dark,Seaside Hill,Second Island After Checkpoint 1,Third Ruin Between First and Second Island After Checkpoint 1,RuinsNoTriggerAND((FlyAnyANDJump)ORFlyGroundBounceThundershoot),
 Dark,Seaside Hill,Second Island After Checkpoint 1,Ruin After Second Island After Checkpoint 1,RuinsTriggerAND((FlyAnyAND(JumpORThundershoot0))ORTripleSpring),
 Dark,Seaside Hill,Ruin After Second Island After Checkpoint 1,Second Island After Checkpoint 1,NOTPOSSIBLE,
 Dark,Seaside Hill,Ruin After Second Island After Checkpoint 1,Ruin Stairs After Second Island After Checkpoint 1,RuinsTriggerAND(FlyAnyOR(JumpANDTornado0Hover)),
@@ -123,9 +124,9 @@ Dark,Seaside Hill,Path Before Big Ruin Beach After Checkpoint 2 Cannon Power,Big
 Dark,Seaside Hill,Path Before Big Ruin Beach After Checkpoint 2 Cannon Flying,Big Ruin Beach Island 1 After Checkpoint 2,,
 Dark,Seaside Hill,Path Before Big Ruin Beach After Checkpoint 2 Cannon Flying,Big Ruin Beach Middle Path Top Corner After Checkpoint 2,FlyingCharAND(SpeedCharORPowerChar)ANDDashRing,
 Dark,Seaside Hill,Path Before Big Ruin Beach After Checkpoint 2,Big Ruin Beach Lower Cliffs At Start After Checkpoint 2,,
-Dark,Seaside Hill,Big Ruin Beach Lower Cliffs At Start After Checkpoint 2,Path Before Big Ruin Beach After Checkpoint 2,FlyFullANDFlyGroundBounceANDJumpAND(FlyDepleteBoostORFullFlyingStackwithTallChar),annoying
+Dark,Seaside Hill,Big Ruin Beach Lower Cliffs At Start After Checkpoint 2,Path Before Big Ruin Beach After Checkpoint 2,FlyFullANDFlyGroundBounceAND(FlyDepleteBoostORFullFlyingStackwithTallChar),annoying
 Dark,Seaside Hill,Big Ruin Beach Lower Cliffs At Start After Checkpoint 2,Big Ruin Beach Island 1 After Checkpoint 2,,
-Dark,Seaside Hill,Big Ruin Beach Island 1 After Checkpoint 2,Big Ruin Beach Lower Cliffs At Start After Checkpoint 2,FlyFullANDJumpAND(CollisAbuseORFlyGroundBounce),
+Dark,Seaside Hill,Big Ruin Beach Island 1 After Checkpoint 2,Big Ruin Beach Lower Cliffs At Start After Checkpoint 2,FlyFullAND(FlyGroundBounceOR(JumpANDCollisAbuse)),
 Dark,Seaside Hill,Big Ruin Beach Island 1 After Checkpoint 2,Bonus Key 2,FlyAnyORJump,
 Dark,Seaside Hill,Bonus Key 2,Big Ruin Beach Island 1 After Checkpoint 2,,
 Dark,Seaside Hill,Big Ruin Beach Middle Path Top Corner After Checkpoint 2,Big Ruin Beach Ruin With Dash Ramp After Checkpoint 2,(FlyAnyORJump)ANDRuinsNoTrigger,
@@ -148,7 +149,7 @@ Dark,Seaside Hill,Big Ruin Beach Top Path 1 After Checkpoint 2,Big Ruin Beach To
 Dark,Seaside Hill,Big Ruin Beach Top Path 2 After Checkpoint 2,Big Ruin Beach Top Path 1 After Checkpoint 2,BreakThingsOR(FlyAnyANDThundershoot0)ORJump,
 Dark,Seaside Hill,Big Ruin Beach Island 1 After Checkpoint 2,Ruin Between Big Ruin Beach Islands After Checkpoint 2,RuinsTriggerAND(FlyAnyAND(JumpORThundershoot0)),
 Dark,Seaside Hill,Ruin Between Big Ruin Beach Islands After Checkpoint 2,Big Ruin Beach Island 1 After Checkpoint 2,NOTPOSSIBLE,
-Dark,Seaside Hill,Ruin Between Big Ruin Beach Islands After Checkpoint 2,Big Ruin Beach Island 2 Before Checkpoint 3,FlyAnyORJumpORAccelHalfORPowerAttack,
+Dark,Seaside Hill,Ruin Between Big Ruin Beach Islands After Checkpoint 2,Big Ruin Beach Island 2 Before Checkpoint 3,FlyAnyORJumpORAccelHalfORPowerAttack0,
 Dark,Seaside Hill,Big Ruin Beach Island 1 After Checkpoint 2,Big Ruin Beach Island 2 Before Checkpoint 3,FlyAnyANDJump,is possible with Jump only
 Dark,Seaside Hill,Big Ruin Beach Island 2 Before Checkpoint 3,Big Ruin Beach Island 1 After Checkpoint 2,FlyAnyANDJump,
 Dark,Seaside Hill,Big Ruin Beach Island 2 Before Checkpoint 3,Big Ruin Beach Middle Path After Blocks After Checkpoint 2,((ComboHeightORThundershoot0)ANDParkour)OR((FlyAnyANDThundershoot0)ORJump),
@@ -200,9 +201,9 @@ Dark,Seaside Hill,Second Bobsled Start At Checkpoint 4,Second Bobsled After Chec
 Dark,Seaside Hill,Second Bobsled After Checkpoint 4,Loop After Second Bobsled After Checkpoint 4,,
 Dark,Seaside Hill,Loop After Second Bobsled After Checkpoint 4,Path Before Big Loop After Checkpoint 4,BreakThingsOR(FlyAnyANDThundershoot0)ORJump,
 Dark,Seaside Hill,Path Before Big Loop After Checkpoint 4,Loop After Second Bobsled After Checkpoint 4,BreakThingsOR(FlyAnyANDThundershoot0)ORJump,
-Dark,Seaside Hill,Path Before Big Loop After Checkpoint 4,Big Loop After Checkpoint 4,(BreakThingsAND(SpeedCharORTripleSpring))OR((FlyFullOR(FlyAnyANDFlyDepleteBoost))AND((FlyGroundBounceANDJump)OR(FlyGroundBounceNoJumpANDThundershoot0))),
+Dark,Seaside Hill,Path Before Big Loop After Checkpoint 4,Big Loop After Checkpoint 4,(BreakThingsAND(SpeedCharORTripleSpring))OR(FlyGroundBounceThundershootAND(FlyFullORFlyDepleteBoost)),
 Dark,Seaside Hill,Big Loop After Checkpoint 4,Path Before Big Loop After Checkpoint 4,,
-Dark,Seaside Hill,Big Loop After Checkpoint 4,Whale Blowhole Before Goal,DashRingAND(TripleSpringOR(FlyAnyAND(FlyGroundBounceANDJump)OR(FlyGroundBounceNoJumpANDThundershoot0))),
+Dark,Seaside Hill,Big Loop After Checkpoint 4,Whale Blowhole Before Goal,DashRingAND(TripleSpringORFlyGroundBounceThundershoot),
 Dark,Seaside Hill,Whale Blowhole Before Goal,Big Loop After Checkpoint 4,NOTPOSSIBLE,
 Dark,Seaside Hill,Whale Blowhole Before Goal,Whale Island Top At Goal,,
 Dark,Seaside Hill,Whale Island Top At Goal,Big Loop After Checkpoint 4,,

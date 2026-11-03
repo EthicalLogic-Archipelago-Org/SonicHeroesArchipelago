@@ -41,12 +41,15 @@ def create_regions(world: SonicHeroesWorldBase) -> None:
 
 
 def create_regions_for_team_stage(world: SonicHeroesWorldBase, team: Team, stage: Stage) -> None:
+    region: Region = Region(name=f"{stage.stage_name} {team.value}", player=world.player, multiworld=world.multiworld)
+    append_locations_to_region(world=world, region=region, team=team, stage=stage)
+    world.multiworld.regions.append(region=region)
+
     for region_data in get_parsed_data_module_for_team_stage(team=team, stage=stage).regions:  # pyright: ignore[reportAny]
         # print(f"Creating region: {region_data.region_name}")
-        region: Region = Region(name=region_data.region_name, player=world.player, multiworld=world.multiworld)  # pyright: ignore[reportAny]
+        region = Region(name=region_data.region_name, player=world.player, multiworld=world.multiworld)  # pyright: ignore[reportAny]
         append_locations_to_region(world=world, region=region, team=team, stage=stage)
         world.multiworld.regions.append(region=region)
-
 
 def create_entrance(world: SonicHeroesWorldBase, name: str, source: str, target: str, rule: Rule[SonicHeroesWorldBase]) -> None:
     source_region: Region = world.get_region(region_name=source)
@@ -69,12 +72,14 @@ def create_entrances_for_team(world: SonicHeroesWorldBase, team: Team) -> None:
 
 
 def create_entrances_for_team_stage(world: SonicHeroesWorldBase, team: Team, stage: Stage) -> None:
+    create_entrance(world=world, name=f"{MENU_REGION_NAME} -> {stage.stage_name} {team.value}", source=MENU_REGION_NAME, target=f"{stage.stage_name} {team.value}", rule=True_[SonicHeroesWorldBase]())
+
     for checkpoint in range(stage.checkpoints[team] + 1):
         target_region: str = f"{stage.stage_name} {team.value} Start" if checkpoint == 0 else f"{stage.stage_name} {team.value} Checkpoint {checkpoint}"
-        create_entrance(world=world, name=f"{MENU_REGION_NAME} -> {target_region}", source=MENU_REGION_NAME, target=target_region, rule=Has(item_name=get_spawn_position_item_name(team=team, stage=stage, checkpoint=checkpoint)))
+        create_entrance(world=world, name=f"{stage.stage_name} {team.value} -> {target_region}", source=f"{stage.stage_name} {team.value}", target=target_region, rule=Has(item_name=get_spawn_position_item_name(team=team, stage=stage, checkpoint=checkpoint)))
 
     # TODO check if OBJ Sanity exists (or force it to always)
-    create_entrance(world=world, name=f"{MENU_REGION_NAME} -> {stage.stage_name} {team.value} {OBJ_SANITY}", source=MENU_REGION_NAME, target=f"{stage.stage_name} {team.value} {OBJ_SANITY}", rule=True_[SonicHeroesWorldBase]())
+    create_entrance(world=world, name=f"{stage.stage_name} {team.value} -> {stage.stage_name} {team.value} {OBJ_SANITY}", source=f"{stage.stage_name} {team.value}", target=f"{stage.stage_name} {team.value} {OBJ_SANITY}", rule=True_[SonicHeroesWorldBase]())
 
     for connection in get_parsed_data_module_for_team_stage(team=team, stage=stage).connections:  # pyright: ignore[reportAny]
         create_entrance(world=world, name=connection.name, source=connection.source_region, target=connection.target_region, rule=connection.rule)  # pyright: ignore[reportAny]

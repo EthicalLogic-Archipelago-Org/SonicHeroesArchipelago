@@ -35,17 +35,17 @@ def create_items(world: SonicHeroesWorldBase) -> None:
 
     print(f"Total items to place: {world.unplaced_items}")
 
-    #emblems (not needed)
+    # emblems (not needed)
     create_emblem_items(world=world)
-    #emeralds
+    # emeralds
     create_emerald_items(world=world)
-    #playable chars
+    # playable chars
     create_playable_char_items(world=world)
-    #abilities
+    # abilities
     create_ability_items(world=world)
-    #stage objs
+    # stage objs
     create_stage_obj_items(world=world)
-    #spawn positions
+    # spawn positions
     create_spawn_position_items(world=world)
 
 

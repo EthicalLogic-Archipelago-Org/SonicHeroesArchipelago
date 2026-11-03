@@ -9,7 +9,7 @@ from typing import override
 from BaseClasses import CollectionState
 from NetUtils import JSONMessagePart
 from rule_builder.options import OptionFilter
-from rule_builder.rules import HasAll, HasAny, HasFromListUnique, Rule, WrapperRule, Has, True_, False_, CanReachRegion, AtLeast
+from rule_builder.rules import HasAll, HasAny, HasFromListUnique, Rule, WrapperRule, Has, True_, False_, CanReachRegion
 
 
 from ..constants.apworld import SONIC_HEROES
@@ -28,10 +28,10 @@ from ..helper_functions import get_abilities_for_char, get_abilities_for_team, g
 from ..world_base import SonicHeroesWorldBase
 
 
-# try:
-#     from rule_builder.rules import AtLeast
-# except ImportError:
-#     from .temp_at_least import AtLeast
+try:
+    from rule_builder.rules import AtLeast
+except ImportError:
+    from .temp_at_least import AtLeast
 
 
 

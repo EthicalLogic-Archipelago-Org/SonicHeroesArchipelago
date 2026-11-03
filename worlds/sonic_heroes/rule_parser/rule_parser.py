@@ -14,13 +14,29 @@ from worlds.sonic_heroes.rule_parser.functions_stage_objs import parse_stage_obj
 from worlds.sonic_heroes.parsed_data import *
 
 
+
+
+
+TEAM_STAGES_TO_PARSE: dict[Team, list[Stage]] = \
+{
+    Team.ANY_TEAM: [],
+    Team.SONIC: [],
+    Team.DARK: [Stage.SEASIDE_HILL],
+    Team.ROSE: [],
+    Team.CHAOTIX: [],# [Stage.SEASIDE_HILL],
+    Team.SUPER_HARD_MODE: [],
+}
+
+
+
+
 def parse_stage_obj_csv(team: Team, stage: Stage) -> None:
     # check if secret here
     parse_stage_objs_csv(team=team, stage=stage, secret=False)
 
 
 def parse_team_stage(team: Team, stage: Stage, parsed_team_stages: dict[Team, list[Stage]]) -> None:
-    if team is not Team.DARK or stage is not Stage.SEASIDE_HILL:
+    if stage not in TEAM_STAGES_TO_PARSE[team]:
         return
     if team not in parsed_team_stages.keys():
         parsed_team_stages[team] = []
