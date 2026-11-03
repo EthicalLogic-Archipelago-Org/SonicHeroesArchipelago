@@ -41,6 +41,7 @@ def parse_connection_csv(team: Team, stage: Stage, secret: bool = False) -> None
     with files(csv_data.csv_data_mapping[stage][team]).joinpath(f"{file_name}.csv").open() as csv_file:  # pyright: ignore[reportUnknownMemberType, reportUnknownVariableType]
         reader: csv.DictReader[str] = csv.DictReader(csv_file)  # pyright: ignore[reportUnknownArgumentType]
         connection_str_list: list[str] = []
+        line_number: int = 2
         for x in reader:
             connection_id += 1
             connection_name: str = f"{stage.stage_name} {team} {x[SOURCE_HEADER]} -> {x[TARGET_HEADER]}"
@@ -53,7 +54,7 @@ def parse_connection_csv(team: Team, stage: Stage, secret: bool = False) -> None
                 parsed_rule_str = f"False_[SonicHeroesWorldBase]()"
             else:
                 # print(f"Rule String here: {x[RULE_HEADER]}")
-                parsed_rule_str = handle_full_rule_string(rule_str=x[RULE_HEADER], team=team, stage=stage)
+                parsed_rule_str = handle_full_rule_string(rule_str=x[RULE_HEADER], team=team, stage=stage, line_number=line_number)
 
             params_dict: dict[str, str] = \
             {
@@ -64,6 +65,7 @@ def parse_connection_csv(team: Team, stage: Stage, secret: bool = False) -> None
             }
 
             connection_str_list.append(get_parsed_entry_str(entry_class_name=class_str, params=params_dict))
+            line_number += 1
 
             #connection_str_list.append(f"SonicHeroesConnectionData(name=\"{connection_name}\", source_region=\"{source_reg}\", target_region=\"{target_reg}\", rule={parsed_rule_str})")
 

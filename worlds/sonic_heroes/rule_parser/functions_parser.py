@@ -278,7 +278,7 @@ def handle_rule_str(rule_str: str, team: Team, stage: Stage, print_steps: bool =
     result_str_list.append(rule_str)
 
 
-def handle_full_rule_string(rule_str: str, team: Team, stage: Stage, print_steps: bool = False) -> str:
+def handle_full_rule_string(rule_str: str, team: Team, stage: Stage, line_number: int, print_steps: bool = False) -> str:
     global result_str_list, parens_mapping_list
     result_str_list = []
     parens_mapping_list = []
@@ -308,12 +308,12 @@ def handle_full_rule_string(rule_str: str, team: Team, stage: Stage, print_steps
             try:
                 result_str += f"{PARSER_ALL_MATCHES[rule_piece](team, stage)}"
             except:
-                print(f"Rule Piece failed!!!: {rule_piece}")
-                raise ValueError(f"Rule Piece failed!!!: {rule_piece}")
+                print(f"Rule Piece failed!!!: {rule_piece} :: Line Number: {line_number}")
+                raise ValueError(f"Rule Piece failed!!!: {rule_piece} :: Line Number: {line_number}")
         return result_str
 
     except:
-        raise ValueError(f"Rule String failed!!!: {rule_str}")
+        raise ValueError(f"Rule String failed!!!: {rule_str} :: Line Number: {line_number}")
 
 
 

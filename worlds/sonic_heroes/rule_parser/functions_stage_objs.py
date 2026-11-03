@@ -153,7 +153,7 @@ def get_export_string_egg_pawn(team: Team, stage: Stage, secret: bool = False) -
 
 
 
-def parse_individual_stage_obj_csv_entry(entry: dict[str, str]) -> tuple[StageObj, dict[str, str]]:
+def parse_individual_stage_obj_csv_entry(entry: dict[str, str], line_number: int) -> tuple[StageObj, dict[str, str]]:
     stage_obj: StageObj = StageObj(value=entry[STAGE_OBJ_HEADER])
     _result: str = ""
     team: Team = Team(value=entry[TEAM_HEADER])
@@ -175,7 +175,7 @@ def parse_individual_stage_obj_csv_entry(entry: dict[str, str]) -> tuple[StageOb
         parsed_rule_str = f"False_[SonicHeroesWorldBase]()"
     else:
         print(f"Rule String here: {entry[RULE_HEADER]}")
-        parsed_rule_str = handle_full_rule_string(rule_str=entry[RULE_HEADER], team=team, stage=stage)
+        parsed_rule_str = handle_full_rule_string(rule_str=entry[RULE_HEADER], team=team, stage=stage, line_number=line_number)
 
 
     params_dict: dict[str, str] = \
@@ -281,12 +281,14 @@ def parse_stage_objs_csv(team: Team, stage: Stage, secret: bool = False) -> None
 
     with files(csv_data.csv_data_mapping[stage][team]).joinpath(f"{file_name}.csv").open() as csv_file:  # pyright: ignore[reportUnknownMemberType, reportUnknownVariableType]
         reader: csv.DictReader[str] = csv.DictReader(csv_file)  # pyright: ignore[reportUnknownArgumentType]
+        line_number: int = 2
         for x in reader:
             if x[REGION_HEADER] == "":
                 continue
 
-            stage_obj, params_dict = parse_individual_stage_obj_csv_entry(entry=x)
+            stage_obj, params_dict = parse_individual_stage_obj_csv_entry(entry=x, line_number=line_number)
             stage_obj_params_list[stage_obj].append(params_dict)
+            line_number += 1
 
 
     for stage_obj, params_dict in stage_obj_params_list.items():

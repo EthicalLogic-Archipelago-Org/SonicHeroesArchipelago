@@ -103,6 +103,20 @@ class StageObjRando(Choice):
 
 
 
+class TeamRosterRando(Choice):
+    """
+    Should the rosters of each team be randomized?
+    This will still result in 1 character of each formation for each team.
+    Note: Team Blast will be permanently disabled when The Full Random Teams option is selected as certain combinations of characters will cause a crash on Team Blast.
+    """
+    display_name: str = "Team Roster Rando"
+    visibility: Visibility = Visibility.none
+    option_disabled: int = 0
+    option_only_compatible_teams: int = 1
+    option_full_random_teams: int = 2
+
+
+
 class ProgressiveAbilityItems(SonicHeroesDefaultOnToggle):
     """
     Replace some (but not all) ability items with a progressive ability item
@@ -351,6 +365,8 @@ sonic_heroes_option_groups: list[OptionGroup] = \
                 options = \
                 [
                     JumpRando,
+                    StageObjRando,
+                    TeamRosterRando,
                     ProgressiveAbilityItems,
                     BothSanityLocationSets,
                 ]),
@@ -398,6 +414,8 @@ sonic_heroes_option_groups: list[OptionGroup] = \
 class SonicHeroesOptions(PerGameCommonOptions):
     make_puml: MakePuml
     jump_rando: JumpRando
+    stage_obj_rando: StageObjRando
+    team_roster_rando: TeamRosterRando
     progressive_ability_items: ProgressiveAbilityItems
 
 
@@ -427,6 +445,8 @@ class SonicHeroesOptions(PerGameCommonOptions):
 OPTION_ATTR_NAMES: list[str] = \
 [
     "jump_rando",
+    "stage_obj_rando",
+    "team_roster_rando",
     "progressive_ability_items",
 
 

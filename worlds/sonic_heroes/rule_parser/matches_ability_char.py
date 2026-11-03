@@ -91,6 +91,7 @@ PARSER_ABILITY_MAPPING: dict[str, Callable[[Team, Stage], str]] = \
     # Power Attack
     "PowerAttack0": lambda team, stage: get_func_str(func_name="can_power_attack_rule", params={"team": team, "stage": stage, "level": 0}),
     # Belly Flop
+    # "BellyFlop": lambda team, stage: get_func_str(func_name="can_belly_flop_rule", params={"team": team, "stage": stage, "level": 0}),
     "BellyFlop0": lambda team, stage: get_func_str(func_name="can_belly_flop_rule", params={"team": team, "stage": stage, "level": 0}),
 
     # Fire Dunk
