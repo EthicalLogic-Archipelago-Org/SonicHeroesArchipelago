@@ -47,7 +47,7 @@ class StageObj(enum.StrEnum):
     GONG = "Gong"
     FAN = "Fan"
     CASE = "Case"
-    WARP_FLOWER = "Warpflower"
+    WARP_FLOWER = "WarpFlower"
     INVISIBLE_COLLISION_OBJECT = "Invisible Collision Object"
     TRIGGER_TALKING = "Trigger Talking"
     TRIGGER_LIGHT = "Trigger Light"

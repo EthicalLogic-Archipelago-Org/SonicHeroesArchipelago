@@ -42,6 +42,8 @@ PARSER_STAGE_OBJ_MAPPING: dict[str, Callable[[Team, Stage], str]] = \
     "RuinsNoTrigger": lambda team, stage: get_func_str(func_name="has_moving_ruins_rule", params={"team": team, "stage": stage, "needs_trigger": False}),
 
     "RuinsTrigger": lambda team, stage: get_func_str(func_name="has_moving_ruins_rule", params={"team": team, "stage": stage, "needs_trigger": True}),
+
+    "HermitCrab": lambda team, stage: get_func_str(func_name="has_stage_obj_rule", params={"team": team, "stage": stage, "stage_obj": StageObj.HERMIT_CRAB}),
 }
 
 
