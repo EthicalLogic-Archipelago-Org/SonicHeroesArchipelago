@@ -18,9 +18,11 @@ Chaotix,Seaside Hill,Eggmans Robots Top Before Checkpoint 1,Eggmans Robots Top A
 Chaotix,Seaside Hill,Eggmans Robots Top After Block Before Checkpoint 1,Eggmans Robots Top Before Checkpoint 1,BreakThingsORFlyAnyOR(JumpAND((FlyingCharORSpeedChar)ORBellyFlop0))OR(MediumANDThundershoot0),
 Chaotix,Seaside Hill,Eggmans Robots Top After Block Before Checkpoint 1,Top Cliff Route With Hermit Crab Before Checkpoint 1,DashRampAND(FlyAnyORTripleSpring)AND(BreakWoodContainerORJump),
 Chaotix,Seaside Hill,Top Cliff Route With Hermit Crab Before Checkpoint 1,Staircase Before Corner Cave Bottom At Checkpoint 1 Item Balloon,(Thundershoot0)OR(FlyAny)OR(Jump),
-Chaotix,Seaside Hill,Staircase Before Corner Cave Bottom At Checkpoint 1 Item Balloon,Staircase Before Corner Cave Bottom Item Box At Checkpoint 1,,
-Chaotix,Seaside Hill,Staircase Before Corner Cave Bottom Item Box At Checkpoint 1,Checkpoint 1,,
+Chaotix,Seaside Hill,Staircase Before Corner Cave Bottom At Checkpoint 1 Item Balloon,Staircase Before Corner Cave Bottom At Checkpoint 1,,
+Chaotix,Seaside Hill,Staircase Before Corner Cave Bottom At Checkpoint 1,Checkpoint 1,,
 Chaotix,Seaside Hill,Checkpoint 1,Staircase Before Corner Cave Bottom Item Box At Checkpoint 1,,
+Chaotix,Seaside Hill,Staircase Before Corner Cave Bottom At Checkpoint 1,Item Box On Ruin After Checkpoint 1,JumpORPowerAttack0ORThundershoot0,Replace PowerAttack later
+Chaotix,Seaside Hill,Item Box On Ruin After Checkpoint 1,Staircase Before Corner Cave Bottom At Checkpoint 1,,
 Chaotix,Seaside Hill,Staircase Before Corner Cave Bottom At Checkpoint 1,Staircase Before Corner Cave Middle After Checkpoint 1,(Jump)OR(Thundershoot0ANDRuinsNoTrigger),
 Chaotix,Seaside Hill,Staircase Before Corner Cave Middle After Checkpoint 1,Bonus Key 1,,
 Chaotix,Seaside Hill,Bonus Key 1,Staircase Before Corner Cave Middle After Checkpoint 1,,
