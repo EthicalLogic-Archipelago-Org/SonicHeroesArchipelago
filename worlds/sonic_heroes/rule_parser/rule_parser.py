@@ -11,9 +11,9 @@ from worlds.sonic_heroes.rule_parser.functions_mappings import export_all_mappin
 from worlds.sonic_heroes.rule_parser.functions_regions import parse_region_csv
 from worlds.sonic_heroes.rule_parser.functions_stage_objs import parse_stage_objs_csv
 
+from worlds.sonic_heroes.rule_parser.functions_parser import handle_full_rule_string
+
 from worlds.sonic_heroes.parsed_data import *
-
-
 
 
 
@@ -66,7 +66,14 @@ def parse() -> None:
     pass
 
 
+def parse_specific_rule() -> None:
+    test_str: str = handle_full_rule_string(rule_str="RuinsNoTriggerAND((TripleSpring)OR(JumpANDFlyAny)OR(JumpANDBellyFlop0)", team=Team.CHAOTIX, stage=Stage.SEASIDE_HILL, line_number=0, print_steps=True)
+    pass
+
+
+
 parse()
+# parse_specific_rule()
 
 
 # for stage_obj in StageObj:
