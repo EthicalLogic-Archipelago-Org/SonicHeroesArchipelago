@@ -149,7 +149,8 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
             "GoalLevelCompletionsPerStory": 0,
 
             "GateEmblemCosts": [0],
-            "ShuffledLevels": [f"D{x}" for x in range(2, 16)],
+            # "ShuffledLevels": [f"D{2}" for x in range(2, 16)],
+            "ShuffledLevels": ["D2", "C2"],
             "ShuffledBosses": ["B23"],
             "GateLevelCounts": [14],
 
@@ -166,10 +167,9 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
                     for team in Team if team is not Team.ANY_TEAM
                 },
             },
-
-            "DarkSanity": 1,
-            "RoseSanity": 0,
-            "ChaotixSanity": 0,
+            "DarkSanity": int(self.enabled_sanity_acts[Team.DARK][LocationType.OBJ_SANITY]),
+            "RoseSanity": int(self.enabled_sanity_acts[Team.ROSE][LocationType.OBJ_SANITY]),
+            "ChaotixSanity": int(self.enabled_sanity_acts[Team.CHAOTIX][LocationType.OBJ_SANITY]),
         }
 
     # @override
