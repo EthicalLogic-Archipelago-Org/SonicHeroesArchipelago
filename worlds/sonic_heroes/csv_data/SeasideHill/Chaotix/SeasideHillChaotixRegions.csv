@@ -1,11 +1,101 @@
-Team,Level,Name,ObjChecks
-Chaotix,Seaside Hill,Start,0
-Chaotix,Seaside Hill,ObjSanity,0
-Chaotix,Seaside Hill,Bonus Key 1,0
-Chaotix,Seaside Hill,Bonus Key 2,0
-Chaotix,Seaside Hill,Bonus Key 3,0
-Chaotix,Seaside Hill,Checkpoint 1,0
-Chaotix,Seaside Hill,Checkpoint 2,0
-Chaotix,Seaside Hill,Checkpoint 3,0
-Chaotix,Seaside Hill,Checkpoint 4,0
-Chaotix,Seaside Hill,Goal,0
+Team,Level,Name,ObjChecks,Rings,Rings Cont.,Enemies,Enemies Cont.,Items,Items Cont.,Other Stuff,Notes
+Chaotix,Seaside Hill,Start,0,,,,,,,,
+Chaotix,Seaside Hill,ObjSanity,0,,,,,,,,
+Chaotix,Seaside Hill,Warp Flower Before First Loop at Start of Level,0,0,,0,,0,,WarpFlower,
+Chaotix,Seaside Hill,First Loop at Start of Level,0,0,0,0,,3,3x5Rings Box,,
+Chaotix,Seaside Hill,Hermit Crab Cliff Below Eggmans Robots Before Checkpoint 1,1,0,,0,,1,,SingleSpring,Hermit Crab to right of ramp
+Chaotix,Seaside Hill,Eggmans Robots Bottom Before Checkpoint 1,0,19,3x5 1x4,1,,0,,"2x HintRing, WarpFlower",
+Chaotix,Seaside Hill,Second Hermit Crab Pedestal,1,0,,0,,0,,,Just the second hermit crab
+Chaotix,Seaside Hill,Eggmans Robots Middle Before Checkpoint 1,0,0,,0,,0,,"WarpFlower, TripleSpring",
+Chaotix,Seaside Hill,Eggmans Robots Top Before Checkpoint 1,1,0,0,1,,0,,,Third Hermit Crab
+Chaotix,Seaside Hill,Eggmans Robots Top After Block Before Checkpoint 1,0,5,1x2x2,0,,0,,,
+Chaotix,Seaside Hill,Small Cliff Above Eggmans Robots Before Checkpoint 1,0,0,,0,,1,,,
+Chaotix,Seaside Hill,Top Cliff Route With Hermit Crab Before Checkpoint 1,1,0,,0,,0,,TripleSpring,Fourth Hermit Crab
+Chaotix,Seaside Hill,Staircase Before Corner Cave Bottom At Checkpoint 1 Item Balloon,0,0,,0,,1,,Shield,
+Chaotix,Seaside Hill,Staircase Before Corner Cave Bottom At Checkpoint 1,0,0,,0,,0,,HintRing,
+Chaotix,Seaside Hill,Staircase Before Corner Cave Bottom At Checkpoint 1,0,0,,0,,0,,,
+Chaotix,Seaside Hill,Checkpoint 1,0,0,,0,,0,,,
+Chaotix,Seaside Hill,Item Box On Ruin After Checkpoint 1,0,0,,0,,1,,,5 Rings
+Chaotix,Seaside Hill,Staircase Before Corner Cave Middle After Checkpoint 1,0,0,,0,,0,,TripleSpring,
+Chaotix,Seaside Hill,Bonus Key 1,0,0,,0,,0,,,
+Chaotix,Seaside Hill,Staircase Before Corner Cave Top After Checkpoint 1,0,0,,4,,0,,,
+Chaotix,Seaside Hill,Hermit Crab on Ruin Before Corner Cave After Checkpoint 1,1,0,,0,,0,,,Fifth Hermit Crab
+Chaotix,Seaside Hill,Corner Cave After Checkpoint 1,0,34,1x6 1x7 1x10 1x1 1x4 2x6,0,,1,5 rings,,
+Chaotix,Seaside Hill,First Island After Checkpoint 1,0,0,,3,,0,,HintRing,
+Chaotix,Seaside Hill,First Ruin on First Island After Checkpoint 1,1,0,,0,,0,,,Sixth Hermit Crab
+Chaotix,Seaside Hill,Second Ruin on First Island After Checkpoint 1,0,0,,0,,1,10 rings,,
+Chaotix,Seaside Hill,Third Ruin on First Island After Checkpoint 1,1,0,,0,,0,,,Seventh Hermit Crab
+Chaotix,Seaside Hill,First Island After Checkpoint 1 Cannon Speed,0,0,,0,,0,,,
+Chaotix,Seaside Hill,First Island After Checkpoint 1 Cannon Power,0,0,,0,,0,,,
+Chaotix,Seaside Hill,First Island Top Pillar Right After Checkpoint 1,0,9,1x9,0,,0,,,
+Chaotix,Seaside Hill,First Island Top Pillar Left After Checkpoint 1,1,0,,0,,0,,,Eighth Hermit Crab
+Chaotix,Seaside Hill,First Island After Checkpoint 1 Cannon Flying,0,0,,0,,0,,,
+Chaotix,Seaside Hill,First Ruin Between First and Second Island After Checkpoint 1,0,0,,0,,0,,,Moving Ruins
+Chaotix,Seaside Hill,Second Ruin Between First and Second Island After Checkpoint 1,1,0,,0,,0,,,Ninth Hermit Crab
+Chaotix,Seaside Hill,Third Ruin Between First and Second Island After Checkpoint 1,0,0,,0,,0,,TripleSpring,Moving Ruins
+Chaotix,Seaside Hill,Third Ruin Item Balloon Between First and Second Island After Checkpoint 1,0,0,,0,,1,10 rings,,
+Chaotix,Seaside Hill,Second Island After Checkpoint 1,1,0,,2,,0,,"TripleSpring, HintRing",Tenth Hermit Crab
+Chaotix,Seaside Hill,Second Island After Checkpoint 1 Left High Item Balloon,0,0,,0,,1,,Fly Lvl Balloon,
+Chaotix,Seaside Hill,Second Island After Checkpoint 1 Center High Item Balloon,0,0,,0,,1,,Power Lvl Balloon,
+Chaotix,Seaside Hill,Second Island After Checkpoint 1 Right High Item Balloon,0,0,,0,,1,,Speed Lvl Balloon,
+Chaotix,Seaside Hill,First Ruins After Second Island After Checkpoint 1,0,0,,0,,0,,HintRing,Moving Ruins
+Chaotix,Seaside Hill,Middle Ruins After Second Island After Checkpoint 1,0,0,,3,,1,5 rings,,
+Chaotix,Seaside Hill,Last Ruins After Second Island After Checkpoint 1,0,0,,0,,0,,,
+Chaotix,Seaside Hill,Before First Bobsled After Checkpoint 1,1,0,,0,,0,,,Eleventh Hermit Crab
+Chaotix,Seaside Hill,Above First Bobsled After Checkpoint 2,0,4,1x4,2,,0,,,
+Chaotix,Seaside Hill,Hermit Crab in Box Above First Bobsled After Checkpoint 2,1,0,,0,,0,,,Twelfth Hermit Crab
+Chaotix,Seaside Hill,First Bobsled After Checkpoint 2,0,6,1x6,0,,0,,,
+Chaotix,Seaside Hill,Checkpoint 2,0,0,,0,,0,,,
+Chaotix,Seaside Hill,First Bobsled After Block After Checkpoint 2,0,14,1x5 1x9,3,,0,,,
+Chaotix,Seaside Hill,First Bobsled First Island After Checkpoint 2,0,0,,2,,0,,,
+Chaotix,Seaside Hill,First Bobsled Side Island After Checkpoint 2,1,0,,0,,0,,TripleSpring,Thirteenth Hermit Crab
+Chaotix,Seaside Hill,First Bobsled First Island Cannon Platform After Checkpoint 2,0,0,,0,,0,,,
+Chaotix,Seaside Hill,First Bobsled First Island Cannon Power After Checkpoint 2,0,0,,0,,0,,,
+Chaotix,Seaside Hill,First Bobsled First Island Cannon Flight After Checkpoint 2,0,0,,0,,0,,,
+Chaotix,Seaside Hill,First Bobsled First Island Cannon Speed After Checkpoint 2,0,0,,0,,0,,,
+Chaotix,Seaside Hill,First Bobsled Path After Cannon After Checkpoint 2,0,22,1x4 2x5 1x4 1x4,0,,0,,TripleSpring,
+Chaotix,Seaside Hill,Item Balloon After Cannon on First Bobsled After Checkpoint 2,0,0,,0,,1,1 speed shoes,,
+Chaotix,Seaside Hill,First Bobsled Path First Ruin After Checkpoint 2,0,0,,1,,0,,,
+Chaotix,Seaside Hill,First Bobsled Path Ruin Path After Checkpoint 2,0,5,1x5,2,,0,,,
+Chaotix,Seaside Hill,First Bobsled Last Ruin After Checkpoint 2,0,0,,1,,0,,,
+Chaotix,Seaside Hill,First Cliff Before Big Ruin Beach At Checkpoint 3,0,0,,0,,0,,"TripleSpring, WarpFlower",
+Chaotix,Seaside Hill,Checkpoint 3,0,0,,0,,0,,,
+Chaotix,Seaside Hill,Second Cliff Before Big Ruin Beach After Checkpoint 3,0,8,2x4,2,,0,,,Moving Ruins
+Chaotix,Seaside Hill,Lower Cliff Before Big Ruin Beach After Checkpoint 3,1,0,,0,,0,,WarpFlower,Fourteenth Hermit Crab
+Chaotix,Seaside Hill,Path Before Big Ruin Beach After Checkpoint 3,0,6,1x6,4,,0,,,
+Chaotix,Seaside Hill,Big Ruin Beach Lower Cliffs At Start After Checkpoint 3,0,0,,0,,0,,HintRing,
+Chaotix,Seaside Hill,Item Balloon A After Large Ruin At Big Ruin Beach After Checkpoint 3,0,0,,0,,1,5 rings,,
+Chaotix,Seaside Hill,Item Balloon B After Large Ruin At Big Ruin Beach After Checkpoint 3,0,0,,0,,1,5 rings,,
+Chaotix,Seaside Hill,Item Balloon C After Large Ruin At Big Ruin Beach After Checkpoint 3,0,0,,0,,1,5 rings,,
+Chaotix,Seaside Hill,Big Ruin Beach Island 1 After Checkpoint 3,0,0,,3,,0,,,
+Chaotix,Seaside Hill,Big Ruins Beach Island 1 First Sliding Block After Checkpoint 3,1,0,,0,,0,,,Fifteenth Hermit Crab
+Chaotix,Seaside Hill,Big Ruins Beach Island 1 Second Sliding Block After Checkpoint 3,1,0,,0,,0,,,Sixteenth Hermit Crab
+Chaotix,Seaside Hill,Big Ruins Beach Cannon Platform After Checkpoint 3,0,0,,0,,0,,,
+Chaotix,Seaside Hill,Path At Big Ruin Beach After Checkpoint 3 Cannon Speed,0,0,,0,,0,,,
+Chaotix,Seaside Hill,Path At Big Ruin Beach After Checkpoint 3 Cannon Power,0,0,,0,,0,,,launch to bonus key 2
+Chaotix,Seaside Hill,Path At Big Ruin Beach After Checkpoint 3 Cannon Flying,0,0,,0,,0,,,
+Chaotix,Seaside Hill,Big Ruin Beach Top Path 1 After Checkpoint 3,0,4,1x4,0,,0,,,
+Chaotix,Seaside Hill,Big Ruin Beach Top Path Ruins With Item Box,0,0,,0,,1,1 invinc box,,
+Chaotix,Seaside Hill,Big Ruins Beach Top Path 1 On Block After Checkpoint 3,0,0,,0,,0,,,
+Chaotix,Seaside Hill,Big Ruin Beach Top Path 1 After Block After Checkpoint 3,0,9,1x5 1x4,0,,0,,,
+Chaotix,Seaside Hill,Big Ruin Beach Top Path 2 After Checkpoint 3,0,8,1x8,4,,0,,,
+Chaotix,Seaside Hill,Big Ruin Beach Top Path 2 Sliding Ruin After Checkpoint 3,1,0,,0,,0,,,Seventeenth Hermit Crab
+Chaotix,Seaside Hill,Big Ruin Beach Speed Path Ruins After Checkpoint 3,0,0,,1,,1,Extra Life Box,,
+Chaotix,Seaside Hill,Big Ruin Beach Island 2 After Checkpoint 3,1,15,1x10 1x5,4,,0,,,Eighteenth Hermit Crab
+Chaotix,Seaside Hill,Big Ruin Beach Island 2 Bonus Key 2 After Checkpoint 3,0,0,,0,,0,,,
+Chaotix,Seaside Hill,Bonus Key 2,0,0,,0,,0,,,
+Chaotix,Seaside Hill,Big Ruin Beach Island 2 Bonus Key 3 After Checkpoint 3,0,0,,0,,0,,,
+Chaotix,Seaside Hill,Bonus Key 3,0,0,,0,,0,0,,
+Chaotix,Seaside Hill,Big Ruin Beach Island 2 Item Balloon After Checkpoint 3,0,0,,0,,1,20 rings,,
+Chaotix,Seaside Hill,Big Ruin Beach Island 2 Egg Pawn After Checkpoint 3,0,0,,1,,0,,,
+Chaotix,Seaside Hill,Big Ruin Beach Island 2 Top of Ruins After Checkpoint 3,1,0,,0,,0,,,Nineteenth Hermit Crab
+Chaotix,Seaside Hill,Big Ruin Beach End of Big Ruin Beach Cannon Speed,0,6,2x3,0,,0,,,
+Chaotix,Seaside Hill,Big Ruin Beach End of Big Ruin Beach Cannon Power,0,0,,0,,0,,,
+Chaotix,Seaside Hill,Big Ruin Beach End of Big Ruin Beach Cannon Flying,0,0,,0,,0,,,
+Chaotix,Seaside Hill,Big Ruin Beach End Path Before Checkpoint 4 Item Balloon,0,0,,0,,1,10 rings,,
+Chaotix,Seaside Hill,Big Ruin Beach End Path Before Checkpoint 4,0,6,2x3,0,,0,,,
+Chaotix,Seaside Hill,Path Before Volcano Start At Checkpoint 4,0,6,1x6,0,,0,,,
+Chaotix,Seaside Hill,Checkpoint 4,0,0,,0,,0,,,
+Chaotix,Seaside Hill,Big Special Ruin Before Volcano After Checkpoint 4,1,0,,3,,0,,WarpFlower,Twentieth Hermit Crab
+Chaotix,Seaside Hill,Path After Big Special Ruin Before Volcano Loop After Checkpoint 4,0,1,,0,,0,,,Out of Bounds
+Chaotix,Seaside Hill,Goal,0,,,,,,,,

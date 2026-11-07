@@ -54,7 +54,7 @@ def parse_connection_csv(team: Team, stage: Stage, secret: bool = False) -> None
                 parsed_rule_str = f"False_[SonicHeroesWorldBase]()"
             else:
                 # print(f"Rule String here: {x[RULE_HEADER]}")
-                parsed_rule_str = handle_full_rule_string(rule_str=x[RULE_HEADER], team=team, stage=stage, line_number=line_number)
+                parsed_rule_str = handle_full_rule_string(rule_str=x[RULE_HEADER], team=team, stage=stage, line_number=line_number, print_steps=True)
 
             params_dict: dict[str, str] = \
             {
