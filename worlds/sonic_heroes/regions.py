@@ -4,6 +4,7 @@ Regions
 
 
 from BaseClasses import Region, Location
+
 from rule_builder.rules import Has, Rule, True_
 
 from .constants.apworld import VICTORY_ITEM, VICTORY_LOCATION
@@ -13,9 +14,10 @@ from .constants.loc_region import MENU_REGION_NAME, METAL_OVERLORD_REGION_NAME
 from .constants.stage import Stage, Act
 
 from .helper_functions import get_spawn_position_item_name, is_this_team_enabled
-from .rule_builder.functions_stages import can_goal_rule
+from .location_generation import TEAM_STAGES_TO_GENERATE_SANITIES
 from .locations import append_locations_to_region
 
+from .rule_builder.functions_stages import can_goal_rule
 from .rule_parser.functions_parser import get_parsed_data_module_for_team_stage
 
 from .world_base import SonicHeroesWorldBase
@@ -30,7 +32,9 @@ def create_regions(world: SonicHeroesWorldBase) -> None:
     menu_region: Region = Region(name=MENU_REGION_NAME, player=world.player, multiworld=world.multiworld)
     world.multiworld.regions.append(region=menu_region)
 
-    create_regions_for_team_stage(world=world, team=team, stage=stage)
+    for team in Team:
+        for stage in TEAM_STAGES_TO_GENERATE_SANITIES[team]:
+            create_regions_for_team_stage(world=world, team=team, stage=stage)
 
     metal_overlord_region: Region = Region(name=METAL_OVERLORD_REGION_NAME, player=world.player, multiworld=world.multiworld)
     victory_location: Location = Location(name=VICTORY_LOCATION, address=None, parent=metal_overlord_region, player=world.player)

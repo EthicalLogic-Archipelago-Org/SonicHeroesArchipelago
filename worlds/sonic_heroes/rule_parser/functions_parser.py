@@ -202,6 +202,12 @@ def do_start_and_end_parens_match(rule_str: str) -> bool:
             return index == len(rule_str) - 1
     return False
 
+def is_there_mismatched_parens(rule_str: str) -> bool:
+    if not ("(" in rule_str and ")" in rule_str):
+        if "(" in rule_str or ")" in rule_str:
+            return True
+    return False
+
 
 def handle_rule_str(rule_str: str, team: Team, stage: Stage, print_steps: bool = False) -> None:
     # I really hate this but it's needed
@@ -274,6 +280,9 @@ def handle_rule_str(rule_str: str, team: Team, stage: Stage, print_steps: bool =
         for index, split in enumerate(temp_var):
             handle_rule_str(rule_str=split, team=team, stage=stage, print_steps=print_steps)
         return
+
+    if is_there_mismatched_parens(rule_str):
+        raise ValueError(f"Mismatched parens: {rule_str}")
 
     result_str_list.append(rule_str)
 

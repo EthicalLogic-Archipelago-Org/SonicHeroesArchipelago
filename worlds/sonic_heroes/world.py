@@ -142,7 +142,7 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
 
     @override
     def fill_slot_data(self) -> dict[str, Any]:  # pyright: ignore[reportExplicitAny]
-        # self.make_puml()
+        self.make_puml()
         return \
         {
             "options": self.options.as_dict(*OPTION_ATTR_NAMES),
@@ -221,17 +221,9 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
         if not self.options.enabled_acts_dark.is_act_a_enabled() and not self.options.enabled_acts_dark.is_act_b_enabled():
             self.options.enabled_acts_dark.value = EnabledActsDark.option_act_a
 
-        # if self.options.ring_sanity_dark == RingSanityDark.option_disabled:
-        #     self.options.ring_sanity_dark.value = RingSanityDark.option_groups
-        #
-        # if self.options.hint_ring_sanity_dark == HintRingSanityDark.option_disabled:
-        #     self.options.hint_ring_sanity_dark.value = HintRingSanityDark.option_groups
-        #
-        # if self.options.item_box_balloon_sanity_dark == ItemBoxBalloonSanityDark.option_disabled:
-        #     self.options.item_box_balloon_sanity_dark.value = ItemBoxBalloonSanityDark.option_groups
-        #
-        # if self.options.enemy_sanity_dark == EnemySanityDark.option_disabled:
-        #     self.options.enemy_sanity_dark.value = EnemySanityDark.option_groups
+        if not self.options.enabled_acts_chaotix.is_act_a_enabled() and not self.options.enabled_acts_chaotix.is_act_b_enabled():
+            self.options.enabled_acts_chaotix.value = EnabledActsChaotix.option_act_a
+
 
 
     def handle_individual_sanity_option_for_team_at_gen_early(self, team: Team, loc_type: LocationType) -> None:
@@ -255,7 +247,12 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
 
         if self.options.both_sanity_location_sets:
             self.options.enabled_acts_dark.value = EnabledActsDark.option_both_acts
-
+            self.options.enabled_acts_chaotix.value = EnabledActsChaotix.option_both_acts
+            
+            
+    
+    
+    def handle_dark_options_at_gen_early(self) -> None:
         if self.options.enabled_acts_dark.is_act_a_enabled():
             self.enabled_team_acts_flag |= EnabledTeamActs.DARK_ACT_A
         if self.options.enabled_acts_dark.is_act_b_enabled():
@@ -326,9 +323,80 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
             self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.RHINO_LINER_SANITY_FULL)
             self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.EGG_BISHOP_SANITY_FULL)
             self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.E2000_SANITY_FULL)
+        
 
 
 
+    def handle_chaotix_options_at_gen_early(self) -> None:
+        if self.options.enabled_acts_chaotix.is_act_a_enabled():
+            self.enabled_team_acts_flag |= EnabledTeamActs.CHAOTIX_ACT_A
+        if self.options.enabled_acts_chaotix.is_act_b_enabled():
+            self.enabled_team_acts_flag |= EnabledTeamActs.CHAOTIX_ACT_B
 
+
+        # force checkpoint and key sanities
+        self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.CHAOTIX, loc_type=LocationType.CHECKPOINT_SANITY)
+        self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.CHAOTIX, loc_type=LocationType.KEY_SANITY)
+
+
+        # enabled sanities
+        # Obj Sanity
+        if self.options.obj_sanity_chaotix:
+            if not self.options.enabled_acts_chaotix.is_act_a_enabled() and not self.options.enabled_acts_chaotix.is_act_b_enabled():
+                raise OptionError(f"Obj Sanity for Team Chaotix requires An Act to be enabled")
+            self.enabled_sanity_acts[Team.CHAOTIX][LocationType.OBJ_SANITY] = Act.BOTH_ACTS
+
+        # Ring Sanity Group
+        if self.options.ring_sanity_chaotix.is_group_enabled():
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.CHAOTIX, loc_type=LocationType.RING_SANITY_GROUP)
+
+        # Ring Sanity Full
+        if self.options.ring_sanity_chaotix.is_full_enabled():
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.CHAOTIX, loc_type=LocationType.RING_SANITY_FULL)
+
+
+        # Hint Ring Sanity Group
+        if self.options.hint_ring_sanity_chaotix.is_group_enabled():
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.CHAOTIX, loc_type=LocationType.HINT_RING_SANITY_GROUP)
+
+        # Hint Ring Sanity Full
+        if self.options.hint_ring_sanity_chaotix.is_full_enabled():
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.CHAOTIX, loc_type=LocationType.HINT_RING_SANITY_FULL)
+
+        # Item Box Sanity Group
+        if self.options.item_box_balloon_sanity_chaotix.is_group_enabled():
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.CHAOTIX, loc_type=LocationType.ITEM_BOX_SANITY_GROUP)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.CHAOTIX, loc_type=LocationType.ITEM_BALLOON_SANITY_GROUP)
+
+        # Item Box Sanity Full
+        if self.options.item_box_balloon_sanity_chaotix.is_full_enabled():
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.CHAOTIX, loc_type=LocationType.ITEM_BOX_SANITY_FULL)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.CHAOTIX, loc_type=LocationType.ITEM_BALLOON_SANITY_FULL)
+
+
+        # Enemy Sanity Group
+        if self.options.enemy_sanity_chaotix.is_group_enabled():
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.CHAOTIX, loc_type=LocationType.EGG_FLAPPER_SANITY_GROUP)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.CHAOTIX, loc_type=LocationType.EGG_PAWN_SANITY_GROUP)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.CHAOTIX, loc_type=LocationType.KLAGEN_SANITY_GROUP)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.CHAOTIX, loc_type=LocationType.FALCO_SANITY_GROUP)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.CHAOTIX, loc_type=LocationType.EGG_HAMMER_SANITY_GROUP)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.CHAOTIX, loc_type=LocationType.CAMERON_SANITY_GROUP)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.CHAOTIX, loc_type=LocationType.RHINO_LINER_SANITY_GROUP)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.CHAOTIX, loc_type=LocationType.EGG_BISHOP_SANITY_GROUP)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.CHAOTIX, loc_type=LocationType.E2000_SANITY_GROUP)
+
+
+        # Enemy Sanity Full
+        if self.options.enemy_sanity_chaotix.is_full_enabled():
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.CHAOTIX, loc_type=LocationType.EGG_FLAPPER_SANITY_FULL)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.CHAOTIX, loc_type=LocationType.EGG_PAWN_SANITY_FULL)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.CHAOTIX, loc_type=LocationType.KLAGEN_SANITY_FULL)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.CHAOTIX, loc_type=LocationType.FALCO_SANITY_FULL)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.CHAOTIX, loc_type=LocationType.EGG_HAMMER_SANITY_FULL)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.CHAOTIX, loc_type=LocationType.CAMERON_SANITY_FULL)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.CHAOTIX, loc_type=LocationType.RHINO_LINER_SANITY_FULL)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.CHAOTIX, loc_type=LocationType.EGG_BISHOP_SANITY_FULL)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.CHAOTIX, loc_type=LocationType.E2000_SANITY_FULL)
 
 

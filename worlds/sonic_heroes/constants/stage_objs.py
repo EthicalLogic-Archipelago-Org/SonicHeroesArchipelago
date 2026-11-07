@@ -451,7 +451,7 @@ SEASIDE_HILL_DARK_STAGE_OBJS: list[StageObj] = \
     # StageObj.POLE,
     # StageObj.GONG,
     # StageObj.FAN,
-    # StageObj.WARP_FLOWER,
+    StageObj.WARP_FLOWER,
     StageObj.BONUS_KEY,
     StageObj.MOVING_RUIN_PLATFORM,
     StageObj.TRIGGER_RUINS,

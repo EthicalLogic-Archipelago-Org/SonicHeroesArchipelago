@@ -122,6 +122,7 @@ def create_ability_items_for_character_and_team(world: SonicHeroesWorldBase, tea
 def create_stage_obj_items(world: SonicHeroesWorldBase) -> None:
     for stage_obj in SEASIDE_HILL_DARK_STAGE_OBJS:
         create_item_and_append(world=world, name=get_stage_obj_item_name(team=Team.DARK, stage_obj=stage_obj), classification=ItemClassification.progression)
+        create_item_and_append(world=world, name=get_stage_obj_item_name(team=Team.CHAOTIX, stage_obj=stage_obj),classification=ItemClassification.progression)
 
     create_item_and_append(world=world, name=BOBSLED_ITEM_NAME, classification=ItemClassification.progression)
 

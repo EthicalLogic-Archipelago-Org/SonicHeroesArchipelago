@@ -202,8 +202,13 @@ class SonicHeroesLocationData:
             case LocationType.EMERALD:
                 return True
             case LocationType.OBJ_SANITY:
-                # TODO handle check size here
-                return world.enabled_sanity_acts[self.team][self.loc_type] is not Act.NONE  # pyright: ignore[reportAny]
+                # TODO handle check size here also handle enabled acts
+                if world.enabled_sanity_acts[self.team][self.loc_type] is Act.NONE:  # pyright: ignore[reportAny]
+                    return False
+                if self.team is Team.CHAOTIX:
+                    return self.act in world.enabled_sanity_acts[self.team][self.loc_type] and is_this_specific_act_enabled(world=world, team=self.team, act=Act(value=self.act))  # pyright: ignore[reportAny]
+                return is_this_specific_act_enabled(world=world, team=self.team, act=Act.ACT_B)
+
             case LocationType.EVENT:
                 # TODO think about this
                 return True

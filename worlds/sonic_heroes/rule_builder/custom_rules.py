@@ -306,6 +306,47 @@ class HasAbilityForTeam(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
         return rule
 
 
+@dataclasses.dataclass(kw_only=True)
+class CanGetThingOnSmallPlatformWithPowerAttack(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
+    team: Team
+    stage: Stage
+    can_big_solo: bool
+    can_use_teammates: bool
+
+    @override
+    def _instantiate(self, world: SonicHeroesWorldBase) -> Rule.Resolved:
+        rule: Rule[SonicHeroesWorldBase] = False_[SonicHeroesWorldBase]()
+        if self.can_big_solo:
+            rule |= self._can_big_solo(world=world)
+        if self.can_use_teammates:
+            rule |= self._can_big_use_teammates(world=world) | self._can_vector_use_teammates(world=world)
+        return rule.resolve(world=world)
+
+
+    def _can_big_solo(self, world: SonicHeroesWorldBase) -> Rule[SonicHeroesWorldBase]:
+        team_characters: list[Character] = get_all_characters_for_team(world=world, team=self.team)
+        if Character.BIG not in team_characters:
+            return False_[SonicHeroesWorldBase]()
+        # team_characters.remove(Character.BIG)
+        return HasCharacter(character=Character.BIG) & HasAbilityForCharacter(character=Character.BIG, ability=Ability.POWER_ATTACK)
+
+
+    def _can_big_use_teammates(self, world: SonicHeroesWorldBase) -> Rule[SonicHeroesWorldBase]:
+        team_characters: list[Character] = get_all_characters_for_team(world=world, team=self.team)
+        if Character.BIG not in team_characters:
+            return False_[SonicHeroesWorldBase]()
+        team_characters.remove(Character.BIG)
+        return HasCharacter(character=Character.BIG) & HasAbilityForCharacter(character=Character.BIG, ability=Ability.POWER_ATTACK) & (HasCharacter(character=team_characters[0]) | HasCharacter(character=team_characters[1]))
+
+    def _can_vector_use_teammates(self, world: SonicHeroesWorldBase) -> Rule[SonicHeroesWorldBase]:
+        team_characters: list[Character] = get_all_characters_for_team(world=world, team=self.team)
+        if Character.VECTOR not in team_characters:
+            return False_[SonicHeroesWorldBase]()
+        team_characters.remove(Character.VECTOR)
+        return HasCharacter(character=Character.VECTOR) & HasAbilityForCharacter(character=Character.VECTOR, ability=Ability.POWER_ATTACK) & (HasCharacter(character=team_characters[0]) | HasCharacter(character=team_characters[1]))
+
+
+
 @dataclasses.dataclass(init=False, kw_only=True)
 class HasComboHeight(HasAbilityForTeam, game=SONIC_HEROES):
     """
@@ -598,6 +639,7 @@ class TrickRule(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
 
 
         # TODO handle caching here
+
 
 
 

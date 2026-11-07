@@ -37,7 +37,12 @@ def get_spawn_position_item_name(team: Team, stage: Stage, checkpoint: int) -> s
 
 def get_all_characters_for_team(world: SonicHeroesWorldBase, team: Team) -> list[Character]:
     """Gets all characters for the Team"""
-    return [Character.SHADOW, Character.ROUGE, Character.OMEGA]
+    match team:
+        case Team.DARK:
+            return [Character.SHADOW, Character.ROUGE, Character.OMEGA]
+        case Team.CHAOTIX:
+            return [Character.ESPIO, Character.CHARMY, Character.VECTOR]
+    return []
 
 
 def get_abilities_for_char(world: SonicHeroesWorldBase, character: Character) -> list[Ability]:

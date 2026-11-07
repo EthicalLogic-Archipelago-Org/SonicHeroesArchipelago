@@ -226,6 +226,105 @@ class EnemySanityDark(SonicHeroesSanityChoice):
     option_full: int = SonicHeroesSanityChoice.full
     option_both_groups_and_full: int = option_groups + option_full
     default: ClassVar[int] = option_groups
+    
+    
+
+
+
+
+
+
+
+class EnabledActsChaotix(SonicHeroesEnabledActsChoice):
+    """
+    Which Team Chaotix Acts should be enabled?
+    """
+    display_name: str = "Enabled Acts For Team Chaotix"
+
+
+class StartingCharacterChaotix(Choice):
+    """
+    Which Character should Team Chaotix start with?
+    """
+    display_name: str = "Starting Character For Team Chaotix"
+
+    option_espio: int = 0
+    option_charmy: int = 1
+    option_vector: int = 2
+    default: ClassVar[str] = "random"
+
+
+
+
+# Team Chaotix Sanity
+class ObjSanityChaotix(Toggle):
+    """
+    Should Obj Sanity be enabled for Team Chaotix?
+    """
+    display_name: str = "Team Chaotix Obj Sanity"
+
+
+
+class RingSanityChaotix(SonicHeroesSanityChoice):
+    """
+    How should Ring Sanity for Chaotix be handled?
+    Groups is an easier option with only 1 location per "group of checks"
+    Full is a location for each (this can be excessive with rings)
+    Both is both
+    """
+    display_name: str = "Ring Sanity Chaotix"
+    # option_disabled: int = SonicHeroesSanityChoice.disabled
+    option_groups: int = SonicHeroesSanityChoice.group
+    option_full: int = SonicHeroesSanityChoice.full
+    option_both_groups_and_full: int = option_groups + option_full
+    default: ClassVar[int] = option_groups
+
+
+class HintRingSanityChaotix(SonicHeroesSanityChoice):
+    """
+    How should Hint Ring Sanity for Chaotix be handled?
+    """
+    display_name: str = "Hint Ring Sanity Chaotix"
+
+    # option_disabled: int = SonicHeroesSanityChoice.disabled
+    # option_groups: int = SonicHeroesSanityChoice.group
+    option_full: int = SonicHeroesSanityChoice.full
+    # option_both_groups_and_full: int = option_groups + option_full
+    default: ClassVar[int] = option_full
+
+
+class ItemBoxBalloonSanityChaotix(SonicHeroesSanityChoice):
+    """
+    How should Item Box and Balloon Sanity for Chaotix be handled?
+    Groups is an easier option with only 1 location per "group of checks"
+    Full is a location for each (this can be excessive with rings)
+    Both is both
+    """
+    display_name: str = "Item Box and Balloon Sanity Chaotix"
+    # option_disabled: int = SonicHeroesSanityChoice.disabled
+    option_groups: int = SonicHeroesSanityChoice.group
+    option_full: int = SonicHeroesSanityChoice.full
+    option_both_groups_and_full: int = option_groups + option_full
+    default: ClassVar[int] = option_groups
+
+
+class EnemySanityChaotix(SonicHeroesSanityChoice):
+    """
+    How should Enemy Sanity for Chaotix be handled?
+    Groups is an easier option with only 1 location per "group of checks"
+    Full is a location for each (this can be excessive with rings)
+    Both is both
+    """
+    display_name: str = "Enemy Sanity Chaotix"
+    # option_disabled: int = SonicHeroesSanityChoice.disabled
+    option_groups: int = SonicHeroesSanityChoice.group
+    option_full: int = SonicHeroesSanityChoice.full
+    option_both_groups_and_full: int = option_groups + option_full
+    default: ClassVar[int] = option_groups
+
+
+
+
 
 
 class Difficulty(Choice):
@@ -388,6 +487,23 @@ sonic_heroes_option_groups: list[OptionGroup] = \
                     EnemySanityDark,
                 ]),
 
+    OptionGroup(name="Team Chaotix",
+                options = \
+                [
+                    EnabledActsChaotix,
+                    StartingCharacterChaotix
+                ]),
+
+    OptionGroup(name="Team Chaotix Sanity",
+                options = \
+                [
+                    ObjSanityChaotix,
+                    RingSanityChaotix,
+                    HintRingSanityChaotix,
+                    ItemBoxBalloonSanityChaotix,
+                    EnemySanityChaotix,
+                ]),
+
 
 
     OptionGroup(name="Tricks",
@@ -430,6 +546,15 @@ class SonicHeroesOptions(PerGameCommonOptions):
     item_box_balloon_sanity_dark: ItemBoxBalloonSanityDark
     enemy_sanity_dark: EnemySanityDark
 
+    enabled_acts_chaotix: EnabledActsChaotix
+    starting_character_chaotix: StartingCharacterChaotix
+
+    obj_sanity_chaotix: ObjSanityChaotix
+    ring_sanity_chaotix: RingSanityChaotix
+    hint_ring_sanity_chaotix: HintRingSanityChaotix
+    item_box_balloon_sanity_chaotix: ItemBoxBalloonSanityChaotix
+    enemy_sanity_chaotix: EnemySanityChaotix
+
 
     difficulty: Difficulty
     badnik_bounce: BadnikBounce
@@ -460,6 +585,16 @@ OPTION_ATTR_NAMES: list[str] = \
     "hint_ring_sanity_dark",
     "item_box_balloon_sanity_dark",
     "enemy_sanity_dark",
+
+
+    "enabled_acts_chaotix",
+    "starting_character_chaotix",
+
+    "obj_sanity_chaotix",
+    "ring_sanity_chaotix",
+    "hint_ring_sanity_chaotix",
+    "item_box_balloon_sanity_chaotix",
+    "enemy_sanity_chaotix",
 
     "difficulty",
     "badnik_bounce",
