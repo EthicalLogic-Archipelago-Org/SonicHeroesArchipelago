@@ -163,7 +163,7 @@ class Stage(enum.Enum):
             {
                 Team.ANY_TEAM: 0,
                 Team.SONIC: 4,
-                Team.DARK: 4,
+                Team.DARK: 5,
                 Team.ROSE: 2,
                 Team.CHAOTIX: 2,
                 Team.SUPER_HARD_MODE: 5,
