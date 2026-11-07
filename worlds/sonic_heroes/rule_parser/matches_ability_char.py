@@ -31,6 +31,13 @@ PARSER_ABILITY_MAPPING: dict[str, Callable[[Team, Stage], str]] = \
 
     "BreakIronContainer": lambda team, stage: get_func_str(func_name="can_break_iron_container_rule", params={"team": team, "stage": stage}),
 
+    "BigPowerAttackHitboxSoloGetItem": lambda team, stage: get_func_str(func_name="can_get_something_on_top_of_small_stone_platform_with_power_attack", params={"team": team, "stage": stage, "can_be_big_solo": True}),
+
+    "BigOrVectorPowerAttackHitboxGetItem": lambda team, stage: get_func_str(func_name="can_get_something_on_top_of_small_stone_platform_with_power_attack", params={"team": team, "stage": stage, "can_be_big_solo": False}),
+
+    "ShoveMovingBlock": lambda team, stage: get_func_str(func_name="can_shove_moving_block_rule", params={"team": team, "stage": stage}),
+
+
     "ComboHeight": lambda team, stage: get_func_str(func_name="can_combo_height_rule", params={"team": team, "stage": stage}),
     "Jump": lambda team, stage: get_func_str(func_name="can_jump_rule", params={"team": team, "stage": stage}),
 

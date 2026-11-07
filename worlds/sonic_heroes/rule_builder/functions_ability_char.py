@@ -56,6 +56,26 @@ def can_break_iron_container_rule(team: Team, stage: Stage) -> Rule[SonicHeroesW
     return SonicHeroesMacroRule(child=can_power_attack_rule(team=team, stage=stage, level=0) | can_belly_flop_rule(team=team, stage=stage, level=0) | can_fire_dunk_rule(team=team, stage=stage, level=0) | can_combo_finisher_rule(team=team, stage=stage, level=1), name=f"Break Iron Container as Team {team} in {stage.stage_name}")
 
 
+
+
+def can_get_something_on_top_of_small_stone_platform_with_power_attack(team: Team, stage: Stage, can_be_big_solo: bool = False) -> Rule[SonicHeroesWorldBase]:
+    if can_be_big_solo:
+        return can_get_something_on_top_of_small_stone_platform_with_big_power_attack_solo(team=team, stage=stage)
+    return can_get_something_on_top_of_small_stone_platform_with_power_attack_and_teammate(team=team, stage=stage)
+
+
+def can_get_something_on_top_of_small_stone_platform_with_big_power_attack_solo(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
+    return SonicHeroesMacroRule(child=CanGetThingOnSmallPlatformWithPowerAttack(team=team, stage=stage, can_big_solo=True, can_use_teammates=False), name=f"Get Something On Small Platform With Big Power Attack Only as Team {team} in {stage.stage_name}")
+
+
+def can_get_something_on_top_of_small_stone_platform_with_power_attack_and_teammate(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
+    return SonicHeroesMacroRule(child=CanGetThingOnSmallPlatformWithPowerAttack(team=team, stage=stage, can_big_solo=True, can_use_teammates=True), name=f"Get Something On Small Platform With Big or Vector Power Attack And Another Character as Team {team} in {stage.stage_name}")
+
+
+def can_shove_moving_block_rule(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
+    return SonicHeroesMacroRule(child=can_power_attack_rule(team=team, stage=stage, level=0) | can_belly_flop_rule(team=team, stage=stage, level=0) | can_fire_dunk_rule(team=team, stage=stage, level=0) | can_combo_finisher_rule(team=team, stage=stage, level=1), name=f"Shove Moving Block as Team {team} in {stage.stage_name}")
+
+
 def can_jump_rule(team: Team, stage: Stage) -> Rule[SonicHeroesWorldBase]:
     ability: Ability = Ability.JUMP
     return SonicHeroesMacroRule(child=HasAbilityForTeam(team=team, ability=ability), name=f"{ability.ability_name} as Team {team} in {stage.stage_name}")
