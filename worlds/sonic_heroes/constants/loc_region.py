@@ -206,7 +206,7 @@ class SonicHeroesLocationData:
                 if world.enabled_sanity_acts[self.team][self.loc_type] is Act.NONE:  # pyright: ignore[reportAny]
                     return False
                 if self.team is Team.CHAOTIX:
-                    return self.act in world.enabled_sanity_acts[self.team][self.loc_type] and is_this_specific_act_enabled(world=world, team=self.team, act=Act(value=self.act))  # pyright: ignore[reportAny]
+                    return (self.act & world.enabled_sanity_acts[self.team][self.loc_type] > 0) and is_this_specific_act_enabled(world=world, team=self.team, act=Act(value=self.act))  # pyright: ignore[reportAny]
                 return is_this_specific_act_enabled(world=world, team=self.team, act=Act.ACT_B)
 
             case LocationType.EVENT:

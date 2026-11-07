@@ -10,7 +10,7 @@ from rule_builder.rules import Has, Rule, True_
 from .constants.apworld import VICTORY_ITEM, VICTORY_LOCATION
 from .constants.char_ability import Team
 from .constants.items_events import OBJ_SANITY, SPAWN_POSITION
-from .constants.loc_region import MENU_REGION_NAME, METAL_OVERLORD_REGION_NAME
+from .constants.loc_region import MENU_REGION_NAME, METAL_OVERLORD_REGION_NAME, SonicHeroesRegionData
 from .constants.stage import Stage, Act
 
 from .helper_functions import get_spawn_position_item_name, is_this_team_enabled
@@ -26,15 +26,13 @@ from .world_base import SonicHeroesWorldBase
 
 
 def create_regions(world: SonicHeroesWorldBase) -> None:
-    stage: Stage = Stage.SEASIDE_HILL
-    team: Team = Team.DARK
-
     menu_region: Region = Region(name=MENU_REGION_NAME, player=world.player, multiworld=world.multiworld)
     world.multiworld.regions.append(region=menu_region)
 
     for team in Team:
-        for stage in TEAM_STAGES_TO_GENERATE_SANITIES[team]:
-            create_regions_for_team_stage(world=world, team=team, stage=stage)
+        if team is not Team.ANY_TEAM and is_this_team_enabled(world=world, team=team):
+            for stage in TEAM_STAGES_TO_GENERATE_SANITIES[team]:
+                create_regions_for_team_stage(world=world, team=team, stage=stage)
 
     metal_overlord_region: Region = Region(name=METAL_OVERLORD_REGION_NAME, player=world.player, multiworld=world.multiworld)
     victory_location: Location = Location(name=VICTORY_LOCATION, address=None, parent=metal_overlord_region, player=world.player)
@@ -49,7 +47,8 @@ def create_regions_for_team_stage(world: SonicHeroesWorldBase, team: Team, stage
     append_locations_to_region(world=world, region=region, team=team, stage=stage)
     world.multiworld.regions.append(region=region)
 
-    for region_data in get_parsed_data_module_for_team_stage(team=team, stage=stage).regions:  # pyright: ignore[reportAny]
+    region_list: list[SonicHeroesRegionData] = get_parsed_data_module_for_team_stage(team=team, stage=stage).regions # pyright: ignore[reportAny]
+    for region_data in region_list:
         # print(f"Creating region: {region_data.region_name}")
         region = Region(name=region_data.region_name, player=world.player, multiworld=world.multiworld)  # pyright: ignore[reportAny]
         append_locations_to_region(world=world, region=region, team=team, stage=stage)
@@ -67,7 +66,7 @@ def create_entrances(world: SonicHeroesWorldBase) -> None:
             if is_this_team_enabled(world=world, team=team):
                 create_entrances_for_team(world=world, team=team)
 
-    create_entrance(world=world, name=f"{MENU_REGION_NAME} -> {METAL_OVERLORD_REGION_NAME}", source=MENU_REGION_NAME, target=METAL_OVERLORD_REGION_NAME, rule=can_goal_rule())
+    create_entrance(world=world, name=f"{MENU_REGION_NAME} -> {METAL_OVERLORD_REGION_NAME}", source=MENU_REGION_NAME, target=METAL_OVERLORD_REGION_NAME, rule=can_goal_rule(world=world))
 
 
 def create_entrances_for_team(world: SonicHeroesWorldBase, team: Team) -> None:

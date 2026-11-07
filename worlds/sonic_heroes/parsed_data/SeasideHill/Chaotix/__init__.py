@@ -10,6 +10,7 @@ from .SeasideHillChaotixRings import *
 from .SeasideHillChaotixHintRings import *
 from .SeasideHillChaotixItemBoxes import *
 from .SeasideHillChaotixItemBalloons import *
+from .SeasideHillChaotixHermitCrabs import *
 from .SeasideHillChaotixEggFlappers import *
 from .SeasideHillChaotixEggPawns import *
 
@@ -20,5 +21,6 @@ rings: list[RingData] = RINGS
 hint_rings: list[HintRingData] = HINT_RINGS
 item_boxes: list[ItemBoxData] = ITEM_BOXES
 item_balloons: list[ItemBalloonData] = ITEM_BALLOONS
+hermit_crabs: list[HermitCrabData] = HERMIT_CRABS
 egg_flappers: list[EggFlapper] = EGG_FLAPPERS
 egg_pawns: list[EggPawn] = EGG_PAWNS

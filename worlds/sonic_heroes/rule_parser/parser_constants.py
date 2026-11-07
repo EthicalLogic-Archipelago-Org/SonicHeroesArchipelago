@@ -81,6 +81,8 @@ PARSER_REGION_DATA_IMPORT: str = "from ....constants.loc_region import SonicHero
 PARSER_CONNECTION_DATA_IMPORT: str = "from ....constants.loc_region import SonicHeroesConnectionData"
 PARSER_HINT_RING_IMPORT: str = "from ....constants.hint_rings import HintRingData"
 PARSER_ITEM_BALLOON_BOX_IMPORT: str = "from ....constants.item_balloon_box import *"
+PARSER_CHAOTIX_OBJS_IMPORT: str = "from ....constants.chaotix_objs import *"
+
 PARSER_ENEMY_IMPORT: str = "from ....constants.enemies import *"
 PARSER_RING_IMPORT: str = "from ....constants.rings import RingData, RingLayout"
 PARSER_TRIPLE_SPRING_IMPORT: str = "from ....constants.triple_spring import *"
@@ -125,6 +127,13 @@ f"""{PARSER_FILE_HEADER_START}
 {PARSER_ITEM_BALLOON_BOX_IMPORT}
 
 """
+
+CHAOTIX_OBJS_PARSER_FILE_HEADER: str = \
+f"""{PARSER_FILE_HEADER_START}
+{PARSER_CHAOTIX_OBJS_IMPORT}
+
+"""
+
 
 
 ENEMY_PARSER_FILE_HEADER: str = \

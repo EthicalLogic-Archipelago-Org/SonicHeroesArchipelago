@@ -24,6 +24,7 @@ def get_locations_for_region(world: SonicHeroesWorldBase, team: Team, stage: Sta
         if loc_data.parent_region != region_name:
             continue
         if loc_data.is_enabled(world=world):
+            # print(f"Location {loc_data.name} is enabled")
             _result.append(loc_data)
     return _result
 
