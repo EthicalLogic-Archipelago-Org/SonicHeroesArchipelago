@@ -1,6 +1,4 @@
 Team,Level,Source,Target,Rule,Notes
-Chaotix,Seaside Hill,Start,ObjSanity,,
-Chaotix,Seaside Hill,ObjSanity,Start,,
 Chaotix,Seaside Hill,Big Special Ruin Before Volcano After Checkpoint 4,First Loop at Start of Level,FlowerStingAND((Jump)OR(CollisAbuseANDFlyAnyANDThundershoot0)),
 Chaotix,Seaside Hill,First Loop at Start of Level,Warp Flower Before First Loop at Start of Level,,
 Chaotix,Seaside Hill,Warp Flower Before First Loop at Start of Level,First Loop at Start of Level,,
@@ -226,4 +224,3 @@ Chaotix,Seaside Hill,Big Special Ruin Before Volcano After Checkpoint 4,First Lo
 Chaotix,Seaside Hill,First Loop at Start of Level,Big Special Ruin Before Volcano After Checkpoint 4,FlowerStingANDWarpFlowerANDJump,
 Chaotix,Seaside Hill,Big Special Ruin Before Volcano After Checkpoint 4,Path After Big Special Ruin Before Volcano Loop After Checkpoint 4,MediumANDFlyFullANDThundershoot2ANDJumpANDRuinsTrigger,After expected play area for chaotix
 Chaotix,Seaside Hill,Path After Big Special Ruin Before Volcano Loop After Checkpoint 4,Big Special Ruin Before Volcano After Checkpoint 4,MediumANDFlyFullANDThundershoot2ANDJumpANDRuinsTrigger,
-Chaotix,Seaside Hill,ObjSanity,Goal,,

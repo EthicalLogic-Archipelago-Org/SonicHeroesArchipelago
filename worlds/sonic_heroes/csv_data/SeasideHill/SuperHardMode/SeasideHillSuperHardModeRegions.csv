@@ -43,7 +43,8 @@ Super Hard Mode,Seaside Hill,Path Before Big Ruin Beach After Checkpoint 2 Canno
 Super Hard Mode,Seaside Hill,Path Before Big Ruin Beach After Checkpoint 2 Cannon Flying,0,0,,0,,0,,,
 Super Hard Mode,Seaside Hill,Big Ruin Beach Lower Cliffs At Start After Checkpoint 2,0,0,,0,,0,,,
 Super Hard Mode,Seaside Hill,Big Ruin Beach Ruin With Dash Ramp After Checkpoint 2,0,0,,0,,0,,,
-Super Hard Mode,Seaside Hill,Big Ruin Beach Island 1 After Checkpoint 2,0,0,,0,,1,20Rings,,
+Super Hard Mode,Seaside Hill,Big Ruin Beach Island 1 After Checkpoint 2,0,0,,0,,0,,,
+Super Hard Mode,Seaside Hill,Big Ruin Beach Island 1 Item Box After Checkpoint 2,0,0,,0,,1,20Rings,,
 Super Hard Mode,Seaside Hill,Big Ruin Beach Island 1 After Checkpoint 2 High Item Balloon,0,0,,0,,1,Extra Life Balloon,,
 Super Hard Mode,Seaside Hill,Big Ruin Beach Island 1 After Checkpoint 2 Mid Item Balloon,0,0,,0,,1,Speed Lvl Balloon,,
 Super Hard Mode,Seaside Hill,Ruin Between Big Ruin Beach Islands After Checkpoint 2,0,0,,0,,0,,,
@@ -60,7 +61,7 @@ Super Hard Mode,Seaside Hill,Checkpoint 3,0,0,,0,,0,,,
 Super Hard Mode,Seaside Hill,Big Special Ruin Before Volcano After Checkpoint 3,0,0,,4,4x GreenShot,0,,,
 Super Hard Mode,Seaside Hill,Ruin After Big Special Ruin Before Volcano After Checkpoint 3,0,0,,0,,0,,,
 Super Hard Mode,Seaside Hill,Green Flapper After Big Special Ruin Before Volcano After Checkpoint 3,0,0,,1,GreenShot,0,,,
-Super Hard Mode,Seaside Hill,Path After Big Special Ruin Before Volcano Start After Checkpoint 3,0,0,,1,GreenLightning,1,Flight Gauge Refill,,Flight Gauge Refill is filler name
+Super Hard Mode,Seaside Hill,Path After Big Special Ruin Before Volcano Start After Checkpoint 3,0,0,,1,GreenLightning,1,RefillFlightGauge,,
 Super Hard Mode,Seaside Hill,Path After Big Special Ruin Before Volcano After Block Start After Checkpoint 3,0,8,2x4,3,3xlance,0,,,
 Super Hard Mode,Seaside Hill,Path After Big Special Ruin Before Volcano Loop After Checkpoint 3,0,0,,0,,1,5Rings,,
 Super Hard Mode,Seaside Hill,Cave Before Volcano Entrance After Checkpoint 3,0,0,,2,2xGreenLightning,0,,,
@@ -77,7 +78,7 @@ Super Hard Mode,Seaside Hill,Loop After Second Bobsled After Checkpoint 4,0,15,1
 Super Hard Mode,Seaside Hill,Path After Block After Loop After Second Bobsled After Checkpoint 4,0,0,,2,2xlance,0,,,
 Super Hard Mode,Seaside Hill,Ruin After Block After Loop After Second Bobsled After Checkpoint 4,0,0,,0,,0,,,
 Super Hard Mode,Seaside Hill,Path Before Big Loop After Checkpoint 4,0,0,,5,4xlance 1xbazooka,,,,
-Super Hard Mode,Seaside Hill,Big Loop After Checkpoint 4,0,45,1x1 1x1 1x12 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x11,0,,0,,,"sonic team, why?"
+Super Hard Mode,Seaside Hill,Big Loop After Checkpoint 4,0,45,1x1 1x1 1x12 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x11,0,,0,,TripleSpring,"sonic team, why?"
 Super Hard Mode,Seaside Hill,Whale Blowhole Before Goal,0,0,,0,,0,,,dash ring expected to progress
 Super Hard Mode,Seaside Hill,Whale Island Top At Goal,0,0,,6,3xred flapper 2xGreenShot 1xlance,0,,,lance user appears on ruin behind blowhole
 Super Hard Mode,Seaside Hill,Goal,0,0,,0,,0,,,
