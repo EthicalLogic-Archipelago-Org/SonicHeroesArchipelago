@@ -294,14 +294,15 @@ def parse_stage_objs_csv(team: Team, stage: Stage, secret: bool = False) -> None
 
     with files(csv_data.csv_data_mapping[stage][team]).joinpath(f"{file_name}.csv").open() as csv_file:  # pyright: ignore[reportUnknownMemberType, reportUnknownVariableType]
         reader: csv.DictReader[str] = csv.DictReader(csv_file)  # pyright: ignore[reportUnknownArgumentType]
-        line_number: int = 2
+        line_number: int = 1
         for x in reader:
+            line_number += 1
             if x[REGION_HEADER] == "":
                 continue
 
             stage_obj, params_dict = parse_individual_stage_obj_csv_entry(entry=x, line_number=line_number)
             stage_obj_params_list[stage_obj].append(params_dict)
-            line_number += 1
+
 
 
     for stage_obj, params_dict in stage_obj_params_list.items():
