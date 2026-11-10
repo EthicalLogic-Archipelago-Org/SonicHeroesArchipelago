@@ -7,16 +7,17 @@ from BaseClasses import Region, Location
 
 from rule_builder.rules import Has, Rule, True_
 
+
 from .constants.apworld import VICTORY_ITEM, VICTORY_LOCATION
 from .constants.char_ability import Team
 from .constants.items_events import OBJ_SANITY, SPAWN_POSITION
-from .constants.loc_region import MENU_REGION_NAME, METAL_OVERLORD_REGION_NAME
+from .constants.loc_region import MENU_REGION_NAME, METAL_OVERLORD_REGION_NAME, SonicHeroesRegionData
 from .constants.stage import Stage, Act
 
-from .helper_functions import get_spawn_position_item_name, is_this_team_enabled
+from .helper_functions import get_spawn_position_item_name, is_this_act_enabled, is_this_specific_act_enabled, is_this_team_enabled
 from .location_generation import TEAM_STAGES_TO_GENERATE_SANITIES
 from .locations import append_locations_to_region
-
+from .rule_builder.custom_rules import CanGoalStage
 from .rule_builder.functions_stages import can_goal_rule
 from .rule_parser.functions_parser import get_parsed_data_module_for_team_stage
 
@@ -26,15 +27,13 @@ from .world_base import SonicHeroesWorldBase
 
 
 def create_regions(world: SonicHeroesWorldBase) -> None:
-    stage: Stage = Stage.SEASIDE_HILL
-    team: Team = Team.DARK
-
     menu_region: Region = Region(name=MENU_REGION_NAME, player=world.player, multiworld=world.multiworld)
     world.multiworld.regions.append(region=menu_region)
 
     for team in Team:
-        for stage in TEAM_STAGES_TO_GENERATE_SANITIES[team]:
-            create_regions_for_team_stage(world=world, team=team, stage=stage)
+        if team is not Team.ANY_TEAM and is_this_team_enabled(world=world, team=team):
+            for stage in TEAM_STAGES_TO_GENERATE_SANITIES[team]:
+                create_regions_for_team_stage(world=world, team=team, stage=stage)
 
     metal_overlord_region: Region = Region(name=METAL_OVERLORD_REGION_NAME, player=world.player, multiworld=world.multiworld)
     victory_location: Location = Location(name=VICTORY_LOCATION, address=None, parent=metal_overlord_region, player=world.player)
@@ -49,7 +48,8 @@ def create_regions_for_team_stage(world: SonicHeroesWorldBase, team: Team, stage
     append_locations_to_region(world=world, region=region, team=team, stage=stage)
     world.multiworld.regions.append(region=region)
 
-    for region_data in get_parsed_data_module_for_team_stage(team=team, stage=stage).regions:  # pyright: ignore[reportAny]
+    region_list: list[SonicHeroesRegionData] = get_parsed_data_module_for_team_stage(team=team, stage=stage).regions # pyright: ignore[reportAny]
+    for region_data in region_list:
         # print(f"Creating region: {region_data.region_name}")
         region = Region(name=region_data.region_name, player=world.player, multiworld=world.multiworld)  # pyright: ignore[reportAny]
         append_locations_to_region(world=world, region=region, team=team, stage=stage)
@@ -67,7 +67,7 @@ def create_entrances(world: SonicHeroesWorldBase) -> None:
             if is_this_team_enabled(world=world, team=team):
                 create_entrances_for_team(world=world, team=team)
 
-    create_entrance(world=world, name=f"{MENU_REGION_NAME} -> {METAL_OVERLORD_REGION_NAME}", source=MENU_REGION_NAME, target=METAL_OVERLORD_REGION_NAME, rule=can_goal_rule())
+    create_entrance(world=world, name=f"{MENU_REGION_NAME} -> {METAL_OVERLORD_REGION_NAME}", source=MENU_REGION_NAME, target=METAL_OVERLORD_REGION_NAME, rule=can_goal_rule(world=world))
 
 
 def create_entrances_for_team(world: SonicHeroesWorldBase, team: Team) -> None:
@@ -82,8 +82,21 @@ def create_entrances_for_team_stage(world: SonicHeroesWorldBase, team: Team, sta
         target_region: str = f"{stage.stage_name} {team.value} Start" if checkpoint == 0 else f"{stage.stage_name} {team.value} Checkpoint {checkpoint}"
         create_entrance(world=world, name=f"{stage.stage_name} {team.value} -> {target_region}", source=f"{stage.stage_name} {team.value}", target=target_region, rule=Has(item_name=get_spawn_position_item_name(team=team, stage=stage, checkpoint=checkpoint)))
 
-    # TODO check if OBJ Sanity exists (or force it to always)
     create_entrance(world=world, name=f"{stage.stage_name} {team.value} -> {stage.stage_name} {team.value} {OBJ_SANITY}", source=f"{stage.stage_name} {team.value}", target=f"{stage.stage_name} {team.value} {OBJ_SANITY}", rule=True_[SonicHeroesWorldBase]())
+
+    # Connect ObjSanity Region to Goal Region if ObjSanity is a valid way to goal the level
+    # match team:
+    #     case Team.DARK | Team.ROSE:
+    #         if is_this_specific_act_enabled(world=world, team=team, act=Act.ACT_B):
+    #             create_entrance(world=world, name=f"{stage.stage_name} {team.value} {OBJ_SANITY} -> {stage.stage_name} {team.value} Goal", source=f"{stage.stage_name} {team.value} {OBJ_SANITY}", target=f"{stage.stage_name} {team.value} Goal", rule=CanGoalStage(team=team, stage=stage, act=Act.ACT_B))
+    #     case Team.CHAOTIX:
+    #         if (is_this_specific_act_enabled(world=world, team=team, act=Act.ACT_A) and stage.chaotix_obj_sanity_checks[Act.ACT_A] > 0) or (is_this_specific_act_enabled(world=world, team=team, act=Act.ACT_B) and stage.chaotix_obj_sanity_checks[Act.ACT_B] > 0):
+    #             create_entrance(world=world, name=f"{stage.stage_name} {team.value} {OBJ_SANITY} -> {stage.stage_name} {team.value} Goal", source=f"{stage.stage_name} {team.value} {OBJ_SANITY}", target=f"{stage.stage_name} {team.value} Goal", rule=CanGoalStage(team=team, stage=stage, act=Act.ACT_A) | CanGoalStage(team=team, stage=stage, act=Act.ACT_B))
+
+
+
+
+
 
     for connection in get_parsed_data_module_for_team_stage(team=team, stage=stage).connections:  # pyright: ignore[reportAny]
         create_entrance(world=world, name=connection.name, source=connection.source_region, target=connection.target_region, rule=connection.rule)  # pyright: ignore[reportAny]

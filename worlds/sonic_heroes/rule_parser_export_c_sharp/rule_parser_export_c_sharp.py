@@ -43,13 +43,13 @@ def export_egg_pawns() -> None:
 
 
 
-# export_triple_springs()
-# export_rings()
-# export_hint_rings()
-# export_item_boxes()
-# export_item_balloons()
-# export_egg_flappers()
-# export_egg_pawns()
+export_triple_springs()
+export_rings()
+export_hint_rings()
+export_item_boxes()
+export_item_balloons()
+export_egg_flappers()
+export_egg_pawns()
 
 
 

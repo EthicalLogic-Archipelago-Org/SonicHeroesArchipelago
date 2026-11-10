@@ -536,6 +536,7 @@ class CanGoalStage(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
             return self._can_reach_goal_vanilla(world=world)
         if self.act is Act.ACT_B:
             return Has(item_name=get_obj_sanity_event_item_name(team=self.team, stage=self.stage, act=self.act), count=DARK_OBJ_SANITY_AMOUNT)
+        # TODO fix count for Dark ObjSanity
         raise ValueError(f"Incorrect Act provided for CanGoalStage: {self.team} for {self.stage.stage_name} Act: {self.act}")
 
     def _can_goal_rose_stage(self, world: SonicHeroesWorldBase) -> Rule[SonicHeroesWorldBase]:
@@ -549,7 +550,7 @@ class CanGoalStage(Rule[SonicHeroesWorldBase], game=SONIC_HEROES):
         # rule: Rule[SonicHeroesWorldBase] = False_[SonicHeroesWorldBase]()
         # TODO fix for stealth levels
         if self.stage.chaotix_obj_sanity_checks[self.act] > 0:
-            return Has(item_name=get_obj_sanity_event_item_name(team=self.team, stage=self.stage, act=self.act), count=self.stage.chaotix_obj_sanity_checks[Act.ACT_A])
+            return Has(item_name=get_obj_sanity_event_item_name(team=self.team, stage=self.stage, act=self.act), count=self.stage.chaotix_obj_sanity_checks[self.act])
         return self._can_reach_goal_vanilla(world=world)
 
     def _can_goal_super_hard_mode_stage(self, world: SonicHeroesWorldBase) -> Rule[SonicHeroesWorldBase]:

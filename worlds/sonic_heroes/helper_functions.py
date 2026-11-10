@@ -77,6 +77,8 @@ def get_default_true_rule() -> Rule[SonicHeroesWorldBase]:
 
 
 def get_obj_sanity_event_item_name(team: Team, stage: Stage, act: Act) -> str:
+    if team is Team.CHAOTIX and stage is not Stage.MYSTIC_MANSION:
+        return f"{team} {stage.stage_name} {OBJ_SANITY_EVENT_ITEM}"
     return f"{team} {stage.stage_name} {act.get_act_str()} {OBJ_SANITY_EVENT_ITEM}"
 
 

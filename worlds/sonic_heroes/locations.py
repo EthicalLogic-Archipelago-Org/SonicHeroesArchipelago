@@ -24,6 +24,9 @@ def get_locations_for_region(world: SonicHeroesWorldBase, team: Team, stage: Sta
         if loc_data.parent_region != region_name:
             continue
         if loc_data.is_enabled(world=world):
+            # num: str = "None" if loc_data.code is None else f"{hex(loc_data.code)}"
+
+            # print(f"Location {loc_data.name} :: ID: {num} is enabled")  # pyright: ignore[reportArgumentType]
             _result.append(loc_data)
     return _result
 

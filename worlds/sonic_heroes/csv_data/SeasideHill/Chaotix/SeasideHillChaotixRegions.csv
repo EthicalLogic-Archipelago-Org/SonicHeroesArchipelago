@@ -13,7 +13,6 @@ Chaotix,Seaside Hill,Small Cliff Above Eggmans Robots Before Checkpoint 1,0,0,,0
 Chaotix,Seaside Hill,Top Cliff Route With Hermit Crab Before Checkpoint 1,1,0,,0,,0,,TripleSpring,Fourth Hermit Crab
 Chaotix,Seaside Hill,Staircase Before Corner Cave Bottom At Checkpoint 1 Item Balloon,0,0,,0,,1,,Shield,
 Chaotix,Seaside Hill,Staircase Before Corner Cave Bottom At Checkpoint 1,0,0,,0,,0,,HintRing,
-Chaotix,Seaside Hill,Staircase Before Corner Cave Bottom At Checkpoint 1,0,0,,0,,0,,,
 Chaotix,Seaside Hill,Checkpoint 1,0,0,,0,,0,,,
 Chaotix,Seaside Hill,Item Box On Ruin After Checkpoint 1,0,0,,0,,1,,,5 Rings
 Chaotix,Seaside Hill,Staircase Before Corner Cave Middle After Checkpoint 1,0,0,,0,,0,,TripleSpring,
@@ -31,8 +30,9 @@ Chaotix,Seaside Hill,First Island Top Pillar Right After Checkpoint 1,0,9,1x9,0,
 Chaotix,Seaside Hill,First Island Top Pillar Left After Checkpoint 1,1,0,,0,,0,,,Eighth Hermit Crab
 Chaotix,Seaside Hill,First Island After Checkpoint 1 Cannon Flying,0,0,,0,,0,,,
 Chaotix,Seaside Hill,First Ruin Between First and Second Island After Checkpoint 1,0,0,,0,,0,,,Moving Ruins
-Chaotix,Seaside Hill,Second Ruin Between First and Second Island After Checkpoint 1,1,0,,0,,0,,,Ninth Hermit Crab
+Chaotix,Seaside Hill,Second Ruin Between First and Second Island After Checkpoint 1,0,0,,0,,0,,,Ninth Hermit Crab
 Chaotix,Seaside Hill,Third Ruin Between First and Second Island After Checkpoint 1,0,0,,0,,0,,TripleSpring,Moving Ruins
+Chaotix,Seaside Hill,Hermit Crab In Box On Second Ruin Between First and Second Island After Checkpoint 1,1,0,,0,,0,,,
 Chaotix,Seaside Hill,Third Ruin Item Balloon Between First and Second Island After Checkpoint 1,0,0,,0,,1,10 rings,,
 Chaotix,Seaside Hill,Second Island After Checkpoint 1,1,0,,2,,0,,"TripleSpring, HintRing",Tenth Hermit Crab
 Chaotix,Seaside Hill,Second Island After Checkpoint 1 Left High Item Balloon,0,0,,0,,1,,Fly Lvl Balloon,

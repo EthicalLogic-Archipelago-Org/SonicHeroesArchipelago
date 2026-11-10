@@ -8,7 +8,7 @@ from rule_builder.rules import Has
 
 
 from .helper_functions import get_playable_char_item_name, get_stage_obj_item_name, \
-    get_spawn_position_item_name, get_correct_ability_item_name
+    get_spawn_position_item_name, get_correct_ability_item_name, is_this_specific_act_enabled, is_this_team_enabled
 from .items import create_items, create_precollected_items
 from .options import *
 from .regions import create_regions, create_entrances
@@ -65,19 +65,8 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
         # handle options
         self.handle_options_at_gen_early()
 
-
-        if self.options.starting_character_dark == StartingCharacterDark.option_shadow:
-            self.starting_inventory_amounts[get_playable_char_item_name(character=Character.SHADOW)] = 1
-        if self.options.starting_character_dark == StartingCharacterDark.option_rouge:
-            self.starting_inventory_amounts[get_playable_char_item_name(character=Character.ROUGE)] = 1
-        if self.options.starting_character_dark == StartingCharacterDark.option_omega:
-            self.starting_inventory_amounts[get_playable_char_item_name(character=Character.OMEGA)] = 1
-
-
-        self.starting_inventory_amounts[get_stage_obj_item_name(team=Team.DARK, stage_obj=StageObj.CHECKPOINT)] = 1
-        self.starting_inventory_amounts[get_stage_obj_item_name(team=Team.DARK, stage_obj=StageObj.RINGS)] = 1
-        # self.starting_inventory_amounts[get_stage_obj_item_name(team=Team.DARK, stage_obj=StageObj.ITEM_BOX)] = 1
-        self.starting_inventory_amounts[get_spawn_position_item_name(team=Team.DARK, stage=Stage.SEASIDE_HILL, checkpoint=3)] = 1
+        # starting inventory
+        self.handle_starting_inventory()
 
 
         #level gates here (not needed)
@@ -160,7 +149,8 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
             "GoalLevelCompletionsPerStory": 0,
 
             "GateEmblemCosts": [0],
-            "ShuffledLevels": [f"D{x}" for x in range(2, 16)],
+            # "ShuffledLevels": [f"D{2}" for x in range(2, 16)],
+            "ShuffledLevels": ["D2", "C2"],
             "ShuffledBosses": ["B23"],
             "GateLevelCounts": [14],
 
@@ -177,10 +167,9 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
                     for team in Team if team is not Team.ANY_TEAM
                 },
             },
-
-            "DarkSanity": 1,
-            "RoseSanity": 0,
-            "ChaotixSanity": 0,
+            "DarkSanity": int(self.enabled_sanity_acts[Team.DARK][LocationType.OBJ_SANITY]),
+            "RoseSanity": int(self.enabled_sanity_acts[Team.ROSE][LocationType.OBJ_SANITY]),
+            "ChaotixSanity": int(self.enabled_sanity_acts[Team.CHAOTIX][LocationType.OBJ_SANITY]),
         }
 
     # @override
@@ -217,12 +206,49 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
         # put this at top to display PUML (after start UML)
 
 
-    def force_enable_required_acts_and_sanities(self) -> None:
-        if not self.options.enabled_acts_dark.is_act_a_enabled() and not self.options.enabled_acts_dark.is_act_b_enabled():
-            self.options.enabled_acts_dark.value = EnabledActsDark.option_act_a
 
-        if not self.options.enabled_acts_chaotix.is_act_a_enabled() and not self.options.enabled_acts_chaotix.is_act_b_enabled():
-            self.options.enabled_acts_chaotix.value = EnabledActsChaotix.option_act_a
+    def handle_starting_inventory(self) -> None:
+        enabled_teams: list[Team] = [team for team in Team if is_this_team_enabled(world=self, team=team)]
+        self.random.shuffle(x=enabled_teams)
+
+        if enabled_teams[0] is Team.DARK:
+            if self.options.starting_character_dark == StartingCharacterDark.option_shadow:
+                self.starting_inventory_amounts[get_playable_char_item_name(character=Character.SHADOW)] = 1
+            if self.options.starting_character_dark == StartingCharacterDark.option_rouge:
+                self.starting_inventory_amounts[get_playable_char_item_name(character=Character.ROUGE)] = 1
+            if self.options.starting_character_dark == StartingCharacterDark.option_omega:
+                self.starting_inventory_amounts[get_playable_char_item_name(character=Character.OMEGA)] = 1
+
+            self.starting_inventory_amounts[get_stage_obj_item_name(team=Team.DARK, stage_obj=StageObj.CHECKPOINT)] = 1
+            self.starting_inventory_amounts[get_stage_obj_item_name(team=Team.DARK, stage_obj=StageObj.RINGS)] = 1
+            # self.starting_inventory_amounts[get_stage_obj_item_name(team=Team.DARK, stage_obj=StageObj.ITEM_BOX)] = 1
+            self.starting_inventory_amounts[get_spawn_position_item_name(team=Team.DARK, stage=Stage.SEASIDE_HILL, checkpoint=3)] = 1
+
+
+
+
+        elif enabled_teams[0] is Team.CHAOTIX:
+            if self.options.starting_character_chaotix == StartingCharacterChaotix.option_espio:
+                self.starting_inventory_amounts[get_playable_char_item_name(character=Character.ESPIO)] = 1
+            if self.options.starting_character_chaotix == StartingCharacterChaotix.option_charmy:
+                self.starting_inventory_amounts[get_playable_char_item_name(character=Character.CHARMY)] = 1
+            if self.options.starting_character_chaotix == StartingCharacterChaotix.option_vector:
+                self.starting_inventory_amounts[get_playable_char_item_name(character=Character.VECTOR)] = 1
+
+            self.starting_inventory_amounts[get_stage_obj_item_name(team=Team.CHAOTIX, stage_obj=StageObj.CHECKPOINT)] = 1
+            self.starting_inventory_amounts[get_stage_obj_item_name(team=Team.CHAOTIX, stage_obj=StageObj.RINGS)] = 1
+            self.starting_inventory_amounts[get_stage_obj_item_name(team=Team.CHAOTIX, stage_obj=StageObj.ITEM_BOX)] = 1
+            self.starting_inventory_amounts[get_spawn_position_item_name(team=Team.CHAOTIX, stage=Stage.SEASIDE_HILL, checkpoint=4)] = 1
+        pass
+
+
+    def force_enable_required_acts_and_sanities(self) -> None:
+        # if not self.options.enabled_acts_dark.is_act_a_enabled() and not self.options.enabled_acts_dark.is_act_b_enabled():
+        #     self.options.enabled_acts_dark.value = EnabledActsDark.option_act_a
+        #
+        # if not self.options.enabled_acts_chaotix.is_act_a_enabled() and not self.options.enabled_acts_chaotix.is_act_b_enabled():
+        #     self.options.enabled_acts_chaotix.value = EnabledActsChaotix.option_act_a
+        pass
 
 
 
@@ -240,6 +266,7 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
         # Jump Rando
         if not self.options.jump_rando:
             self.starting_inventory_amounts[get_correct_ability_item_name(world=self, team=Team.DARK, ability=Ability.JUMP)] = 1
+            self.starting_inventory_amounts[get_correct_ability_item_name(world=self, team=Team.CHAOTIX, ability=Ability.JUMP)] = 1
 
 
         # enabled acts
@@ -248,6 +275,10 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
         if self.options.both_sanity_location_sets:
             self.options.enabled_acts_dark.value = EnabledActsDark.option_both_acts
             self.options.enabled_acts_chaotix.value = EnabledActsChaotix.option_both_acts
+
+
+        self.handle_dark_options_at_gen_early()
+        self.handle_chaotix_options_at_gen_early()
             
             
     

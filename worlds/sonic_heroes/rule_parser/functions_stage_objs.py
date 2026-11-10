@@ -100,6 +100,13 @@ def get_export_string_item_balloon(team: Team, stage: Stage, secret: bool = Fals
 
 
 
+def get_export_string_hermit_crab(team: Team, stage: Stage, secret: bool = False) -> tuple[str, str, str, str]:
+    list_name: str = "HERMIT_CRABS"
+    class_str: str = "HermitCrabData"
+    file_name: str = get_stage_objs_csv_file_name(team=team, stage=stage, stage_obj="HermitCrabs", secret=secret)
+    return class_str, list_name, file_name, CHAOTIX_OBJS_PARSER_FILE_HEADER
+
+
 
 
 
@@ -201,6 +208,9 @@ def parse_individual_stage_obj_csv_entry(entry: dict[str, str], line_number: int
         case StageObj.ITEM_BALLOON:
             params_dict = parse_csv_entry_item_balloon(entry=entry, params_dict=params_dict)
 
+
+
+
         case StageObj.EGG_FLAPPER:
             params_dict = parse_csv_entry_egg_flapper(entry=entry, params_dict=params_dict)
         case StageObj.EGG_PAWN:
@@ -239,6 +249,9 @@ def get_export_names_for_stage_obj(stage_obj: StageObj, team: Team, stage: Stage
             class_str, list_name, file_name, file_header = get_export_string_item_box(team=team, stage=stage, secret=secret)
         case StageObj.ITEM_BALLOON:
             class_str, list_name, file_name, file_header = get_export_string_item_balloon(team=team, stage=stage, secret=secret)
+        case StageObj.HERMIT_CRAB:
+            class_str, list_name, file_name, file_header = get_export_string_hermit_crab(team=team, stage=stage, secret=secret)
+
 
         case StageObj.EGG_FLAPPER:
             class_str, list_name, file_name, file_header = get_export_string_egg_flapper(team=team, stage=stage, secret=secret)
