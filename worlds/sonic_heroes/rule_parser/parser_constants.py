@@ -15,6 +15,7 @@ RULE_HEADER: str = "Rule"
 GROUP_HEADER: str = "Group"
 ID_OFFSET_GROUP_HEADER: str = "IDOffsetGroup"
 ID_OFFSET_FULL_HEADER: str = "IDOffsetFull"
+INVALID_ID_OFFSET: int = -999999
 LINK_ID_HEADER: str = "LinkID"
 X_HEADER: str = "X"
 Y_HEADER: str = "Y"

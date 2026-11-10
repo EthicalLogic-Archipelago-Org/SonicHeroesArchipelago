@@ -206,12 +206,14 @@ def generate_level_goal_locations_for_team_not_super_hard_mode(team: Team) -> No
     if team != Team.SUPER_HARD_MODE and team != Team.ANY_TEAM:
         for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
 
+            # Act A
             if team is Team.CHAOTIX and reg_lvl.chaotix_obj_sanity_checks[Act.ACT_A] > 0:
                 append_location(name=f"{reg_lvl.stage_name} {team.value} {Act.ACT_A.get_act_str()}", team=team, stage=reg_lvl, code=-999, act=1, parent_region=f"{reg_lvl.stage_name} {team.value} {OBJ_SANITY}", rule_str="", rule=CanGoalStage(team=team, stage=reg_lvl, act=Act.ACT_A), loc_type=LocationType.LEVEL, location_groups=[STAGE_LOCATION_GROUP])
 
             else:
                 append_location(name=f"{reg_lvl.stage_name} {team.value} {Act.ACT_A.get_act_str()}", team=team, stage=reg_lvl, code=-999, act=1, parent_region=f"{reg_lvl.stage_name} {team.value} Goal", rule_str="", rule=CanGoalStage(team=team, stage=reg_lvl, act=Act.ACT_A), loc_type=LocationType.LEVEL, location_groups=[STAGE_LOCATION_GROUP])
 
+            # Act B
             if team is Team.DARK or team is Team.ROSE:
                 append_location(name=f"{reg_lvl.stage_name} {team.value} {Act.ACT_B.get_act_str()}", team=team, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl.stage_name} {team.value} {OBJ_SANITY}", rule_str="", rule=CanGoalStage(team=team, stage=reg_lvl, act=Act.ACT_B), loc_type=LocationType.LEVEL, location_groups=[STAGE_LOCATION_GROUP])
 
@@ -258,7 +260,7 @@ def generate_dark_obj_sanity() -> None:
         for enemy_stage_obj in ENEMY_STAGE_OBJS:
             for enemy_data in get_all_parsed_stage_objects_of_type(team=Team.DARK, stage=reg_lvl, stage_obj=enemy_stage_obj):
                 if enemy_data.id_offset_full != STAGE_OBJ_INVALID_ID_OFFSET:
-                    append_location(name=f"{reg_lvl.stage_name} {Team.DARK} {Act.ACT_B.get_act_str()} Enemies Killed: {enemy_count + 1}", team=Team.DARK, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl.stage_name} {Team.DARK} {OBJ_SANITY}", rule_str="", rule=Has(item_name=get_obj_sanity_event_item_name(team=Team.DARK, stage=reg_lvl, act=Act.ACT_B), count=enemy_count + 1), loc_type=LocationType.OBJ_SANITY, location_groups=[OBJ_SANITY_LOCATION_GROUP])
+                    append_location(name=f"{reg_lvl.stage_name} {Team.DARK} {Act.ACT_B.get_act_str()} Enemies Killed: {enemy_count + 1}", team=Team.DARK, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl.stage_name} {Team.DARK} {OBJ_SANITY}", rule_str="", rule=Has[SonicHeroesWorldBase](item_name=get_obj_sanity_event_item_name(team=Team.DARK, stage=reg_lvl, act=Act.ACT_B), count=enemy_count + 1), loc_type=LocationType.OBJ_SANITY, location_groups=[OBJ_SANITY_LOCATION_GROUP])
                     enemy_count += 1
         print(f"Dark ObjSanity Stage: {reg_lvl.stage_name} has {enemy_count} enemy checks")
         print(f"This is at generate_dark_obj_sanity in location_generation")
@@ -271,7 +273,7 @@ def generate_rose_obj_sanity() -> None:
     loc_id = LOCATION_START_ID_OFFSET + 0x6C8
     for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
         for x in range(200):
-            append_location(name=f"{reg_lvl.stage_name} {Team.ROSE} {Act.ACT_B.get_act_str()} Rings Collected: {x + 1}", team=Team.ROSE, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl} {Team.ROSE} {OBJ_SANITY}", rule_str="", rule=Has(item_name=get_obj_sanity_event_item_name(team=Team.ROSE, stage=reg_lvl, act=Act.ACT_B), count=x + 1), loc_type=LocationType.OBJ_SANITY, location_groups=[OBJ_SANITY_LOCATION_GROUP])
+            append_location(name=f"{reg_lvl.stage_name} {Team.ROSE} {Act.ACT_B.get_act_str()} Rings Collected: {x + 1}", team=Team.ROSE, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl} {Team.ROSE} {OBJ_SANITY}", rule_str="", rule=Has[SonicHeroesWorldBase](item_name=get_obj_sanity_event_item_name(team=Team.ROSE, stage=reg_lvl, act=Act.ACT_B), count=x + 1), loc_type=LocationType.OBJ_SANITY, location_groups=[OBJ_SANITY_LOCATION_GROUP])
 
 
 def generate_chaotix_obj_sanity() -> None:
@@ -765,7 +767,7 @@ def generate_level_goal_all_teams_events() -> None:
             continue
         for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
             rule: Rule[SonicHeroesWorldBase] = CanGoalStage(team=team, stage=reg_lvl, act=Act.ACT_A) | CanGoalStage(team=team, stage=reg_lvl, act=Act.ACT_B)
-            append_location(name=f"{reg_lvl.stage_name} {team.value} Goal {EVENT_LOCATION}", team=team, stage=reg_lvl, code=EVENT_LOCATION_ID, act=0, parent_region=f"{reg_lvl.stage_name} {team.value} Goal", rule_str=f"", rule=rule, loc_type=LocationType.EVENT, location_groups=[], locked_item=LEVEL_GOAL_ALL_TEAMS_EVENT_ITEM)
+            append_location(name=f"{reg_lvl.stage_name} {team.value} Goal {EVENT_LOCATION}", team=team, stage=reg_lvl, code=EVENT_LOCATION_ID, act=0, parent_region=f"{reg_lvl.stage_name} {team.value}", rule_str=f"", rule=rule, loc_type=LocationType.EVENT, location_groups=[], locked_item=LEVEL_GOAL_ALL_TEAMS_EVENT_ITEM)
 
 
 def generate_level_goal_per_story_events() -> None:
@@ -775,7 +777,7 @@ def generate_level_goal_per_story_events() -> None:
             continue
         for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
             rule: Rule[SonicHeroesWorldBase] = CanGoalStage(team=team, stage=reg_lvl, act=Act.ACT_A) | CanGoalStage(team=team, stage=reg_lvl, act=Act.ACT_B)
-            append_location(name=f"{reg_lvl.stage_name} {team.value} Goal {EVENT_LOCATION} For Team {team.value}", team=team, stage=reg_lvl, code=EVENT_LOCATION_ID, act=0, parent_region=f"{reg_lvl.stage_name} {team.value} Goal", rule_str=f"", rule=rule, loc_type=LocationType.EVENT, location_groups=[], locked_item=f"{LEVEL_GOAL_PER_TEAM_EVENT_ITEM_WITHOUT_TEAM} {team.value}")
+            append_location(name=f"{reg_lvl.stage_name} {team.value} Goal {EVENT_LOCATION} For Team {team.value}", team=team, stage=reg_lvl, code=EVENT_LOCATION_ID, act=0, parent_region=f"{reg_lvl.stage_name} {team.value}", rule_str=f"", rule=rule, loc_type=LocationType.EVENT, location_groups=[], locked_item=f"{LEVEL_GOAL_PER_TEAM_EVENT_ITEM_WITHOUT_TEAM} {team.value}")
 
 
 def generate_bonus_key_events() -> None:
