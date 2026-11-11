@@ -209,7 +209,7 @@ def is_there_mismatched_parens(rule_str: str) -> bool:
     return False
 
 
-def handle_rule_str(rule_str: str, team: Team, stage: Stage, print_steps: bool = False) -> None:
+def handle_rule_str(rule_str: str, team: Team, stage: Stage, line_number: int, print_steps: bool = False) -> None:
     # I really hate this but it's needed
     import regex
 
@@ -224,7 +224,7 @@ def handle_rule_str(rule_str: str, team: Team, stage: Stage, print_steps: bool =
         return
 
     if print_steps:
-        print(f"Rule: {rule_str}")
+        print(f"Rule: {rule_str} :: Line Number: {line_number}")
 
     if rule_str == "OR":
         result_str_list.append(rule_str)
@@ -235,7 +235,7 @@ def handle_rule_str(rule_str: str, team: Team, stage: Stage, print_steps: bool =
         return
 
     if do_start_and_end_parens_match(rule_str):
-        handle_rule_str(rule_str=rule_str[1:-1], team=team, stage=stage, print_steps=print_steps)
+        handle_rule_str(rule_str=rule_str[1:-1], team=team, stage=stage, line_number=line_number, print_steps=print_steps)
         return
 
 
@@ -244,7 +244,7 @@ def handle_rule_str(rule_str: str, team: Team, stage: Stage, print_steps: bool =
         temp_var: list[str] = OUTER_PARENS_PATTERN.split(string=rule_str)  # pyright: ignore[reportRedeclaration]
         if print_steps:
             print(f"temp_var={temp_var}")
-        handle_rule_str(rule_str=temp_var[0], team=team, stage=stage, print_steps=print_steps)
+        handle_rule_str(rule_str=temp_var[0], team=team, stage=stage, line_number=line_number, print_steps=print_steps)
 
         temp_scanner = OUTER_PARENS_PATTERN.finditer(string=rule_str)
 
@@ -252,13 +252,13 @@ def handle_rule_str(rule_str: str, team: Team, stage: Stage, print_steps: bool =
             temp_index: int = len(result_str_list)
             result_str_list.append('(')
             temp_tuple: tuple[int, int] = (temp_index, temp_index)
-            handle_rule_str(rule_str=scan_match.group(), team=team, stage=stage, print_steps=print_steps)
+            handle_rule_str(rule_str=scan_match.group(), team=team, stage=stage, line_number=line_number, print_steps=print_steps)
             temp_index = len(result_str_list)
             result_str_list.append(')')
             temp_tuple = (temp_tuple[0], temp_index)
             parens_mapping_list.append(temp_tuple)
 
-            handle_rule_str(rule_str=temp_var[index + 1], team=team, stage=stage, print_steps=print_steps)
+            handle_rule_str(rule_str=temp_var[index + 1], team=team, stage=stage, line_number=line_number, print_steps=print_steps)
 
         return
 
@@ -268,7 +268,7 @@ def handle_rule_str(rule_str: str, team: Team, stage: Stage, print_steps: bool =
         if print_steps:
             print(f"Temp AND Var here: {temp_var}")
         for index, split in enumerate(temp_var):
-            handle_rule_str(rule_str=split, team=team, stage=stage, print_steps=print_steps)
+            handle_rule_str(rule_str=split, team=team, stage=stage, line_number=line_number, print_steps=print_steps)
             #if index < len(temp_var) - 1:
                 #result_str_list.append('AND')
         return
@@ -278,11 +278,11 @@ def handle_rule_str(rule_str: str, team: Team, stage: Stage, print_steps: bool =
         if print_steps:
             print(f"Temp OR Var here: {temp_var}")
         for index, split in enumerate(temp_var):
-            handle_rule_str(rule_str=split, team=team, stage=stage, print_steps=print_steps)
+            handle_rule_str(rule_str=split, team=team, stage=stage, line_number=line_number, print_steps=print_steps)
         return
 
     if is_there_mismatched_parens(rule_str):
-        raise ValueError(f"Mismatched parens: {rule_str}")
+        raise ValueError(f"Mismatched parens: {rule_str} :: Line Number: {line_number}")
 
     result_str_list.append(rule_str)
 
@@ -292,7 +292,7 @@ def handle_full_rule_string(rule_str: str, team: Team, stage: Stage, line_number
     result_str_list = []
     parens_mapping_list = []
     result_str: str = ""
-    handle_rule_str(rule_str=rule_str, team=team, stage=stage, print_steps=print_steps)
+    handle_rule_str(rule_str=rule_str, team=team, stage=stage, line_number=line_number, print_steps=print_steps)
 
     try:
         #now handle output
