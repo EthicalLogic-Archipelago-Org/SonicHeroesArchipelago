@@ -1,7 +1,89 @@
-Team,Level,Name,ObjChecks
-Super Hard Mode,Seaside Hill,Start,0
-Super Hard Mode,Seaside Hill,Checkpoint 1,0
-Super Hard Mode,Seaside Hill,Checkpoint 2,0
-Super Hard Mode,Seaside Hill,Checkpoint 3,0
-Super Hard Mode,Seaside Hill,Checkpoint 4,0
-Super Hard Mode,Seaside Hill,Goal,0
+Team,Level,Name,ObjChecks,Rings,Rings Cont.,Enemies,Enemies Cont.,Items,Items Cont.,Other Stuff,Notes
+Super Hard Mode,Seaside Hill,Start,0,,,,,,,,
+Super Hard Mode,Seaside Hill,ObjSanity,0,,,,,,,,
+Super Hard Mode,Seaside Hill,After Beginning Falling Ruins After Start Of Level,0,0,,0,,0,,,
+Super Hard Mode,Seaside Hill,Beginning Flower Patch After Start Of Level,0,12,6x2,3,3xnothing,0,,TripleSpring,
+Super Hard Mode,Seaside Hill,Lower Path After Beginning Flower Patch After Start Of Level,0,0,,0,,0,,TripleSpring,
+Super Hard Mode,Seaside Hill,Upper Path After Beginning Flower Patch After Start Of Level,0,8,2x4,0,,0,,TripleSpring,
+Super Hard Mode,Seaside Hill,Light Dash Trail After Upper Path Flower Patch After Start of Level,0,20,1x20,0,,0,,,
+Super Hard Mode,Seaside Hill,First Loop Before Checkpoint 1,0,4,1x4,0,,0,,,
+Super Hard Mode,Seaside Hill,Eggmans Robots Bottom Before Checkpoint 1,0,12,1x2 1x10,4,2xbazooka 2xlance,0,,,
+Super Hard Mode,Seaside Hill,Hermit Crab Cliff Below Eggmans Robots Before Checkpoint 1,0,0,,0,,1,Extra Life Box,,
+Super Hard Mode,Seaside Hill,Eggmans Robots Middle Before Checkpoint 1,0,0,,1,GreenShot,0,,,
+Super Hard Mode,Seaside Hill,Eggmans Robots Top Before Checkpoint 1,0,0,,1,bazooka,2,5Rings 10Rings,,
+Super Hard Mode,Seaside Hill,Small Cliff Above Eggmans Robots Before Checkpoint 1,0,0,,1,nothing,0,,,
+Super Hard Mode,Seaside Hill,Staircase Before Corner Cave Bottom At Checkpoint 1,0,4,1x4,0,,0,,,
+Super Hard Mode,Seaside Hill,Checkpoint 1,0,0,,0,,0,,,
+Super Hard Mode,Seaside Hill,Staircase Before Corner Cave Middle After Checkpoint 1,0,0,,2,2xGreenShot,0,,,
+Super Hard Mode,Seaside Hill,Staircase Before Corner Cave Top After Checkpoint 1,0,0,,3,3xlance,,,,
+Super Hard Mode,Seaside Hill,Ruin Before Corner Cave After Checkpoint 1,0,0,,1,GreenShot,0,,,
+Super Hard Mode,Seaside Hill,Corner Cave After Checkpoint 1,0,30,1x7 1x10 1x1 1x6 1x6,0,,0,,,
+Super Hard Mode,Seaside Hill,First Island After Checkpoint 1,0,1,1x1,5,2xlance 2xEggGun 1xbazooka,0,,,EggGun is filler name
+Super Hard Mode,Seaside Hill,First Island After Checkpoint 1 Cannon Speed,0,0,,0,,0,,,
+Super Hard Mode,Seaside Hill,First Island After Checkpoint 1 Cannon Power,0,0,,0,,0,,,
+Super Hard Mode,Seaside Hill,First Island After Checkpoint 1 Cannon Flying,0,0,,0,,0,,,
+Super Hard Mode,Seaside Hill,First Ruin Between First and Second Island After Checkpoint 1,0,0,,0,,0,,TripleSpring,
+Super Hard Mode,Seaside Hill,Second Ruin Between First and Second Island After Checkpoint 1,0,9,3x3,0,,0,,,
+Super Hard Mode,Seaside Hill,Third Ruin Between First and Second Island After Checkpoint 1,0,0,,3,2xBlueGun 1xGreenShot,0,,,BlueGun is filler name
+Super Hard Mode,Seaside Hill,Second Island After Checkpoint 1,0,0,,5,4xlance GreenShot,1,5Rings,TripleSpring,
+Super Hard Mode,Seaside Hill,First Ruins After Second Island After Checkpoint 1,0,0,,0,,0,,,
+Super Hard Mode,Seaside Hill,First Green Flapper Before First Bobsled After Checkpoint 1,0,0,,1,GreenShot,0,,,
+Super Hard Mode,Seaside Hill,Remaining Ruins After Second Island After Checkpoint 1,0,0,,0,,0,,,
+Super Hard Mode,Seaside Hill,Second Green Flapper Before First Bobsled After Checkpoint 1,0,0,,1,GreenShot,,,,
+Super Hard Mode,Seaside Hill,Before First Bobsled After Checkpoint 1,0,0,,1,GreenShot,0,,,
+Super Hard Mode,Seaside Hill,First Bobsled After Checkpoint 1,0,25,1x5 1x4 1x4 1x4 1x4 1x4,6,6xnothing,,,,
+Super Hard Mode,Seaside Hill,Ruin After First Bobsled After Checkpoint 1,0,0,,0,,0,,TripleSpring,
+Super Hard Mode,Seaside Hill,Light Dash Trail After First Bobsled After Checkpoint 1,0,10,1x10,0,,0,,,Rainbow Hoop expected to reach next region
+Super Hard Mode,Seaside Hill,First Cliff Before Big Ruin Beach At Checkpoint 2,0,0,,0,,0,,,
+Super Hard Mode,Seaside Hill,Checkpoint 2,0,0,,0,,0,,,
+Super Hard Mode,Seaside Hill,Item Box At Checkpoint 2,0,0,,0,,1,5Rings,,
+Super Hard Mode,Seaside Hill,Second Cliff Before Big Ruin Beach After Checkpoint 2,0,0,,,,1,5Rings,,box needs BreakThings flappers need (FlyAnyANDThunderShoot0)OR(JumpANDTornado0HoverANDRuinsNoTrigger)OR(BreakThingsANDSingleSpringAND(ComboHeightORFlyAnyORJumpORThundershoot0)ANDRuinsNoTrigger) - copypasted from Team Dark DON'T ASSUME THIS WORKS
+Super Hard Mode,Seaside Hill,Ruins Above Second Cliff Before Big Ruin Beach After Checkpoint 2,0,0,,2,2xGreenShot,0,,,
+Super Hard Mode,Seaside Hill,Lower Cliff Before Big Ruin Beach After Checkpoint 2,0,0,,1,lance,0,,,
+Super Hard Mode,Seaside Hill,Path Before Big Ruin Beach After Checkpoint 2,0,8,3x1 5x1,6,6xlance,0,,,4 of the lance users spawn on moving ruin platforms
+Super Hard Mode,Seaside Hill,Green Flappers At Path Before Big Ruin Beach After Checkpoint 2,0,0,,2, 2xGreenLightning,0,,,
+Super Hard Mode,Seaside Hill,Path Before Big Ruin Beach After Checkpoint 2 Cannon Speed,0,0,,0,,0,,,
+Super Hard Mode,Seaside Hill,Path Before Big Ruin Beach After Checkpoint 2 Cannon Power,0,0,,0,,0,,,
+Super Hard Mode,Seaside Hill,Path Before Big Ruin Beach After Checkpoint 2 Cannon Flying,0,0,,0,,0,,,
+Super Hard Mode,Seaside Hill,Big Ruin Beach Lower Cliffs At Start After Checkpoint 2,0,0,,0,,0,,,
+Super Hard Mode,Seaside Hill,Big Ruin Beach Ruin With Dash Ramp After Checkpoint 2,0,0,,0,,0,,,
+Super Hard Mode,Seaside Hill,Big Ruin Beach Island 1 After Checkpoint 2,0,0,,0,,0,,,
+Super Hard Mode,Seaside Hill,Big Ruin Beach Island 1 Item Box After Checkpoint 2,0,0,,0,,1,20Rings,,
+Super Hard Mode,Seaside Hill,Big Ruin Beach Island 1 After Checkpoint 2 High Item Balloon,0,0,,0,,1,Extra Life Balloon,,
+Super Hard Mode,Seaside Hill,Big Ruin Beach Island 1 After Checkpoint 2 Mid Item Balloon,0,0,,0,,1,Speed Lvl Balloon,,
+Super Hard Mode,Seaside Hill,Ruin Between Big Ruin Beach Islands After Checkpoint 2,0,0,,0,,0,,,
+Super Hard Mode,Seaside Hill,Big Ruin Beach Middle Path Before Blocks After Checkpoint 2,0,0,,0,,0,,,
+Super Hard Mode,Seaside Hill,Big Ruin Beach Middle Path After Blocks After Checkpoint 2,0,0,,0,,0,,,
+Super Hard Mode,Seaside Hill,Big Ruin Beach Top Path 1 After Checkpoint 2,0,0,,1,bazooka,0,,,
+Super Hard Mode,Seaside Hill,Big Ruin Beach Top Path 2 After Checkpoint 2,0,0,,8,7xlance 1xred flapper,0,,,
+Super Hard Mode,Seaside Hill,Big Ruin Beach Island 2 Before Checkpoint 3,0,15,1x10 1x5,4,4xlance,0,,,
+Super Hard Mode,Seaside Hill,Big Ruin Beach Egg Pawn on Island 2 Before Checkpoint 3,0,0,,1,bazooka,0,,,On elevated ruin platform
+Super Hard Mode,Seaside Hill,Big Ruin Beach Ruin Staircase Before Checkpoint 3,0,0,,0,,0,,,Last stair from Team Dark is replaced with a Dash Hoop
+Super Hard Mode,Seaside Hill,Big Ruin Beach End Path Before Checkpoint 3,0,4,1x4,1,EggGun,0,,,EggGun is filler name
+Super Hard Mode,Seaside Hill,Green Flappers At End Path Before Checkpoint 3,0,0,,2,2xGreenShot,0,,,
+Super Hard Mode,Seaside Hill,Path Before Volcano Start At Checkpoint 3,0,6,1x6,0,,0,,,
+Super Hard Mode,Seaside Hill,Checkpoint 3,0,0,,0,,0,,,
+Super Hard Mode,Seaside Hill,Big Special Ruin Before Volcano After Checkpoint 3,0,0,,4,4x GreenShot,0,,,
+Super Hard Mode,Seaside Hill,Ruin After Big Special Ruin Before Volcano After Checkpoint 3,0,0,,0,,0,,,
+Super Hard Mode,Seaside Hill,Green Flapper After Big Special Ruin Before Volcano After Checkpoint 3,0,0,,1,GreenShot,0,,,
+Super Hard Mode,Seaside Hill,Path After Big Special Ruin Before Volcano Start After Checkpoint 3,0,0,,1,GreenLightning,1,RefillFlightGauge,,
+Super Hard Mode,Seaside Hill,Path After Big Special Ruin Before Volcano After Block Start After Checkpoint 3,0,8,2x4,3,3xlance,0,,,
+Super Hard Mode,Seaside Hill,Path After Big Special Ruin Before Volcano Loop After Checkpoint 3,0,0,,0,,1,5Rings,,
+Super Hard Mode,Seaside Hill,Cave Before Volcano Entrance After Checkpoint 3,0,0,,2,2xGreenLightning,0,,,
+Super Hard Mode,Seaside Hill,Volcano Cannon Room After Checkpoint 3,0,0,,5,4xGreenLightning 1xlance,0,,,
+Super Hard Mode,Seaside Hill,Volcano Cannon Room Hidden Life After Checkpoint 3,0,0,,0,,1,Extra Life Box,,
+Super Hard Mode,Seaside Hill,Volcano Cannon Room After Checkpoint 3 Cannon Speed,0,0,,0,,0,,,
+Super Hard Mode,Seaside Hill,Volcano Cannon Room After Checkpoint 3 Cannon Power,0,0,,0,,0,,,
+Super Hard Mode,Seaside Hill,Volcano Cannon Room After Checkpoint 3 Cannon Flying,0,0,,0,,0,,,
+Super Hard Mode,Seaside Hill,Volcano Top Room After Checkpoint 3,0,0,,0,,0,,,
+Super Hard Mode,Seaside Hill,Second Bobsled Start At Checkpoint 4,0,0,,0,,0,,,
+Super Hard Mode,Seaside Hill,Checkpoint 4,0,0,,,,,,,
+Super Hard Mode,Seaside Hill,Second Bobsled After Checkpoint 4,0,17,1x8 1x5 1x4,6,6xnothing,4,3x5Rings Speed Shoes (Balloons),,
+Super Hard Mode,Seaside Hill,Loop After Second Bobsled After Checkpoint 4,0,15,1x15,0,,1,5Rings,,5 Ring Capsule on right loop
+Super Hard Mode,Seaside Hill,Path After Block After Loop After Second Bobsled After Checkpoint 4,0,0,,2,2xlance,0,,,
+Super Hard Mode,Seaside Hill,Ruin After Block After Loop After Second Bobsled After Checkpoint 4,0,0,,0,,0,,,
+Super Hard Mode,Seaside Hill,Path Before Big Loop After Checkpoint 4,0,0,,5,4xlance 1xbazooka,,,,
+Super Hard Mode,Seaside Hill,Big Loop After Checkpoint 4,0,45,1x1 1x1 1x12 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x1 1x11,0,,0,,TripleSpring,"sonic team, why?"
+Super Hard Mode,Seaside Hill,Whale Blowhole Before Goal,0,0,,0,,0,,,dash ring expected to progress
+Super Hard Mode,Seaside Hill,Whale Island Top At Goal,0,0,,6,3xred flapper 2xGreenShot 1xlance,0,,,lance user appears on ruin behind blowhole
+Super Hard Mode,Seaside Hill,Goal,0,0,,0,,0,,,
