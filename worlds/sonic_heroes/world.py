@@ -223,6 +223,19 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
             self.starting_inventory_amounts[get_stage_obj_item_name(team=Team.DARK, stage_obj=StageObj.RINGS)] = 1
             # self.starting_inventory_amounts[get_stage_obj_item_name(team=Team.DARK, stage_obj=StageObj.ITEM_BOX)] = 1
             self.starting_inventory_amounts[get_spawn_position_item_name(team=Team.DARK, stage=Stage.SEASIDE_HILL, checkpoint=3)] = 1
+            
+        elif enabled_teams[0] is Team.ROSE:
+            if self.options.starting_character_rose == StartingCharacterRose.option_amy:
+                self.starting_inventory_amounts[get_playable_char_item_name(character=Character.AMY)] = 1
+            if self.options.starting_character_rose == StartingCharacterRose.option_cream:
+                self.starting_inventory_amounts[get_playable_char_item_name(character=Character.CREAM)] = 1
+            if self.options.starting_character_rose == StartingCharacterRose.option_big:
+                self.starting_inventory_amounts[get_playable_char_item_name(character=Character.BIG)] = 1
+
+            self.starting_inventory_amounts[get_stage_obj_item_name(team=Team.ROSE, stage_obj=StageObj.CHECKPOINT)] = 1
+            self.starting_inventory_amounts[get_stage_obj_item_name(team=Team.ROSE, stage_obj=StageObj.RINGS)] = 1
+            self.starting_inventory_amounts[get_stage_obj_item_name(team=Team.ROSE, stage_obj=StageObj.ITEM_BOX)] = 1
+            self.starting_inventory_amounts[get_spawn_position_item_name(team=Team.ROSE, stage=Stage.SEASIDE_HILL, checkpoint=4)] = 1
 
 
 
@@ -266,6 +279,7 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
         # Jump Rando
         if not self.options.jump_rando:
             self.starting_inventory_amounts[get_correct_ability_item_name(world=self, team=Team.DARK, ability=Ability.JUMP)] = 1
+            self.starting_inventory_amounts[get_correct_ability_item_name(world=self, team=Team.ROSE, ability=Ability.JUMP)] = 1
             self.starting_inventory_amounts[get_correct_ability_item_name(world=self, team=Team.CHAOTIX, ability=Ability.JUMP)] = 1
 
 
@@ -274,10 +288,12 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
 
         if self.options.both_sanity_location_sets:
             self.options.enabled_acts_dark.value = EnabledActsDark.option_both_acts
+            self.options.enabled_acts_rose.value = EnabledActsRose.option_both_acts
             self.options.enabled_acts_chaotix.value = EnabledActsChaotix.option_both_acts
 
 
         self.handle_dark_options_at_gen_early()
+        self.handle_rose_options_at_gen_early()
         self.handle_chaotix_options_at_gen_early()
             
             
@@ -354,6 +370,79 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
             self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.RHINO_LINER_SANITY_FULL)
             self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.EGG_BISHOP_SANITY_FULL)
             self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.DARK, loc_type=LocationType.E2000_SANITY_FULL)
+            
+            
+    def handle_rose_options_at_gen_early(self) -> None:
+        if self.options.enabled_acts_rose.is_act_a_enabled():
+            self.enabled_team_acts_flag |= EnabledTeamActs.ROSE_ACT_A
+        if self.options.enabled_acts_rose.is_act_b_enabled():
+            self.enabled_team_acts_flag |= EnabledTeamActs.ROSE_ACT_B
+
+
+        # force checkpoint and key sanities
+        self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.ROSE, loc_type=LocationType.CHECKPOINT_SANITY)
+        self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.ROSE, loc_type=LocationType.KEY_SANITY)
+
+
+        # enabled sanities
+        # Obj Sanity
+        if self.options.obj_sanity_rose:
+            if not self.options.enabled_acts_rose.is_act_b_enabled():
+                raise OptionError(f"Obj Sanity for Team Rose requires Act B to be enabled")
+            self.enabled_sanity_acts[Team.ROSE][LocationType.OBJ_SANITY] = Act.ACT_B
+
+        # Ring Sanity Group
+        if self.options.ring_sanity_rose.is_group_enabled():
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.ROSE, loc_type=LocationType.RING_SANITY_GROUP)
+
+        # Ring Sanity Full
+        if self.options.ring_sanity_rose.is_full_enabled():
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.ROSE, loc_type=LocationType.RING_SANITY_FULL)
+
+
+        # Hint Ring Sanity Group
+        if self.options.hint_ring_sanity_rose.is_group_enabled():
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.ROSE, loc_type=LocationType.HINT_RING_SANITY_GROUP)
+
+        # Hint Ring Sanity Full
+        if self.options.hint_ring_sanity_rose.is_full_enabled():
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.ROSE, loc_type=LocationType.HINT_RING_SANITY_FULL)
+
+        # Item Box Sanity Group
+        if self.options.item_box_balloon_sanity_rose.is_group_enabled():
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.ROSE, loc_type=LocationType.ITEM_BOX_SANITY_GROUP)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.ROSE, loc_type=LocationType.ITEM_BALLOON_SANITY_GROUP)
+
+        # Item Box Sanity Full
+        if self.options.item_box_balloon_sanity_rose.is_full_enabled():
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.ROSE, loc_type=LocationType.ITEM_BOX_SANITY_FULL)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.ROSE, loc_type=LocationType.ITEM_BALLOON_SANITY_FULL)
+
+
+        # Enemy Sanity Group
+        if self.options.enemy_sanity_rose.is_group_enabled():
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.ROSE, loc_type=LocationType.EGG_FLAPPER_SANITY_GROUP)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.ROSE, loc_type=LocationType.EGG_PAWN_SANITY_GROUP)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.ROSE, loc_type=LocationType.KLAGEN_SANITY_GROUP)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.ROSE, loc_type=LocationType.FALCO_SANITY_GROUP)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.ROSE, loc_type=LocationType.EGG_HAMMER_SANITY_GROUP)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.ROSE, loc_type=LocationType.CAMERON_SANITY_GROUP)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.ROSE, loc_type=LocationType.RHINO_LINER_SANITY_GROUP)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.ROSE, loc_type=LocationType.EGG_BISHOP_SANITY_GROUP)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.ROSE, loc_type=LocationType.E2000_SANITY_GROUP)
+
+
+        # Enemy Sanity Full
+        if self.options.enemy_sanity_rose.is_full_enabled():
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.ROSE, loc_type=LocationType.EGG_FLAPPER_SANITY_FULL)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.ROSE, loc_type=LocationType.EGG_PAWN_SANITY_FULL)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.ROSE, loc_type=LocationType.KLAGEN_SANITY_FULL)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.ROSE, loc_type=LocationType.FALCO_SANITY_FULL)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.ROSE, loc_type=LocationType.EGG_HAMMER_SANITY_FULL)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.ROSE, loc_type=LocationType.CAMERON_SANITY_FULL)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.ROSE, loc_type=LocationType.RHINO_LINER_SANITY_FULL)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.ROSE, loc_type=LocationType.EGG_BISHOP_SANITY_FULL)
+            self.handle_individual_sanity_option_for_team_at_gen_early(team=Team.ROSE, loc_type=LocationType.E2000_SANITY_FULL)
         
 
 
