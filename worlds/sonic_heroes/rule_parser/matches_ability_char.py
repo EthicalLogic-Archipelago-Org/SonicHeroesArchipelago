@@ -27,6 +27,8 @@ PARSER_ABILITY_MAPPING: dict[str, Callable[[Team, Stage], str]] = \
 {
     "BreakThings": lambda team, stage: get_func_str(func_name="can_break_things_rule", params={"team": team, "stage": stage}),
 
+    "BreakCage": lambda team, stage: get_func_str(func_name="can_break_things_rule", params={"team": team, "stage": stage}),
+
     "BreakWoodContainer": lambda team, stage: get_func_str(func_name="can_break_wood_container_rule", params={"team": team, "stage": stage}),
 
     "BreakIronContainer": lambda team, stage: get_func_str(func_name="can_break_iron_container_rule", params={"team": team, "stage": stage}),

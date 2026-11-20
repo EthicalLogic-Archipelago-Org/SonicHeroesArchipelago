@@ -23,19 +23,16 @@ def get_item_balloons_export_string_for_team(team: Team, parsed_data: dict[Stage
         for parsed_entry in parsed_list:
             params_dict: dict[str, str] = \
             {
-                "team": f"Team.{parsed_entry.team.value}",
-                "levelid": f"LevelId.{parsed_entry.stage.stage_name.replace(" ", "")}",
-                "region": f"\"{parsed_entry.region_name.replace(f"{parsed_entry.stage.stage_name} {parsed_entry.team.value} ", "")}\"",
-                "loc_name": f"\"{parsed_entry.location_name.replace(f"{parsed_entry.region_name.replace(f"{parsed_entry.stage.stage_name} {parsed_entry.team.value} ", "")} ", "")}\"",
-                "item_reward": f"ItemReward.{parsed_entry.item.name}",
-                "stage_obj_type": f"StageObjTypes.{parsed_entry.obj_id.value.replace(" ", "")}",
-                "group": f"{parsed_entry.group}",
-                "id_offset_group": f"{parsed_entry.id_offset_group}",
-                "id_offset_full": f"{parsed_entry.id_offset_full}",
-                "linkid": f"{parsed_entry.link_id}",
-                "x": f"{parsed_entry.x}f",
-                "y": f"{parsed_entry.y}f",
-                "z": f"{parsed_entry.z}f",
+                "Team": f"Team.{parsed_entry.team.value}",
+                "LevelId": f"LevelId.{parsed_entry.stage.stage_name.replace(" ", "")}",
+                "Region": f"\"{parsed_entry.region_name.replace(f"{parsed_entry.stage.stage_name} {parsed_entry.team.value} ", "")}\"",
+                "LocName": f"\"{parsed_entry.location_name}\"",
+                "ItemReward": f"ItemReward.{parsed_entry.item.name}",
+                "Group": f"{parsed_entry.group}",
+                "IdOffsetGroup": f"{parsed_entry.id_offset_group}",
+                "IdOffsetFull": f"{parsed_entry.id_offset_full}",
+                "LinkID": f"{parsed_entry.link_id}",
+                "SpawnCoords": f"new Vector3(x: {parsed_entry.x}f, y: {parsed_entry.y}f, z: {parsed_entry.z}f)",
             }
 
             _result += f"{tab_char}{tab_char}{get_parsed_export_entry_str(entry_class_name=class_str, params=params_dict)},\n"

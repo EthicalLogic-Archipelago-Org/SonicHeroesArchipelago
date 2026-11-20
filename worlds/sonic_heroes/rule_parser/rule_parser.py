@@ -22,7 +22,7 @@ TEAM_STAGES_TO_PARSE: dict[Team, list[Stage]] = \
     Team.ANY_TEAM: [],
     Team.SONIC: [],
     Team.DARK: [Stage.SEASIDE_HILL],
-    Team.ROSE: [],
+    Team.ROSE: [Stage.SEASIDE_HILL],
     Team.CHAOTIX: [Stage.SEASIDE_HILL],
     Team.SUPER_HARD_MODE: [],
 }

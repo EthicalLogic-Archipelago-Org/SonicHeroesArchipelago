@@ -15,6 +15,7 @@ PARSER_TRICK_MAPPING: dict[str, Callable[[Team, Stage], str]] = \
 
     "BadnikBounce": lambda team, stage: get_func_str(func_name="can_badnik_bounce_rule", params={}),
     "CollisAbuse": lambda team, stage: get_func_str(func_name="can_collis_abuse_rule", params={}),
+    "SuperBounce": lambda team, stage: get_func_str(func_name="can_collis_abuse_rule", params={}),
     "HoverFrame": lambda team, stage: get_func_str(func_name="can_hover_frame_rule", params={"includes_homing_or_tornado": False}),
     "Homing0Hover": lambda team, stage: get_func_str(func_name="can_homing_hover_rule", params={"team": team, "stage": stage, "level": 0}),
     "Tornado0Hover": lambda team, stage: get_func_str(func_name="can_tornado_hover_rule", params={"team": team, "stage": stage, "level": 0}),

@@ -228,7 +228,98 @@ class EnemySanityDark(SonicHeroesSanityChoice):
     default: ClassVar[int] = option_groups
     
     
+    
+    
+    
+    
+    
+class EnabledActsRose(SonicHeroesEnabledActsChoice):
+    """
+    Which Team Rose Acts should be enabled?
+    """
+    display_name: str = "Enabled Acts For Team Rose"
 
+
+class StartingCharacterRose(Choice):
+    """
+    Which Character should Team Rose start with?
+    """
+    display_name: str = "Starting Character For Team Rose"
+
+    option_amy: int = 0
+    option_cream: int = 1
+    option_big: int = 2
+    default: ClassVar[str] = "random"
+
+
+
+
+# Team Rose Sanity
+class ObjSanityRose(Toggle):
+    """
+    Should Obj Sanity be enabled for Team Rose?
+    This requires Act B to be enabled.
+    """
+    display_name: str = "Team Rose Obj Sanity"
+
+
+
+class RingSanityRose(SonicHeroesSanityChoice):
+    """
+    How should Ring Sanity for Rose be handled?
+    Groups is an easier option with only 1 location per "group of checks"
+    Full is a location for each (this can be excessive with rings)
+    Both is both
+    """
+    display_name: str = "Ring Sanity Rose"
+    # option_disabled: int = SonicHeroesSanityChoice.disabled
+    option_groups: int = SonicHeroesSanityChoice.group
+    option_full: int = SonicHeroesSanityChoice.full
+    option_both_groups_and_full: int = option_groups + option_full
+    default: ClassVar[int] = option_groups
+
+
+class HintRingSanityRose(SonicHeroesSanityChoice):
+    """
+    How should Hint Ring Sanity for Rose be handled?
+    """
+    display_name: str = "Hint Ring Sanity Rose"
+
+    # option_disabled: int = SonicHeroesSanityChoice.disabled
+    # option_groups: int = SonicHeroesSanityChoice.group
+    option_full: int = SonicHeroesSanityChoice.full
+    # option_both_groups_and_full: int = option_groups + option_full
+    default: ClassVar[int] = option_full
+
+
+class ItemBoxBalloonSanityRose(SonicHeroesSanityChoice):
+    """
+    How should Item Box and Balloon Sanity for Rose be handled?
+    Groups is an easier option with only 1 location per "group of checks"
+    Full is a location for each (this can be excessive with rings)
+    Both is both
+    """
+    display_name: str = "Item Box and Balloon Sanity Rose"
+    # option_disabled: int = SonicHeroesSanityChoice.disabled
+    option_groups: int = SonicHeroesSanityChoice.group
+    option_full: int = SonicHeroesSanityChoice.full
+    option_both_groups_and_full: int = option_groups + option_full
+    default: ClassVar[int] = option_groups
+
+
+class EnemySanityRose(SonicHeroesSanityChoice):
+    """
+    How should Enemy Sanity for Rose be handled?
+    Groups is an easier option with only 1 location per "group of checks"
+    Full is a location for each (this can be excessive with rings)
+    Both is both
+    """
+    display_name: str = "Enemy Sanity Rose"
+    # option_disabled: int = SonicHeroesSanityChoice.disabled
+    option_groups: int = SonicHeroesSanityChoice.group
+    option_full: int = SonicHeroesSanityChoice.full
+    option_both_groups_and_full: int = option_groups + option_full
+    default: ClassVar[int] = option_groups
 
 
 
@@ -487,6 +578,25 @@ sonic_heroes_option_groups: list[OptionGroup] = \
                     EnemySanityDark,
                 ]),
 
+    OptionGroup(name="Team Rose",
+                options = \
+                [
+                    EnabledActsRose,
+                    StartingCharacterRose
+                ]),
+
+    OptionGroup(name="Team Rose Sanity",
+                options = \
+                [
+                    ObjSanityRose,
+                    RingSanityRose,
+                    HintRingSanityRose,
+                    ItemBoxBalloonSanityRose,
+                    EnemySanityRose,
+                ]),
+
+
+
     OptionGroup(name="Team Chaotix",
                 options = \
                 [
@@ -546,6 +656,18 @@ class SonicHeroesOptions(PerGameCommonOptions):
     item_box_balloon_sanity_dark: ItemBoxBalloonSanityDark
     enemy_sanity_dark: EnemySanityDark
 
+    enabled_acts_rose: EnabledActsRose
+    starting_character_rose: StartingCharacterRose
+
+    obj_sanity_rose: ObjSanityRose
+    ring_sanity_rose: RingSanityRose
+    hint_ring_sanity_rose: HintRingSanityRose
+    item_box_balloon_sanity_rose: ItemBoxBalloonSanityRose
+    enemy_sanity_rose: EnemySanityRose
+    
+    
+    
+
     enabled_acts_chaotix: EnabledActsChaotix
     starting_character_chaotix: StartingCharacterChaotix
 
@@ -585,6 +707,16 @@ OPTION_ATTR_NAMES: list[str] = \
     "hint_ring_sanity_dark",
     "item_box_balloon_sanity_dark",
     "enemy_sanity_dark",
+    
+    
+    "enabled_acts_rose",
+    "starting_character_rose",
+
+    "obj_sanity_rose",
+    "ring_sanity_rose",
+    "hint_ring_sanity_rose",
+    "item_box_balloon_sanity_rose",
+    "enemy_sanity_rose",
 
 
     "enabled_acts_chaotix",
