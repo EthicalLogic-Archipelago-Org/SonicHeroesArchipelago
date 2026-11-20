@@ -1,5 +1,5 @@
 Team,Level,Source,Target,Rule,Notes
-Chaotix,Seaside Hill,Big Special Ruin Before Volcano After Checkpoint 4,First Loop at Start of Level,FlowerStingAND((Jump)OR(CollisAbuseANDFlyAnyANDThundershoot0)),
+Chaotix,Seaside Hill,Big Special Ruin Before Volcano After Checkpoint 4,First Loop at Start of Level,FlowerStingANDWarpFlowerAND((Jump)OR(CollisAbuseANDFlyAnyANDThundershoot0)),
 Chaotix,Seaside Hill,First Loop at Start of Level,Warp Flower Before First Loop at Start of Level,,
 Chaotix,Seaside Hill,Warp Flower Before First Loop at Start of Level,First Loop at Start of Level,,
 Chaotix,Seaside Hill,First Loop at Start of Level,Eggmans Robots Bottom Before Checkpoint 1,,
@@ -140,12 +140,12 @@ Chaotix,Seaside Hill,First Bobsled Last Ruin After Checkpoint 2,First Cliff Befo
 Chaotix,Seaside Hill,First Cliff Before Big Ruin Beach At Checkpoint 3,First Bobsled Last Ruin After Checkpoint 2,NOTPOSSIBLE,
 Chaotix,Seaside Hill,First Cliff Before Big Ruin Beach At Checkpoint 3,Checkpoint 3,,
 Chaotix,Seaside Hill,Checkpoint 3,First Cliff Before Big Ruin Beach At Checkpoint 3,,
-Chaotix,Seaside Hill,First Cliff Before Big Ruin Beach At Checkpoint 3,Lower Cliff Before Big Ruin Beach After Checkpoint 3,FlowerStingAND((TripleSpring)OR(Jump)OR(Thundershoot2)OR(Thundershoot0ANDFlyAny)),"Thundershoot needs Charmy/Vector, Espio is optional"
-Chaotix,Seaside Hill,Lower Cliff Before Big Ruin Beach After Checkpoint 3,First Cliff Before Big Ruin Beach At Checkpoint 3,FlowerStingAND((Thundershoot0ANDFlyAny)OR(JumpANDFlyAny),
-Chaotix,Seaside Hill,First Cliff Before Big Ruin Beach At Checkpoint 3,Second Cliff Before Big Ruin Beach After Checkpoint 3,TripleSpringOR(JumpANDFlowerStingANDFlyFullANDThundershoot2)OR(AccelHalfANDJumpANDFlyAnyANDMedium),
+Chaotix,Seaside Hill,First Cliff Before Big Ruin Beach At Checkpoint 3,Lower Cliff Before Big Ruin Beach After Checkpoint 3,FlowerStingANDWarpFlower((TripleSpring)OR(Jump)OR(Thundershoot2)OR(Thundershoot0ANDFlyAny)),"Thundershoot needs Charmy/Vector, Espio is optional"
+Chaotix,Seaside Hill,Lower Cliff Before Big Ruin Beach After Checkpoint 3,First Cliff Before Big Ruin Beach At Checkpoint 3,FlowerStingANDWarpFlower((Thundershoot0ANDFlyAny)OR(JumpANDFlyAny),
+Chaotix,Seaside Hill,First Cliff Before Big Ruin Beach At Checkpoint 3,Second Cliff Before Big Ruin Beach After Checkpoint 3,TripleSpringOR(JumpANDFlowerStingANDWarpFlowerANDFlyFullANDThundershoot2)OR(AccelHalfANDJumpANDFlyAnyANDMedium),
 Chaotix,Seaside Hill,Second Cliff Before Big Ruin Beach After Checkpoint 3,Lower Cliff Before Big Ruin Beach After Checkpoint 3,TripleSpringORJumpORThundershoot0,
 Chaotix,Seaside Hill,Second Cliff Before Big Ruin Beach After Checkpoint 3,First Cliff Before Big Ruin Beach At Checkpoint 3,,
-Chaotix,Seaside Hill,Lower Cliff Before Big Ruin Beach After Checkpoint 3,Second Cliff Before Big Ruin Beach After Checkpoint 3,JumpAND((FlyAny)OR(FlowerSting)),
+Chaotix,Seaside Hill,Lower Cliff Before Big Ruin Beach After Checkpoint 3,Second Cliff Before Big Ruin Beach After Checkpoint 3,JumpAND((FlyAny)OR(FlowerStingANDWarpFlower)),
 Chaotix,Seaside Hill,Second Cliff Before Big Ruin Beach After Checkpoint 3,Path Before Big Ruin Beach After Checkpoint 3,JumpAND((RuinsNoTriggerANDFlyFull)OR(BadnikBounceANDRedFlapperANDFlyAny)),
 Chaotix,Seaside Hill,Path Before Big Ruin Beach After Checkpoint 3,Second Cliff Before Big Ruin Beach After Checkpoint 3,,
 Chaotix,Seaside Hill,Path Before Big Ruin Beach After Checkpoint 3,Big Ruin Beach Lower Cliffs At Start After Checkpoint 3,,
