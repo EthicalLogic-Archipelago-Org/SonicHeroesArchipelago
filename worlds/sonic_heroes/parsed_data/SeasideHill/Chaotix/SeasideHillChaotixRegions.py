@@ -24,7 +24,7 @@ REGIONS: list[SonicHeroesRegionData] = \
     SonicHeroesRegionData(region_name="Seaside Hill Chaotix First Loop at Start of Level", obj_checks=0),
     SonicHeroesRegionData(region_name="Seaside Hill Chaotix Hermit Crab Cliff Below Eggmans Robots Before Checkpoint 1", obj_checks=1),
     SonicHeroesRegionData(region_name="Seaside Hill Chaotix Eggmans Robots Bottom Before Checkpoint 1", obj_checks=0),
-    SonicHeroesRegionData(region_name="Seaside Hill Chaotix Second Hermit Crab Pedestal", obj_checks=1),
+    SonicHeroesRegionData(region_name="Seaside Hill Chaotix Hermit Crab Pedestal at Eggmans Robots Bottom Before Checkpoint 1", obj_checks=1),
     SonicHeroesRegionData(region_name="Seaside Hill Chaotix Eggmans Robots Middle Before Checkpoint 1", obj_checks=0),
     SonicHeroesRegionData(region_name="Seaside Hill Chaotix Eggmans Robots Top Before Checkpoint 1", obj_checks=1),
     SonicHeroesRegionData(region_name="Seaside Hill Chaotix Eggmans Robots Top After Block Before Checkpoint 1", obj_checks=0),
@@ -59,6 +59,8 @@ REGIONS: list[SonicHeroesRegionData] = \
     SonicHeroesRegionData(region_name="Seaside Hill Chaotix Second Island After Checkpoint 1 Right High Item Balloon", obj_checks=0),
     SonicHeroesRegionData(region_name="Seaside Hill Chaotix First Ruins After Second Island After Checkpoint 1", obj_checks=0),
     SonicHeroesRegionData(region_name="Seaside Hill Chaotix Middle Ruins After Second Island After Checkpoint 1", obj_checks=0),
+    SonicHeroesRegionData(region_name="Seaside Hill Chaotix Egg Flappers At Middle Ruins After Second Island After Checkpoint 1", obj_checks=0),
+    SonicHeroesRegionData(region_name="Seaside Hill Chaotix Item Box on Middle Ruins After Second Island After Checkpoint 1", obj_checks=0),
     SonicHeroesRegionData(region_name="Seaside Hill Chaotix Last Ruins After Second Island After Checkpoint 1", obj_checks=0),
     SonicHeroesRegionData(region_name="Seaside Hill Chaotix Before First Bobsled After Checkpoint 1", obj_checks=1),
     SonicHeroesRegionData(region_name="Seaside Hill Chaotix Above First Bobsled After Checkpoint 2", obj_checks=0),
@@ -116,6 +118,5 @@ REGIONS: list[SonicHeroesRegionData] = \
     SonicHeroesRegionData(region_name="Seaside Hill Chaotix Path Before Volcano Start At Checkpoint 4", obj_checks=0),
     SonicHeroesRegionData(region_name="Seaside Hill Chaotix Checkpoint 4", obj_checks=0),
     SonicHeroesRegionData(region_name="Seaside Hill Chaotix Big Special Ruin Before Volcano After Checkpoint 4", obj_checks=1),
-    SonicHeroesRegionData(region_name="Seaside Hill Chaotix Path After Big Special Ruin Before Volcano Loop After Checkpoint 4", obj_checks=0),
-    SonicHeroesRegionData(region_name="Seaside Hill Chaotix Goal", obj_checks=0)
+    SonicHeroesRegionData(region_name="Seaside Hill Chaotix Path After Big Special Ruin Before Volcano Loop After Checkpoint 4", obj_checks=0)
 ]
