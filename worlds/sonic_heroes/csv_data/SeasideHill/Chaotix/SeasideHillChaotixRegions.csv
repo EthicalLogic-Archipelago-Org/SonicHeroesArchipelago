@@ -39,7 +39,9 @@ Chaotix,Seaside Hill,Second Island After Checkpoint 1 Left High Item Balloon,0,0
 Chaotix,Seaside Hill,Second Island After Checkpoint 1 Center High Item Balloon,0,0,,0,,1,,Power Lvl Balloon,
 Chaotix,Seaside Hill,Second Island After Checkpoint 1 Right High Item Balloon,0,0,,0,,1,,Speed Lvl Balloon,
 Chaotix,Seaside Hill,First Ruins After Second Island After Checkpoint 1,0,0,,0,,0,,HintRing,Moving Ruins
-Chaotix,Seaside Hill,Middle Ruins After Second Island After Checkpoint 1,0,0,,3,,1,5 rings,,
+Chaotix,Seaside Hill,Middle Ruins After Second Island After Checkpoint 1,0,0,,0,,0,,,
+Chaotix,Seaside Hill,Egg Flappers At Middle Ruins After Second Island After Checkpoint 1,0,0,,3,,0,,,
+Chaotix,Seaside Hill,Item Box on Middle Ruins After Second Island After Checkpoint 1,0,0,,0,,1,5 rings,,
 Chaotix,Seaside Hill,Last Ruins After Second Island After Checkpoint 1,0,0,,0,,0,,,
 Chaotix,Seaside Hill,Before First Bobsled After Checkpoint 1,1,0,,0,,0,,,Eleventh Hermit Crab
 Chaotix,Seaside Hill,Above First Bobsled After Checkpoint 2,0,4,1x4,2,,0,,,
