@@ -41,10 +41,13 @@ TEAM_STAGES_TO_GENERATE_SANITIES: dict[Team, list[Stage]] = \
     [
         Stage.SEASIDE_HILL,
     ],
-    Team.ROSE: [],
+    Team.ROSE:
+    [
+        # Stage.SEASIDE_HILL,
+    ],
     Team.CHAOTIX:
     [
-        Stage.SEASIDE_HILL,
+        # Stage.SEASIDE_HILL,
     ],
     Team.SUPER_HARD_MODE: [],
 }

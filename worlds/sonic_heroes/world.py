@@ -235,7 +235,7 @@ class SonicHeroesWorld(SonicHeroesUTWorld):
             self.starting_inventory_amounts[get_stage_obj_item_name(team=Team.ROSE, stage_obj=StageObj.CHECKPOINT)] = 1
             self.starting_inventory_amounts[get_stage_obj_item_name(team=Team.ROSE, stage_obj=StageObj.RINGS)] = 1
             self.starting_inventory_amounts[get_stage_obj_item_name(team=Team.ROSE, stage_obj=StageObj.ITEM_BOX)] = 1
-            self.starting_inventory_amounts[get_spawn_position_item_name(team=Team.ROSE, stage=Stage.SEASIDE_HILL, checkpoint=4)] = 1
+            self.starting_inventory_amounts[get_spawn_position_item_name(team=Team.ROSE, stage=Stage.SEASIDE_HILL, checkpoint=2)] = 1
 
 
 
