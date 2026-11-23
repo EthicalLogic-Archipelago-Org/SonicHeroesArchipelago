@@ -5,15 +5,17 @@ from _collections_abc import Sequence
 
 from rule_builder.rules import Rule, True_, Has, False_
 
+
 from .constants.char_ability import Team
 from .constants.enemies import *
 from .constants.items_events import *
 from .constants.loc_region import *
 from .constants.hint_rings import *
-from .constants.item_balloon_box import ItemBoxData, ItemBalloonData
+from .constants.item_balloon_box import ItemBoxData, ItemBalloonData, ItemReward
 from .constants.rings import RING_GROUP, RingData
 from .constants.stage import Stage, StageType, Act
 from .constants.stage_objs import ENEMY_STAGE_OBJS, StageObj, STAGE_OBJ_INVALID_ID_OFFSET
+from .constants.triple_spring import TripleSpringData
 
 from .rule_builder.custom_rules import CanGetEmerald, CanGoalStage
 from .rule_builder.functions_stage_obj import has_stage_obj_rule, can_break_key_cage
@@ -263,7 +265,7 @@ def generate_dark_obj_sanity() -> None:
         for enemy_stage_obj in ENEMY_STAGE_OBJS:
             for enemy_data in get_all_parsed_stage_objects_of_type(team=Team.DARK, stage=reg_lvl, stage_obj=enemy_stage_obj):
                 if enemy_data.id_offset_full != STAGE_OBJ_INVALID_ID_OFFSET:
-                    append_location(name=f"{reg_lvl.stage_name} {Team.DARK} {Act.ACT_B.get_act_str()} Enemies Killed: {enemy_count + 1}", team=Team.DARK, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl.stage_name} {Team.DARK} {OBJ_SANITY}", rule_str="", rule=Has[SonicHeroesWorldBase](item_name=get_obj_sanity_event_item_name(team=Team.DARK, stage=reg_lvl, act=Act.ACT_B), count=enemy_count + 1), loc_type=LocationType.OBJ_SANITY, location_groups=[OBJ_SANITY_LOCATION_GROUP])
+                    append_location(name=f"{reg_lvl.stage_name} {Team.DARK.value} {Act.ACT_B.get_act_str()} Enemies Killed: {enemy_count + 1}", team=Team.DARK, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl.stage_name} {Team.DARK.value} {OBJ_SANITY}", rule_str="", rule=Has[SonicHeroesWorldBase](item_name=get_obj_sanity_event_item_name(team=Team.DARK, stage=reg_lvl, act=Act.ACT_B), count=enemy_count + 1), loc_type=LocationType.OBJ_SANITY, location_groups=[OBJ_SANITY_LOCATION_GROUP])
                     enemy_count += 1
         print(f"Dark ObjSanity Stage: {reg_lvl.stage_name} has {enemy_count} enemy checks")
         print(f"This is at generate_dark_obj_sanity in location_generation")
@@ -276,7 +278,8 @@ def generate_rose_obj_sanity() -> None:
     loc_id = LOCATION_START_ID_OFFSET + 0x6C8
     for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
         for x in range(200):
-            append_location(name=f"{reg_lvl.stage_name} {Team.ROSE} {Act.ACT_B.get_act_str()} Rings Collected: {x + 1}", team=Team.ROSE, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl} {Team.ROSE} {OBJ_SANITY}", rule_str="", rule=Has[SonicHeroesWorldBase](item_name=get_obj_sanity_event_item_name(team=Team.ROSE, stage=reg_lvl, act=Act.ACT_B), count=x + 1), loc_type=LocationType.OBJ_SANITY, location_groups=[OBJ_SANITY_LOCATION_GROUP])
+            # print(f"WHY ARE YOU NOT EXISTING")
+            append_location(name=f"{reg_lvl.stage_name} {Team.ROSE} {Act.ACT_B.get_act_str()} Rings Collected: {x + 1}", team=Team.ROSE, stage=reg_lvl, code=-999, act=2, parent_region=f"{reg_lvl} {Team.ROSE.value} {OBJ_SANITY}", rule_str="", rule=Has[SonicHeroesWorldBase](item_name=get_obj_sanity_event_item_name(team=Team.ROSE, stage=reg_lvl, act=Act.ACT_B), count=x + 1), loc_type=LocationType.OBJ_SANITY, location_groups=[OBJ_SANITY_LOCATION_GROUP])
 
 
 def generate_chaotix_obj_sanity() -> None:
@@ -287,7 +290,7 @@ def generate_chaotix_obj_sanity() -> None:
     for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
         for act_index, act in enumerate([Act.ACT_A, Act.ACT_B]):
             for x in range(reg_lvl.chaotix_obj_sanity_checks[act]):
-                append_location(name=f"{reg_lvl.stage_name} {Team.CHAOTIX} {act.get_act_str()} {reg_lvl.chaotix_obj_sanity_str[act]}: {x + 1}", team=Team.CHAOTIX, stage=reg_lvl, code=-999, act=act_index + 1, parent_region=f"{reg_lvl.stage_name} {Team.CHAOTIX} {OBJ_SANITY}", rule_str="", rule=Has(item_name=get_obj_sanity_event_item_name(team=Team.CHAOTIX, stage=reg_lvl, act=act), count=x + 1), loc_type=LocationType.OBJ_SANITY, location_groups=[OBJ_SANITY_LOCATION_GROUP])
+                append_location(name=f"{reg_lvl.stage_name} {Team.CHAOTIX} {act.get_act_str()} {reg_lvl.chaotix_obj_sanity_str[act]}: {x + 1}", team=Team.CHAOTIX, stage=reg_lvl, code=-999, act=act_index + 1, parent_region=f"{reg_lvl.stage_name} {Team.CHAOTIX.value} {OBJ_SANITY}", rule_str="", rule=Has(item_name=get_obj_sanity_event_item_name(team=Team.CHAOTIX, stage=reg_lvl, act=act), count=x + 1), loc_type=LocationType.OBJ_SANITY, location_groups=[OBJ_SANITY_LOCATION_GROUP])
     pass
 
 
@@ -748,6 +751,7 @@ def generate_all_event_locations() -> None:
     generate_level_goal_events()
     generate_bonus_key_events()
     generate_dark_obj_sanity_events()
+    generate_rose_obj_sanity_events()
     generate_chaotix_obj_sanity_events()
     pass
 
@@ -817,6 +821,176 @@ def generate_dark_obj_sanity_events() -> None:
         except:
             # print(f"Except clause here Egg Pawn ObjSanity Events")
             pass
+
+
+
+
+
+def generate_rose_obj_sanity_events() -> None:
+    generate_rose_rings_obj_sanity_events()
+    generate_rose_triple_springs_obj_sanity_events()
+    generate_rose_item_boxes_obj_sanity_events()
+    generate_rose_item_balloons_obj_sanity_events()
+    generate_rose_goal_ring_obj_sanity_events()
+
+
+def generate_rose_rings_obj_sanity_events() -> None:
+    team: Team = Team.ROSE
+    for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
+        events_created: int = 0
+        try:
+            temp_sequence: Sequence[StageObjBase] = get_all_parsed_stage_objects_of_type(team=team, stage=reg_lvl, stage_obj=StageObj.RINGS)
+            ring_list: list[RingData] = []
+            for stage_obj in temp_sequence:
+                if not isinstance(stage_obj, RingData):
+                    raise TypeError(f"Wrong Type of stage object: {stage_obj.__class__.__name__}")
+                if stage_obj.id_offset_full >= 0:
+                    ring_list.append(stage_obj)
+
+            for ring_group in ring_list:
+                if ring_group.id_offset_full != STAGE_OBJ_INVALID_ID_OFFSET:
+                    for ring in range(ring_group.num_rings):
+                        append_location(name=f"{reg_lvl.stage_name} {team.value} {ring_group.location_name} Ring {ring + 1} {OBJ_SANITY} {EVENT_LOCATION}", team=team, stage=reg_lvl, code=EVENT_LOCATION_ID, act=2, parent_region=f"{ring_group.region_name}", rule_str=f" Rose Act B Ring {EVENT_LOCATION}", rule=ring_group.rule, loc_type=LocationType.EVENT, location_groups=[], locked_item=get_obj_sanity_event_item_name(team=team, stage=reg_lvl, act=Act.ACT_B))
+            #         events_created += 1
+            # print(f"Created {events_created} Egg Flapper events for {team.value} {reg_lvl.stage_name}")
+        except:
+            # print(f"Except clause here Egg Flapper ObjSanity Events")
+            pass
+
+
+
+def generate_rose_triple_springs_obj_sanity_events() -> None:
+    team: Team = Team.ROSE
+    for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
+        events_created: int = 0
+        try:
+            temp_sequence: Sequence[StageObjBase] = get_all_parsed_stage_objects_of_type(team=team, stage=reg_lvl, stage_obj=StageObj.TRIPLE_SPRING)
+            obj_list: list[TripleSpringData] = []
+            for stage_obj in temp_sequence:
+                if not isinstance(stage_obj, TripleSpringData):
+                    raise TypeError(f"Wrong Type of stage object: {stage_obj.__class__.__name__}")
+                if stage_obj.id_offset_full >= 0:
+                    obj_list.append(stage_obj)
+
+            for stage_obj in obj_list:
+                if stage_obj.id_offset_full != STAGE_OBJ_INVALID_ID_OFFSET:
+                    num_rings: int = 0
+                    match stage_obj.item:
+                        case ItemReward.Rings5:
+                            num_rings = 5
+                        case ItemReward.Rings10:
+                            num_rings = 10
+                        case ItemReward.Rings20:
+                            num_rings = 20
+                        case _:
+                            num_rings = 0
+
+                    for ring in range(num_rings):
+                        append_location(name=f"{reg_lvl.stage_name} {team.value} {stage_obj.location_name} Ring {ring + 1} {OBJ_SANITY} {EVENT_LOCATION}", team=team, stage=reg_lvl, code=EVENT_LOCATION_ID, act=2, parent_region=f"{stage_obj.region_name}", rule_str=f" Rose Act B Ring {EVENT_LOCATION}", rule=stage_obj.rule, loc_type=LocationType.EVENT, location_groups=[], locked_item=get_obj_sanity_event_item_name(team=team, stage=reg_lvl, act=Act.ACT_B))
+            #         events_created += 1
+            # print(f"Created {events_created} Egg Flapper events for {team.value} {reg_lvl.stage_name}")
+        except:
+            # print(f"Except clause here Egg Flapper ObjSanity Events")
+            pass
+
+
+
+def generate_rose_item_boxes_obj_sanity_events() -> None:
+    team: Team = Team.ROSE
+    for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
+        events_created: int = 0
+        try:
+            temp_sequence: Sequence[StageObjBase] = get_all_parsed_stage_objects_of_type(team=team, stage=reg_lvl, stage_obj=StageObj.ITEM_BOX)
+            obj_list: list[ItemBoxData] = []
+            for stage_obj in temp_sequence:
+                if not isinstance(stage_obj, ItemBoxData):
+                    raise TypeError(f"Wrong Type of stage object: {stage_obj.__class__.__name__}")
+                if stage_obj.id_offset_full >= 0:
+                    obj_list.append(stage_obj)
+
+            for stage_obj in obj_list:
+                if stage_obj.id_offset_full != STAGE_OBJ_INVALID_ID_OFFSET:
+                    num_rings: int = 0
+                    match stage_obj.item:
+                        case ItemReward.Rings5:
+                            num_rings = 5
+                        case ItemReward.Rings10:
+                            num_rings = 10
+                        case ItemReward.Rings20:
+                            num_rings = 20
+                        case _:
+                            num_rings = 0
+
+                    for ring in range(num_rings):
+                        append_location(name=f"{reg_lvl.stage_name} {team.value} {stage_obj.location_name} Ring {ring + 1} {OBJ_SANITY} {EVENT_LOCATION}", team=team, stage=reg_lvl, code=EVENT_LOCATION_ID, act=2, parent_region=f"{stage_obj.region_name}", rule_str=f" Rose Act B Ring {EVENT_LOCATION}", rule=stage_obj.rule, loc_type=LocationType.EVENT, location_groups=[], locked_item=get_obj_sanity_event_item_name(team=team, stage=reg_lvl, act=Act.ACT_B))
+            #         events_created += 1
+            # print(f"Created {events_created} Egg Flapper events for {team.value} {reg_lvl.stage_name}")
+        except:
+            # print(f"Except clause here Egg Flapper ObjSanity Events")
+            pass
+
+
+
+def generate_rose_item_balloons_obj_sanity_events() -> None:
+    team: Team = Team.ROSE
+    for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
+        events_created: int = 0
+        try:
+            temp_sequence: Sequence[StageObjBase] = get_all_parsed_stage_objects_of_type(team=team, stage=reg_lvl, stage_obj=StageObj.ITEM_BALLOON)
+            obj_list: list[ItemBalloonData] = []
+            for stage_obj in temp_sequence:
+                if not isinstance(stage_obj, ItemBalloonData):
+                    raise TypeError(f"Wrong Type of stage object: {stage_obj.__class__.__name__}")
+                if stage_obj.id_offset_full >= 0:
+                    obj_list.append(stage_obj)
+
+            for stage_obj in obj_list:
+                if stage_obj.id_offset_full != STAGE_OBJ_INVALID_ID_OFFSET:
+                    num_rings: int = 0
+                    match stage_obj.item:
+                        case ItemReward.Rings5:
+                            num_rings = 5
+                        case ItemReward.Rings10:
+                            num_rings = 10
+                        case ItemReward.Rings20:
+                            num_rings = 20
+                        case _:
+                            num_rings = 0
+
+                    for ring in range(num_rings):
+                        append_location(name=f"{reg_lvl.stage_name} {team.value} {stage_obj.location_name} Ring {ring + 1} {OBJ_SANITY} {EVENT_LOCATION}", team=team, stage=reg_lvl, code=EVENT_LOCATION_ID, act=2, parent_region=f"{stage_obj.region_name}", rule_str=f" Rose Act B Ring {EVENT_LOCATION}", rule=stage_obj.rule, loc_type=LocationType.EVENT, location_groups=[], locked_item=get_obj_sanity_event_item_name(team=team, stage=reg_lvl, act=Act.ACT_B))
+            #         events_created += 1
+            # print(f"Created {events_created} Egg Flapper events for {team.value} {reg_lvl.stage_name}")
+        except:
+            # print(f"Except clause here Egg Flapper ObjSanity Events")
+            pass
+
+
+
+
+def generate_rose_goal_ring_obj_sanity_events() -> None:
+    team: Team = Team.ROSE
+    for reg_lvl in Stage.get_stages_of_type(stage_type=StageType.NORMAL_STAGE):
+        events_created: int = 0
+        try:
+            temp_sequence: Sequence[StageObjBase] = get_all_parsed_stage_objects_of_type(team=team, stage=reg_lvl, stage_obj=StageObj.RINGS)
+            ring_list: list[RingData] = []
+            for stage_obj in temp_sequence:
+                if not isinstance(stage_obj, RingData):
+                    raise TypeError(f"Wrong Type of stage object: {stage_obj.__class__.__name__}")
+                if stage_obj.id_offset_full >= 0:
+                    ring_list.append(stage_obj)
+
+            if len(ring_list) > 0:
+                for x in range(200):
+                    append_location(name=f"{reg_lvl.stage_name} {team.value} Goal Ring {x + 1} {OBJ_SANITY} {EVENT_LOCATION}", team=team, stage=reg_lvl, code=EVENT_LOCATION_ID, act=2, parent_region=f"{reg_lvl.stage_name} {team.value} Goal", rule_str=f"Rose Act B Ring {EVENT_LOCATION}", rule=CanGoalStage(team=team, stage=reg_lvl, act=Act.ACT_B) & Has[SonicHeroesWorldBase](item_name=get_obj_sanity_event_item_name(team=team, stage=reg_lvl, act=Act.ACT_B)), loc_type=LocationType.EVENT, location_groups=[], locked_item=get_obj_sanity_event_item_name(team=team, stage=reg_lvl, act=Act.ACT_B))
+                    # events_created += 1
+            # print(f"Created {events_created} Egg Flapper events for {team.value} {reg_lvl.stage_name}")
+        except:
+            pass
+
+
+
 
 
 def generate_chaotix_obj_sanity_events() -> None:
