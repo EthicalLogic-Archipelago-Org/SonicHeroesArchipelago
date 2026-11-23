@@ -17,7 +17,7 @@ from ..rule_parser.functions_parser import get_parsed_data_module_for_team_stage
 from ..constants.apworld import RE_GEN_PASSTHROUGH_ATTR
 from ..constants.char_ability import Team
 from ..constants.items_events import UT_GLITCH_ITEM, OBJ_SANITY
-from ..constants.loc_region import LocationType, SonicHeroesLocationData
+from ..constants.loc_region import LocationType, SonicHeroesLocationData, SonicHeroesRegionData
 from ..constants.stage import Act, EnabledTeamActs, Stage
 from ..world_base import SonicHeroesWorldBase
 
@@ -106,14 +106,18 @@ class SonicHeroesUTWorld(SonicHeroesWorldBase):
         location_data: SonicHeroesLocationData = location_list[0]
 
 
+        region_list: list[SonicHeroesRegionData] = get_parsed_data_module_for_team_stage(team=team, stage=stage).regions  # pyright: ignore[reportAny]
+
         # get region
         region_to_index: dict[str, int] = \
         {
-            region.region_name: index for index, region in enumerate(get_parsed_data_module_for_team_stage(team=team, stage=stage).regions)  # pyright: ignore[reportAny]
+            region.region_name: index for index, region in enumerate(region_list)
         }
         #force ObjSanity to last (but before goal)
-        region_to_index[f"{stage.stage_name} {team.value} {OBJ_SANITY}"] = region_to_index[f"{stage.stage_name} {team.value} Goal"]
-        region_to_index[f"{stage.stage_name} {team.value} Goal"] += 1
+        region_to_index[f"{stage.stage_name} {team.value} {OBJ_SANITY}"] = len(region_list) - 1
+
+        if f"{stage.stage_name} {team.value} Goal" in region_to_index.keys():
+            region_to_index[f"{stage.stage_name} {team.value} Goal"] += 1
 
 
         # start sorting here
@@ -136,7 +140,7 @@ class SonicHeroesUTWorld(SonicHeroesWorldBase):
         _result += stage.sort_key
 
         # then region (ObjSanity and Act Goal matters here)
-        num_of_digits_for_region_key: int = 1 + floor(log10(region_to_index[f"{stage.stage_name} {team.value} Goal"]))
+        num_of_digits_for_region_key: int = 1 + floor(log10(max(region_to_index.values())))
         _result += f"{region_to_index[region_label]:0{num_of_digits_for_region_key}d}"
         # for x in range(num_of_digits_for_region_key - 1):
         #     if region_to_index[region_label] < 10 * x:
