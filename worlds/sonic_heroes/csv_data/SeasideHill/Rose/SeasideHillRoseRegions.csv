@@ -1,8 +1,69 @@
-Team,Level,Name,ObjChecks
-Rose,Seaside Hill,Start,0
-Rose,Seaside Hill,ObjSanity,0
-Rose,Seaside Hill,Bonus Key 1,0
-Rose,Seaside Hill,Bonus Key 2,0
-Rose,Seaside Hill,Checkpoint 1,0
-Rose,Seaside Hill,Checkpoint 2,0
-Rose,Seaside Hill,Goal,0
+Team,Level,Name,ObjChecks,Notes
+Rose,Seaside Hill,Start,0,
+Rose,Seaside Hill,ObjSanity,0,
+Rose,Seaside Hill,First Island At Start of Level,9,
+Rose,Seaside Hill,Start First Ruin Steps,4,These rings are on Small stone ruin platforms
+Rose,Seaside Hill,Start First Ruin Platforms,4,Rings are on RuinsNoTrigger However with some height they can be collected riskfree
+Rose,Seaside Hill,Start First Rising Ruins,9,These rings are on RuinsTrigger and cannot be collected risk free without it
+Rose,Seaside Hill,Start Second Rising Ruins,9,These rings are on RuinsTrigger and cannot be collected risk free without it
+Rose,Seaside Hill,Start First Island Pillar Tops,0,Not intended to be reached by OG Devs
+Rose,Seaside Hill,First Red Flapper Above Second Island After Start,0,
+Rose,Seaside Hill,Second Red Flapper Above Second Island After Start,0,
+Rose,Seaside Hill,Balloon Above Second Island After Start,10,
+Rose,Seaside Hill,Second Island After Start,26,
+Rose,Seaside Hill,Bonus Key 1,0,This cage is grounded and located in Second island after start
+Rose,Seaside Hill,Second Island Ruin Platform Staircase After Start,9,These are on MovingRuinPlatforms above a pit
+Rose,Seaside Hill,Second Island Ruin Pillar Staircase After Start,15,These are on MovingRuinPlatforms above a pit
+Rose,Seaside Hill,Before Bobsled Area After Start,0,
+Rose,Seaside Hill,Bobsled Area After Start,111,
+Rose,Seaside Hill,Lower Ruin After Bobsled Area Before Checkpoint 1,0,
+Rose,Seaside Hill,Higher Ruin After Bobsled Area Before Checkpoint 1,0,These objects are on RuinsNoTrigger
+Rose,Seaside Hill,Checkpoint 1,0,
+Rose,Seaside Hill,First Cliff Before Big Ruin Beach At Checkpoint 1,10,the Triplespring has 10 rings inside
+Rose,Seaside Hill,Second Cliff Before Big Ruin Beach After Checkpoint 1,6,These rings are in the air you need Ring Dash FlightStack jump or Bellyflop to obtain them
+Rose,Seaside Hill,Lower Cliff Before Big Ruin Beach After Checkpoint 1,20,
+Rose,Seaside Hill,Path Before Blockage To Big Ruin Beach After Checkpoint 1,9,
+Rose,Seaside Hill,Between The Blocks Before Big Ruin Beach After Checkpoint 1,5,
+Rose,Seaside Hill,Path After Blockage Before Big Ruin Beach After Checkpoint 1,10,the Triplespring has 10 rings inside and needs BreakThings
+Rose,Seaside Hill,Big Ruin Beach Start Falling Ruins After Checkpoint 1,0,IMPORTANTWhen you dont have trigger ruins this ruin and the pillars need to be despawned If it doesnt fall Logic is impacted
+Rose,Seaside Hill,Big Ruin Beach Start Fallen Ruins After Checkpoint 1,0,This is the LocationState where the TriggerRuins in this location have Activated and you are on Top
+Rose,Seaside Hill,Big Ruin Beach Start Fallen Pillars After Checkpoint 1,0,This is the LocationState where the TriggerRuins in this location have Activated and you are on Top
+Rose,Seaside Hill,Big Ruin Beach Start Under Fallen Ruins After Checkpoint 1,0,This is the LocationState where the TriggerRuins in this location have Activated and you are on Top
+Rose,Seaside Hill,Big Ruin Beach Start Under Falling Ruins After Checkpoint 1,0,This is the LocationState where the TriggerRuins in this location have Activated and you are on Top
+Rose,Seaside Hill,Big Ruin Beach Start Lower Ruin Platform After Checkpoint 1,9,
+Rose,Seaside Hill,Big Ruin Beach Start Above Falling Ruins After Checkpoint 1,0,
+Rose,Seaside Hill,Big Ruin Beach Start Hint Ring After Checkpoint 1,0,Its in the air without triggering the Falling ruin
+Rose,Seaside Hill,Big Ruin Beach Start Left Tall Ruin After Checkpoint 1,4,The Rings here are on RuinsNoTrigger 
+Rose,Seaside Hill,Big Ruin Beach Start Right Tall Ruin After Checkpoint 1,4,
+Rose,Seaside Hill,Big Ruin Beach Start Lower Tall Ruin After Checkpoint 1,0,Separated for difference in bellyflop chain difficulty compared to previous region
+Rose,Seaside Hill,Big Ruin Beach Start Tall Spearhead Ruin Platform After Checkpoint 1,10,1Up Is inside of a cage
+Rose,Seaside Hill,Big Ruin Beach Start Lower Cliffs After Checkpoint 1,0,
+Rose,Seaside Hill,Big Ruin Beach Island 1 After Checkpoint 1,0,
+Rose,Seaside Hill,Big Ruin Beach Island 1 Ruins After Checkpoint 1,26,Triplespring needs Breakthings
+Rose,Seaside Hill,Big Ruin Beach Rising Ruin After Checkpoint 1,0,
+Rose,Seaside Hill,Big Ruin Beach Island 2 After Checkpoint 1,9,
+Rose,Seaside Hill,Big Ruin Beach Island 2 Ruins After Checkpoint 1,0,This HintRing And cannon here should only spawn when you have RuinsNoTrigger
+Rose,Seaside Hill,Big Ruin Beach Island 2 Breakable Blocks,15,Breakthings Needed
+Rose,Seaside Hill,Big Ruin Beach Island 2 Offshore Balloon,0,This Balloon is far offshore you need ((Jump OR BellyFlopChain) AND ((Ruinplatforms AND Power cannon AND +1 team member) OR Thundershoot) to get it safely Otherwise (Jump AND (Tornado Hover OR FlyAny OR SoloPowerCannon) can be used sacrificially The user must be confident in their FlyDepleteBoost skills to make it back without access to thundershoot 
+Rose,Seaside Hill,Big Ruin Beach Middle Path Bottom After Checkpoint 1,5,
+Rose,Seaside Hill,Bonus Key 2,0,
+Rose,Seaside Hill,Big Ruin Beach Middle Path Ruin Before Checkpoint 1,0,The 5 ring box needs BreakThings
+Rose,Seaside Hill,Big Ruin Beach Middle Path Ruin Block Before Checkpoint 1,0,
+Rose,Seaside Hill,Big Ruin Beach Spring Chain Before Checkpoint 2,6,The Ring on this path should be specialcased Requiring at LEAST (Rings AND SingleSpring AND RuinsNoTrigger AND SpeedCannon AND Jump)
+Rose,Seaside Hill,Big Ruin Beach Middle Path Tree Spring Before Checkpoint 2,0,
+Rose,Seaside Hill,Big Ruin Beach Middle Path Tall Ruin Pillar After Checkpoint 1,0,
+Rose,Seaside Hill,Big Ruin Beach End Path Before Checkpoint 2,4,
+Rose,Seaside Hill,Big Ruin Beach Middle Path After Checkpoint 1,0,Not intended to be reached by OG Devs
+Rose,Seaside Hill,Big Ruin Beach Top Path After Checkpoint 1,0,Not intended to be reached by OG Devs
+Rose,Seaside Hill,Big Ruin Beach End Path Before Checkpoint 2 Item Balloon,10,
+Rose,Seaside Hill,Checkpoint 2,0,
+Rose,Seaside Hill,Path After Checkpoint 2 Before Big Special Ruins,6,
+Rose,Seaside Hill,Lower Big Special Ruin Before Volcano After Checkpoint 2,0,This is all on RuinsTrigger The really big special one with failsafe collision
+Rose,Seaside Hill,Higher Big Special Ruin Before Volcano After Checkpoint 2,5,There are 5 rings inside the TripleSpring
+Rose,Seaside Hill,Path After Big Special Ruins Before Volcano After Checkpoint 2,22,
+Rose,Seaside Hill,Path After Big Special Ruins Before Volcano Loop After Checkpoint 2,15,Might want to consider removing the dash panels
+Rose,Seaside Hill,Cave Into Volcano Before Goal,37,
+Rose,Seaside Hill,Steep Incline Path Before Goal,0,
+Rose,Seaside Hill,Volcano Room At Goal,0,
+Rose,Seaside Hill,Volcano Room Alcove,5,
+Rose,Seaside Hill,Goal,200,
